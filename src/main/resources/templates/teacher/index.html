@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=no,
+    width=device-width,initial-scale=1.0"/>
+    <title>iYoga</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/index.css}">
+    <script th:src="@{/js/jquery.min.js}"></script>
+</head>
+<body>
+<div id="center">
+    <div class="main">
+        <iframe class="frame" frameborder="0" src=""></iframe>
+    </div>
+    <div class="main">
+        <iframe class="frame" frameborder="0" src=""></iframe>
+    </div>
+    <div class="main">
+        <iframe class="frame" frameborder="0" src=""></iframe>
+    </div>
+    <div class="main">
+        <iframe class="frame" frameborder="0" src=""></iframe>
+    </div>
+    <div class="main">
+        <iframe class="frame" frameborder="0" src=""></iframe>
+    </div>
+</div>
+<div id="footer">
+    <div class="bottomIcon" onclick="showPage(0)"><a><img th:src="@{/img/logo.png}"/></a></div>
+    <div class="bottomIcon" onclick="showPage(1)"><a><img th:src="@{/img/logo.png}"/></a></div>
+    <div class="bottomIcon" onclick="showPage(2)"><a><img th:src="@{/img/logo.png}"/></a></div>
+    <div class="bottomIcon" onclick="showPage(3)"><a><img th:src="@{/img/logo.png}"/></a></div>
+    <div class="bottomIcon" onclick="showPage(4)"><a><img th:src="@{/img/logo.png}"/></a></div>
+</div>
+<script>
+    // 记录当前是哪一个页面被显示中
+    var whichIsShown = -1;
+    // 被打开的页面其对应值为true
+    var state = [false, false, false, false, false];
+    // 获取每一个标签按钮div
+    var footerDivs = $(".bottomIcon");
+    // 每个页面对应的网页url
+    var urls = ["http://www.baidu.com", "http://www.gamersky.com", "http://www.woniuxy.com/", "http://www.beiwo.tv", "/yoga/teacher/page5"];
+    // 取得每一个网页的div框体dom对象
+    var pages = $(".main");
+    // 取得每一个iframe的dom对象
+    var windows = $(".frame");
+    $(function () {
+        var footerWidth = $("#footer").css("width");// 获取底部标签栏的宽度
+        var useWidth = footerWidth.substr(0, footerWidth.length - 2) / 5 + "px";// 每个标签占的宽度
+        $(".bottomIcon").css("width", useWidth);// 五个标签div的宽度都一样
+        var windowHeight = document.documentElement.clientHeight;// 当前视图的总高度
+        $("#center").css("height", (windowHeight - 50) + "px");// 底部标签栏高50px，所以减去50
+        $("iframe").css("height", $("#center").css("height"));
+    })
+
+    function showPage(num) {
+        if (whichIsShown == num) {
+            windows.eq(num).attr("src", urls[num]);
+        } else {
+            for (var i = 0; i < pages.length; i++) {
+                if (i == num) {
+                    pages.eq(i).css("display", "block");
+                    footerDivs.eq(i).css("background-color", "#666666");
+                    whichIsShown = i;
+                    if (state[i] == false) {
+                        windows.eq(i).attr("src", urls[i]);
+                        state[i] = true;
+                    }
+                } else {
+                    pages.eq(i).css("display", "none");
+                    footerDivs.eq(i).css("background-color", "black");
+                }
+            }
+        }
+    }
+</script>
+</body>
+</html>

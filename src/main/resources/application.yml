@@ -1,0 +1,36 @@
+server:
+  port: 80
+  servlet:
+    context-path: /yoga
+spring:
+  thymeleaf:
+    cache: false
+  datasource:
+    url: jdbc:mysql://47.101.220.71:3306/yoga?serverTimezone=GMT%2B8
+    username: root
+    password: 123456
+    type: com.alibaba.druid.pool.DruidDataSource
+    druid:
+      max-wait: 10000
+      min-idle: 3
+      max-active: 20
+      filters: stat,wall,logback
+      use-global-data-source-stat: true
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  mvc:
+    date-format: yyyy-MM-dd
+  jackson:
+    date-format: yyyy-MM-dd
+    time-zone: GMT+8
+
+logging:
+  level:
+    cn.project.yoga.dao: debug
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+  configuration:
+    map-underscore-to-camel-case: true
+pagehelper:
+  support-methods-arguments: true
+  params: pageNum=currentPage,pageSize=pageSize
+  helper-dialect: mysql
