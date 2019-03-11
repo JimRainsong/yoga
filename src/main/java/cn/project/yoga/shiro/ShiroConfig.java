@@ -1,5 +1,7 @@
 package cn.project.yoga.shiro;
 
+import cn.project.yoga.service.UserService;
+import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
 import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
@@ -18,7 +20,9 @@ public class ShiroConfig {
      */
     @Bean
     public CustomRealm customRealm() {
-        return new CustomRealm();
+        CustomRealm customRealm = new CustomRealm();
+        customRealm.setCredentialsMatcher(new HashedCredentialsMatcher());
+        return customRealm;
     }
 
     /**
