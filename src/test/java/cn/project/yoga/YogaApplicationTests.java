@@ -1,6 +1,7 @@
 package cn.project.yoga;
 
 import cn.project.yoga.dao.UserMapper;
+import cn.project.yoga.service.UserService;
 import cn.project.yoga.utils.Md5Encoder;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -12,11 +13,11 @@ import org.springframework.test.context.junit4.SpringRunner;
 @SpringBootTest
 public class YogaApplicationTests {
     @Autowired
-    private UserMapper userMapper;
+    private UserService userService;
 
     @Test
     public void contextLoads() {
-        System.out.println(Md5Encoder.md5Encode("coach", "123"));
+        System.out.println(userService.selectUserByUserName("coach").getUserName());
     }
 
 }
