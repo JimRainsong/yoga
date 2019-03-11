@@ -14,11 +14,5 @@ public class ManagerServiceImpl implements ManagerService {
     @Autowired
     private User_infoMapper user_infoMapper;
 
-    /*获取用户信息*/
-    @Override
-    public List<User_info> listUserInfo(Integer currentPage,Integer pageSize) {
-        System.out.println("进入查询用户信息service层");
-        List<User_info> list =  user_infoMapper.findAllMessage(currentPage,pageSize);
-        return list;
-    }
+
 }

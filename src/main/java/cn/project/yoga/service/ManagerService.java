@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface ManagerService {
 
-    public List<User_info> listUserInfo(Integer currentPage, Integer pageSize);
+
 
 
 }
