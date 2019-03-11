@@ -24,12 +24,14 @@ public class TeacherController {
                 subject.login(token);
                 return ResultUtil.ok("登陆成功");
             } catch (UnknownAccountException uae) {
+
                 return ResultUtil.error("账号或者密码错误");
             } catch (IncorrectCredentialsException ice) {
                 return ResultUtil.error("账号或者密码错误");
             } catch (LockedAccountException lae) {
                 return ResultUtil.error("账号已被锁定");
             } catch (AuthenticationException ae) {
+                ae.printStackTrace();
                 return ResultUtil.error("人品问题，登录失败");
             }
         } else {
