@@ -5,8 +5,6 @@ import java.util.Date;
 public class Vip_record {
     private Integer vipId;
 
-    private Integer vipTypeId;
-
     private Integer userId;
 
     private Date updateTime;
@@ -15,20 +13,16 @@ public class Vip_record {
 
     private Date registTime;
 
+   /* private Integer vipTypeId;*/
+
+    private Vip_type vipType;
+
     public Integer getVipId() {
         return vipId;
     }
 
     public void setVipId(Integer vipId) {
         this.vipId = vipId;
-    }
-
-    public Integer getVipTypeId() {
-        return vipTypeId;
-    }
-
-    public void setVipTypeId(Integer vipTypeId) {
-        this.vipTypeId = vipTypeId;
     }
 
     public Integer getUserId() {
@@ -61,5 +55,21 @@ public class Vip_record {
 
     public void setRegistTime(Date registTime) {
         this.registTime = registTime;
+    }
+
+   /* public Integer getVipTypeId() {
+        return vipTypeId;
+    }
+
+    public void setVipTypeId(Integer vipTypeId) {
+        this.vipTypeId = vipTypeId;
+    }*/
+
+    public Vip_type getVipType() {
+        return vipType;
+    }
+
+    public void setVipType(Vip_type vipType) {
+        this.vipType = vipType;
     }
 }

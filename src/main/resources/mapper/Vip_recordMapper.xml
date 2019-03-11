@@ -3,15 +3,26 @@
 <mapper namespace="cn.project.yoga.dao.Vip_recordMapper">
   <resultMap id="BaseResultMap" type="cn.project.yoga.pojo.Vip_record">
     <id column="vip_id" jdbcType="INTEGER" property="vipId" />
-    <result column="vip_type_id" jdbcType="INTEGER" property="vipTypeId" />
     <result column="user_id" jdbcType="INTEGER" property="userId" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
     <result column="flag" jdbcType="INTEGER" property="flag" />
     <result column="regist_time" jdbcType="TIMESTAMP" property="registTime" />
+    <association property="vipType" javaType="cn.project.yoga.pojo.Vip_type">
+      <id column="vip_type_id" jdbcType="INTEGER" property="vipTypeId" />
+      <result column="venue_id" jdbcType="INTEGER" property="venueId" />
+      <result column="card_price" jdbcType="INTEGER" property="cardPrice" />
+      <result column="card_name" jdbcType="VARCHAR" property="cardName" />
+      <result column="card_info" jdbcType="VARCHAR" property="cardInfo" />
+      <result column="flag" jdbcType="INTEGER" property="flag" />
+      <result column="use_date" jdbcType="VARCHAR" property="useDate" />
+    </association>
+    <!--<result column="vip_type_id" jdbcType="INTEGER" property="vipTypeId" />-->
   </resultMap>
+
   <sql id="Base_Column_List">
-    vip_id, vip_type_id, user_id, update_time, flag, regist_time
+    vip_id, user_id, update_time, flag, regist_time, vip_type_id
   </sql>
+
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
@@ -23,22 +34,16 @@
     where vip_id = #{vipId,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="cn.project.yoga.pojo.Vip_record">
-    insert into vip_record (vip_id, vip_type_id, user_id, 
-      update_time, flag, regist_time
+    insert into vip_record (vip_id, user_id, update_time, 
+      flag, regist_time, vip_type_id
       )
-    values (#{vipId,jdbcType=INTEGER}, #{vipTypeId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, 
-      #{updateTime,jdbcType=TIMESTAMP}, #{flag,jdbcType=INTEGER}, #{registTime,jdbcType=TIMESTAMP}
+    values (#{vipId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{flag,jdbcType=INTEGER}, #{registTime,jdbcType=TIMESTAMP}, #{vipType.vipTypeId,jdbcType=INTEGER}
       )
   </insert>
   <insert id="insertSelective" parameterType="cn.project.yoga.pojo.Vip_record">
     insert into vip_record
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="vipId != null">
-        vip_id,
-      </if>
-      <if test="vipTypeId != null">
-        vip_type_id,
-      </if>
       <if test="userId != null">
         user_id,
       </if>
@@ -51,14 +56,11 @@
       <if test="registTime != null">
         regist_time,
       </if>
+      <if test="vipType.vipTypeId != null">
+        vip_type_id,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="vipId != null">
-        #{vipId,jdbcType=INTEGER},
-      </if>
-      <if test="vipTypeId != null">
-        #{vipTypeId,jdbcType=INTEGER},
-      </if>
       <if test="userId != null">
         #{userId,jdbcType=INTEGER},
       </if>
@@ -71,14 +73,14 @@
       <if test="registTime != null">
         #{registTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="vipType.vipTypeId != null">
+        #{vipType.vipTypeId,jdbcType=INTEGER},
+      </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="cn.project.yoga.pojo.Vip_record">
     update vip_record
     <set>
-      <if test="vipTypeId != null">
-        vip_type_id = #{vipTypeId,jdbcType=INTEGER},
-      </if>
       <if test="userId != null">
         user_id = #{userId,jdbcType=INTEGER},
       </if>
@@ -91,16 +93,21 @@
       <if test="registTime != null">
         regist_time = #{registTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="vipType.vipTypeId != null">
+        vip_type_id = #{vipType.vipTypeId,jdbcType=INTEGER},
+      </if>
     </set>
     where vip_id = #{vipId,jdbcType=INTEGER}
   </update>
+
   <update id="updateByPrimaryKey" parameterType="cn.project.yoga.pojo.Vip_record">
     update vip_record
-    set vip_type_id = #{vipTypeId,jdbcType=INTEGER},
-      user_id = #{userId,jdbcType=INTEGER},
+    set user_id = #{userId,jdbcType=INTEGER},
       update_time = #{updateTime,jdbcType=TIMESTAMP},
       flag = #{flag,jdbcType=INTEGER},
-      regist_time = #{registTime,jdbcType=TIMESTAMP}
+      regist_time = #{registTime,jdbcType=TIMESTAMP},
+      vip_type_id = #{vipType.vipTypeId,jdbcType=INTEGER}
     where vip_id = #{vipId,jdbcType=INTEGER}
   </update>
+
 </mapper>
