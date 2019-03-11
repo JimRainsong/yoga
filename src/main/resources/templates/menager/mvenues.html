@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>场馆</title>
+    <link rel="stylesheet" th:href="@{/css/themes/icon.css}">
+    <link rel="stylesheet" th:href="@{/css/themes/default/easyui.css}">
+    <link rel="stylesheet" th:href="@{/css/themes/tree.css}">
+    <script th:src="@{/js/jquery.min.js}"></script>
+    <script th:src="@{/js/jquery.easyui.min.js}"></script>
+    <script th:src="@{/js/easyui-lang-zh_CN.js}"></script>
+</head>
+<body>
+<a id="addmvenue" href="#" class="easyui-linkbutton" data-options="iconCls:'icon-search'" onclick="addvenues()">添加场馆</a><br>
+<br>
+<a id="updatemvenue" href="#" class="easyui-linkbutton" data-options="iconCls:'icon-search'">更改场馆信息</a><br>
+<br>
+<a id="deletemvenue" href="#" class="easyui-linkbutton" data-options="iconCls:'icon-search'">删除场馆</a>
+
+
+<div id="dlg" class="easyui-dialog" data-options="buttons:'#buts',width:700,height:500,modal:true,closed:true" style="padding: 20px">
+    <form id="fm">
+        <input type="hidden" name="userId" value="" id="userId">
+        <table cellpadding="5">
+
+            <tr>
+                <td>场馆名：</td>
+                <td>
+                    <input size="15" type="text" id="venue_name" name="venue_name">
+                </td>
+                <br>
+                <td>
+                    场馆地址：
+                </td>
+                <td>
+                    <input id="venue_address" size="15" type="text" name="venue_address">
+                </td>
+            </tr>
+            <tr>
+                <td>联系电话：</td>
+                <td>
+                    <input type="text" id="venue_phone" name="venue_phone">
+                </td>
+                <br>
+                <td>QQ: </td>
+                <td>
+                    <input name="qq" id="qq" type="text">
+                </td>
+            </tr>
+           <tr>
+               <td>场馆图片: </td>
+               <td>
+
+
+               </td>
+               <br>
+               <td>场馆详细信息: </td>
+               <td>
+                   <input id="venue_details" name="venue_details" type="text">
+               </td>
+           </tr>
+        </table>
+    </form>
+</div>
+<div id="buts">
+    <a class="easyui-linkbutton" data-options="iconCls:'icon-ok'" onclick="operate()">保存</a>
+    <a class="easyui-linkbutton" data-options="iconCls:'icon-cancel'" onclick="closeDialog()">关闭</a>
+</div>
+</body>
+<script>
+    /*添加场馆*/
+    function addvenues() {
+        $("#dlg").dialog("open").dialog("setTitle","添加用户信息");
+
+
+
+    }
+</script>
+</html>
