@@ -7,12 +7,14 @@ import org.apache.shiro.authc.*;
 import org.apache.shiro.subject.Subject;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 @RequestMapping("/venueUserDate")
 public class VenueUserControllt {
 
     @RequestMapping("/loginVenue")
+    @ResponseBody
     public LayUiDataUtil login(LoginVo vo) {
         System.out.println(vo.getPassword());
         System.out.println(vo.getUserName());
