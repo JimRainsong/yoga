@@ -27,7 +27,7 @@
             line-height: 200px;
         }
         #body03{
-
+            text-align:center;
             margin: 0 auto;
 
         }
@@ -42,13 +42,13 @@
     <div class="layui-form-item">
             <label class="layui-form-label">账号</label>
             <div class="layui-input-inline">
-                <input type="text" name="userName" required lay-verify="required" placeholder="请输入账号" autocomplete="off" class="layui-input">
+                <input type="text" name="userName" id="userName" required lay-verify="required" placeholder="请输入账号" autocomplete="off" class="layui-input">
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">密码</label>
             <div class="layui-input-inline">
-                <input type="password" name="password" required lay-verify="required" placeholder="请输入密码" autocomplete="off" class="layui-input">
+                <input type="password" name="password" id="password" required lay-verify="required" placeholder="请输入密码" autocomplete="off" class="layui-input">
             </div>
         </div>
         <div class="layui-form-item">
@@ -73,12 +73,30 @@
             title: '注册',
             maxmin: true,
             shadeClose: true, //点击遮罩关闭层
-            area : ['800px' , '520px'],
+            area : ['600px' , '500px'],
             content: '/yoga/venueUser/register'
         });
     });
      function login() {
-         $a.ajax({
+         $.ajax({
+             url : "/yoga/venueUserDate/loginVenue",
+             type : "post",
+             data : {
+                 userName : $("#userName").val(),
+                 password : $("#password").val()
+             },
+             dataType : "json",
+             success : function(data) {
+                 alert(data);
+                 location.href="/yoga/venueUser/register";
+                 // var json = eval('('+data+')');
+                 // if(json.code == 0){
+                 //
+                 // }else{
+                 //     $.messager.alert('系统提示',json.message);
+                 // }
+             }
+
 
          })
     }

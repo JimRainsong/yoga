@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>圈子</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/teacher/page1.css}"
+          href="../../static/css/teacher/page1.css"/>
+    <script th:src="@{/js/jquery.min.js}" src="../../static/js/jquery.min.js"></script>
+</head>
+<body>
+<header>
+    <span id="title" style="font-size: 26px">
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;好友圈
+    </span>
+    <div id="post">发布</div>
+</header>
+<div>
+    <div th:each="moment:${moments}" class="moments">
+        <div class="inside">
+            <h3>
+            <span><img class="head_img" src="https://wx3.sinaimg.cn/mw690/bd4e13c2gy1fyi46vkl0xj20qo0zk4c8.jpg"
+                       th:src="@{https://47.101.220.71/img/head/logo.png}"></span>
+                <span th:text="${moment.name}">带带大师兄</span>
+                <span th:text="${#dates.format(moment.time,'MM月dd日 HH:mm')}">3月12号，上午10点32分</span>
+            </h3>
+            <h4>
+            <span th:text="${moment.detail}">
+                陈冠希同志，您好！这几天我的粉丝和您发生了一些冲突。作为当事人之一，我方在像您表达歉意的同时，也看到了您对我个人以及我的品牌的一些攻击。我承认，我的长相和您有所差距，不是很好看。品牌价值，也有几个0的距离。但是，在您反复抨击我的缺点的同时，我也想给您提个醒。
+            </span>
+            </h4>
+        </div>
+    </div>
+</div>
+<script>
+
+</script>
+</body>
+
+</html>

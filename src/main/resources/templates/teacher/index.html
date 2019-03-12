@@ -40,7 +40,7 @@
     // 获取每一个标签按钮div
     var footerDivs = $(".bottomIcon");
     // 每个页面对应的网页url
-    var urls = ["http://www.baidu.com", "http://www.gamersky.com", "http://www.woniuxy.com/", "http://www.beiwo.tv", "/yoga/teacher/page5"];
+    var urls = ["/yoga/teacher/page1", "http://www.gamersky.com", "http://www.woniuxy.com/", "http://www.beiwo.tv", "/yoga/teacher/page5"];
     // 取得每一个网页的div框体dom对象
     var pages = $(".main");
     // 取得每一个iframe的dom对象
@@ -61,7 +61,7 @@
             for (var i = 0; i < pages.length; i++) {
                 if (i == num) {
                     pages.eq(i).css("display", "block");
-                    footerDivs.eq(i).css("background-color", "#666666");
+                    footerDivs.eq(i).css("background-color", "rgba(68, 160, 179, .5)");
                     whichIsShown = i;
                     if (state[i] == false) {
                         windows.eq(i).attr("src", urls[i]);
@@ -69,7 +69,7 @@
                     }
                 } else {
                     pages.eq(i).css("display", "none");
-                    footerDivs.eq(i).css("background-color", "black");
+                    footerDivs.eq(i).css("background-color", "#44a0b3");
                 }
             }
         }
