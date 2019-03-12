@@ -3,6 +3,8 @@ package cn.project.yoga.pojo;
 public class Venue {
     private Integer venueId;
 
+    private Integer userId;
+
     private String venueName;
 
     private String venueAddress;
@@ -15,7 +17,13 @@ public class Venue {
 
     private String venueDetails;
 
+    private String authInfo;
+
+    private Integer authState;
+
     private Integer flag;
+
+    private Integer venueMoney;
 
     public Integer getVenueId() {
         return venueId;
@@ -23,6 +31,14 @@ public class Venue {
 
     public void setVenueId(Integer venueId) {
         this.venueId = venueId;
+    }
+
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
     }
 
     public String getVenueName() {
@@ -73,11 +89,35 @@ public class Venue {
         this.venueDetails = venueDetails;
     }
 
+    public String getAuthInfo() {
+        return authInfo;
+    }
+
+    public void setAuthInfo(String authInfo) {
+        this.authInfo = authInfo;
+    }
+
+    public Integer getAuthState() {
+        return authState;
+    }
+
+    public void setAuthState(Integer authState) {
+        this.authState = authState;
+    }
+
     public Integer getFlag() {
         return flag;
     }
 
     public void setFlag(Integer flag) {
         this.flag = flag;
+    }
+
+    public Integer getVenueMoney() {
+        return venueMoney;
+    }
+
+    public void setVenueMoney(Integer venueMoney) {
+        this.venueMoney = venueMoney;
     }
 }

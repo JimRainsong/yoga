@@ -5,6 +5,8 @@ public class Venue_comment {
 
     private Integer venueId;
 
+    private Integer uId;
+
     private String comment;
 
     private String commentType;
@@ -25,6 +27,14 @@ public class Venue_comment {
 
     public void setVenueId(Integer venueId) {
         this.venueId = venueId;
+    }
+
+    public Integer getuId() {
+        return uId;
+    }
+
+    public void setuId(Integer uId) {
+        this.uId = uId;
     }
 
     public String getComment() {

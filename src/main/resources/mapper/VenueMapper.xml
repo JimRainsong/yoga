@@ -3,16 +3,21 @@
 <mapper namespace="cn.project.yoga.dao.VenueMapper">
   <resultMap id="BaseResultMap" type="cn.project.yoga.pojo.Venue">
     <id column="venue_id" jdbcType="INTEGER" property="venueId" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
     <result column="venue_name" jdbcType="VARCHAR" property="venueName" />
     <result column="venue_address" jdbcType="VARCHAR" property="venueAddress" />
     <result column="venue_phone" jdbcType="VARCHAR" property="venuePhone" />
     <result column="qq" jdbcType="VARCHAR" property="qq" />
     <result column="venue_img" jdbcType="VARCHAR" property="venueImg" />
     <result column="venue_details" jdbcType="VARCHAR" property="venueDetails" />
+    <result column="auth_info" jdbcType="VARCHAR" property="authInfo" />
+    <result column="auth_state" jdbcType="INTEGER" property="authState" />
     <result column="flag" jdbcType="INTEGER" property="flag" />
+    <result column="venue_money" jdbcType="INTEGER" property="venueMoney" />
   </resultMap>
   <sql id="Base_Column_List">
-    venue_id, venue_name, venue_address, venue_phone, qq, venue_img, venue_details, flag
+    venue_id, user_id, venue_name, venue_address, venue_phone, qq, venue_img, venue_details, 
+    auth_info, auth_state, flag, venue_money
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
@@ -25,18 +30,25 @@
     where venue_id = #{venueId,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="cn.project.yoga.pojo.Venue">
-    insert into venue (venue_id, venue_name, venue_address, 
-      venue_phone, qq, venue_img, 
-      venue_details, flag)
-    values (#{venueId,jdbcType=INTEGER}, #{venueName,jdbcType=VARCHAR}, #{venueAddress,jdbcType=VARCHAR}, 
-      #{venuePhone,jdbcType=VARCHAR}, #{qq,jdbcType=VARCHAR}, #{venueImg,jdbcType=VARCHAR}, 
-      #{venueDetails,jdbcType=VARCHAR}, #{flag,jdbcType=INTEGER})
+    insert into venue (venue_id, user_id, venue_name, 
+      venue_address, venue_phone, qq, 
+      venue_img, venue_details, auth_info, 
+      auth_state, flag, venue_money
+      )
+    values (#{venueId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{venueName,jdbcType=VARCHAR}, 
+      #{venueAddress,jdbcType=VARCHAR}, #{venuePhone,jdbcType=VARCHAR}, #{qq,jdbcType=VARCHAR}, 
+      #{venueImg,jdbcType=VARCHAR}, #{venueDetails,jdbcType=VARCHAR}, #{authInfo,jdbcType=VARCHAR}, 
+      #{authState,jdbcType=INTEGER}, #{flag,jdbcType=INTEGER}, #{venueMoney,jdbcType=INTEGER}
+      )
   </insert>
   <insert id="insertSelective" parameterType="cn.project.yoga.pojo.Venue">
     insert into venue
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="venueId != null">
         venue_id,
+      </if>
+      <if test="userId != null">
+        user_id,
       </if>
       <if test="venueName != null">
         venue_name,
@@ -56,13 +68,25 @@
       <if test="venueDetails != null">
         venue_details,
       </if>
+      <if test="authInfo != null">
+        auth_info,
+      </if>
+      <if test="authState != null">
+        auth_state,
+      </if>
       <if test="flag != null">
         flag,
+      </if>
+      <if test="venueMoney != null">
+        venue_money,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="venueId != null">
         #{venueId,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
       </if>
       <if test="venueName != null">
         #{venueName,jdbcType=VARCHAR},
@@ -82,14 +106,26 @@
       <if test="venueDetails != null">
         #{venueDetails,jdbcType=VARCHAR},
       </if>
+      <if test="authInfo != null">
+        #{authInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="authState != null">
+        #{authState,jdbcType=INTEGER},
+      </if>
       <if test="flag != null">
         #{flag,jdbcType=INTEGER},
+      </if>
+      <if test="venueMoney != null">
+        #{venueMoney,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="cn.project.yoga.pojo.Venue">
     update venue
     <set>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
       <if test="venueName != null">
         venue_name = #{venueName,jdbcType=VARCHAR},
       </if>
@@ -108,21 +144,34 @@
       <if test="venueDetails != null">
         venue_details = #{venueDetails,jdbcType=VARCHAR},
       </if>
+      <if test="authInfo != null">
+        auth_info = #{authInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="authState != null">
+        auth_state = #{authState,jdbcType=INTEGER},
+      </if>
       <if test="flag != null">
         flag = #{flag,jdbcType=INTEGER},
+      </if>
+      <if test="venueMoney != null">
+        venue_money = #{venueMoney,jdbcType=INTEGER},
       </if>
     </set>
     where venue_id = #{venueId,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="cn.project.yoga.pojo.Venue">
     update venue
-    set venue_name = #{venueName,jdbcType=VARCHAR},
+    set user_id = #{userId,jdbcType=INTEGER},
+      venue_name = #{venueName,jdbcType=VARCHAR},
       venue_address = #{venueAddress,jdbcType=VARCHAR},
       venue_phone = #{venuePhone,jdbcType=VARCHAR},
       qq = #{qq,jdbcType=VARCHAR},
       venue_img = #{venueImg,jdbcType=VARCHAR},
       venue_details = #{venueDetails,jdbcType=VARCHAR},
-      flag = #{flag,jdbcType=INTEGER}
+      auth_info = #{authInfo,jdbcType=VARCHAR},
+      auth_state = #{authState,jdbcType=INTEGER},
+      flag = #{flag,jdbcType=INTEGER},
+      venue_money = #{venueMoney,jdbcType=INTEGER}
     where venue_id = #{venueId,jdbcType=INTEGER}
   </update>
 </mapper>

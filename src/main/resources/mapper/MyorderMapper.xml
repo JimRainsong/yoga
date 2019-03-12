@@ -3,14 +3,14 @@
 <mapper namespace="cn.project.yoga.dao.MyorderMapper">
   <resultMap id="BaseResultMap" type="cn.project.yoga.pojo.Myorder">
     <id column="order_id" jdbcType="INTEGER" property="orderId" />
-    <result column="user_id" jdbcType="INTEGER" property="userId" />
     <result column="goods_id" jdbcType="INTEGER" property="goodsId" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
     <result column="count" jdbcType="INTEGER" property="count" />
     <result column="price" jdbcType="INTEGER" property="price" />
     <result column="time" jdbcType="TIMESTAMP" property="time" />
   </resultMap>
   <sql id="Base_Column_List">
-    order_id, user_id, goods_id, count, price, time
+    order_id, goods_id, user_id, count, price, time
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
@@ -23,10 +23,10 @@
     where order_id = #{orderId,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="cn.project.yoga.pojo.Myorder">
-    insert into myorder (order_id, user_id, goods_id, 
+    insert into myorder (order_id, goods_id, user_id, 
       count, price, time
       )
-    values (#{orderId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{goodsId,jdbcType=INTEGER}, 
+    values (#{orderId,jdbcType=INTEGER}, #{goodsId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, 
       #{count,jdbcType=INTEGER}, #{price,jdbcType=INTEGER}, #{time,jdbcType=TIMESTAMP}
       )
   </insert>
@@ -36,11 +36,11 @@
       <if test="orderId != null">
         order_id,
       </if>
-      <if test="userId != null">
-        user_id,
-      </if>
       <if test="goodsId != null">
         goods_id,
+      </if>
+      <if test="userId != null">
+        user_id,
       </if>
       <if test="count != null">
         count,
@@ -56,11 +56,11 @@
       <if test="orderId != null">
         #{orderId,jdbcType=INTEGER},
       </if>
-      <if test="userId != null">
-        #{userId,jdbcType=INTEGER},
-      </if>
       <if test="goodsId != null">
         #{goodsId,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
       </if>
       <if test="count != null">
         #{count,jdbcType=INTEGER},
@@ -76,11 +76,11 @@
   <update id="updateByPrimaryKeySelective" parameterType="cn.project.yoga.pojo.Myorder">
     update myorder
     <set>
-      <if test="userId != null">
-        user_id = #{userId,jdbcType=INTEGER},
-      </if>
       <if test="goodsId != null">
         goods_id = #{goodsId,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=INTEGER},
       </if>
       <if test="count != null">
         count = #{count,jdbcType=INTEGER},
@@ -96,8 +96,8 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="cn.project.yoga.pojo.Myorder">
     update myorder
-    set user_id = #{userId,jdbcType=INTEGER},
-      goods_id = #{goodsId,jdbcType=INTEGER},
+    set goods_id = #{goodsId,jdbcType=INTEGER},
+      user_id = #{userId,jdbcType=INTEGER},
       count = #{count,jdbcType=INTEGER},
       price = #{price,jdbcType=INTEGER},
       time = #{time,jdbcType=TIMESTAMP}

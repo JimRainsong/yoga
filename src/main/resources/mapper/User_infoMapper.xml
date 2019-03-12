@@ -2,59 +2,53 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.project.yoga.dao.User_infoMapper">
   <resultMap id="BaseResultMap" type="cn.project.yoga.pojo.User_info">
-    <id column="info_id" jdbcType="INTEGER" property="infoId" />
+    <id column="u_id" jdbcType="INTEGER" property="uId" />
     <result column="user_id" jdbcType="INTEGER" property="userId" />
     <result column="phone_number" jdbcType="VARCHAR" property="phoneNumber" />
+    <result column="info_state" jdbcType="VARCHAR" property="infoState" />
     <result column="qq" jdbcType="VARCHAR" property="qq" />
+    <result column="net_name" jdbcType="VARCHAR" property="netName" />
+    <result column="real_name" jdbcType="VARCHAR" property="realName" />
+    <result column="id_card" jdbcType="VARCHAR" property="idCard" />
     <result column="balance" jdbcType="INTEGER" property="balance" />
     <result column="score" jdbcType="INTEGER" property="score" />
-    <result column="flag" jdbcType="INTEGER" property="flag" />
     <result column="head_img" jdbcType="VARCHAR" property="headImg" />
-    <result column="total_money" jdbcType="DOUBLE" property="totalMoney" />
+    <result column="total_money" jdbcType="INTEGER" property="totalMoney" />
     <result column="level" jdbcType="INTEGER" property="level" />
-  </resultMap>
-  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="cn.project.yoga.pojo.User_infoWithBLOBs">
-    <result column="info_state" jdbcType="VARBINARY" property="infoState" />
-    <result column="net_name" jdbcType="VARBINARY" property="netName" />
-    <result column="real_name" jdbcType="VARBINARY" property="realName" />
-    <result column="id_card" jdbcType="VARBINARY" property="idCard" />
+    <result column="sex" jdbcType="CHAR" property="sex" />
+    <result column="flag" jdbcType="INTEGER" property="flag" />
   </resultMap>
   <sql id="Base_Column_List">
-    info_id, user_id, phone_number, qq, balance, score, flag, head_img, total_money, 
-    level
+    u_id, user_id, phone_number, info_state, qq, net_name, real_name, id_card, balance, 
+    score, head_img, total_money, level, sex, flag
   </sql>
-  <sql id="Blob_Column_List">
-    info_state, net_name, real_name, id_card
-  </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
     from user_info
-    where info_id = #{infoId,jdbcType=INTEGER}
+    where u_id = #{uId,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from user_info
-    where info_id = #{infoId,jdbcType=INTEGER}
+    where u_id = #{uId,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="cn.project.yoga.pojo.User_infoWithBLOBs">
-    insert into user_info (info_id, user_id, phone_number, 
-      qq, balance, score, 
-      flag, head_img, total_money, 
-      level, info_state, net_name, 
-      real_name, id_card)
-    values (#{infoId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{phoneNumber,jdbcType=VARCHAR}, 
-      #{qq,jdbcType=VARCHAR}, #{balance,jdbcType=INTEGER}, #{score,jdbcType=INTEGER}, 
-      #{flag,jdbcType=INTEGER}, #{headImg,jdbcType=VARCHAR}, #{totalMoney,jdbcType=DOUBLE}, 
-      #{level,jdbcType=INTEGER}, #{infoState,jdbcType=VARBINARY}, #{netName,jdbcType=VARBINARY}, 
-      #{realName,jdbcType=VARBINARY}, #{idCard,jdbcType=VARBINARY})
+  <insert id="insert" parameterType="cn.project.yoga.pojo.User_info">
+    insert into user_info (u_id, user_id, phone_number, 
+      info_state, qq, net_name, 
+      real_name, id_card, balance, 
+      score, head_img, total_money, 
+      level, sex, flag)
+    values (#{uId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{phoneNumber,jdbcType=VARCHAR}, 
+      #{infoState,jdbcType=VARCHAR}, #{qq,jdbcType=VARCHAR}, #{netName,jdbcType=VARCHAR}, 
+      #{realName,jdbcType=VARCHAR}, #{idCard,jdbcType=VARCHAR}, #{balance,jdbcType=INTEGER}, 
+      #{score,jdbcType=INTEGER}, #{headImg,jdbcType=VARCHAR}, #{totalMoney,jdbcType=INTEGER}, 
+      #{level,jdbcType=INTEGER}, #{sex,jdbcType=CHAR}, #{flag,jdbcType=INTEGER})
   </insert>
-  <insert id="insertSelective" parameterType="cn.project.yoga.pojo.User_infoWithBLOBs">
+  <insert id="insertSelective" parameterType="cn.project.yoga.pojo.User_info">
     insert into user_info
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="infoId != null">
-        info_id,
+      <if test="uId != null">
+        u_id,
       </if>
       <if test="userId != null">
         user_id,
@@ -62,29 +56,11 @@
       <if test="phoneNumber != null">
         phone_number,
       </if>
-      <if test="qq != null">
-        qq,
-      </if>
-      <if test="balance != null">
-        balance,
-      </if>
-      <if test="score != null">
-        score,
-      </if>
-      <if test="flag != null">
-        flag,
-      </if>
-      <if test="headImg != null">
-        head_img,
-      </if>
-      <if test="totalMoney != null">
-        total_money,
-      </if>
-      <if test="level != null">
-        level,
-      </if>
       <if test="infoState != null">
         info_state,
+      </if>
+      <if test="qq != null">
+        qq,
       </if>
       <if test="netName != null">
         net_name,
@@ -95,10 +71,31 @@
       <if test="idCard != null">
         id_card,
       </if>
+      <if test="balance != null">
+        balance,
+      </if>
+      <if test="score != null">
+        score,
+      </if>
+      <if test="headImg != null">
+        head_img,
+      </if>
+      <if test="totalMoney != null">
+        total_money,
+      </if>
+      <if test="level != null">
+        level,
+      </if>
+      <if test="sex != null">
+        sex,
+      </if>
+      <if test="flag != null">
+        flag,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="infoId != null">
-        #{infoId,jdbcType=INTEGER},
+      <if test="uId != null">
+        #{uId,jdbcType=INTEGER},
       </if>
       <if test="userId != null">
         #{userId,jdbcType=INTEGER},
@@ -106,8 +103,20 @@
       <if test="phoneNumber != null">
         #{phoneNumber,jdbcType=VARCHAR},
       </if>
+      <if test="infoState != null">
+        #{infoState,jdbcType=VARCHAR},
+      </if>
       <if test="qq != null">
         #{qq,jdbcType=VARCHAR},
+      </if>
+      <if test="netName != null">
+        #{netName,jdbcType=VARCHAR},
+      </if>
+      <if test="realName != null">
+        #{realName,jdbcType=VARCHAR},
+      </if>
+      <if test="idCard != null">
+        #{idCard,jdbcType=VARCHAR},
       </if>
       <if test="balance != null">
         #{balance,jdbcType=INTEGER},
@@ -115,33 +124,24 @@
       <if test="score != null">
         #{score,jdbcType=INTEGER},
       </if>
-      <if test="flag != null">
-        #{flag,jdbcType=INTEGER},
-      </if>
       <if test="headImg != null">
         #{headImg,jdbcType=VARCHAR},
       </if>
       <if test="totalMoney != null">
-        #{totalMoney,jdbcType=DOUBLE},
+        #{totalMoney,jdbcType=INTEGER},
       </if>
       <if test="level != null">
         #{level,jdbcType=INTEGER},
       </if>
-      <if test="infoState != null">
-        #{infoState,jdbcType=VARBINARY},
+      <if test="sex != null">
+        #{sex,jdbcType=CHAR},
       </if>
-      <if test="netName != null">
-        #{netName,jdbcType=VARBINARY},
-      </if>
-      <if test="realName != null">
-        #{realName,jdbcType=VARBINARY},
-      </if>
-      <if test="idCard != null">
-        #{idCard,jdbcType=VARBINARY},
+      <if test="flag != null">
+        #{flag,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="cn.project.yoga.pojo.User_infoWithBLOBs">
+  <update id="updateByPrimaryKeySelective" parameterType="cn.project.yoga.pojo.User_info">
     update user_info
     <set>
       <if test="userId != null">
@@ -150,8 +150,20 @@
       <if test="phoneNumber != null">
         phone_number = #{phoneNumber,jdbcType=VARCHAR},
       </if>
+      <if test="infoState != null">
+        info_state = #{infoState,jdbcType=VARCHAR},
+      </if>
       <if test="qq != null">
         qq = #{qq,jdbcType=VARCHAR},
+      </if>
+      <if test="netName != null">
+        net_name = #{netName,jdbcType=VARCHAR},
+      </if>
+      <if test="realName != null">
+        real_name = #{realName,jdbcType=VARCHAR},
+      </if>
+      <if test="idCard != null">
+        id_card = #{idCard,jdbcType=VARCHAR},
       </if>
       <if test="balance != null">
         balance = #{balance,jdbcType=INTEGER},
@@ -159,61 +171,40 @@
       <if test="score != null">
         score = #{score,jdbcType=INTEGER},
       </if>
-      <if test="flag != null">
-        flag = #{flag,jdbcType=INTEGER},
-      </if>
       <if test="headImg != null">
         head_img = #{headImg,jdbcType=VARCHAR},
       </if>
       <if test="totalMoney != null">
-        total_money = #{totalMoney,jdbcType=DOUBLE},
+        total_money = #{totalMoney,jdbcType=INTEGER},
       </if>
       <if test="level != null">
         level = #{level,jdbcType=INTEGER},
       </if>
-      <if test="infoState != null">
-        info_state = #{infoState,jdbcType=VARBINARY},
+      <if test="sex != null">
+        sex = #{sex,jdbcType=CHAR},
       </if>
-      <if test="netName != null">
-        net_name = #{netName,jdbcType=VARBINARY},
-      </if>
-      <if test="realName != null">
-        real_name = #{realName,jdbcType=VARBINARY},
-      </if>
-      <if test="idCard != null">
-        id_card = #{idCard,jdbcType=VARBINARY},
+      <if test="flag != null">
+        flag = #{flag,jdbcType=INTEGER},
       </if>
     </set>
-    where info_id = #{infoId,jdbcType=INTEGER}
-  </update>
-  <update id="updateByPrimaryKeyWithBLOBs" parameterType="cn.project.yoga.pojo.User_infoWithBLOBs">
-    update user_info
-    set user_id = #{userId,jdbcType=INTEGER},
-      phone_number = #{phoneNumber,jdbcType=VARCHAR},
-      qq = #{qq,jdbcType=VARCHAR},
-      balance = #{balance,jdbcType=INTEGER},
-      score = #{score,jdbcType=INTEGER},
-      flag = #{flag,jdbcType=INTEGER},
-      head_img = #{headImg,jdbcType=VARCHAR},
-      total_money = #{totalMoney,jdbcType=DOUBLE},
-      level = #{level,jdbcType=INTEGER},
-      info_state = #{infoState,jdbcType=VARBINARY},
-      net_name = #{netName,jdbcType=VARBINARY},
-      real_name = #{realName,jdbcType=VARBINARY},
-      id_card = #{idCard,jdbcType=VARBINARY}
-    where info_id = #{infoId,jdbcType=INTEGER}
+    where u_id = #{uId,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="cn.project.yoga.pojo.User_info">
     update user_info
     set user_id = #{userId,jdbcType=INTEGER},
       phone_number = #{phoneNumber,jdbcType=VARCHAR},
+      info_state = #{infoState,jdbcType=VARCHAR},
       qq = #{qq,jdbcType=VARCHAR},
+      net_name = #{netName,jdbcType=VARCHAR},
+      real_name = #{realName,jdbcType=VARCHAR},
+      id_card = #{idCard,jdbcType=VARCHAR},
       balance = #{balance,jdbcType=INTEGER},
       score = #{score,jdbcType=INTEGER},
-      flag = #{flag,jdbcType=INTEGER},
       head_img = #{headImg,jdbcType=VARCHAR},
-      total_money = #{totalMoney,jdbcType=DOUBLE},
-      level = #{level,jdbcType=INTEGER}
-    where info_id = #{infoId,jdbcType=INTEGER}
+      total_money = #{totalMoney,jdbcType=INTEGER},
+      level = #{level,jdbcType=INTEGER},
+      sex = #{sex,jdbcType=CHAR},
+      flag = #{flag,jdbcType=INTEGER}
+    where u_id = #{uId,jdbcType=INTEGER}
   </update>
 </mapper>

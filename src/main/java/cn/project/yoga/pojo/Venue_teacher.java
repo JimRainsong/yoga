@@ -7,7 +7,7 @@ public class Venue_teacher {
 
     private Integer teacherId;
 
-    private Double teacherMoney;
+    private Integer teacherState;
 
     private Integer flag;
 
@@ -35,12 +35,12 @@ public class Venue_teacher {
         this.teacherId = teacherId;
     }
 
-    public Double getTeacherMoney() {
-        return teacherMoney;
+    public Integer getTeacherState() {
+        return teacherState;
     }
 
-    public void setTeacherMoney(Double teacherMoney) {
-        this.teacherMoney = teacherMoney;
+    public void setTeacherState(Integer teacherState) {
+        this.teacherState = teacherState;
     }
 
     public Integer getFlag() {

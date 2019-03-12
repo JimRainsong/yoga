@@ -1,5 +1,7 @@
 package cn.project.yoga.pojo;
 
+import java.util.List;
+
 public class Vip_type {
     private Integer vipTypeId;
 
@@ -14,6 +16,16 @@ public class Vip_type {
     private Integer flag;
 
     private String useDate;
+
+    private List<Vip_record> vipRecords;
+
+    public List<Vip_record> getVipRecords() {
+        return vipRecords;
+    }
+
+    public void setVipRecords(List<Vip_record> vipRecords) {
+        this.vipRecords = vipRecords;
+    }
 
     public Integer getVipTypeId() {
         return vipTypeId;

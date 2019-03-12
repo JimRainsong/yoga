@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.project.yoga.dao.TranscationMapper">
+  <resultMap id="BaseResultMap" type="cn.project.yoga.pojo.Transcation">
+    <result column="transcation_id" jdbcType="INTEGER" property="transcationId" />
+    <result column="transcation_type" jdbcType="VARCHAR" property="transcationType" />
+    <result column="u_id" jdbcType="INTEGER" property="uId" />
+    <result column="tea_teacher_id" jdbcType="INTEGER" property="teaTeacherId" />
+    <result column="venue_id" jdbcType="INTEGER" property="venueId" />
+    <result column="time" jdbcType="TIMESTAMP" property="time" />
+    <result column="sys_get" jdbcType="DOUBLE" property="sysGet" />
+    <result column="venue_get" jdbcType="DOUBLE" property="venueGet" />
+    <result column="teacher_get" jdbcType="DOUBLE" property="teacherGet" />
+    <result column="flag" jdbcType="INTEGER" property="flag" />
+  </resultMap>
+  <insert id="insert" parameterType="cn.project.yoga.pojo.Transcation">
+    insert into transcation (transcation_id, transcation_type, u_id, 
+      tea_teacher_id, venue_id, time, 
+      sys_get, venue_get, teacher_get, 
+      flag)
+    values (#{transcationId,jdbcType=INTEGER}, #{transcationType,jdbcType=VARCHAR}, #{uId,jdbcType=INTEGER}, 
+      #{teaTeacherId,jdbcType=INTEGER}, #{venueId,jdbcType=INTEGER}, #{time,jdbcType=TIMESTAMP}, 
+      #{sysGet,jdbcType=DOUBLE}, #{venueGet,jdbcType=DOUBLE}, #{teacherGet,jdbcType=DOUBLE}, 
+      #{flag,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="cn.project.yoga.pojo.Transcation">
+    insert into transcation
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="transcationId != null">
+        transcation_id,
+      </if>
+      <if test="transcationType != null">
+        transcation_type,
+      </if>
+      <if test="uId != null">
+        u_id,
+      </if>
+      <if test="teaTeacherId != null">
+        tea_teacher_id,
+      </if>
+      <if test="venueId != null">
+        venue_id,
+      </if>
+      <if test="time != null">
+        time,
+      </if>
+      <if test="sysGet != null">
+        sys_get,
+      </if>
+      <if test="venueGet != null">
+        venue_get,
+      </if>
+      <if test="teacherGet != null">
+        teacher_get,
+      </if>
+      <if test="flag != null">
+        flag,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="transcationId != null">
+        #{transcationId,jdbcType=INTEGER},
+      </if>
+      <if test="transcationType != null">
+        #{transcationType,jdbcType=VARCHAR},
+      </if>
+      <if test="uId != null">
+        #{uId,jdbcType=INTEGER},
+      </if>
+      <if test="teaTeacherId != null">
+        #{teaTeacherId,jdbcType=INTEGER},
+      </if>
+      <if test="venueId != null">
+        #{venueId,jdbcType=INTEGER},
+      </if>
+      <if test="time != null">
+        #{time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="sysGet != null">
+        #{sysGet,jdbcType=DOUBLE},
+      </if>
+      <if test="venueGet != null">
+        #{venueGet,jdbcType=DOUBLE},
+      </if>
+      <if test="teacherGet != null">
+        #{teacherGet,jdbcType=DOUBLE},
+      </if>
+      <if test="flag != null">
+        #{flag,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+</mapper>

@@ -9,34 +9,47 @@
     <result column="card_info" jdbcType="VARCHAR" property="cardInfo" />
     <result column="flag" jdbcType="INTEGER" property="flag" />
     <result column="use_date" jdbcType="VARCHAR" property="useDate" />
+    <collection property="vipRecords" resultMap="VipRecordMap"/>
   </resultMap>
+
+  <resultMap id="VipRecordMap" type="cn.project.yoga.pojo.Vip_record">
+    <id column="vip_id" jdbcType="INTEGER" property="vipId" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="flag" jdbcType="INTEGER" property="flag" />
+    <result column="regist_time" jdbcType="TIMESTAMP" property="registTime" />
+    <!--<result column="vip_type_id" jdbcType="INTEGER" property="vipTypeId" />-->
+  </resultMap>
+
   <sql id="Base_Column_List">
     vip_type_id, venue_id, card_price, card_name, card_info, flag, use_date
   </sql>
+
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from vip_type
     where vip_type_id = #{vipTypeId,jdbcType=INTEGER}
   </select>
+
+
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from vip_type
     where vip_type_id = #{vipTypeId,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="cn.project.yoga.pojo.Vip_type">
     insert into vip_type (vip_type_id, venue_id, card_price, 
-      card_name, card_info, flag, 
+      card_name, card_info,
       use_date)
     values (#{vipTypeId,jdbcType=INTEGER}, #{venueId,jdbcType=INTEGER}, #{cardPrice,jdbcType=INTEGER}, 
-      #{cardName,jdbcType=VARCHAR}, #{cardInfo,jdbcType=VARCHAR}, #{flag,jdbcType=INTEGER}, 
+      #{cardName,jdbcType=VARCHAR}, #{cardInfo,jdbcType=VARCHAR},
       #{useDate,jdbcType=VARCHAR})
   </insert>
+
   <insert id="insertSelective" parameterType="cn.project.yoga.pojo.Vip_type">
     insert into vip_type
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="vipTypeId != null">
-        vip_type_id,
-      </if>
       <if test="venueId != null">
         venue_id,
       </if>
@@ -57,9 +70,6 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="vipTypeId != null">
-        #{vipTypeId,jdbcType=INTEGER},
-      </if>
       <if test="venueId != null">
         #{venueId,jdbcType=INTEGER},
       </if>
@@ -80,6 +90,7 @@
       </if>
     </trim>
   </insert>
+
   <update id="updateByPrimaryKeySelective" parameterType="cn.project.yoga.pojo.Vip_type">
     update vip_type
     <set>

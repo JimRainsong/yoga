@@ -3,9 +3,17 @@ package cn.project.yoga.pojo;
 public class Myself_course {
     private Integer myselfCourseId;
 
-    private Integer userId;
+    private Integer uId;
 
     private Integer teacherId;
+
+    private Integer venueId;
+
+    private String time;
+
+    private Integer state;
+
+    private Integer flag;
 
     public Integer getMyselfCourseId() {
         return myselfCourseId;
@@ -15,12 +23,12 @@ public class Myself_course {
         this.myselfCourseId = myselfCourseId;
     }
 
-    public Integer getUserId() {
-        return userId;
+    public Integer getuId() {
+        return uId;
     }
 
-    public void setUserId(Integer userId) {
-        this.userId = userId;
+    public void setuId(Integer uId) {
+        this.uId = uId;
     }
 
     public Integer getTeacherId() {
@@ -29,5 +37,37 @@ public class Myself_course {
 
     public void setTeacherId(Integer teacherId) {
         this.teacherId = teacherId;
+    }
+
+    public Integer getVenueId() {
+        return venueId;
+    }
+
+    public void setVenueId(Integer venueId) {
+        this.venueId = venueId;
+    }
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
+
+    public Integer getState() {
+        return state;
+    }
+
+    public void setState(Integer state) {
+        this.state = state;
+    }
+
+    public Integer getFlag() {
+        return flag;
+    }
+
+    public void setFlag(Integer flag) {
+        this.flag = flag;
     }
 }

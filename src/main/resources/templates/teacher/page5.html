@@ -3,16 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <title>个人中心</title>
-    <link rel="stylesheet" type="text/css" th:href="@{/css/page5.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/teacher/page5.css}">
     <script th:src="@{/js/jquery.min.js}"></script>
 </head>
 <body>
-<div class="logout" shiro:authenticated="false">请<span onclick="openDialog('message','block')">注册</span>或者<span
-        onclick="openDialog('loginWindow','block')">登陆</span></div>
-<div class="logined" shiro:authenticated="true">
-    欢迎你，
-    <shiro:principal property="username"/>
-</div>
+<shiro:guest>
+    <div class="logout">请<span onclick="openDialog('message','block')">注册</span>或者<span
+            onclick="openDialog('loginWindow','block')">登陆</span></div>
+</shiro:guest>
+<shiro:authenticated>
+    <div class="logined">
+        欢迎你，
+    </div>
+    <span onclick="logout()">注销</span>
+</shiro:authenticated>
+
 
 <div id="registerWindow" class="modal">
     <form id="register">
@@ -87,9 +92,10 @@
             },
             dataType: "json",
             success: function (mes) {
-                showMessage(mes.message);
-                if (mes.code == 1) {
+                if (mes.code == 0) {
                     window.location.reload();
+                } else {
+                    showMessage(mes.message);
                 }
             }
         })
@@ -98,6 +104,17 @@
     function showMessage(word) {
         $("#word").html(word);
         openDialog("message", "block");
+    }
+
+    //注销
+    function logout() {
+        $.ajax({
+            url: "/yoga/logout",
+            type: "post",
+            success: function () {
+                window.location.reload();
+            }
+        })
     }
 </script>
 </body>
