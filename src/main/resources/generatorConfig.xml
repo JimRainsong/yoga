@@ -31,19 +31,15 @@
                enableCountByExample="false"
                selectByExampleQueryId="false"></table>
 
-        <table tableName="auth" domainObjectName="Auth" enableDeleteByExample="false"
-               enableUpdateByExample="false"
-               enableSelectByExample="false"
-               enableCountByExample="false"
-               selectByExampleQueryId="false"></table>
 
-        <table tableName="authentication" domainObjectName="Authentication" enableDeleteByExample="false"
-               enableUpdateByExample="false"
-               enableSelectByExample="false"
-               enableCountByExample="false"
-               selectByExampleQueryId="false"></table>
 
         <table tableName="course" domainObjectName="Course" enableDeleteByExample="false"
+               enableUpdateByExample="false"
+               enableSelectByExample="false"
+               enableCountByExample="false"
+               selectByExampleQueryId="false"></table>
+
+        <table tableName="friends" domainObjectName="Friends" enableDeleteByExample="false"
                enableUpdateByExample="false"
                enableSelectByExample="false"
                enableCountByExample="false"
@@ -79,11 +75,23 @@
                enableCountByExample="false"
                selectByExampleQueryId="false"></table>
 
-        <table tableName="role_auth" domainObjectName="Role_auth" enableDeleteByExample="false"
+        <table tableName="sys_info" domainObjectName="Sys_info" enableDeleteByExample="false"
                enableUpdateByExample="false"
                enableSelectByExample="false"
                enableCountByExample="false"
                selectByExampleQueryId="false"></table>
+        <table tableName="teacher" domainObjectName="Teacher" enableDeleteByExample="false"
+               enableUpdateByExample="false"
+               enableSelectByExample="false"
+               enableCountByExample="false"
+               selectByExampleQueryId="false"></table>
+
+        <table tableName="transcation" domainObjectName="Transcation" enableDeleteByExample="false"
+               enableUpdateByExample="false"
+               enableSelectByExample="false"
+               enableCountByExample="false"
+               selectByExampleQueryId="false"></table>
+
         <table tableName="user" domainObjectName="User" enableDeleteByExample="false"
                enableUpdateByExample="false"
                enableSelectByExample="false"
@@ -101,7 +109,7 @@
                enableSelectByExample="false"
                enableCountByExample="false"
                selectByExampleQueryId="false"></table>
-        <table tableName="venue" domainObjectName="Venue" enableDeleteByExample="false"
+        <table tableName="venue_teacher" domainObjectName="Venue_teacher" enableDeleteByExample="false"
                enableUpdateByExample="false"
                enableSelectByExample="false"
                enableCountByExample="false"
@@ -113,7 +121,9 @@
                enableCountByExample="false"
                selectByExampleQueryId="false"></table>
 
-        <table tableName="venue_teacher" domainObjectName="Venue_teacher" enableDeleteByExample="false"
+
+
+        <table tableName="venue" domainObjectName="Venue" enableDeleteByExample="false"
                enableUpdateByExample="false"
                enableSelectByExample="false"
                enableCountByExample="false"

@@ -13,7 +13,9 @@ public class Vip_record {
 
     private Date registTime;
 
-    private Integer vipTypeId;
+   /* private Integer vipTypeId;*/
+
+    private Vip_type vipType;
 
     public Integer getVipId() {
         return vipId;
@@ -55,11 +57,19 @@ public class Vip_record {
         this.registTime = registTime;
     }
 
-    public Integer getVipTypeId() {
+   /* public Integer getVipTypeId() {
         return vipTypeId;
     }
 
     public void setVipTypeId(Integer vipTypeId) {
         this.vipTypeId = vipTypeId;
+    }*/
+
+    public Vip_type getVipType() {
+        return vipType;
+    }
+
+    public void setVipType(Vip_type vipType) {
+        this.vipType = vipType;
     }
 }

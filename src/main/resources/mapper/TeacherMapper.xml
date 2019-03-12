@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.project.yoga.dao.TeacherMapper">
+  <resultMap id="BaseResultMap" type="cn.project.yoga.pojo.Teacher">
+    <id column="teacher_id" jdbcType="INTEGER" property="teacherId" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="u_id" jdbcType="INTEGER" property="uId" />
+    <result column="teacher_name" jdbcType="VARCHAR" property="teacherName" />
+    <result column="teacher_phone" jdbcType="VARCHAR" property="teacherPhone" />
+    <result column="teacher_qq" jdbcType="VARCHAR" property="teacherQq" />
+    <result column="teacher_idnum" jdbcType="VARCHAR" property="teacherIdnum" />
+    <result column="teacher_money" jdbcType="INTEGER" property="teacherMoney" />
+    <result column="self_money" jdbcType="INTEGER" property="selfMoney" />
+    <result column="teacher_img" jdbcType="VARCHAR" property="teacherImg" />
+    <result column="teacher_sex" jdbcType="VARCHAR" property="teacherSex" />
+    <result column="if_auth" jdbcType="INTEGER" property="ifAuth" />
+    <result column="auth_info" jdbcType="VARCHAR" property="authInfo" />
+    <result column="flag" jdbcType="INTEGER" property="flag" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    teacher_id, user_id, u_id, teacher_name, teacher_phone, teacher_qq, teacher_idnum, 
+    teacher_money, self_money, teacher_img, teacher_sex, if_auth, auth_info, flag
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from teacher
+    where teacher_id = #{teacherId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from teacher
+    where teacher_id = #{teacherId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="cn.project.yoga.pojo.Teacher">
+    insert into teacher (teacher_id, user_id, u_id, 
+      teacher_name, teacher_phone, teacher_qq, 
+      teacher_idnum, teacher_money, self_money, 
+      teacher_img, teacher_sex, if_auth, 
+      auth_info, flag)
+    values (#{teacherId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{uId,jdbcType=INTEGER}, 
+      #{teacherName,jdbcType=VARCHAR}, #{teacherPhone,jdbcType=VARCHAR}, #{teacherQq,jdbcType=VARCHAR}, 
+      #{teacherIdnum,jdbcType=VARCHAR}, #{teacherMoney,jdbcType=INTEGER}, #{selfMoney,jdbcType=INTEGER}, 
+      #{teacherImg,jdbcType=VARCHAR}, #{teacherSex,jdbcType=VARCHAR}, #{ifAuth,jdbcType=INTEGER}, 
+      #{authInfo,jdbcType=VARCHAR}, #{flag,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="cn.project.yoga.pojo.Teacher">
+    insert into teacher
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="teacherId != null">
+        teacher_id,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="uId != null">
+        u_id,
+      </if>
+      <if test="teacherName != null">
+        teacher_name,
+      </if>
+      <if test="teacherPhone != null">
+        teacher_phone,
+      </if>
+      <if test="teacherQq != null">
+        teacher_qq,
+      </if>
+      <if test="teacherIdnum != null">
+        teacher_idnum,
+      </if>
+      <if test="teacherMoney != null">
+        teacher_money,
+      </if>
+      <if test="selfMoney != null">
+        self_money,
+      </if>
+      <if test="teacherImg != null">
+        teacher_img,
+      </if>
+      <if test="teacherSex != null">
+        teacher_sex,
+      </if>
+      <if test="ifAuth != null">
+        if_auth,
+      </if>
+      <if test="authInfo != null">
+        auth_info,
+      </if>
+      <if test="flag != null">
+        flag,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="teacherId != null">
+        #{teacherId,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="uId != null">
+        #{uId,jdbcType=INTEGER},
+      </if>
+      <if test="teacherName != null">
+        #{teacherName,jdbcType=VARCHAR},
+      </if>
+      <if test="teacherPhone != null">
+        #{teacherPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="teacherQq != null">
+        #{teacherQq,jdbcType=VARCHAR},
+      </if>
+      <if test="teacherIdnum != null">
+        #{teacherIdnum,jdbcType=VARCHAR},
+      </if>
+      <if test="teacherMoney != null">
+        #{teacherMoney,jdbcType=INTEGER},
+      </if>
+      <if test="selfMoney != null">
+        #{selfMoney,jdbcType=INTEGER},
+      </if>
+      <if test="teacherImg != null">
+        #{teacherImg,jdbcType=VARCHAR},
+      </if>
+      <if test="teacherSex != null">
+        #{teacherSex,jdbcType=VARCHAR},
+      </if>
+      <if test="ifAuth != null">
+        #{ifAuth,jdbcType=INTEGER},
+      </if>
+      <if test="authInfo != null">
+        #{authInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="flag != null">
+        #{flag,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.project.yoga.pojo.Teacher">
+    update teacher
+    <set>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="uId != null">
+        u_id = #{uId,jdbcType=INTEGER},
+      </if>
+      <if test="teacherName != null">
+        teacher_name = #{teacherName,jdbcType=VARCHAR},
+      </if>
+      <if test="teacherPhone != null">
+        teacher_phone = #{teacherPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="teacherQq != null">
+        teacher_qq = #{teacherQq,jdbcType=VARCHAR},
+      </if>
+      <if test="teacherIdnum != null">
+        teacher_idnum = #{teacherIdnum,jdbcType=VARCHAR},
+      </if>
+      <if test="teacherMoney != null">
+        teacher_money = #{teacherMoney,jdbcType=INTEGER},
+      </if>
+      <if test="selfMoney != null">
+        self_money = #{selfMoney,jdbcType=INTEGER},
+      </if>
+      <if test="teacherImg != null">
+        teacher_img = #{teacherImg,jdbcType=VARCHAR},
+      </if>
+      <if test="teacherSex != null">
+        teacher_sex = #{teacherSex,jdbcType=VARCHAR},
+      </if>
+      <if test="ifAuth != null">
+        if_auth = #{ifAuth,jdbcType=INTEGER},
+      </if>
+      <if test="authInfo != null">
+        auth_info = #{authInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="flag != null">
+        flag = #{flag,jdbcType=INTEGER},
+      </if>
+    </set>
+    where teacher_id = #{teacherId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.project.yoga.pojo.Teacher">
+    update teacher
+    set user_id = #{userId,jdbcType=INTEGER},
+      u_id = #{uId,jdbcType=INTEGER},
+      teacher_name = #{teacherName,jdbcType=VARCHAR},
+      teacher_phone = #{teacherPhone,jdbcType=VARCHAR},
+      teacher_qq = #{teacherQq,jdbcType=VARCHAR},
+      teacher_idnum = #{teacherIdnum,jdbcType=VARCHAR},
+      teacher_money = #{teacherMoney,jdbcType=INTEGER},
+      self_money = #{selfMoney,jdbcType=INTEGER},
+      teacher_img = #{teacherImg,jdbcType=VARCHAR},
+      teacher_sex = #{teacherSex,jdbcType=VARCHAR},
+      if_auth = #{ifAuth,jdbcType=INTEGER},
+      auth_info = #{authInfo,jdbcType=VARCHAR},
+      flag = #{flag,jdbcType=INTEGER}
+    where teacher_id = #{teacherId,jdbcType=INTEGER}
+  </update>
+</mapper>

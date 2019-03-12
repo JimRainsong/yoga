@@ -4,12 +4,13 @@
   <resultMap id="BaseResultMap" type="cn.project.yoga.pojo.Venue_comment">
     <id column="comment_id" jdbcType="INTEGER" property="commentId" />
     <result column="venue_id" jdbcType="INTEGER" property="venueId" />
+    <result column="u_id" jdbcType="INTEGER" property="uId" />
     <result column="comment" jdbcType="VARCHAR" property="comment" />
     <result column="comment_type" jdbcType="VARCHAR" property="commentType" />
     <result column="flag" jdbcType="INTEGER" property="flag" />
   </resultMap>
   <sql id="Base_Column_List">
-    comment_id, venue_id, comment, comment_type, flag
+    comment_id, venue_id, u_id, comment, comment_type, flag
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
@@ -22,10 +23,12 @@
     where comment_id = #{commentId,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="cn.project.yoga.pojo.Venue_comment">
-    insert into venue_comment (comment_id, venue_id, comment, 
-      comment_type, flag)
-    values (#{commentId,jdbcType=INTEGER}, #{venueId,jdbcType=INTEGER}, #{comment,jdbcType=VARCHAR}, 
-      #{commentType,jdbcType=VARCHAR}, #{flag,jdbcType=INTEGER})
+    insert into venue_comment (comment_id, venue_id, u_id, 
+      comment, comment_type, flag
+      )
+    values (#{commentId,jdbcType=INTEGER}, #{venueId,jdbcType=INTEGER}, #{uId,jdbcType=INTEGER}, 
+      #{comment,jdbcType=VARCHAR}, #{commentType,jdbcType=VARCHAR}, #{flag,jdbcType=INTEGER}
+      )
   </insert>
   <insert id="insertSelective" parameterType="cn.project.yoga.pojo.Venue_comment">
     insert into venue_comment
@@ -35,6 +38,9 @@
       </if>
       <if test="venueId != null">
         venue_id,
+      </if>
+      <if test="uId != null">
+        u_id,
       </if>
       <if test="comment != null">
         comment,
@@ -53,6 +59,9 @@
       <if test="venueId != null">
         #{venueId,jdbcType=INTEGER},
       </if>
+      <if test="uId != null">
+        #{uId,jdbcType=INTEGER},
+      </if>
       <if test="comment != null">
         #{comment,jdbcType=VARCHAR},
       </if>
@@ -70,6 +79,9 @@
       <if test="venueId != null">
         venue_id = #{venueId,jdbcType=INTEGER},
       </if>
+      <if test="uId != null">
+        u_id = #{uId,jdbcType=INTEGER},
+      </if>
       <if test="comment != null">
         comment = #{comment,jdbcType=VARCHAR},
       </if>
@@ -85,6 +97,7 @@
   <update id="updateByPrimaryKey" parameterType="cn.project.yoga.pojo.Venue_comment">
     update venue_comment
     set venue_id = #{venueId,jdbcType=INTEGER},
+      u_id = #{uId,jdbcType=INTEGER},
       comment = #{comment,jdbcType=VARCHAR},
       comment_type = #{commentType,jdbcType=VARCHAR},
       flag = #{flag,jdbcType=INTEGER}
