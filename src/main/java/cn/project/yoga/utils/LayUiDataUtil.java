@@ -1,5 +1,7 @@
 package cn.project.yoga.utils;
 
+import cn.project.yoga.pojo.Venue;
+
 public class LayUiDataUtil {
     private Integer code;
     private String msg;
@@ -13,6 +15,9 @@ public class LayUiDataUtil {
         this.msg = msg;
         this.count = count;
         this.data = data;
+    }
+    public LayUiDataUtil(){
+
     }
 
 
@@ -45,6 +50,6 @@ public class LayUiDataUtil {
     }
 
     public void setData(Object data) {
-        this.data = data;
+        this.data=data;
     }
 }
