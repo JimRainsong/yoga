@@ -9,12 +9,14 @@ public class ManagerViewController {
 
     @RequestMapping("/boos")
     public String ok(){
-        return "menager/mvenues";
+        return "manager/mvenues";
     }
 
     @RequestMapping("/manage")
     public String l(){
-        return "menager/managerhtml";
+        return "manager/managerhtml";
     }
 
+    @RequestMapping("/ve")
+    public String ceshi4_1(){return "manager/venueapprove";}
 }
