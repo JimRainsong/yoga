@@ -81,5 +81,5 @@ public interface UserService {
     String orderSelfCourse1(int user_id,int teacher_id,int venue_id);
 
 
-
+    List<Ad> selectAd();
 }
