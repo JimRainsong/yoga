@@ -83,7 +83,7 @@ public class TeacherController {
         }
         //通过 username在数据库中找 user 判断是否重名
 
-        User user = userService.selectUserByUserName1(username);//搜索一个 TeacherService.selectUserbyUserName
+        User user = userService.selectUserByUserName(username);//搜索一个 TeacherService.selectUserbyUserName
         if (user!=null){
             return  ResultUtil.error("；用户名已经存在了哦亲亲 请换一个");
         }

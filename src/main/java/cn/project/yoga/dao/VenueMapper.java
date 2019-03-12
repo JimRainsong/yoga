@@ -30,4 +30,6 @@ public interface VenueMapper {
      * */
     @Update("update venue set auth_state =#{val} where venue_id =#{venueId}")
     int upApproveByvenueId(@Param("venueId") Integer venueId, @Param("val") Integer val);
+
+    List<Venue> selectMyVen1(int user_id);
 }
