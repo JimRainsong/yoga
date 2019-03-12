@@ -10,7 +10,7 @@ public interface UserService {
      * @param userName
      * @return
      */
-    User selectUserByUserName1(String userName);
+    User selectUserByUserName(String userName);
 
     /**
      * 更新用户信息是否可查看

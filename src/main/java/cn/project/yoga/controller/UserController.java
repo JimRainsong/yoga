@@ -22,7 +22,7 @@ public class UserController {
     @RequestMapping("/update")
     @ResponseBody
     public String updateInfo(User user){
-       String state = userService.updateUserInfo(user);
+       String state = userService.updateUserInfo1(user);
        return state;
     }
 }

@@ -18,8 +18,8 @@ public class UserServiceImpl implements UserService {
     private VenueMapper venueMapper;
 
     @Override
-    public User selectUserByUserName1(String userName) {
-        return userMapper.selectUserByUserName1(userName);
+    public User selectUserByUserName(String userName) {
+        return userMapper.selectUserByUserName(userName);
     }
 
     /**

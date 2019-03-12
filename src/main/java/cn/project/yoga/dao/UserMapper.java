@@ -21,7 +21,7 @@ public interface UserMapper {
     int updateByPrimaryKey(User record);
 
     @Select("select * from user where userName=#{userName}")
-    User selectUserByUserName1(String userName);
+    User selectUserByUserName(String userName);
 
     /**
      * 修改个人信息
