@@ -18,5 +18,5 @@ public class ManagerViewController {
     }
 
     @RequestMapping("/ve")
-    public String ceshi4_1(){return "manager/venueapprove";}
+    public String ceshi4_1(){return "manager/venueapproveandteacher";}
 }

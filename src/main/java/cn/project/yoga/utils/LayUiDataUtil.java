@@ -52,4 +52,36 @@ public class LayUiDataUtil {
     public void setData(Object data) {
         this.data=data;
     }
+
+    public LayUiDataUtil(Integer code) {
+        this.code = code;
+    }
+    public LayUiDataUtil(Integer code, String msg) {
+        this.code = code;
+        this.msg = msg;
+    }
+
+    public LayUiDataUtil(Integer code, Object data) {
+        this.code = code;
+        this.data = data;
+    }
+    public static LayUiDataUtil ok(){
+        return new LayUiDataUtil(0);
+    }
+
+    public static LayUiDataUtil ok(String msg){
+        return new LayUiDataUtil(0,msg);
+    }
+
+    public static LayUiDataUtil ok(Object data){
+        return new LayUiDataUtil(0,data);
+    }
+
+    public static LayUiDataUtil error(){
+        return new LayUiDataUtil(500);
+    }
+
+    public static LayUiDataUtil error(String msg){
+        return new LayUiDataUtil(500,msg);
+    }
 }

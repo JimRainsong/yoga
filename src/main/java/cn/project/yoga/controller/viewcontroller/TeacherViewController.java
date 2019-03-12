@@ -2,6 +2,7 @@ package cn.project.yoga.controller.viewcontroller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 @RequestMapping("/teacher")
@@ -18,6 +19,11 @@ public class TeacherViewController {
     public String page5() {
         return "teacher/page5";
     }
+
+    @RequestMapping("/loginAndRegister")
+    public String loginAndRegister() {
+        return "teacher/loginAndRegister";
+    }
     /**
      * 以上是自己写的
      */
@@ -26,4 +32,11 @@ public class TeacherViewController {
     public String register() {
         return "teacher/register";
     }
+
+    @RequestMapping("/info")
+    public String info(){
+        return "teacher/g1";
+    }
+
+
 }

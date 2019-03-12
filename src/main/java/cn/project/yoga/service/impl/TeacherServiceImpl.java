@@ -26,5 +26,13 @@ public class TeacherServiceImpl implements TeacherService {
         return  teacherMapper.insert_userid_teacher2(username);
     }
 
+    /** zjl
+     * 根据教练id,更新教练的认证信息
+     * */
+    @Override
+    public int updateIfauthById4_1(Integer teacherId, Integer val) {
+        return teacherMapper.updateTeacherIf_authById(teacherId,val);
+    }
+
 
 }

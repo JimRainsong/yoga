@@ -1,8 +1,10 @@
 package cn.project.yoga.controller;
 
 
+import cn.project.yoga.pojo.Teacher;
 import cn.project.yoga.pojo.Venue;
 import cn.project.yoga.service.ManagerService;
+import cn.project.yoga.service.TeacherService;
 import cn.project.yoga.utils.ManagerUtil;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,26 +25,24 @@ public class ManagerController {
 
     @Autowired
     private ManagerService managerService;
+    @Autowired
+    private TeacherService teacherService;
 
     /*场馆分页查询数据*/
     @RequestMapping("/selallvenues")
     @ResponseBody
     public Map<String,Object> allvenues4_1(@RequestParam(value = "page",defaultValue = "1",required = false)Integer currentPage,@RequestParam(value = "rows"
             ,defaultValue = "10",required = false)Integer
-            pageSize){
+            pageSize, String venueName){
         System.out.println("获取数据-"+currentPage+"----"+pageSize);
-
-        List<Venue> listvenues4_1 = managerService.selAllVenues4_1(currentPage,pageSize);
-        for (Venue venue : listvenues4_1) {
-            System.out.println("获取查询数据:"+venue);
-        }
+        System.out.println("前端获取模糊数据+"+venueName);
+        List<Venue> listvenues4_1 = managerService.selAllVenues4_1(currentPage,pageSize,venueName);
         PageInfo pageinfo = new PageInfo(listvenues4_1);
         Map<String,Object> map = new HashMap<>();
         map.put("rows",listvenues4_1);
         map.put("total",pageinfo.getTotal());
         return map;
     }
-
 
 
     /*场馆认证*/
@@ -55,6 +55,31 @@ public class ManagerController {
             return ManagerUtil.ok("更改成功");
         }
         return ManagerUtil.error("更改失败");
+    }
+
+    /*查询所有未认证的教练信息*/
+    @RequestMapping("/selallteacher")
+    @ResponseBody
+    public Map<String,Object> selAllTeacher(@RequestParam(value = "page",defaultValue = "1",required = false)Integer currentPage,@RequestParam(value = "rows"
+            ,defaultValue = "10",required = false)Integer
+            pageSize,String teacherName){
+       List<Teacher> listteacher = managerService.selAllTeacherByapprove(currentPage,pageSize,teacherName);
+        PageInfo pageInfoTwo = new PageInfo(listteacher);
+        Map<String,Object> mapTwo = new HashMap<>();
+        mapTwo.put("rows",listteacher);
+        mapTwo.put("total",pageInfoTwo.getTotal());
+        return mapTwo;
+    }
+
+    /*更改教练认证信息*/
+    @RequestMapping("/updateteacher")
+    @ResponseBody
+    public ManagerUtil updateTeacher(Integer teacherId,Integer val){
+        int result = teacherService.updateIfauthById4_1(teacherId,val);
+        if (result >0){
+            return ManagerUtil.ok("认证成功");
+        }
+        return ManagerUtil.error("认证失败");
     }
 
 }

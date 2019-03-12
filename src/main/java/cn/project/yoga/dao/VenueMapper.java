@@ -20,10 +20,18 @@ public interface VenueMapper {
 
     int updateByPrimaryKey(Venue record);
 
-    /** zjl
+    /** zjl    模糊查询
      * 查询所有未认证的场馆*/
-    @Select("select * from venue where auth_state !=0")
-    List<Venue> selAllVenues4_1(@Param("currentPage") Integer currentPage, @Param("pageSize") Integer pageSize);
+    @Select("<script>"+
+            "select * from venue"+
+            "<where>"+
+            "<if test='venueName !=null and  \"\"!=venueName'>" +
+            "and venue_name like '%' #{venueName} '%'"+
+            "</if>"+
+            "and auth_state !=0"+
+            "</where>" +
+            "</script>")
+    List<Venue> selAllVenues4_1(@Param("currentPage") Integer currentPage, @Param("pageSize") Integer pageSize,@Param("venueName") String venueName);
 
     /** zjl
      * 根据场馆id 更改认证状态
@@ -32,4 +40,8 @@ public interface VenueMapper {
     int upApproveByvenueId(@Param("venueId") Integer venueId, @Param("val") Integer val);
 
     List<Venue> selectMyVen1(int user_id);
+
+
+
+
 }

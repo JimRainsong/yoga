@@ -15,7 +15,7 @@ import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @Controller
-@RequestMapping("/venue")
+@RequestMapping("/venueDate")
 public class VenueController {
      @Autowired
      private VenueService venueService;

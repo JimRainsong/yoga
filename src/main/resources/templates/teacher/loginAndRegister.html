@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Lowin</title>
+    <link rel="stylesheet" th:href="@{/css/teacher/auth.css}">
+    <script th:src="@{/js/jquery.min.js}"></script>
+</head>
+
+<body>
+<div class="lowin">
+    <div class="lowin-brand">
+        <img th:src="@{/img/kodinger.jpg}" alt="logo">
+    </div>
+    <div class="lowin-wrapper">
+        <div class="lowin-box lowin-login">
+            <div class="lowin-box-inner">
+                <form>
+                    <p>登录</p>
+                    <div class="lowin-group">
+                        <label>账号<a href="#" class="login-back-link">Sign in?</a></label>
+                        <input type="text" id="loginName" class="lowin-input"
+                               placeholder="邮箱或者用户名">
+                    </div>
+                    <div class="lowin-group password-group">
+                        <label>密码<a href="#" class="forgot-link">忘记密码?</a></label>
+                        <input type="password" id="loginPass" autocomplete="current-password" class="lowin-input">
+                    </div>
+                    <button class="lowin-btn login-btn" onclick="login()">
+                        确认
+                    </button>
+
+                    <div class="text-foot">
+                        还没有账号? <a href="" class="register-link">前往注册</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="lowin-box lowin-register">
+            <div class="lowin-box-inner">
+                <form>
+                    <p>开启你的教练生涯</p>
+                    <div class="lowin-group">
+                        <label>用户名</label>
+                        <input type="text" id="userName" autocomplete="name" class="lowin-input">
+                    </div>
+                    <div class="lowin-group">
+                        <label>密码</label>
+                        <input type="password" id="password1" class="lowin-input">
+                    </div>
+                    <div class="lowin-group">
+                        <label>再次</label>
+                        <input type="password" id="password2" autocomplete="current-password" class="lowin-input"
+                               placeholder="确认密码">
+                    </div>
+                    <button class="lowin-btn" onclick="register()">
+                        注册
+                    </button>
+
+                    <div class="text-foot">
+                        已有账号? <a href="" class="login-link">去登陆</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <footer class="lowin-footer">
+        <a href="http://www.cssmoban.com/" target="_blank" title="模板之家"></a>
+        <a href="http://www.cssmoban.com/" title="网页模板" target="_blank"></a>
+    </footer>
+</div>
+
+<script th:src="@{/js/auth.js}"></script>
+<script>
+    Auth.init({
+        login_url: '#login',
+        forgot_url: '#forgot'
+    });
+
+    function register() {
+        var userName = $("#userName").val();
+        var password1 = $("#password1").val();
+        var password2 = $("#password2").val();
+        $.ajax({
+            url: "/teacher/register",
+            type: "post",
+            data: {
+                "userName": userName,
+                "password1": password1,
+                "password2": password2
+            }, success: function (mes) {
+                if (mes.code != 0) {
+                    showMessage(mes.message);
+                }
+            }
+        })
+    }
+
+    function login() {
+        alert("登录中");
+        var username = $("#loginName").val();
+        var password = $("#loginPass").val();
+        $.ajax({
+            url: "/yoga/teacher/login",
+            type: "post",
+            data: {
+                "userName": username,
+                "password": password
+            },
+            dataType: "json",
+            success: function (mes) {
+                if (mes.code == 0) {
+                    window.location.href = "/yoga/teacher/page5";
+                    window.parent.showPage(1);
+                } else {
+                    showMessage(mes.message);
+                }
+            }
+        })
+    }
+</script>
+</body>
+</html>

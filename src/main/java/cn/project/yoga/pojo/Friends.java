@@ -1,5 +1,7 @@
 package cn.project.yoga.pojo;
 
+import java.util.Date;
+
 public class Friends {
     private Integer fId;
 
@@ -8,6 +10,16 @@ public class Friends {
     private String fDetail;
 
     private Integer flag;
+
+    private Date fTime;
+
+    public Date getfTime() {
+        return fTime;
+    }
+
+    public void setfTime(Date fTime) {
+        this.fTime = fTime;
+    }
 
     public Integer getfId() {
         return fId;

@@ -21,7 +21,7 @@ public class CustomRealm extends AuthorizingRealm {
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken) throws AuthenticationException {
         String userName = authenticationToken.getPrincipal().toString();
-        User user = userService.selectUserByUserName(userName);
+        User user = userService.selectUserByUserName2(userName);
         ByteSource by = ByteSource.Util.bytes(user.getUserName());
         SimpleAuthenticationInfo info = new SimpleAuthenticationInfo(user.getUserName(), user.getPassword(), by, getName());
         return info;

@@ -3,7 +3,6 @@ package cn.project.yoga.dao;
 import cn.project.yoga.pojo.User;
 
 import cn.project.yoga.pojo.Vip_record;
-import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
@@ -48,13 +47,4 @@ public interface UserMapper {
      */
     @Select("select * from vip_crcord where user_id=#{0} and venue_id=#{1}")
     Vip_record queryVip1(@Param("user_id") int user_id,@Param("venue_id") int venue_id);
-
-    /**
-     * 关注其他用户
-     * @param user_id  自己的id
-     * @param other_user_id  其他人的id
-     * @return  row 影响行数
-     */
-    @Insert("insert into attention values(default,#{0},#{1},default)")
-    int insertIntoAttention(int user_id, int other_user_id);
 }

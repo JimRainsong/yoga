@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>场馆认证</title>
+    <link rel="stylesheet" th:href="@{/css/themes/icon.css}">
+    <link rel="stylesheet" th:href="@{/css/themes/default/easyui.css}">
+    <link rel="stylesheet" th:href="@{/css/themes/tree.css}">
+    <script th:src="@{/js/jquery.min.js}"></script>
+    <script th:src="@{/js/jquery.easyui.min.js}"></script>
+    <script th:src="@{/js/easyui-lang-zh_CN.js}"></script>
+</head>
+<body>
+<table id="dg" class="easyui-datagrid"
+       data-options="width:1000,title:'场馆认证操作(提示 : 1 为未认证; 2 为拒绝认证)',url:'/yoga/manager/selallvenues',fitColumns:true,striped:true,pagination:true,rownumbers:true,pageNumber:1,pageSize:5,pageList:[5,10,15],toolbar:'#tb'">
+    <thead>
+    <tr>
+        <th data-options="field:'venueId',title:'场馆编号',width:80,align:'center'"></th>
+        <th data-options="field:'userId',title:'用户ID',width:80,align:'center'"></th>
+        <th data-options="field:'venueName',title:'场馆名称',width:80,align:'center'"></th>
+        <th data-options="field:'venueAddress',title:'场馆地址',width:80,align:'center'"></th>
+        <th data-options="field:'venuePhone',title:'场馆电话',width:80,align:'center'"></th>
+        <th data-options="field:'qq',title:'场馆QQ',width:80,align:'center'"></th>
+        <th data-options="field:'venueDetails',title:'场馆详细信息',width:80,align:'center'"></th>
+        <th data-options="field:'authInfo',title:'认证资料',width:80,align:'center'"></th>
+        <th data-options="field:'authState',title:'认证是否通过',width:80,align:'center'"></th>
+    </tr>
+    </thead>
+</table>
+<div id="tb">
+    <a class="easyui-linkbutton" data-options="iconCls:'icon-add'" onclick="updatevenue()">认证场馆</a>
+    <form>
+        场馆名：<input type="text" name="venueName" id="venueName">
+        <a class="easyui-linkbutton" data-options="iconCls:'icon-search'" onclick="searchVenue()">搜索</a>
+    </form>
+</div>
+
+<div id="dlg" class="easyui-dialog" data-options="width:520,height:100,modal:true,closed:true" style="padding: 20px">
+    <button onclick="update(0)">通过认证</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <button onclick="update(1)">未通过认证</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <button onclick="update(2)">拒绝认证</button>
+</div>
+<div style="width: 800px;height: 200px"></div><!--分割符-->
+<table id="dgtwo" class="easyui-datagrid"
+       data-options="width:1000,title:'教练认证操作(提示 : 1 为未认证; 2 为拒绝认证)',url:'/yoga/manager/selallteacher',fitColumns:true,striped:true,pagination:true,rownumbers:true,pageNumber:1,pageSize:5,pageList:[5,10,15],toolbar:'#tbtwo'">
+    <thead>
+    <tr>
+        <th data-options="field:'teacherId',title:'教练编号',width:80,align:'center'"></th>
+        <th data-options="field:'teacherName',title:'教练姓名',width:80,align:'center'"></th>
+        <th data-options="field:'teacherPhone',title:'教练电话',width:80,align:'center'"></th>
+        <th data-options="field:'teacherQq',title:'教练QQ',width:80,align:'center'"></th>
+        <th data-options="field:'teacherIdnum',title:'教练身份证号',width:80,align:'center'"></th>
+        <th data-options="field:'teacherSex',title:'教练性别',width:80,align:'center'"></th>
+        <th data-options="field:'authInfo',title:'教练详细信息',width:80,align:'center'"></th>
+        <th data-options="field:'ifAuth',title:'是否认证通过',width:80,align:'center'"></th>
+    </tr>
+    </thead>
+</table>
+<div id="tbtwo">
+    <a class="easyui-linkbutton" data-options="iconCls:'icon-add'" onclick="updateteacher()">认证教练</a>
+</div>
+<div id="dlgtwo" class="easyui-dialog" data-options="width:520,height:100,modal:true,closed:true" style="padding: 20px">
+    <button onclick="updatetwo(0)">通过认证</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <button onclick="updatetwo(1)">未通过认证</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <button onclick="updatetwo(2)">拒绝认证</button>
+</div>
+</body>
+<script>
+    /*修改场馆信息,点击展开认证窗口*/
+    function updatevenue() {
+        var rows = $("#dg").datagrid("getSelections");
+        if (rows.length != 1) {
+            $.messager.alert("提示", "请选择一条数据进行操作");
+            return;
+        }
+        $("#dlg").dialog("open").dialog("setTitle", "场馆认证");
+    }
+
+    function update(data) {
+        $.ajax({
+            url: '/yoga/manager/updatevenue',
+            type: 'post',
+            data: {
+                venueId: $("#dg").datagrid("getSelected").venueId,
+                val: data
+            },
+            success: function (data) {
+                if (data.ok == 0) {
+                    $.messager.alert("提示", data.message);
+                    $("#dlg").dialog("close");
+                    $("#dg").datagrid("reload");
+                } else {
+                    $.messager.alert("提示", data.message);
+                }
+
+            }
+        })
+    }
+
+    /*模糊查询场馆*/
+    function searchVenue() {
+        $("#dg").datagrid("reload", {
+            venueName: $("#venueName").val()
+        });
+    }
+
+    /*修改教练信息,展开认证窗口*/
+    function updateteacher() {
+        var rows = $("#dgtwo").datagrid("getSelections");
+        if (rows.length != 1) {
+            $.messager.alert("提示", "请选择一条数据进行操作");
+            return;
+        }
+        $("#dlgtwo").dialog("open").dialog("setTitle", "教练认证");
+    }
+
+    /*认证教练,修改认证信息*/
+    function updatetwo(datatwo) {
+        $.ajax({
+            url: '/yoga/manager/updateteacher',
+            type: 'post',
+            data: {
+                teacherId: $("#dgtwo").datagrid("getSelected").teacherId,
+                val: datatwo
+            },
+            success: function (data) {
+                if (data.ok == 0) {
+                    $.messager.alert("提示", data.message);
+                    $("#dlgtwo").dialog("close");
+                    $("#dgtwo").datagrid("reload");
+                } else {
+                    $.messager.alert("提示", data.message);
+                }
+
+            }
+        })
+    }
+
+
+
+</script>
+</html>
