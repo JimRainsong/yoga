@@ -8,10 +8,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class VenueUserViewControllt {
     @RequestMapping("/login")
     public String login() {
-        return "user/cyz/login";
+        return "venue/login";
     }
     @RequestMapping("/register")
     public String register() {
-        return "user/cyz/register";
+        return "venue/register";
     }
 }
