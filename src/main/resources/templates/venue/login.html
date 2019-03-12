@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>login</title>
+    <link rel="stylesheet" th:href="@{/layui/css/layui.css}">
+    <script th:src="@{/js/jquery.min.js}"></script>
+    <script th:src="@{/layui/layer/layer.js}"></script>
+    <style>
+        #body01  {
+            background-image: url("/yoga/img/bgimg.jpg");
+            background-size:cover;
+            width:1100px;
+            height:650px;
+            z-index: 1;
+        }
+        #body02 {
+            background-color: white ;
+            background-color:rgba(0,0,0,0.2);
+            width: 350px;
+            height: 500px;
+            position:absolute;
+            margin-top: 100px;
+            right: 20px;
+            z-index: 10;
+            line-height: 200px;
+        }
+        #body03{
+
+            margin: 0 auto;
+
+        }
+    </style>
+</head>
+<body id="body01">
+
+
+<div  id="body02"  >
+<div id="body03">
+    &nbsp;&nbsp;<input value="欢迎来到！YOGA！！" style="font-size: 30px;background-color:rgba(0,0,0,0.2);">
+    <div class="layui-form-item">
+            <label class="layui-form-label">账号</label>
+            <div class="layui-input-inline">
+                <input type="text" name="userName" required lay-verify="required" placeholder="请输入账号" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">密码</label>
+            <div class="layui-input-inline">
+                <input type="password" name="password" required lay-verify="required" placeholder="请输入密码" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button  onclick="login()">登录</button>
+                <button  id="regi">注册</button>
+
+            </div>
+        </div>
+
+
+</div>
+
+</div>
+<script th:src="@{/layui/layui.js}"></script>
+
+<script>
+
+    $('#regi').on('click', function(){
+        layer.open({
+            type: 2,
+            title: '注册',
+            maxmin: true,
+            shadeClose: true, //点击遮罩关闭层
+            area : ['800px' , '520px'],
+            content: '/yoga/venueUser/register'
+        });
+    });
+     function login() {
+    }
+</script>
+
+</body>
+</html>
