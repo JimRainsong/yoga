@@ -25,7 +25,7 @@ public interface VenueMapper {
      * @return
      */
     @Select("select * from venue where flag=0 and auth_state=0")
-    List<Venue> selectAllVenue4();
+    List<Venue> selectAllVenue1();
 
     /**
      * 查询所有场馆
@@ -34,5 +34,5 @@ public interface VenueMapper {
      * @return
      */
     @Select("select * from venue where venue_id in (select venue_id from vip_type where vip_type_id in (select vip_type_id from vip_record where user_id=#{0}))")
-    List<Venue> selectMyVenue4(int user_id);
+    List<Venue> selectMyVenue1(int user_id);
 }

@@ -21,7 +21,7 @@ public interface UserMapper {
     int updateByPrimaryKey(User record);
 
     @Select("select * from user where userName=#{userName}")
-    User selectUserByUserName4(String userName);
+    User selectUserByUserName1(String userName);
 
     /**
      * 修改个人信息
@@ -29,7 +29,7 @@ public interface UserMapper {
      * @return
      */
     @Update("update user set phone_number=#{phoneNumber} where user_id=#{0}")
-    int updateUserInfo4(User user);
+    int updateUserInfo1(User user);
 
     /**
      * 修改个人信息状态
@@ -37,7 +37,7 @@ public interface UserMapper {
      * @return  影响行数
       */
     @Update("update user set info_state=#{0}")
-    int updateInfostate(String state);
+    int updateInfostate1(String state);
 
     /**
      * 根据场馆id和用户id查询是不是当前场馆的会员
@@ -46,5 +46,5 @@ public interface UserMapper {
      * @return
      */
     @Select("select * from vip_crcord where user_id=#{0} and venue_id=#{1}")
-    Vip_record queryVip(@Param("user_id") int user_id,@Param("venue_id") int venue_id);
+    Vip_record queryVip1(@Param("user_id") int user_id,@Param("venue_id") int venue_id);
 }

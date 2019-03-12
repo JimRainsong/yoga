@@ -18,8 +18,8 @@ public class UserServiceImpl implements UserService {
     private VenueMapper venueMapper;
 
     @Override
-    public User selectUserByUserName(String userName) {
-        return userMapper.selectUserByUserName4(userName);
+    public User selectUserByUserName1(String userName) {
+        return userMapper.selectUserByUserName1(userName);
     }
 
     /**
@@ -29,8 +29,8 @@ public class UserServiceImpl implements UserService {
      * @return  int 影响行数
      */
     @Override
-    public String updateUserInfo(User user) {
-        int row = userMapper.updateUserInfo4(user);
+    public String updateUserInfo1(User user) {
+        int row = userMapper.updateUserInfo1(user);
         if (row==1){
             return "修改状态成功";
         }
@@ -43,40 +43,40 @@ public class UserServiceImpl implements UserService {
      * @return
      */
     @Override
-    public List<Venue> selectMyVenue4(int user_id) {
+    public List<Venue> selectMyVenue1(int user_id) {
         List<Venue> venues=venueMapper.selectMyVenue4(user_id);
         return venues;
     }
 
     @Override
-    public String buyVipCard(int user_id, int vip_type_id, int venue_id) {
+    public String buyVipCard1(int user_id, int vip_type_id, int venue_id) {
         return null;
     }
 
     @Override
-    public List<Myself_course> selectMySelfCourse(int user_id) {
+    public List<Myself_course> selectMySelfCourse1(int user_id) {
         return null;
     }
 
     @Override
-    public List<My_course> selectMyCourse(int user_id) {
+    public List<My_course> selectMyCourse1(int user_id) {
         return null;
     }
 
     @Override
-    public List<Attention> selectAllAttention() {
+    public List<Attention> selectAllAttention1() {
         return null;
     }
 
     @Override
-    public List<Course> venueCourse(int venue_id) {
+    public List<Course> venueCourse1(int venue_id) {
         return null;
     }
 
     @Override
-    public String intoCourse(int user_id, int course_id,int venue_id) {
+    public String intoCourse1(int user_id, int course_id,int venue_id) {
         //1.判断是不是该场馆会员，如果不是，返回‘您还不是此场馆会员’
-        Vip_record vip_record=userMapper.queryVip(user_id,venue_id);
+        Vip_record vip_record=userMapper.queryVip1(user_id,venue_id);
         if (vip_record==null){
             return "您还不是该场馆会员，无法预约";
         }
@@ -87,7 +87,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public String orderSelfCourse(int user_id, int teacher_id, int venue_id) {
+    public String orderSelfCourse1(int user_id, int teacher_id, int venue_id) {
         return null;
     }
 }

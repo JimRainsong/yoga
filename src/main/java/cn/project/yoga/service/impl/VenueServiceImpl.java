@@ -11,7 +11,7 @@ public class VenueServiceImpl implements VenueService {
     @Autowired
     private VenueMapper venueMapper;
     @Override
-    public List<Venue> selectAllVenue4() {
-        return venueMapper.selectAllVenue4();
+    public List<Venue> selectAllVenue1() {
+        return venueMapper.selectAllVenue1();
     }
 }
