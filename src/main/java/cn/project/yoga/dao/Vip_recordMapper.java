@@ -3,6 +3,10 @@ package cn.project.yoga.dao;
 import cn.project.yoga.pojo.Vip_record;
 
 public interface Vip_recordMapper {
+    //添加会员记录
+
+    int addVipRecord(Vip_record vip_record);
+
     int deleteByPrimaryKey(Integer vipId);
 
     int insert(Vip_record record);
