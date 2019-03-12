@@ -21,4 +21,9 @@ public class TeacherViewController {
     /**
      * 以上是自己写的
      */
+    //注册
+    @RequestMapping("/reg")
+    public String register() {
+        return "teacher/register";
+    }
 }
