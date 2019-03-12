@@ -1,10 +1,17 @@
 package cn.project.yoga.service;
 
+import cn.project.yoga.pojo.Moment;
+import cn.project.yoga.pojo.User;
 import cn.project.yoga.pojo.*;
 
 import java.util.List;
 
+import java.util.List;
+
 public interface UserService {
+    User selectUserByUserName2(String userName);
+
+    List<Moment> allMoments2();
     /**
      * 通过用户名查密码
      * @param userName

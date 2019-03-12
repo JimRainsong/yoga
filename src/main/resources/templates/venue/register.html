@@ -1,17 +1,75 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <title>注册</title>
+    <link rel="stylesheet" th:href="@{/layui/css/layui.css}">
+    <script th:src="@{/js/jquery.min.js}"></script>
+    <script th:src="@{/layui/layer/layer.js}"></script>
     <style type="text/css">
         #body01 {
-            width: 300px;
-            height: 300px;
+            width: 400px;
+            height: 400px;
+            text-align:center;
+            margin: 0 auto;
         }
     </style>
 </head>
 <body id="body01">
-n
-撒
+&nbsp;&nbsp;<input value="欢迎来到！YOGA！！" style="font-size: 20px;background-color:rgba(0,0,0,0.2);"><br><br><br>
+<div class="layui-form-item">
+    <label class="layui-form-label">账号</label>
+    <div class="layui-input-inline">
+        <input type="text" name="userName" id="userName" required lay-verify="required" placeholder="请输入账号" autocomplete="off" class="layui-input">
+    </div>
+</div>
+<div class="layui-form-item">
+    <label class="layui-form-label">密码</label>
+    <div class="layui-input-inline">
+        <input type="password" name="password" id="password" required lay-verify="required" placeholder="请输入密码" autocomplete="off" class="layui-input">
+    </div>
+</div>
+<div class="layui-form-item">
+    <label class="layui-form-label">再次输入密码</label>
+    <div class="layui-input-inline">
+        <input type="password" name="password" id="password1" required lay-verify="required" placeholder="请再次输入密码" autocomplete="off" class="layui-input">
+    </div>
+</div>
+<div class="layui-form-item">
+    <div class="layui-input-block" >
+        <button class="layui-btn"  onclick="register()" >确定</button>
+        <button  class="layui-btn" onclick="exits()" >返回</button>
+    </div>
+</div>
+<script th:src="@{/layui/layui.js}"></script>
+<script>
+    function exits() {
+        // location.href="/yoga/venueUser/login";
+    }
+    function register(){
+    $.ajax({
+            url : "/yoga/venueUserDate/registerVenue",
+            type : "post",
+            data : {
+                userName : $("#userName").val(),
+                password : $("#password").val(),
+                password1 : $("#password1").val()
+            },
+            dataType : "json",
+            success : function(data) {
+                var json = eval('('+data+')');
+                alert(json);
+                if(json.code == 0){
+                    location.href="/yoga/venueUser/login";
+                }else{
+                    $.messager.alert('系统提示',json.message);
+                }
+            }
+
+
+        })
+    }
+</script>
 </body>
 </html>

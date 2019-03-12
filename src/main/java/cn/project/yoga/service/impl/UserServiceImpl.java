@@ -1,6 +1,10 @@
 package cn.project.yoga.service.impl;
 
+import cn.project.yoga.dao.MomentMapper;
+import cn.project.yoga.dao.MomentMapper;
 import cn.project.yoga.dao.UserMapper;
+import cn.project.yoga.pojo.Moment;
+import cn.project.yoga.pojo.User;
 import cn.project.yoga.dao.VenueMapper;
 import cn.project.yoga.pojo.*;
 import cn.project.yoga.service.UserService;
@@ -9,17 +13,31 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+import java.util.List;
+
 @Service
 public class UserServiceImpl implements UserService {
     @Autowired
     private UserMapper userMapper;
+    @Autowired
+    private MomentMapper momentMapper;
 
     @Autowired
     private VenueMapper venueMapper;
 
     @Override
+    public User selectUserByUserName2(String userName) {
+        return userMapper.selectUserByUserName2(userName);
+    }
+
+    @Override
+    public List<Moment> allMoments2() {
+        return momentMapper.allMoments2();
+    }
+
+    @Override
     public User selectUserByUserName(String userName) {
-        return userMapper.selectUserByUserName(userName);
+        return null;
     }
 
     /**

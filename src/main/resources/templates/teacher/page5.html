@@ -8,8 +8,7 @@
 </head>
 <body>
 <shiro:guest>
-    <div class="logout">请<span onclick="openDialog('message','block')">注册</span>或者<span
-            onclick="openDialog('loginWindow','block')">登陆</span></div>
+    <div class="logout">请<a th:href="@{/teacher/loginAndRegister}">注册或者登陆</a></div>
 </shiro:guest>
 <shiro:authenticated>
     <div class="logined">
