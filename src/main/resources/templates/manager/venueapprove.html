@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>场馆认证</title>
+    <link rel="stylesheet" th:href="@{/css/themes/icon.css}">
+    <link rel="stylesheet" th:href="@{/css/themes/default/easyui.css}">
+    <link rel="stylesheet" th:href="@{/css/themes/tree.css}">
+    <script th:src="@{/js/jquery.min.js}"></script>
+    <script th:src="@{/js/jquery.easyui.min.js}"></script>
+    <script th:src="@{/js/easyui-lang-zh_CN.js}"></script>
+</head>
+<body>
+<table id="dg" class="easyui-datagrid"  data-options="width:1000,title:'场馆认证操作',url:'/yoga/manager/selallvenues',fitColumns:true,striped:true,pagination:true,rownumbers:true,pageNumber:1,pageSize:5,pageList:[5,10,15],toolbar:'#tb'">
+<thead>
+<tr>
+    <th data-options="field:'venueId',title:'场馆编号',width:80,align:'center'"></th>
+    <th data-options="field:'userId',title:'用户ID',width:80,align:'center'"></th>
+    <th data-options="field:'venueName',title:'场馆名称',width:80,align:'center'"></th>
+    <th data-options="field:'venueAddress',title:'场馆地址',width:80,align:'center'"></th>
+    <th data-options="field:'venuePhone',title:'场馆电话',width:80,align:'center'"></th>
+    <th data-options="field:'qq',title:'场馆QQ',width:80,align:'center'"></th>
+    <th data-options="field:'venueDetails',title:'场馆详细信息',width:80,align:'center'"></th>
+    <th data-options="field:'authInfo',title:'认证资料',width:80,align:'center'"></th>
+    <th data-options="field:'authState',title:'认证是否通过',width:80,align:'center'"></th>
+</tr>
+</thead>
+</table>
+<div id="tb">
+    <a class="easyui-linkbutton" data-options="iconCls:'icon-add'" onclick="updatevenue()">认证场馆</a>
+</div>
+
+<div id="dlg" class="easyui-dialog" data-options="width:520,height:400,modal:true,closed:true" style="padding: 20px">
+<button onclick="update(0)">通过认证</button>
+<button onclick="update(1)">未通过认证</button>
+<button onclick="update(2)">拒绝认证</button>
+</div>
+</body>
+<script>
+    /*修改场馆信息,点击展开认证窗口*/
+    function updatevenue() {
+        var rows = $("#dg").datagrid("getSelections");
+        if (rows .length !=1){
+            $.messager.alert("提示","请选择一条数据进行操作");
+            return;
+        }
+        $("#dlg").dialog("open").dialog("setTitle","场馆认证,1为未认证;2为拒绝认证");
+    }
+
+    function update(data) {
+        $.ajax({
+            url:'/yoga/manager/updatevenue',
+            type:'post',
+            data:{
+                venueId:$("#dg").datagrid("getSelected").venueId,
+                val:data
+            },
+            success:function (data) {
+                if (data.ok ==0){
+                    $.messager.alert("提示",data.message);
+                    $("#dlg").dialog("close");
+                    $("#dg").datagrid("reload");
+                }else{
+                    $.messager.alert("提示",data.message);
+                }
+
+            }
+        })
+    }
+</script>
+</html>
