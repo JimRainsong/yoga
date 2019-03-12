@@ -14,4 +14,12 @@ public class VenueUserViewControllt {
     public String register() {
         return "venue/register";
     }
+    @RequestMapping("/venueIndex")
+    public String venueIndex() {
+        return "venue/venueIndex";
+    }
+    @RequestMapping("/student")
+    public String student() {
+        return "venue/student";
+    }
 }
