@@ -17,6 +17,7 @@ public class YogaApplicationTests {
 
     @Test
     public void contextLoads() {
+
         System.out.println(userService.selectUserByUserName("coach").getUserName());
     }
 
