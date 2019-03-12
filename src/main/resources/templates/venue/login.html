@@ -27,7 +27,7 @@
             line-height: 200px;
         }
         #body03{
-
+            text-align:center;
             margin: 0 auto;
 
         }
@@ -73,12 +73,11 @@
             title: '注册',
             maxmin: true,
             shadeClose: true, //点击遮罩关闭层
-            area : ['800px' , '520px'],
+            area : ['600px' , '500px'],
             content: '/yoga/venueUser/register'
         });
     });
      function login() {
-         alert($("#userName").val());
          $.ajax({
              url : "/yoga/venueUserDate/loginVenue",
              type : "post",
@@ -88,12 +87,14 @@
              },
              dataType : "json",
              success : function(data) {
-                 var json = eval('('+data+')');
-                 if(json.code == 0){
-                     location.href="/register";
-                 }else{
-                     $.messager.alert('系统提示',json.message);
-                 }
+                 alert(data);
+                 location.href="/yoga/venueUser/register";
+                 // var json = eval('('+data+')');
+                 // if(json.code == 0){
+                 //
+                 // }else{
+                 //     $.messager.alert('系统提示',json.message);
+                 // }
              }
 
 
