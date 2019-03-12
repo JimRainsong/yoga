@@ -6,12 +6,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequestMapping("/venue")
 public class VenueViewController {
-    @RequestMapping("/login")
-    public String login() {
-        return "user/cyz/login";
+    @RequestMapping("/demo")
+    public String demo() {
+        return "venue/Demo";
     }
     @RequestMapping("/register")
-    public String register() {
+    public String other() {
         return "user/cyz/regist";
     }
 
