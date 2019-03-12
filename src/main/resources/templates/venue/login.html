@@ -42,13 +42,13 @@
     <div class="layui-form-item">
             <label class="layui-form-label">账号</label>
             <div class="layui-input-inline">
-                <input type="text" name="userName" required lay-verify="required" placeholder="请输入账号" autocomplete="off" class="layui-input">
+                <input type="text" name="userName" id="userName" required lay-verify="required" placeholder="请输入账号" autocomplete="off" class="layui-input">
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">密码</label>
             <div class="layui-input-inline">
-                <input type="password" name="password" required lay-verify="required" placeholder="请输入密码" autocomplete="off" class="layui-input">
+                <input type="password" name="password" id="password" required lay-verify="required" placeholder="请输入密码" autocomplete="off" class="layui-input">
             </div>
         </div>
         <div class="layui-form-item">
@@ -78,7 +78,24 @@
         });
     });
      function login() {
-         $a.ajax({
+         alert($("#userName").val());
+         $.ajax({
+             url : "/yoga/venueUserDate/loginVenue",
+             type : "post",
+             data : {
+                 userName : $("#userName").val(),
+                 password : $("#password").val()
+             },
+             dataType : "json",
+             success : function(data) {
+                 var json = eval('('+data+')');
+                 if(json.code == 0){
+                     location.href="/register";
+                 }else{
+                     $.messager.alert('系统提示',json.message);
+                 }
+             }
+
 
          })
     }

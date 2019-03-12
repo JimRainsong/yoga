@@ -9,11 +9,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/venueUser")
+@RequestMapping("/venueUserDate")
 public class VenueUserControllt {
 
     @RequestMapping("/loginVenue")
     public LayUiDataUtil login(LoginVo vo) {
+        System.out.println(vo.getPassword());
+        System.out.println(vo.getUserName());
         Subject subject = SecurityUtils.getSubject();
         if (!subject.isAuthenticated()) {
             UsernamePasswordToken token = new UsernamePasswordToken(vo.getUserName(), vo.getPassword());

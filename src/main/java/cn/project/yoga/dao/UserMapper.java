@@ -20,7 +20,7 @@ public interface UserMapper {
 
     int updateByPrimaryKey(User record);
 
-    @Select("select * from user where userName=#{userName}")
+    @Select("select * from user where user_name=#{0} and flag=0")
     User selectUserByUserName(String userName);
 
     /**
