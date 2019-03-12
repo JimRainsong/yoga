@@ -26,4 +26,11 @@ public class TeacherViewController {
     public String register() {
         return "teacher/register";
     }
+
+    @RequestMapping("/info")
+    public String info(){
+        return "teacher/g1";
+    }
+
+
 }
