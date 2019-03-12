@@ -44,7 +44,7 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public List<Venue> selectMyVenue1(int user_id) {
-        List<Venue> venues=venueMapper.selectMyVenue4(user_id);
+        List<Venue> venues=venueMapper.selectMyVenue1(user_id);
         return venues;
     }
 
