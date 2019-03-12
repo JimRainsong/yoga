@@ -23,10 +23,10 @@ public class VenueController {
     @RequestMapping("/updata")
     @ResponseBody
     public LayUiDataUtil updata(Venue venue){
+           System.out.println(venue.getVenueName());
+           System.out.println(venue.getVenueAddress());
            LayUiDataUtil layUiDataUtil=new LayUiDataUtil();
            layUiDataUtil.setData(venue);
         return layUiDataUtil;
     }
-
-
 }
