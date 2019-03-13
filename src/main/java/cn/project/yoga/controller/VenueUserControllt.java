@@ -13,6 +13,7 @@ import org.apache.shiro.authc.*;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -25,7 +26,9 @@ public class VenueUserControllt {
 
     @Autowired
     private VenueService venueService;
-
+    /*
+     *场馆登录
+     */
     @RequestMapping("/loginVenue")
     @ResponseBody
     public LayUiDataUtil login(LoginVo vo) {
@@ -53,7 +56,9 @@ public class VenueUserControllt {
             return LayUiDataUtil.error("干哈?!你都已经登陆成功了");
         }
     }
-
+    /*
+     *场馆注册
+     */
     @RequestMapping("/registerVenue")
     @ResponseBody
     public LayUiDataUtil register(User user,String password1) {
@@ -92,5 +97,24 @@ public class VenueUserControllt {
             }
             return LayUiDataUtil.error("注册异常");
         }
-
+    /*
+     *场馆详情
+     */
+    @RequestMapping("/venueData/{venueId}")
+    @ResponseBody
+    public LayUiDataUtil getVenueData(@PathVariable("venueId") Integer venueId) {
+        Venue venue=null;
+          try{
+           venue=venueService.getVenueDataByVenueId(venueId);
+          }catch (Exception e){
+            return LayUiDataUtil.error();
+          }
+          LayUiDataUtil layUiDataUtil=new LayUiDataUtil();
+          if (venue!=null){
+           layUiDataUtil.setData(venue);
+          }else {
+            return LayUiDataUtil.error();
+          }
+          return layUiDataUtil;
+    }
 }

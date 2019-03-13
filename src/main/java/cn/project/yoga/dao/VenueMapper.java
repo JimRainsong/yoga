@@ -1,6 +1,7 @@
 package cn.project.yoga.dao;
 
 import cn.project.yoga.pojo.Venue;
+import cn.project.yoga.pojo.Vip_type;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
@@ -14,6 +15,12 @@ public interface VenueMapper {
 
     int insertSelective(Venue record);
 
+    /**
+     * 查找场馆信息
+     * @param venueId
+     *
+     * @return
+     */
     Venue selectByPrimaryKey(Integer venueId);
 
     int updateByPrimaryKeySelective(Venue record);
@@ -40,8 +47,6 @@ public interface VenueMapper {
     int upApproveByvenueId(@Param("venueId") Integer venueId, @Param("val") Integer val);
 
     List<Venue> selectMyVen1(int user_id);
-
-
 
 
 }
