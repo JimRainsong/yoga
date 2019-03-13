@@ -59,7 +59,7 @@ public class TeacherController {
     public ModelAndView page1() {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("/teacher/page1");
-        modelAndView.addObject("moments", userService.allMoments2());
+        //modelAndView.addObject("moments", userService.allMoments2());
         return modelAndView;
     }
 
