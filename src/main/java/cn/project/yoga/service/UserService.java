@@ -87,4 +87,6 @@ public interface UserService {
     int addUser(User user);
 
     List<Ad> selectAd();
+
+    int insert_userid_user(String username);
 }

@@ -102,6 +102,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public int insert_userid_user(String username) {
+        return userMapper.insertIntoUser(username);
+    }
+
+    @Override
     public int addUser(User user) {
         return userMapper.insert(user);
     }

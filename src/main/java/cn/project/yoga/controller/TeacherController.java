@@ -68,13 +68,9 @@ public class TeacherController {
 
     @RequestMapping("/register")
     @ResponseBody
-    public ResultUtil register(@RequestParam(value = "userName") String username, @RequestParam(value = "password1") String password1, @RequestParam(value = "password2") String password2) {
+    public ResultUtil register(@RequestParam(value = "username") String username, @RequestParam(value = "password1") String password1, @RequestParam(value = "password2") String password2) {
 
-
-        System.out.println(username);
-        System.out.println(password1);
-        System.out.println(password2);
-        if (password1.matches(RegexUtil.REGEX_PASSWORD)) {
+        if (!password1.matches(RegexUtil.REGEX_PASSWORD)) {
             return ResultUtil.error("密码格式有误请重新输入");
         }
 

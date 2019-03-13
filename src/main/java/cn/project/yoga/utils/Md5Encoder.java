@@ -9,4 +9,8 @@ public class Md5Encoder {
     public static String md5Encode(String userName, String password) {
         return new Md5Hash(password, userName, 2).toString();
     }
+
+    public static void main(String[] args) {
+        System.out.println(new Md5Hash("zjn666","zjn666",2).toString());
+    }
 }

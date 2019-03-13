@@ -20,6 +20,7 @@ public class CustomRealm extends AuthorizingRealm {
 
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken) throws AuthenticationException {
+        System.out.println(userService);
         String userName = authenticationToken.getPrincipal().toString();
         User user = userService.selectUserByUserName(userName);
         ByteSource by = ByteSource.Util.bytes(user.getUserName());
