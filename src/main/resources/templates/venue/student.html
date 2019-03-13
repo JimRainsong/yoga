@@ -10,59 +10,50 @@
 </head>
 <body class="layui-layout-body">
 
-<!--<table class="layui-hide" id="studentTable" lay-filter="test"></table>-->
+<table class="layui-hide" id="test" lay-filter="test"></table>
 
-<!--<script type="text/html" id="toolbarDemo">-->
-    <!--<div class="layui-btn-container">-->
-        <!--<button class="layui-btn layui-btn-sm" lay-event="getCheckData">获取选中行数据</button>-->
-    <!--</div>-->
-<!--</script>-->
+<script type="text/html" id="toolbarDemo">
+    <div class="layui-btn-container">
+        <button class="layui-btn layui-btn-sm" lay-event="getCheckData">获取选中行数据</button>
+    </div>
+</script>
 
 
-<!--<script src="//res.layui.com/layui/dist/layui.js" charset="utf-8"></script>-->
-<!--&lt;!&ndash; 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 &ndash;&gt;-->
+<script src="//res.layui.com/layui/dist/layui.js" charset="utf-8"></script>
+<!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
 
-<!--<script>-->
-    <!--layui.use('table', function(){-->
-        <!--var table = layui.table;-->
-        <!--table.render({-->
-            <!--elem: '#studentTable'-->
-            <!--,url:'/demo/table/user/'-->
-            <!--,toolbar: '#toolbarDemo'-->
-            <!--,cols: [[-->
-                <!--{type:'radio'}-->
-                <!--,{field:'id', width:80, title: 'ID', sort: true}-->
-                <!--,{field:'username', width:80, title: '用户名'}-->
-                <!--,{field:'sex', width:80, title: '性别', sort: true}-->
-                <!--,{field:'city', width:80, title: '城市'}-->
-                <!--,{field:'sign', title: '签名', minWidth: 100}-->
-                <!--,{field:'experience', width:80, title: '积分', sort: true}-->
-                <!--,{field:'score', width:80, title: '评分', sort: true}-->
-                <!--,{field:'classify', width:80, title: '职业'}-->
-                <!--,{field:'wealth', width:135, title: '财富', sort: true}-->
-            <!--]]-->
-            <!--,page: true-->
-        <!--});-->
+<script>
+    layui.use('table', function(){
+        var table = layui.table;
 
-        <!--//头工具栏事件-->
-        <!--table.on('toolbar(test)', function(obj){-->
-            <!--var checkStatus = table.checkStatus(obj.config.id); //获取选中行状态-->
-            <!--switch(obj.event){-->
-                <!--case 'getCheckData':-->
-                    <!--var data = checkStatus.data;  //获取选中行数据-->
-                    <!--layer.alert(JSON.stringify(data));-->
-                    <!--break;-->
-            <!--};-->
-        <!--});-->
-    <!--});-->
-<!--</script>-->
-<!--<script th:src="@{/layui/layui.js}"></script>-->
-<!--<script>-->
-    <!--//JavaScript代码区域-->
-    <!--layui.use('element', function(){-->
-        <!--var element = layui.element;-->
+        table.render({
+            elem: '#student'
+            ,url:'/yoga/venueDate/studentDatas'
+            ,toolbar: '#toolbarDemo'
+            ,cols: [[
+                {type:'Selstudent'}
+                ,{field:'vipId', width:80, title: '会员卡号', sort: true}
+                ,{field:'netName', width:80, title: '用户名'}
+                ,{field:'cardInfo', width:80, title: '会员卡类型', sort: true}
+                ,{field:'balance', width:80, title: '余额'}
+                ,{field:'phoneNumber', title: '联系方式', minWidth: 100}
+                ,{field:'cardName', width:80, title: '有效期', sort: true}
+                ,{field:'registTime', width:80, title: '注册时间', sort: true}
+            ]]
+            ,page: true
+        });
 
-    <!--});-->
-<!--</script>-->
+        //头工具栏事件
+        table.on('toolbar(test)', function(obj){
+            var checkStatus = table.checkStatus(obj.config.id); //获取选中行状态
+            switch(obj.event){
+                case 'getCheckData':
+                    var data = checkStatus.data;  //获取选中行数据
+                    layer.alert(JSON.stringify(data));
+                    break;
+            };
+        });
+    });
+</script>
 </body>
 </html>
