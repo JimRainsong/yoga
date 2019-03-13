@@ -80,6 +80,11 @@ public interface UserService {
      */
     String orderSelfCourse1(int user_id,int teacher_id,int venue_id);
 
+    /**
+     * 注册用户 by 崔宇
+     *
+     */
+    int addUser(User user);
 
     List<Ad> selectAd();
 }

@@ -15,6 +15,7 @@
     <result column="flag" jdbcType="INTEGER" property="flag" />
     <result column="venue_money" jdbcType="INTEGER" property="venueMoney" />
   </resultMap>
+
   <sql id="Base_Column_List">
     venue_id, user_id, venue_name, venue_address, venue_phone, qq, venue_img, venue_details, 
     auth_info, auth_state, flag, venue_money
@@ -33,12 +34,12 @@
     insert into venue (venue_id, user_id, venue_name, 
       venue_address, venue_phone, qq, 
       venue_img, venue_details, auth_info, 
-      auth_state, flag, venue_money
+      auth_state, venue_money
       )
     values (#{venueId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{venueName,jdbcType=VARCHAR}, 
       #{venueAddress,jdbcType=VARCHAR}, #{venuePhone,jdbcType=VARCHAR}, #{qq,jdbcType=VARCHAR}, 
       #{venueImg,jdbcType=VARCHAR}, #{venueDetails,jdbcType=VARCHAR}, #{authInfo,jdbcType=VARCHAR}, 
-      #{authState,jdbcType=INTEGER}, #{flag,jdbcType=INTEGER}, #{venueMoney,jdbcType=INTEGER}
+      #{authState,jdbcType=INTEGER}, #{venueMoney,jdbcType=INTEGER}
       )
   </insert>
   <insert id="insertSelective" parameterType="cn.project.yoga.pojo.Venue">
@@ -74,9 +75,6 @@
       <if test="authState != null">
         auth_state,
       </if>
-      <if test="flag != null">
-        flag,
-      </if>
       <if test="venueMoney != null">
         venue_money,
       </if>
@@ -111,9 +109,6 @@
       </if>
       <if test="authState != null">
         #{authState,jdbcType=INTEGER},
-      </if>
-      <if test="flag != null">
-        #{flag,jdbcType=INTEGER},
       </if>
       <if test="venueMoney != null">
         #{venueMoney,jdbcType=INTEGER},

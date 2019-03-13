@@ -1,11 +1,9 @@
 package cn.project.yoga.service.impl;
 
-import cn.project.yoga.dao.AdMapper;
 import cn.project.yoga.dao.UserMapper;
 import cn.project.yoga.dao.VenueMapper;
 import cn.project.yoga.pojo.*;
 import cn.project.yoga.service.UserService;
-import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,9 +16,6 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private VenueMapper venueMapper;
-
-    @Autowired
-    private AdMapper adMapper;
 
     @Override
     public User selectUserByUserName(String userName) {
@@ -99,5 +94,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<Ad> selectAd() {
         return adMapper.selectAllAd1();
+    }
+
+    @Override
+    public int addUser(User user) {
+        return userMapper.insert(user);
     }
 }

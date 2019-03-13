@@ -84,4 +84,5 @@ public class LayUiDataUtil {
     public static LayUiDataUtil error(String msg){
         return new LayUiDataUtil(500,msg);
     }
+    
 }

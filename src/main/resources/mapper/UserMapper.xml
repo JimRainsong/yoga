@@ -21,10 +21,8 @@
     where user_id = #{userId,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="cn.project.yoga.pojo.User">
-    insert into user (user_id, user_name, password, 
-      flag)
-    values (#{userId,jdbcType=INTEGER}, #{userName,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
-      #{flag,jdbcType=INTEGER})
+    insert into user (user_id, user_name, password)
+    values (#{userId,jdbcType=INTEGER}, #{userName,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="cn.project.yoga.pojo.User">
     insert into user
@@ -38,9 +36,7 @@
       <if test="password != null">
         password,
       </if>
-      <if test="flag != null">
-        flag,
-      </if>
+
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="userId != null">
@@ -51,9 +47,6 @@
       </if>
       <if test="password != null">
         #{password,jdbcType=VARCHAR},
-      </if>
-      <if test="flag != null">
-        #{flag,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
@@ -72,6 +65,7 @@
     </set>
     where user_id = #{userId,jdbcType=INTEGER}
   </update>
+
   <update id="updateByPrimaryKey" parameterType="cn.project.yoga.pojo.User">
     update user
     set user_name = #{userName,jdbcType=VARCHAR},
