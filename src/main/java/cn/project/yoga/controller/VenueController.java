@@ -45,14 +45,15 @@ public class VenueController {
 
     @RequestMapping("/studentDatas")
     @ResponseBody
-    public LayUiDataUtil getStudentDatas(@PathVariable("venueId") Integer venueId) {
-      /*  List<Selstudent> list = venueService.findStudents(currentPage,pageSize,venueId);
+    public Map<String, Object> getStudentDatas(@PathVariable("venueId") Integer venueId,
+                                               @RequestParam(value = "page",defaultValue = "1",required = false)Integer currentPage,
+                                               @RequestParam(value = "rows",defaultValue = "5",required = false)Integer pageSize) {
+        List<Selstudent> list = venueService.findStudents(1,3,venueId);
         PageInfo pageInfo = new PageInfo(list);
         Map<String,Object> result = new HashMap<String,Object>();
         result.put("rows",list);
-        result.put("total",pageInfo.getTotal());*/
-        List<Selstudent> list = venueService.findStudents(1,1,venueId);
-        System.out.println(list);
-        return LayUiDataUtil.ok(list);
+        result.put("total",pageInfo.getTotal());
+        return result;
+
     }
 }
