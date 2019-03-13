@@ -55,7 +55,7 @@ public interface UserMapper {
     Vip_record queryVip1(@Param("user_id") int user_id, @Param("venue_id") int venue_id);
 
     /**
-     * 查看所有的朋友圈动态（无过滤条件）
+     * 查看所有的朋友圈动态
      */
     @Select("select * from moments")
     List<Moment> allMoments2();
