@@ -103,8 +103,11 @@
     function addTab() {
         $.ajax({ url:url,
                  type:"GET",
+
                  success:function(result){
+                alert(result);
                      element.tabAdd('demo', {
+
                          title:title
                          ,content:result
                          ,id: eid //实际使用一般是规定好的id，这里以时间戳模拟下

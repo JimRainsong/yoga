@@ -47,12 +47,13 @@ public class VenueController {
     @ResponseBody
     public Map<String, Object> getStudentDatas(@PathVariable("venueId") Integer venueId,
                                                @RequestParam(value = "page",defaultValue = "1",required = false)Integer currentPage,
-                                               @RequestParam(value = "rows",defaultValue = "5",required = false)Integer pageSize) {
-        List<Selstudent> list = venueService.findStudents(1,3,venueId);
+                                               @RequestParam(value = "rows",defaultValue = "2",required = false)Integer pageSize) {
+        List<Selstudent> list = venueService.findStudents(1,2,1);
         PageInfo pageInfo = new PageInfo(list);
         Map<String,Object> result = new HashMap<String,Object>();
         result.put("rows",list);
         result.put("total",pageInfo.getTotal());
+        System.out.println(list.get(0).getNetName());
         return result;
 
     }
