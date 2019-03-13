@@ -1,9 +1,6 @@
 package cn.project.yoga.controller;
 
-import cn.project.yoga.pojo.Selstudent;
-import cn.project.yoga.pojo.User;
-import cn.project.yoga.pojo.User_info;
-import cn.project.yoga.pojo.Venue;
+import cn.project.yoga.pojo.*;
 import cn.project.yoga.service.VenueService;
 import cn.project.yoga.utils.LayUiDataUtil;
 import com.github.pagehelper.PageInfo;
@@ -45,16 +42,53 @@ public class VenueController {
 
     @RequestMapping("/studentDatas")
     @ResponseBody
-    public Map<String, Object> getStudentDatas(@PathVariable("venueId") Integer venueId,
+    public Map<String, Object> getStudentDatas(@RequestParam() Integer venueId,
                                                @RequestParam(value = "page",defaultValue = "1",required = false)Integer currentPage,
-                                               @RequestParam(value = "rows",defaultValue = "2",required = false)Integer pageSize) {
-        List<Selstudent> list = venueService.findStudents(1,2,1);
+                                               @RequestParam(value = "rows",defaultValue = "10",required = false)Integer pageSize) {
+        List<Selstudent> list = venueService.findStudents(1,10,1);
         PageInfo pageInfo = new PageInfo(list);
         Map<String,Object> result = new HashMap<String,Object>();
-        result.put("rows",list);
-        result.put("total",pageInfo.getTotal());
+        result.put("code",200);
+        result.put("msg","");
+        result.put("count",pageInfo.getTotal());
+        result.put("data",list);
+//        result.put("rows",list);
+//        result.put("total",pageInfo.getTotal());
         System.out.println(list.get(0).getNetName());
         return result;
 
     }
+
+    @RequestMapping("/showVipDatas")
+    @ResponseBody
+    public Map<String, Object> showVipType(@RequestParam() Integer venueId,
+                                       @RequestParam(value = "page",defaultValue = "1",required = false)Integer currentPage,
+                                       @RequestParam(value = "rows",defaultValue = "10",required = false)Integer pageSize) {
+        List<Vip_type> list = venueService.selShowVipType(currentPage,pageSize,1);
+        PageInfo pageInfo = new PageInfo(list);
+        Map<String,Object> result = new HashMap<String,Object>();
+        result.put("code",200);
+        result.put("msg","");
+        result.put("count",pageInfo.getTotal());
+        result.put("data",list);
+        return result;
+
+    }
+
+    @RequestMapping("/atentionDatas")
+    @ResponseBody
+    public Map<String, Object> showatentionDatas(@RequestParam() Integer venueId,
+                                           @RequestParam(value = "page",defaultValue = "1",required = false)Integer currentPage,
+                                           @RequestParam(value = "rows",defaultValue = "10",required = false)Integer pageSize) {
+        List<Vip_type> list = venueService.selShowVipType(currentPage,pageSize,1);
+        PageInfo pageInfo = new PageInfo(list);
+        Map<String,Object> result = new HashMap<String,Object>();
+        result.put("code",200);
+        result.put("msg","");
+        result.put("count",pageInfo.getTotal());
+        result.put("data",list);
+        return result;
+
+    }
+
 }

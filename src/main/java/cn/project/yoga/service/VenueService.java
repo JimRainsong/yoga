@@ -3,8 +3,8 @@ package cn.project.yoga.service;
 
 
 import cn.project.yoga.pojo.Selstudent;
-import cn.project.yoga.pojo.User_info;
 import cn.project.yoga.pojo.Venue;
+import cn.project.yoga.pojo.Vip_type;
 
 import java.util.List;
 
@@ -25,4 +25,6 @@ public interface VenueService {
      *场馆-陈家明
      */
     List<Selstudent> findStudents(Integer currentPage, Integer pageSize, Integer venueId);
+
+    List<Vip_type> selShowVipType(Integer currentPage, Integer pageSize, Integer venueId);
 }

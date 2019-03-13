@@ -2,6 +2,7 @@ package cn.project.yoga.service.impl;
 
 import cn.project.yoga.dao.SelstudentMapper;
 import cn.project.yoga.dao.VenueMapper;
+import cn.project.yoga.dao.Vip_typeMapper;
 import cn.project.yoga.pojo.Selstudent;
 import cn.project.yoga.pojo.User_info;
 import cn.project.yoga.pojo.Venue;
@@ -18,11 +19,11 @@ public class VenueServiceImpl implements VenueService {
     private VenueMapper venueMapper;
     @Autowired
     private SelstudentMapper selstudentMapper;
-
+    @Autowired
+    private Vip_typeMapper vip_typeMapper;
 
     @Override
     public int addVenue(Venue venue) {
-
         return venueMapper.insertSelective(venue);
     }
 
@@ -38,5 +39,11 @@ public class VenueServiceImpl implements VenueService {
 
 
         return students;
+    }
+
+    @Override
+    public List<Vip_type> selShowVipType(Integer currentPage, Integer pageSize, Integer venueId) {
+        List<Vip_type>vip_types=vip_typeMapper.selShowVipType(currentPage,pageSize,venueId);
+        return vip_types;
     }
 }

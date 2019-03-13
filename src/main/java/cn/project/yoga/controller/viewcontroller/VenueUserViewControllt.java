@@ -22,4 +22,12 @@ public class VenueUserViewControllt {
     public String student() {
         return "venue/student";
     }
+    @RequestMapping("/atention")
+    public String atention() {
+        return "venue/atention";
+    }
+    @RequestMapping("/vipType")
+    public String vipType() {
+        return "venue/vipType";
+    }
 }

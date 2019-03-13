@@ -97,7 +97,6 @@ public class UserController {
        String state = userService.updateUserInfo1(user);
        return state;
     }
-
     @RequestMapping("/lookAd")
     @ResponseBody
     public List<Ad> lookAd(){
