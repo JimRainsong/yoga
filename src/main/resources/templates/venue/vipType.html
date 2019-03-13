@@ -10,7 +10,7 @@
 </head>
 <body class="layui-layout-body">
 
-<table class="layui-hide" id="student" lay-filter="test"></table>
+<table class="layui-hide" id="vipType" lay-filter="test"></table>
 
 <script type="text/html" id="toolbarDemo">
     <div class="layui-btn-container">
@@ -25,9 +25,9 @@
     layui.use('table', function(){
         var table = layui.table;
         table.render({
-            elem: '#student'
+            elem: '#vipType'
             ,height: 300
-            ,url:'/yoga/venueDate/studentDatas'
+            ,url:'/yoga/venueDate/showVipDatas'
             ,page: true
             ,response: {
                 statusName: 'code'
@@ -40,14 +40,11 @@
             ,cols: [
                 [
                     {type:'radio'},
-               {field:'vipId', width:150, title: '会员卡号', sort: true}
-                ,{field:'netName', width:150, title: '用户名'}
-                ,{field:'cardInfo', width:150, title: '会员卡类型', sort: true}
-                ,{field:'balance', width:150, title: '余额'}
-                ,{field:'phoneNumber', title: '联系方式', minWidth: 150}
                 ,{field:'cardName', width:150, title: '会员卡名称', sort: true}
-                ,{field:'useDate', width:150, title: '有效期', sort: true}
-                ,{field:'registTime', width:150, title: '注册时间', sort: true}
+                ,{field:'cardInfo', width:150, title: '会员卡类型', sort: true}
+                ,{field:'cardPrice', width:150, title: '价格'}
+                ,{field:'useDate', width:150, title: '有效期'}
+                ,{field:'registTime', width:150, title: '注册时间'}
                 ]
             ]
 
