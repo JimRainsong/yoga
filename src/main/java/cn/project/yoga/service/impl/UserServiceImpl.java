@@ -1,5 +1,6 @@
 package cn.project.yoga.service.impl;
 
+import cn.project.yoga.dao.AdMapper;
 import cn.project.yoga.dao.UserMapper;
 import cn.project.yoga.dao.VenueMapper;
 import cn.project.yoga.pojo.*;
@@ -17,6 +18,9 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private VenueMapper venueMapper;
 
+    @Autowired
+    private AdMapper adMapper;
+
     @Override
     public User selectUserByUserName(String userName) {
         return userMapper.selectUserByUserName(userName);
@@ -24,14 +28,15 @@ public class UserServiceImpl implements UserService {
 
     /**
      * 修改用户信息
-     * @author zjn
+     *
      * @param user
-     * @return  int 影响行数
+     * @return int 影响行数
+     * @author zjn
      */
     @Override
     public String updateUserInfo1(User user) {
         int row = userMapper.updateUserInfo1(user);
-        if (row==1){
+        if (row == 1) {
             return "修改状态成功";
         }
         return "修改状态失败";
@@ -39,12 +44,13 @@ public class UserServiceImpl implements UserService {
 
     /**
      * 查询我的场馆
+     *
      * @param user_id
      * @return
      */
     @Override
     public List<Venue> selectMyVenue1(int user_id) {
-        List<Venue> venues=venueMapper.selectMyVen1(user_id);
+        List<Venue> venues = venueMapper.selectMyVen1(user_id);
         return venues;
     }
 
@@ -74,10 +80,10 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public String intoCourse1(int user_id, int course_id,int venue_id) {
+    public String intoCourse1(int user_id, int course_id, int venue_id) {
         //1.判断是不是该场馆会员，如果不是，返回‘您还不是此场馆会员’
-        Vip_record vip_record=userMapper.queryVip1(user_id,venue_id);
-        if (vip_record==null){
+        Vip_record vip_record = userMapper.queryVip1(user_id, venue_id);
+        if (vip_record == null) {
             return "您还不是该场馆会员，无法预约";
         }
         //2.向我的课程表中插入用户id和课程id
@@ -94,6 +100,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<Ad> selectAd() {
         return adMapper.selectAllAd1();
+    }
+
+    @Override
+    public List<Moment> allMoments2() {
+        return userMapper.allMoments2();
     }
 
     @Override

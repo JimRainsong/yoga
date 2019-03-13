@@ -8,15 +8,19 @@
 </head>
 <body>
 <shiro:guest>
-    <div class="logout">请<a th:href="@{/teacher/loginAndRegister}">注册或者登陆</a></div>
+    <div class="logout">请<a th:href="@{/teacher/registerPage}">注册</a>或者<a th:href="@{/teacher/loginPage}">登陆</a></div>
 </shiro:guest>
 <shiro:authenticated>
     <div class="logined">
         欢迎你，
     </div>
     <span onclick="logout()">注销</span>
+    <div id="others">
+        <div class="press_buttons">
+            <a th:href="@{/teacher/wallet}">我的钱包</a>
+        </div>
+    </div>
 </shiro:authenticated>
-
 
 <div id="registerWindow" class="modal">
     <form id="register">

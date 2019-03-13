@@ -23,15 +23,21 @@ public class TeacherServiceImpl implements TeacherService {
 
     @Override
     public int insert_userid_teacher2(String username) {
-        return  teacherMapper.insert_userid_teacher2(username);
+        return teacherMapper.insert_userid_teacher2(username);
     }
 
-    /** zjl
+    /**
+     * zjl
      * 根据教练id,更新教练的认证信息
-     * */
+     */
     @Override
     public int updateIfauthById4_1(Integer teacherId, Integer val) {
-        return teacherMapper.updateTeacherIf_authById(teacherId,val);
+        return teacherMapper.updateTeacherIf_authById(teacherId, val);
+    }
+
+    @Override
+    public Double selectBalanceByTeacherName2(String name) {
+        return teacherMapper.selectBalanceByTeacherName2(name);
     }
 
 
