@@ -1,5 +1,6 @@
 package cn.project.yoga.dao;
 
+import cn.project.yoga.pojo.Moment;
 import cn.project.yoga.pojo.User;
 
 import cn.project.yoga.pojo.Vip_record;
@@ -7,6 +8,8 @@ import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
+
+import java.util.List;
 
 public interface UserMapper {
     int deleteByPrimaryKey(Integer userId);
@@ -26,6 +29,7 @@ public interface UserMapper {
 
     /**
      * 修改个人信息
+     *
      * @param user
      * @return
      */
@@ -48,6 +52,12 @@ public interface UserMapper {
      */
     @Select("select * from vip_crcord where user_id=#{0} and venue_id=#{1}")
     Vip_record queryVip1(@Param("user_id") int user_id,@Param("venue_id") int venue_id);
+
+    /**
+     * 查看所有的朋友圈动态
+     */
+    @Select("select * from moments")
+    List<Moment> allMoments2();
 
     @Insert("insert into user_info(user_id) values((select user_id from user where user_name=#{0})) ")
     int insertIntoUser(String username);
