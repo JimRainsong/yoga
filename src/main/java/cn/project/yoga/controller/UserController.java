@@ -3,12 +3,14 @@ package cn.project.yoga.controller;
 import cn.project.yoga.pojo.Ad;
 import cn.project.yoga.pojo.User;
 import cn.project.yoga.service.UserService;
+import cn.project.yoga.utils.Attributes;
 import cn.project.yoga.utils.Md5Encoder;
 import cn.project.yoga.utils.RegexUtil;
 import cn.project.yoga.utils.ResultUtil;
 import cn.project.yoga.vo.LoginVo;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
+import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -101,6 +103,17 @@ public class UserController {
     public List<Ad> lookAd(){
         List<Ad> ad=userService.selectAd();
         return ad;
+    }
+
+    @RequestMapping("/getUserName")
+    @ResponseBody
+    public String getUserName(){
+        Subject subject=SecurityUtils.getSubject();
+        Session session=subject.getSession();
+        String userName="";
+        userName=session.getAttribute(Attributes.currentUserName).toString();
+        String name=userService.selectUserNetName(userName);
+        return name;
     }
 
 }

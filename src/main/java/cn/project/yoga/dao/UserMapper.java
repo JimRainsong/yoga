@@ -3,6 +3,7 @@ package cn.project.yoga.dao;
 import cn.project.yoga.pojo.Moment;
 import cn.project.yoga.pojo.User;
 
+import cn.project.yoga.pojo.User_info;
 import cn.project.yoga.pojo.Vip_record;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Param;
@@ -61,4 +62,7 @@ public interface UserMapper {
 
     @Insert("insert into user_info(user_id) values((select user_id from user where user_name=#{0})) ")
     int insertIntoUser(String username);
+
+    @Select("select * from user_info where user_id=#{0}")
+    User_info selUserLoveName(Integer userId);
 }

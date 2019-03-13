@@ -92,4 +92,10 @@ public interface UserService {
 
     List<Moment> allMoments2();
 
+    /**
+     * 查询用户的网名
+     * @param userName
+     * @return
+     */
+    String selectUserNetName(String userName);
 }

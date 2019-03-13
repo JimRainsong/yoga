@@ -112,6 +112,16 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public String selectUserNetName(String userName) {
+        User user=userMapper.selectUserByUserName(userName);
+        User_info user_info=userMapper.selUserLoveName(user.getUserId());
+        if (user_info.getNetName()!=null){
+            return user_info.getNetName();
+        }
+        return userName;
+}
+
+    @Override
     public int addUser(User user) {
         return userMapper.insert(user);
     }
