@@ -16,4 +16,9 @@ public class VenueServiceImpl implements VenueService {
 
         return venueMapper.insertSelective(venue);
     }
+
+    @Override
+    public Venue getVenueDataByVenueId(Integer venueId) {
+        return venueMapper.selectByPrimaryKey(venueId);
+    }
 }

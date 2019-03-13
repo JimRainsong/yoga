@@ -4,7 +4,6 @@ package cn.project.yoga.service;
 
 import cn.project.yoga.pojo.Venue;
 
-import java.util.List;
 
 public interface VenueService {
 
@@ -15,4 +14,5 @@ public interface VenueService {
      */
     int addVenue(Venue venue);
 
+    Venue getVenueDataByVenueId(Integer venueId);
 }

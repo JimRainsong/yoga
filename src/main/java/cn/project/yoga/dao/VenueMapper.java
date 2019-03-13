@@ -14,6 +14,12 @@ public interface VenueMapper {
 
     int insertSelective(Venue record);
 
+    /**
+     * 查找场馆信息
+     * @param venueId
+     *
+     * @return
+     */
     Venue selectByPrimaryKey(Integer venueId);
 
     int updateByPrimaryKeySelective(Venue record);
