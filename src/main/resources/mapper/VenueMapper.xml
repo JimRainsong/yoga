@@ -25,6 +25,7 @@
     <include refid="Base_Column_List" />
     from venue
     where venue_id = #{venueId,jdbcType=INTEGER}
+    and flag = 0
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from venue

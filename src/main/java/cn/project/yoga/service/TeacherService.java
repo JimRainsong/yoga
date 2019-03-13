@@ -15,4 +15,6 @@ public interface TeacherService {
 
 
     int updateIfauthById4_1(Integer teacherId,Integer val);
+
+    Double selectBalanceByTeacherName2(String name);
 }

@@ -20,14 +20,14 @@
                     <p>登录</p>
                     <div class="lowin-group">
                         <label>账号<a href="#" class="login-back-link">Sign in?</a></label>
-                        <input type="text" id="loginName" class="lowin-input"
+                        <input type="text" name="loginName" class="lowin-input"
                                placeholder="邮箱或者用户名">
                     </div>
                     <div class="lowin-group password-group">
                         <label>密码<a href="#" class="forgot-link">忘记密码?</a></label>
-                        <input type="password" id="loginPass" autocomplete="current-password" class="lowin-input">
+                        <input type="password" name="loginPass" autocomplete="current-password" class="lowin-input">
                     </div>
-                    <button class="lowin-btn login-btn" onclick="login()">
+                    <button class="lowin-btn login-btn">
                         确认
                     </button>
 
@@ -44,18 +44,18 @@
                     <p>开启你的教练生涯</p>
                     <div class="lowin-group">
                         <label>用户名</label>
-                        <input type="text" id="userName" autocomplete="name" class="lowin-input">
+                        <input type="text" name="userName" autocomplete="name" class="lowin-input">
                     </div>
                     <div class="lowin-group">
                         <label>密码</label>
-                        <input type="password" id="password1" class="lowin-input">
+                        <input type="password" name="password1" class="lowin-input">
                     </div>
                     <div class="lowin-group">
                         <label>再次</label>
-                        <input type="password" id="password2" autocomplete="current-password" class="lowin-input"
+                        <input type="password" name="password2" autocomplete="current-password" class="lowin-input"
                                placeholder="确认密码">
                     </div>
-                    <button class="lowin-btn" onclick="register()">
+                    <button class="lowin-btn">
                         注册
                     </button>
 
@@ -76,7 +76,8 @@
 <script th:src="@{/js/auth.js}"></script>
 <script>
     Auth.init({
-        login_url: '#login',
+        // login_url: '#login',
+        login_url: '/yoga/teacher/login',
         forgot_url: '#forgot'
     });
 
@@ -85,15 +86,16 @@
         var password1 = $("#password1").val();
         var password2 = $("#password2").val();
         $.ajax({
-            url: "/teacher/register",
+            url: "/yoga/teacher/register",
             type: "post",
+            // async: false,
             data: {
                 "userName": userName,
                 "password1": password1,
                 "password2": password2
             }, success: function (mes) {
                 if (mes.code != 0) {
-                    showMessage(mes.message);
+                    alert(mes.message);
                 }
             }
         })
@@ -106,6 +108,7 @@
         $.ajax({
             url: "/yoga/teacher/login",
             type: "post",
+            // async: false,
             data: {
                 "userName": username,
                 "password": password
@@ -113,10 +116,10 @@
             dataType: "json",
             success: function (mes) {
                 if (mes.code == 0) {
+                    alert("登陆成功");
                     window.location.href = "/yoga/teacher/page5";
-                    window.parent.showPage(1);
                 } else {
-                    showMessage(mes.message);
+                    alert(mes.message);
                 }
             }
         })

@@ -2,6 +2,7 @@ package cn.project.yoga;
 
 import cn.project.yoga.dao.Vip_typeMapper;
 import cn.project.yoga.pojo.Vip_type;
+import cn.project.yoga.service.VenueService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,13 +16,13 @@ public class CYTest {
     @Autowired
     private Vip_typeMapper vipTypeMapper;
 
+    @Autowired
+    private VenueService venueService;
+
     @Test
     public void contextLoads() {
-        Vip_type vipType=new Vip_type();
-        vipType.setCardName("测试场馆");
-        vipType.setCardInfo("It's a 会员卡");
-        vipType.setCardPrice(200);
-        System.out.println(vipTypeMapper.insertSelective(vipType));
+
+        System.out.println(venueService.getVenueDataByVenueId(1).getVenueName());
     }
 
 }

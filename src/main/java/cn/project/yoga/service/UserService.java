@@ -89,4 +89,7 @@ public interface UserService {
     List<Ad> selectAd();
 
     int insert_userid_user(String username);
+
+    List<Moment> allMoments2();
+
 }

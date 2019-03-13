@@ -107,6 +107,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public List<Moment> allMoments2() {
+        return userMapper.allMoments2();
+    }
+
+    @Override
     public int addUser(User user) {
         return userMapper.insert(user);
     }
