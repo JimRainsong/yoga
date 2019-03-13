@@ -26,7 +26,9 @@ public class VenueUserControllt {
 
     @Autowired
     private VenueService venueService;
-
+    /*
+     *场馆登录
+     */
     @RequestMapping("/loginVenue")
     @ResponseBody
     public LayUiDataUtil login(LoginVo vo) {
@@ -54,7 +56,9 @@ public class VenueUserControllt {
             return LayUiDataUtil.error("干哈?!你都已经登陆成功了");
         }
     }
-
+    /*
+     *场馆注册
+     */
     @RequestMapping("/registerVenue")
     @ResponseBody
     public LayUiDataUtil register(User user,String password1) {
@@ -93,7 +97,10 @@ public class VenueUserControllt {
             }
             return LayUiDataUtil.error("注册异常");
         }
-    @RequestMapping("/VenueData/{venueId}")
+    /*
+     *场馆详情
+     */
+    @RequestMapping("/venueData/{venueId}")
     @ResponseBody
     public LayUiDataUtil getVenueData(@PathVariable("venueId") Integer venueId) {
         Venue venue=null;

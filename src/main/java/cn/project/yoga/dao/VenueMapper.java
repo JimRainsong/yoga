@@ -1,6 +1,7 @@
 package cn.project.yoga.dao;
 
 import cn.project.yoga.pojo.Venue;
+import cn.project.yoga.pojo.Vip_type;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
@@ -46,8 +47,6 @@ public interface VenueMapper {
     int upApproveByvenueId(@Param("venueId") Integer venueId, @Param("val") Integer val);
 
     List<Venue> selectMyVen1(int user_id);
-
-
 
 
 }
