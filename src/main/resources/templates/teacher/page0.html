@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>圈子</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/teacher/page0.css}"
+          href="../../static/css/teacher/page0.css"/>
+    <script th:src="@{/js/jquery.min.js}" src="../../static/js/jquery.min.js"></script>
+</head>
+<body>
+<div>
+    <div class="background_img" id="background_img">
+        <img src="../../static/img/gim.jpg" th:src="@{/img/gim.jpg}" class="background_img">
+    </div>
+    <div th:each="moment:${moments}" class="moments" style="width: 100%">
+        <div class="inside">
+            <div class="up">
+                <div class="picture">
+                    <img class="head_img" src="../../static/img/head_imgs/dddsx.jpg"
+                         th:src="@{/img/head_imgs/dddsx.jpg}">
+                </div>
+                <div class="name_and_time">
+                    <p th:text="${moment.name}" class="net_name">带带大师兄</p>
+                    <p th:text="${#dates.format(moment.time,'MM月dd日 HH:mm')}" id="time">3月12号，上午10点32分</p>
+                </div>
+            </div>
+            <div class="down">
+                <h4 th:text="${moment.detail}">
+                    陈冠希同志，您好！这几天我的粉丝和您发生了一些冲突。作为当事人之一，
+                    我方在像您表达歉意的同时，也看到了您对我个人以及我的品牌的一些攻击。
+                    我承认，我的长相和您有所差距，不是很好看。品牌价值，也有几个0的距离。
+                    但是，在您反复抨击我的缺点的同时，我也想给您提个醒。
+                </h4>
+            </div>
+            <div class="bottom_line"></div>
+        </div>
+    </div>
+</div>
+<script>
+    $(function () {
+        var picWidth = $("#background_img").css("width");
+        picWidth = picWidth.substr(0, picWidth.length - 2);
+        var picHeight = parseInt(picWidth) * 440 / 840;
+        $("#background_img").css("height", picHeight + "px");
+    })
+</script>
+</body>
+
+</html>

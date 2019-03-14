@@ -1,5 +1,6 @@
 package cn.project.yoga.dao;
 
+import cn.project.yoga.pojo.TeaMoment;
 import cn.project.yoga.pojo.Teacher;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Param;
@@ -51,4 +52,10 @@ public interface TeacherMapper {
      */
     @Select("select teacher_money from teacher where user_id=(select user_id from user where user_name=#{userName})")
     Double selectBalanceByTeacherName2(@Param("userName") String name);
+
+    /**
+     * 所有教练的动态
+     */
+    @Select("select * from moments_tea")
+    List<TeaMoment> allMoments2();
 }

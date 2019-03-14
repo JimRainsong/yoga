@@ -59,7 +59,7 @@
             dataType: "json",
             success: function (mes) {
                 if (mes.code == 0) {
-                    window.parent.showPage(4);
+                    window.location.href = "/yoga/teacher/loginPage";
                 } else {
                     alert(mes.message);
                 }

@@ -38,3 +38,15 @@ iframe {
 .main {
     display: none;
 }
+
+#add_button {
+    text-align: center;
+    z-index: 8;
+}
+
+#add_picture {
+    width: 90px;
+    height: 50px;
+    border-radius: 75px;
+    background-color: orange !important;
+}

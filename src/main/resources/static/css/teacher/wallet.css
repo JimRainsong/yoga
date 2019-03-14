@@ -1,0 +1,25 @@
+body {
+    text-align: center;
+}
+
+header {
+    width: 100%;
+}
+
+#balance {
+    margin-top: 20px;
+    font-weight: bold;
+    font-size: 32px;
+}
+
+button {
+    background-color: #6fbb35;
+    width: 135px;
+    height: 45px;
+    border-radius: 12px;
+    border: 0;
+    font-size: 22px;
+    font-family: monospace;
+    font-weight: bolder;
+    color: white;
+}

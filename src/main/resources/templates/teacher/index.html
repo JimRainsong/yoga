@@ -4,8 +4,9 @@
     <meta charset="UTF-8" name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=no,
     width=device-width,initial-scale=1.0"/>
     <title>iYoga</title>
-    <link rel="stylesheet" type="text/css" th:href="@{/css/teacher/index.css}">
-    <script th:src="@{/js/jquery.min.js}"></script>
+    <link rel="stylesheet" type="text/css" href="../../static/css/teacher/index.css"
+          th:href="@{/css/teacher/index.css}">
+    <script th:src="@{/js/jquery.min.js}" src="../../static/js/jquery.min.js"></script>
 </head>
 <body>
 <div id="center">
@@ -26,11 +27,23 @@
     </div>
 </div>
 <div id="footer">
-    <div class="bottomIcon" onclick="showPage(0)"><a><img th:src="@{/img/logo.png}"/></a></div>
-    <div class="bottomIcon" onclick="showPage(1)"><a><img th:src="@{/img/logo.png}"/></a></div>
-    <div class="bottomIcon" onclick="showPage(2)"><a><img th:src="@{/img/logo.png}"/></a></div>
-    <div class="bottomIcon" onclick="showPage(3)"><a><img th:src="@{/img/logo.png}"/></a></div>
-    <div class="bottomIcon" onclick="showPage(4)"><a><img th:src="@{/img/logo.png}"/></a></div>
+    <div class="bottomIcon" onclick="showPage(0)">
+        <a><img src="../../static/img/logos/home.png" th:src="@{/img/logos/home.png}"/></a>
+    </div>
+    <!--<div class="bottomIcon" onclick="showPage(1)">-->
+    <!--<a><img src="../../static/img/logo.png" th:src="@{/img/logo.png}"/></a>-->
+    <!--</div>-->
+    <div class="bottomIcon" id="add_button">
+        <div id="add_picture" onclick="showPage(1)">
+            <img src="../../static/img/logos/add.png" th:src="@{/img/logos/add.png}"/>
+        </div>
+    </div>
+    <!--<div class="bottomIcon" onclick="showPage(3)">-->
+    <!--<a><img src="../../static/img/logo.png" th:src="@{/img/logo.png}"/></a>-->
+    <!--</div>-->
+    <div class="bottomIcon" onclick="showPage(2)">
+        <a><img src="../../static/img/logos/message.png" th:src="@{/img/logos/message.png}"/></a>
+    </div>
 </div>
 <script>
     // 记录当前是哪一个页面被显示中
@@ -40,18 +53,21 @@
     // 获取每一个标签按钮div
     var footerDivs = $(".bottomIcon");
     // 每个页面对应的网页url
-    var urls = ["/yoga/teacher/page1", "http://www.gamersky.com", "http://www.woniuxy.com/", "http://www.beiwo.tv", "/yoga/teacher/page5"];
+    var urls = ["/yoga/teacher/page0", "/yoga/teacher/postPage", "/yoga/teacher/page2"];
     // 取得每一个网页的div框体dom对象
     var pages = $(".main");
     // 取得每一个iframe的dom对象
     var windows = $(".frame");
     $(function () {
         var footerWidth = $("#footer").css("width");// 获取底部标签栏的宽度
-        var useWidth = footerWidth.substr(0, footerWidth.length - 2) / 5 + "px";// 每个标签占的宽度
+        var useWidth = footerWidth.substr(0, footerWidth.length - 2) / 3 + "px";// 每个标签占的宽度
         $(".bottomIcon").css("width", useWidth);// 五个标签div的宽度都一样
         var windowHeight = document.documentElement.clientHeight;// 当前视图的总高度
         $("#center").css("height", (windowHeight - 50) + "px");// 底部标签栏高50px，所以减去50
         $("iframe").css("height", $("#center").css("height"));
+        // 中间橙色图标位置矫正
+        var mid_distance_left = (useWidth.substr(0, useWidth.length - 2) - 90) / 2 + "px";
+        $("#add_picture").css("margin-left", mid_distance_left);
     })
 
     function showPage(num) {
@@ -71,6 +87,13 @@
                     pages.eq(i).css("display", "none");
                     footerDivs.eq(i).css("background-color", "#44a0b3");
                 }
+            }
+            if (num == 0) {
+                $("#add_button").css("background", "linear-gradient(to left, #44a0b3, #44a0b3, rgba(68, 160, 179, .5))");
+            } else if (num == 2) {
+                $("#add_button").css("background", "linear-gradient(to left, rgba(68, 160, 179, .5), #44a0b3, #44a0b3)");
+            } else {
+                $("#add_button").css("background", "linear-gradient(to left, #44a0b3,rgba(68, 160, 179, .5), #44a0b3)");
             }
         }
     }

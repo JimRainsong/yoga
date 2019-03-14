@@ -3,62 +3,35 @@
 <head>
     <meta charset="UTF-8">
     <title>个人中心</title>
-    <link rel="stylesheet" type="text/css" th:href="@{/css/teacher/page5.css}">
-    <script th:src="@{/js/jquery.min.js}"></script>
+    <link rel="stylesheet" type="text/css" href="../../static/css/teacher/page2.css"
+          th:href="@{/css/teacher/page2.css}">
+    <script th:src="@{/js/jquery.min.js}" src="../../static/js/jquery.min.js"></script>
 </head>
 <body>
-<shiro:guest>
-    <div class="logout">请<a th:href="@{/teacher/registerPage}">注册</a>或者<a th:href="@{/teacher/loginPage}">登陆</a></div>
-</shiro:guest>
+<!--<shiro:guest>-->
+<!--<div class="logout">请<a th:href="@{/teacher/registerPage}">注册</a>或者<a th:href="@{/teacher/loginPage}">登陆</a></div>-->
+<!--</shiro:guest>-->
 <shiro:authenticated>
-    <div class="logined">
-        欢迎你，
-    </div>
-    <span onclick="logout()">注销</span>
-    <div id="others">
-        <div class="press_buttons">
-            <a th:href="@{/teacher/wallet}">我的钱包</a>
+    <header class="white_area">
+        <div id="head_img" style="width: 24%">
+            <img src="../../static/img/head_imgs/dddsx.jpg"/>
         </div>
+        <div id="name" style="width: 75%"></div>
+    </header>
+    <div id="my_wallet" class="white_area" onclick="openPage('wallet')">
+        我的钱包
     </div>
+    <div class="white_area" id="manager">
+        <div class="single_manager">私教邀请</div>
+        <div class="separate_line"></div>
+        <div class="single_manager">我的场馆</div>
+        <div class="separate_line"></div>
+        <div class="single_manager">个人资料</div>
+        <div class="separate_line"></div>
+        <div class="single_manager">我的关注</div>
+    </div>
+    <div id="quit" onclick="openFooterConfirmPage()" class="white_area">注销</div>
 </shiro:authenticated>
-
-<div id="registerWindow" class="modal">
-    <form id="register">
-
-    </form>
-</div>
-
-<div id="loginWindow" class="modal">
-    <form id="login">
-        <table>
-            <tr>
-                <td>用户名</td>
-                <td colspan="4"><input type="text" name="username" id="username"></td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td>密码</td>
-                <td colspan="4"><input type="password" name="password" id="password"></td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-        </table>
-    </form>
-    <div>
-        <button onclick="login()">登陆</button>
-        <button onclick="openDialog('loginWindow','none')">取消</button>
-    </div>
-</div>
-
-<div id="wall" class="modal"></div>
-
-<div id="message" class="modal">
-    <span id="word">这是一条测试内容</span><br><br>
-    <button onclick="openDialog('message','none')">知道了</button>
-</div>
 
 <script>
     // 视窗可见区域的宽和高
@@ -118,6 +91,14 @@
                 window.location.reload();
             }
         })
+    }
+
+    function openPage(name) {
+        window.location.href = "/yoga/teacher/" + name;
+    }
+
+    function openFooterConfirmPage() {
+
     }
 </script>
 </body>

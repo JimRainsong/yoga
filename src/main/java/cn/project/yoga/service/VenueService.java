@@ -3,6 +3,7 @@ package cn.project.yoga.service;
 
 
 import cn.project.yoga.pojo.Selstudent;
+import cn.project.yoga.pojo.VenMoment;
 import cn.project.yoga.pojo.Venue;
 import cn.project.yoga.pojo.Vip_type;
 
@@ -27,4 +28,6 @@ public interface VenueService {
     List<Selstudent> findStudents(Integer currentPage, Integer pageSize, Integer venueId);
 
     List<Vip_type> selShowVipType(Integer currentPage, Integer pageSize, Integer venueId);
+
+    List<VenMoment> allMoments2();
 }

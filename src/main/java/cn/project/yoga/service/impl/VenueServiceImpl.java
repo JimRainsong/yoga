@@ -3,10 +3,7 @@ package cn.project.yoga.service.impl;
 import cn.project.yoga.dao.SelstudentMapper;
 import cn.project.yoga.dao.VenueMapper;
 import cn.project.yoga.dao.Vip_typeMapper;
-import cn.project.yoga.pojo.Selstudent;
-import cn.project.yoga.pojo.User_info;
-import cn.project.yoga.pojo.Venue;
-import cn.project.yoga.pojo.Vip_type;
+import cn.project.yoga.pojo.*;
 import cn.project.yoga.service.VenueService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -34,8 +31,7 @@ public class VenueServiceImpl implements VenueService {
 
     @Override
     public List<Selstudent> findStudents(Integer currentPage, Integer pageSize, Integer venueId) {
-            List<Selstudent> students =selstudentMapper.selectStudentByvenueId(currentPage,pageSize,venueId);
-
+        List<Selstudent> students = selstudentMapper.selectStudentByvenueId(currentPage, pageSize, venueId);
 
 
         return students;
@@ -43,7 +39,12 @@ public class VenueServiceImpl implements VenueService {
 
     @Override
     public List<Vip_type> selShowVipType(Integer currentPage, Integer pageSize, Integer venueId) {
-        List<Vip_type>vip_types=vip_typeMapper.selShowVipType(currentPage,pageSize,venueId);
+        List<Vip_type> vip_types = vip_typeMapper.selShowVipType(currentPage, pageSize, venueId);
         return vip_types;
+    }
+
+    @Override
+    public List<VenMoment> allMoments2() {
+        return venueMapper.allMoments2();
     }
 }
