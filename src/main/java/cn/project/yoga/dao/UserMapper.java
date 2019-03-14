@@ -34,7 +34,7 @@ public interface UserMapper {
      * @param user
      * @return
      */
-    @Update("update user set phone_number=#{phoneNumber} where user_id=#{0}")
+    @Update("update user set  phone_number=#{phoneNumber} where user_id=#{0}")
     int updateUserInfo1(User user);
 
     /**

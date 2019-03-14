@@ -15,8 +15,14 @@ public class UserViewController {
         return "user/login";
     }
 
+    @RequestMapping("/user")
+    public String user(){
+        return "user/user";
+    }
+
     @RequestMapping("/userinfo")
     public String userInfo(){
         return "user/userinfo";
     }
+
 }

@@ -18,6 +18,10 @@ public interface AdMapper {
 
     int updateByPrimaryKey(Ad record);
 
+    /**
+     * 查询所有广告
+     * @return
+     */
     @Select("select * from ad where examine=0 and flag=0")
     List<Ad> selectAllAd1();
 }

@@ -2,6 +2,7 @@ package cn.project.yoga.controller;
 
 import cn.project.yoga.pojo.Ad;
 import cn.project.yoga.pojo.User;
+import cn.project.yoga.pojo.User_info;
 import cn.project.yoga.service.UserService;
 import cn.project.yoga.utils.Attributes;
 import cn.project.yoga.utils.Md5Encoder;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.Collection;
 import java.util.List;
 
 @Controller
@@ -91,11 +93,11 @@ public class UserController {
      * @param user
      * @return 字符串，更新成功/失败
      */
-    @RequestMapping("/update")
+    @RequestMapping("/updateUserInfo")
     @ResponseBody
-    public String updateInfo(User user){
+    public String updateInfo(User_info user){
        String state = userService.updateUserInfo1(user);
-       return state;
+        return state;
     }
     @RequestMapping("/lookAd")
     @ResponseBody
@@ -110,9 +112,17 @@ public class UserController {
         Subject subject=SecurityUtils.getSubject();
         Session session=subject.getSession();
         String userName="";
-        userName=session.getAttribute(Attributes.currentUserName).toString();
+        Collection collection=session.getAttributeKeys();
+        userName=(String) subject.getPrincipal();
         String name=userService.selectUserNetName(userName);
         return name;
+    }
+
+    @RequestMapping("/selectMyInfo")
+    @ResponseBody
+    public User_info getUserInfo(){
+        User_info user_info=userService.selectMyInfo();
+        return user_info;
     }
 
 }
