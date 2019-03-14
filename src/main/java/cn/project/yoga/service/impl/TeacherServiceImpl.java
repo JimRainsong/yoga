@@ -1,11 +1,15 @@
 package cn.project.yoga.service.impl;
 
+import cn.project.yoga.dao.AppointmentMapper;
 import cn.project.yoga.dao.TeacherMapper;
 import cn.project.yoga.dao.UserMapper;
+import cn.project.yoga.pojo.Appointment;
 import cn.project.yoga.pojo.User;
 import cn.project.yoga.service.TeacherService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class TeacherServiceImpl implements TeacherService {
@@ -15,6 +19,9 @@ public class TeacherServiceImpl implements TeacherService {
 
     @Autowired
     private TeacherMapper teacherMapper;
+
+    @Autowired
+    private AppointmentMapper appointmentMapper;
 
     @Override
     public int insertUser(User user1) {
@@ -38,6 +45,14 @@ public class TeacherServiceImpl implements TeacherService {
     @Override
     public Double selectBalanceByTeacherName2(String name) {
         return teacherMapper.selectBalanceByTeacherName2(name);
+    }
+
+
+
+    //查看所有appointment  预约信息
+    @Override
+    public List<Appointment> selappointmentbyTeachername(String name) {
+        return appointmentMapper.selappointmentbyTeachername(name);
     }
 
 

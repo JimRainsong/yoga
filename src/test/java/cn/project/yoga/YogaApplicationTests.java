@@ -1,5 +1,7 @@
 package cn.project.yoga;
 
+import cn.project.yoga.dao.AppointmentMapper;
+import cn.project.yoga.dao.TeacherMapper;
 import cn.project.yoga.dao.UserMapper;
 import cn.project.yoga.pojo.Selstudent;
 import cn.project.yoga.service.UserService;
@@ -19,6 +21,9 @@ public class YogaApplicationTests {
     @Autowired
     private UserService userService;
     @Autowired
+    private AppointmentMapper mapper;
+
+    @Autowired
     private VenueService venueService;
     @Test
     public void contextLoads() {
@@ -26,6 +31,7 @@ public class YogaApplicationTests {
         System.out.println(userService.selectUserByUserName("coach").getUserName());
         List<Selstudent> list = venueService.findStudents(1,1,1);
         System.out.println(list.get(0).getNetName());
+
 
     }
 

@@ -1,5 +1,6 @@
 package cn.project.yoga.controller;
 
+import cn.project.yoga.pojo.Appointment;
 import cn.project.yoga.service.UserService;
 import cn.project.yoga.pojo.User;
 import cn.project.yoga.service.TeacherService;
@@ -12,12 +13,18 @@ import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
+import org.apache.shiro.web.servlet.ShiroHttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+import sun.security.provider.MD5;
+
+import javax.annotation.Resource;
+import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 @RequestMapping("/teacher")
@@ -108,5 +115,30 @@ public class TeacherController {
         modelAndView.addObject("balance", balance);
         return modelAndView;
     }
+
+    @RequestMapping("/allappointment")
+    @ResponseBody
+    public List<Appointment> allmessages(){
+        System.out.println("查询老师的课程");
+
+    List<Appointment> list = new ArrayList<Appointment>();
+    Session session=SecurityUtils.getSubject().getSession();
+    String name = (String) session.getAttribute("currentUserName");
+    list = teacherService.selappointmentbyTeachername(name);
+    System.out.println(list);
+    return  list;
+
+    }
+
+
+
+
+
+
+
+
+
+
+
 }
 //暴风哭泣

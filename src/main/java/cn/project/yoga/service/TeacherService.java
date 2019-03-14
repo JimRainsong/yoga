@@ -1,8 +1,11 @@
 package cn.project.yoga.service;
 
+import cn.project.yoga.pojo.Appointment;
 import cn.project.yoga.pojo.User;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Update;
+
+import java.util.List;
 
 public interface TeacherService {
 
@@ -15,6 +18,9 @@ public interface TeacherService {
 
 
     int updateIfauthById4_1(Integer teacherId,Integer val);
+
+    //查看所有的 appointment  预约信息
+    List<Appointment> selappointmentbyTeachername(String name);
 
     Double selectBalanceByTeacherName2(String name);
 }
