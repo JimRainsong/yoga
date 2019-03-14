@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>场馆认证</title>
+    <title>场馆,教练,广告认证</title>
     <link rel="stylesheet" th:href="@{/css/themes/icon.css}">
     <link rel="stylesheet" th:href="@{/css/themes/default/easyui.css}">
     <link rel="stylesheet" th:href="@{/css/themes/tree.css}">
@@ -11,8 +11,9 @@
     <script th:src="@{/js/easyui-lang-zh_CN.js}"></script>
 </head>
 <body>
+<div style="width: 1000px;height: 80px;color: #CC2222;size: 40px;text-align: center;line-height: 80px">场馆认证</div>
 <table id="dg" class="easyui-datagrid"
-       data-options="width:1000,title:'场馆认证操作(提示 : 1 为未认证; 2 为拒绝认证)',url:'/yoga/manager/selallvenues',fitColumns:true,striped:true,pagination:true,rownumbers:true,pageNumber:1,pageSize:5,pageList:[5,10,15],toolbar:'#tb'">
+       data-options="width:1000,title:'场馆认证操作',url:'/yoga/manager/selallvenues',fitColumns:true,striped:true,pagination:true,rownumbers:true,pageNumber:1,pageSize:5,pageList:[5,10,15],toolbar:'#tb'">
     <thead>
     <tr>
         <th data-options="field:'venueId',title:'场馆编号',width:80,align:'center'"></th>
@@ -23,7 +24,7 @@
         <th data-options="field:'qq',title:'场馆QQ',width:80,align:'center'"></th>
         <th data-options="field:'venueDetails',title:'场馆详细信息',width:80,align:'center'"></th>
         <th data-options="field:'authInfo',title:'认证资料',width:80,align:'center'"></th>
-        <th data-options="field:'authState',title:'认证是否通过',width:80,align:'center'"></th>
+        <th data-options="field:'authState',title:'认证是否通过',width:80,align:'center'" formatter="checkState"></th>
     </tr>
     </thead>
 </table>
@@ -40,9 +41,9 @@
     <button onclick="update(1)">未通过认证</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
     <button onclick="update(2)">拒绝认证</button>
 </div>
-<div style="width: 800px;height: 200px"></div><!--分割符-->
+<div style="width: 1000px;height: 80px;color: #CC2222;size: 40px;text-align: center;line-height: 80px">教练认证</div><!--分割符-->
 <table id="dgtwo" class="easyui-datagrid"
-       data-options="width:1000,title:'教练认证操作(提示 : 1 为未认证; 2 为拒绝认证)',url:'/yoga/manager/selallteacher',fitColumns:true,striped:true,pagination:true,rownumbers:true,pageNumber:1,pageSize:5,pageList:[5,10,15],toolbar:'#tbtwo'">
+       data-options="width:1000,title:'教练认证操作',url:'/yoga/manager/selallteacher',fitColumns:true,striped:true,pagination:true,rownumbers:true,pageNumber:1,pageSize:5,pageList:[5,10,15],toolbar:'#tbtwo'">
     <thead>
     <tr>
         <th data-options="field:'teacherId',title:'教练编号',width:80,align:'center'"></th>
@@ -52,18 +53,53 @@
         <th data-options="field:'teacherIdnum',title:'教练身份证号',width:80,align:'center'"></th>
         <th data-options="field:'teacherSex',title:'教练性别',width:80,align:'center'"></th>
         <th data-options="field:'authInfo',title:'教练详细信息',width:80,align:'center'"></th>
-        <th data-options="field:'ifAuth',title:'是否认证通过',width:80,align:'center'"></th>
+        <th data-options="field:'ifAuth',title:'是否认证通过',width:80,align:'center'" formatter="checkTeacherState"></th>
     </tr>
     </thead>
 </table>
 <div id="tbtwo">
     <a class="easyui-linkbutton" data-options="iconCls:'icon-add'" onclick="updateteacher()">认证教练</a>
+    <form>
+        教练名：<input type="text" name="teacherName" id="teacherName">
+        <a class="easyui-linkbutton" data-options="iconCls:'icon-search'" onclick="searchteacher()">搜索</a>
+    </form>
 </div>
 <div id="dlgtwo" class="easyui-dialog" data-options="width:520,height:100,modal:true,closed:true" style="padding: 20px">
     <button onclick="updatetwo(0)">通过认证</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
     <button onclick="updatetwo(1)">未通过认证</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
     <button onclick="updatetwo(2)">拒绝认证</button>
 </div>
+<div style="width: 1000px;height: 80px;color: #CC2222;size: 40px;text-align: center;line-height: 80px">广告设置</div>
+<table id="dgthree" class="easyui-datagrid"
+       data-options="width:1000,title:'广告操作',url:'/yoga/manager/selallad',fitColumns:true,striped:true,pagination:true,rownumbers:true,pageNumber:1,pageSize:5,pageList:[5,10,15],toolbar:'#tbthree'">
+    <thead>
+    <tr>
+        <th data-options="field:'adId',title:'广告编号',width:80,align:'center'"></th>
+        <th data-options="field:'adTitle',title:'广告标题',width:80,align:'center'"></th>
+        <th data-options="field:'adDetails',title:'广告详情',width:80,align:'center'"></th>
+        <th data-options="field:'adImg',title:'广告图片',width:80,align:'center',formatter:showImg" ></th>
+        <th data-options="field:'adTime',title:'广告上传时间',width:80,align:'center'"></th>
+        <th data-options="field:'examine',title:'广告审核',width:80,align:'center'" formatter="checkad"></th>
+    </tr>
+    </thead>
+</table>
+<div id="tbthree">
+    <a class="easyui-linkbutton" data-options="iconCls:'icon-add'" onclick="updatead()">认证广告</a>
+    <form>
+        广告标题查询：<input type="text" name="adtitle" id="adtitle">
+        <a class="easyui-linkbutton" data-options="iconCls:'icon-search'" onclick="searchad()">搜索</a>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <a class="easyui-linkbutton" data-options="iconCls:'icon-search'" onclick="searchad(0)">搜索已认证的广告</a>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <a class="easyui-linkbutton" data-options="iconCls:'icon-search'" onclick="searchad(1)">搜索未认证的广告</a>
+    </form>
+</div>
+<div id="dlgthree" class="easyui-dialog" data-options="width:520,height:100,modal:true,closed:true" style="padding: 20px">
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <button onclick="updatethree(0)">确认通过</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <button onclick="updatethree(1)">不能通过</button>
+</div>
+<div style="width: 800px;height: 300px"></div>
 </body>
 <script>
     /*修改场馆信息,点击展开认证窗口*/
@@ -92,7 +128,6 @@
                 } else {
                     $.messager.alert("提示", data.message);
                 }
-
             }
         })
     }
@@ -102,6 +137,7 @@
         $("#dg").datagrid("reload", {
             venueName: $("#venueName").val()
         });
+       $("#venueName").val("")
     }
 
     /*修改教练信息,展开认证窗口*/
@@ -135,8 +171,86 @@
             }
         })
     }
+    /*教练模糊查询*/
+    function searchteacher() {
+        $("#dgtwo").datagrid("reload", {
+            teacherName: $("#teacherName").val()
+        });
+        $("#teacherName").val("")
+    }
 
 
 
+    /*点击广告认证,效验数据*/
+    function updatead() {
+        var rows = $("#dgthree").datagrid("getSelections");
+        if (rows.length != 1) {
+            $.messager.alert("提示", "请选择一条数据进行操作");
+            return;
+        }
+        $("#dlgthree").dialog("open").dialog("setTitle", "广告认证");
+    }
+    /*广告更新认证*/
+    function updatethree(data) {
+        $.ajax({
+            url: '/yoga/manager/updatead',
+            type: 'post',
+            data: {
+                adId: $("#dgthree").datagrid("getSelected").adId,
+                val: data
+            },
+            success: function (data) {
+                if (data.ok == 0) {
+                    $.messager.alert("提示", data.message);
+                    $("#dlgthree").dialog("close");
+                    $("#dgthree").datagrid("reload");
+                } else {
+                    $.messager.alert("提示", data.message);
+                }
+            }
+        })
+    }
+    /*根据条件查询已认证和未认证的广告*/
+    function searchad(da) {
+        $("#dgthree").datagrid("reload", {
+            datas: da,
+            adtitles:$('#adtitle').val()
+        });
+        $("#adtitle").val("")
+    }
+
+
+    /*更改场馆认证数据形式*/
+    function checkState(val,row) {
+        if (row.authState ==1){
+            return "未认证"
+        }else{
+            return "认证拒绝";
+        }
+    }
+    /*更改教练认证数据形式*/
+    function checkTeacherState(val,row) {
+        if (row.ifAuth ==1){
+            return "未认证"
+        }else{
+            return "认证拒绝";
+        }
+    }
+    /*更改广告通过数据格式*/
+    function checkad(val,row) {
+        if (row.examine ==0){
+            return "已通过";
+        }else {
+            return "未通过";
+        }
+    }
+/*图片格式转换*/
+    function showImg(value,row,index){
+        if (value){
+            return "<img src='"+value+"' style='width:60px;height:60px'";
+        } else{
+            return null;
+        }
+    }
 </script>
 </html>

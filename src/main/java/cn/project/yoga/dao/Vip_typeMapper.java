@@ -21,6 +21,6 @@ public interface Vip_typeMapper {
      *展示会员卡类型
      * 场馆-cjm
      */
-    @Select("select * from vip_type where venue_id=#{0} and flag=0")
-    List<Vip_type> selShowVipType(Integer currentPage, Integer pageSize, Integer venueId);
+    @Select("select * from vip_type where venue_id=#{venueId} and flag=0")
+    public List<Vip_type> selShowVipType(Integer currentPage, Integer pageSize, Integer venueId);
 }

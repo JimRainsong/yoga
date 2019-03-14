@@ -13,6 +13,16 @@ public class Ad {
 
     private Integer examine;
 
+    private String adTime;
+
+    public String getAdTime() {
+        return adTime;
+    }
+
+    public void setAdTime(String adTime) {
+        this.adTime = adTime;
+    }
+
     public Integer getAdId() {
         return adId;
     }
