@@ -3,6 +3,7 @@ package cn.project.yoga.controller;
 import cn.project.yoga.pojo.*;
 import cn.project.yoga.service.VenueService;
 import cn.project.yoga.utils.LayUiDataUtil;
+import cn.project.yoga.vo.TeacherTypeVo;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -39,7 +40,6 @@ public class VenueController {
     * 分页
     * 场馆-陈家明
     */
-
     @RequestMapping("/studentDatas")
     @ResponseBody
     public Map<String, Object> getStudentDatas(@RequestParam(value = "page",defaultValue = "1",required = false)Integer currentPage,
@@ -55,7 +55,23 @@ public class VenueController {
 //        result.put("total",pageInfo.getTotal());
         System.out.println(list.get(0).getNetName());
         return result;
-
+    }
+    /*
+     *所有教练展示
+     * 分页
+     * 场馆-cy
+     */
+    @RequestMapping("/teacherDatas")
+    @ResponseBody
+    public Map<String, Object> getTeacherData(TeacherTypeVo teacherTypeVo,
+                                              @RequestParam(value = "page",defaultValue = "1",required = false)Integer currentPage,
+                                              @RequestParam(value = "rows",defaultValue = "2",required = false)Integer pageSize) {
+        List<Venue_teacher> list = venueService.findTeachers(currentPage,pageSize,teacherTypeVo);
+        PageInfo pageInfo = new PageInfo(list);
+        Map<String,Object> result = new HashMap<String,Object>();
+        result.put("rows",list);
+        result.put("total",pageInfo.getTotal());
+        return result;
     }
 
     @RequestMapping("/showVipDatas")

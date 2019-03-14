@@ -1,11 +1,14 @@
 package cn.project.yoga.service.impl;
 
+import cn.project.yoga.dao.*;
+import cn.project.yoga.pojo.*;
 import cn.project.yoga.dao.AttentionMapper;
 import cn.project.yoga.dao.SelstudentMapper;
 import cn.project.yoga.dao.VenueMapper;
 import cn.project.yoga.dao.Vip_typeMapper;
 import cn.project.yoga.pojo.*;
 import cn.project.yoga.service.VenueService;
+import cn.project.yoga.vo.TeacherTypeVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,9 +24,15 @@ public class VenueServiceImpl implements VenueService {
     private Vip_typeMapper vip_typeMapper;
     @Autowired
     private AttentionMapper attentionMapper;
+    @Autowired
+    private Venue_teacherMapper venue_teacherMapper;
+    @Autowired
+    private TeacherMapper teacherMapper;
+
 
     @Override
     public int addVenue(Venue venue) {
+
         return venueMapper.insertSelective(venue);
     }
 
@@ -53,5 +62,14 @@ public class VenueServiceImpl implements VenueService {
         System.out.println(venue.getUserId());
         List<User_info> attentions=attentionMapper.selShowattention(currentPage,pageSize,venue.getUserId());
         return attentions;
+    }
+
+    @Override
+    public List<Venue_teacher> findTeachers(Integer currentPage, Integer pageSize, TeacherTypeVo teacherTypeVo) {
+        Venue_teacher venue_teacher=new Venue_teacher();
+        venue_teacher.setVenueId(teacherTypeVo.getVid());
+        venue_teacher.setTeacherState(teacherTypeVo.getTeype());
+        List<Venue_teacher> teachers =venue_teacherMapper.selectTeachers(venue_teacher,currentPage,pageSize);
+        return teachers;
     }
 }
