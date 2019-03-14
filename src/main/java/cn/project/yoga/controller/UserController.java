@@ -18,9 +18,15 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
+import java.io.File;
+import java.io.IOException;
 import java.util.Collection;
 import java.util.List;
+import java.util.UUID;
 
 @Controller
 @RequestMapping("/user")
@@ -118,11 +124,71 @@ public class UserController {
         return name;
     }
 
+    /**
+     * 查询个人信息 zjn
+     * @return
+     */
     @RequestMapping("/selectMyInfo")
     @ResponseBody
     public User_info getUserInfo(){
         User_info user_info=userService.selectMyInfo();
+        System.out.println(user_info.getLevel());
         return user_info;
+    }
+
+    /**
+     * 用户充值
+     * @return
+     */
+    @RequestMapping("/recharge")
+    @ResponseBody
+    public String recharge(Integer money){
+        String state=userService.recharge(money);
+        return state;
+    }
+
+
+    @RequestMapping(value="/upload",produces="text/html;charset=UTF-8")
+    @ResponseBody
+    public String upload(HttpServletRequest request,MultipartFile imgName){
+        String imgname=imgName.getOriginalFilename();
+        System.out.println("图片名："+imgName);
+        if (imgname==null || imgname.equals("")) {
+            return "请选择文件";
+        }
+
+
+        //根据当前项目的路径获取到服务器的物理路径
+        ServletContext context = request.getServletContext();
+        String path = context.getRealPath("/img");
+        System.out.println(path);
+
+        //判断当前服务器是否有upload文件夹
+        File file = new File(path);
+        if(!file.exists()) file.mkdirs();
+
+        //在file文件夹里面创建一个文件对象
+        String filename=changeName(imgName.getOriginalFilename());
+        File file2 = new File(path,filename);
+
+        try {
+            imgName.transferTo(file2);
+        } catch (IllegalStateException e) {
+            e.printStackTrace();
+            return "上传失败";
+        } catch (IOException e) {
+
+            e.printStackTrace();
+            return "上传失败";
+        }
+        //将路径保存到数据库
+        String source="/yoga/img/"+filename;
+        String state=userService.updateImg(source);
+        return state;
+    }
+
+    public String changeName(String oldName){
+        return UUID.randomUUID()+"_"+oldName;
     }
 
 }

@@ -104,4 +104,8 @@ public interface UserService {
      * @return
      */
     User_info selectMyInfo();
+
+    String recharge(Integer money);
+
+    String updateImg(String source);
 }

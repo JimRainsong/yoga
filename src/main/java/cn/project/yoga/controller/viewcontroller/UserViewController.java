@@ -20,9 +20,13 @@ public class UserViewController {
         return "user/user";
     }
 
-    @RequestMapping("/userinfo")
-    public String userInfo(){
-        return "user/userinfo";
+    @RequestMapping("/info")
+    public String userInfo1(){
+        return "user/myinfo";
+    }
+    @RequestMapping("/mymoney")
+    public String myMoney(){
+        return "user/myMoney";
     }
 
 }
