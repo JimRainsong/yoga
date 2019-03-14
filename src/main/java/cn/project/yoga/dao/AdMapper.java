@@ -1,7 +1,9 @@
 package cn.project.yoga.dao;
 
 import cn.project.yoga.pojo.Ad;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 
 import java.util.List;
 
@@ -35,7 +37,7 @@ public interface AdMapper {
             "</if>"+
             "</where>"+
     "</script>")
-    List<Ad> selAllAdBylimitAndPage(@Param("currentPage") Integer currentPage, @Param("pageSize") Integer pageSize,@Param("datas") Integer datas, @Param("adtitle") String adtitle);
+    List<Ad> selAllAdBylimitAndPage(@Param("currentPage") Integer currentPage, @Param("pageSize") Integer pageSize, @Param("datas") Integer datas, @Param("adtitle") String adtitle);
 
     /**  zjl
      * 根据广告id , 更改广告认证
