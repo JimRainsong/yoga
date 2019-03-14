@@ -34,13 +34,13 @@ public class TeacherViewController {
         return "teacher/register";
     }
 //
-//    @RequestMapping("/message")
-//    public String info(){
-//        return "teacher/message";}
-    @RequestMapping("/info")
-    public String info() {
-        return "teacher/g1";
-    }
+    @RequestMapping("/message")
+    public String info(){
+        return "teacher/message";}
+//    @RequestMapping("/info")
+//    public String info() {
+//        return "teacher/g1";
+//    }
 
 
 }

@@ -5,28 +5,110 @@
     <title>个人中心</title>
     <link rel="stylesheet" type="text/css" th:href="@{/css/teacher/message.css}">
     <script th:src="@{/js/jquery.min.js}"></script>
+
+    <style>
+        .line{
+            height: 10px;
+            width: 70%;
+            background: -webkit-linear-gradient(left,rgba(255, 255, 255, 0),#5DDDD3,rgba(255,255,255,0));
+            background: linear-gradient(to right, rgba(255, 255, 255, 0),#5DDDD3,rgba(255,255,255,0));
+
+        }
+
+    </style>
 </head>
 <body>
 
-        <h1>我的消息11</h1>
+<br>
+<br>
+<br>
+
+<div class="message001" style="width: 95%;height: 40%">
+    <h1>我的消息11</h1>
+    <h1>消息列表</h1>
+    <h1>我的消息11</h1>
+    <!--<a><img  align="middle" style="width: 95% " th:src="@{/img/cgx2.png}"/></a>-->
+
+    <div class="line" style="margin-top: 20px"></div>
+</div>
 
 
-        <div class="head1"> 消息列表</div>
+<button onclick="openDialog('message','block')">QQQQQQ</button>
+         <div class="message1" id="dogs"></div>
+
+
+<div id="wall" class="modal"></div>
+
+<div id="message" class="modal">
+    <span id="word">这是一条测试内容</span><br><br>
+    <button onclick="openDialog('message','none')">知道了</button>
+</div>
+<script>
+    // 初始化各个模态框的位置，居中显示
+    $(function () {
+        var modals = $(".modal");
+        for (var i = 0; i < modals.length; i++) {
+            var thisWidth = modals.eq(i).css("width");
+            var thisHeight = modals.eq(i).css("height");
+            var useWidth = thisWidth.substr(0, thisWidth.length - 2);
+            var userHeight = thisHeight.substr(0, thisHeight.length - 2);
+            var topDistance = (windowHeight - userHeight) / 2 - 50;
+            var leftDinstance = (windowWidth - useWidth) / 2;
+            modals.eq(i).css("margin", topDistance + "px " + leftDinstance + "px");
+        }
+    })
+
+    function openDialog(id, state) {
+        $("#" + id).css("display", state);
+        $("#wall").css("display", state);
+    }
 
 
 
-        <div id="messages">
+    $.ajax({
+        url: "/yoga/teacher/allappointment",
+        type: "post",
+        async: false,
+        data: {},
+        dataType: "json",
+        success: function (list) {
 
 
-         <div class="message1">
-             <div class="message2">新的预约</div>
-             <div class="message2">学员信息</div>
-             <div class="message2">预约时间段</div>
-             <div class="message2">场馆地址</div>
-             <div class="message2">请求状态</div>
-         </div>
+            for( var i=0; i< list.length;i++) {
+                var b = list[i];
+                var  c = "";
+                if (b.state==1){
+                    c="未审核"
+                }else if (b.state==0){
+                    c="已通过"
+                }else if (b.state==2){
+                    c="已拒绝"
+                }
 
-        </div>
+                var content =  "<div class=\"mes2\" id="+b.cId+">"+
+                    "<div class=\"message2\">"+b.uName+"</div>"+
+                    "<div class=\"message2\">"+b.uName+"</div>"+
+                    "<div class=\"message2\">"+b.startTime+b.endTime+"</div>"+
+                    "<div class=\"message2\">"+b.vAddress+"</div>"+
+                    "<div class=\"message2\">"+c+"</div>"+
+                    "<div class='line' style='margin-top: 20px'></div>"+
+                        "<input type='button' value='接受' onclick='alert("+b.cId+")'>"+
+                        "<input type='button' value='拒绝'>"+
+                    "</div>";
+                $("#dogs").append(content);
+            }
+        }
+    })
+    
+    function accept() {
+        
+    }
+    function refuse() {
+        
+    }
+
+
+</script>
 
 </body>
 </html>

@@ -19,8 +19,17 @@ public interface TeacherService {
 
     int updateIfauthById4_1(Integer teacherId,Integer val);
 
-    //查看所有的 appointment  预约信息
-    List<Appointment> selappointmentbyTeachername(String name);
+
+
 
     Double selectBalanceByTeacherName2(String name);
+
+    //通过用户名来获取 user表中 userid
+    Integer selUserIdByUsername2(String userName);
+
+    //通过user表中的userId 查询出 teacher表中 的teacher_id （因为以后后面的所有表都关联的是这个teacher_id）
+    Integer selTeacherIdByUserId2(Integer userId);
+
+    //查看所有的当前老师teahcerid 的 appointment  预约信息
+    List<Appointment> selappointmentbyTeacherId2(Integer teacherId);
 }

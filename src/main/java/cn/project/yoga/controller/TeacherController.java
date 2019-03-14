@@ -45,6 +45,11 @@ public class TeacherController {
                 subject.login(token);
                 Session session = SecurityUtils.getSubject().getSession();
                 session.setAttribute(Attributes.currentUserName, vo.getUserName());
+                Integer userId =teacherService.selUserIdByUsername2(vo.getUserName());
+                session.setAttribute(Attributes.currentUserId, userId);
+                Integer teacherId =teacherService.selTeacherIdByUserId2(userId);
+                session.setAttribute(Attributes.currentTeacherId, teacherId);
+
                 return ResultUtil.ok("登陆成功");
             } catch (UnknownAccountException uae) {
                 return ResultUtil.error("未知的用户类型");
@@ -123,8 +128,10 @@ public class TeacherController {
 
     List<Appointment> list = new ArrayList<Appointment>();
     Session session=SecurityUtils.getSubject().getSession();
-    String name = (String) session.getAttribute("currentUserName");
-    list = teacherService.selappointmentbyTeachername(name);
+
+    Integer teacherId =(Integer)session.getAttribute(Attributes.currentTeacherId);
+        System.out.println(teacherId);
+    list = teacherService.selappointmentbyTeacherId2(teacherId);
     System.out.println(list);
     return  list;
 
@@ -141,4 +148,4 @@ public class TeacherController {
 
 
 }
-//暴风哭泣
+

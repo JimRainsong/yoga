@@ -65,4 +65,8 @@ public interface UserMapper {
 
     @Select("select * from user_info where user_id=#{0}")
     User_info selUserLoveName(Integer userId);
+
+
+    @Select("select user_id from user where user_name=#{0}")
+    Integer selUserIdByUserName(String userName);
 }

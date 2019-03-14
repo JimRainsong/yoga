@@ -47,13 +47,23 @@ public class TeacherServiceImpl implements TeacherService {
         return teacherMapper.selectBalanceByTeacherName2(name);
     }
 
-
-
-    //查看所有appointment  预约信息
     @Override
-    public List<Appointment> selappointmentbyTeachername(String name) {
-        return appointmentMapper.selappointmentbyTeachername(name);
+    public Integer selUserIdByUsername2(String userName) {
+        return userMapper.selUserIdByUserName(userName);
     }
+
+    @Override
+    public Integer selTeacherIdByUserId2(Integer userId) {
+        return teacherMapper.selTeacherIdByUserId2(userId);
+    }
+
+
+    //查看所有  当前老师id 的 appointment  预约信息
+    @Override
+    public List<Appointment> selappointmentbyTeacherId2(Integer teacherId) {
+        return appointmentMapper.selappointmentbyteacherId2(teacherId);
+    }
+
 
 
 }
