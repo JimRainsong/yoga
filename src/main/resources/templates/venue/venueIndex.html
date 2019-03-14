@@ -48,11 +48,11 @@
             <ul class="layui-nav layui-nav-tree"  lay-filter="test">
                 <li class="layui-nav-item"><a href="javascript:studentTab()">学员管理</a></li>
                 <li class="layui-nav-item layui-nav-itemed">
-                    <a class="" href="javascript:;">教练管理</a>
+                    <a class="" >教练管理</a>
                     <dl class="layui-nav-child">
-                        <dd><a href="javascript:;">签约教练</a></dd>
+                        <dd><a href="javascript:myteacherTab();">签约教练</a></dd>
                         <dd><a href="javascript:;">课程安排</a></dd>
-                        <dd><a href="javascript:;">教练招聘</a></dd>
+                        <dd><a href="javascript:teacherTab();">教练招聘</a></dd>
                         <dd><a href="javascript:addTab();">超链接</a></dd>
                     </dl>
                 </li>
@@ -65,7 +65,7 @@
     <div class="layui-body">
         <div class="layui-tab" lay-filter="demo" lay-allowclose="true">
             <ul class="layui-tab-title">
-                <li class="layui-this" lay-id="11">网站设置</li>
+                <li class="layui-this" lay-id="11">首页</li>
             </ul>
             <div class="layui-tab-content">
                 <div class="layui-tab-item layui-show">没错我就是那个傻逼首页</div>
@@ -86,10 +86,25 @@
     layui.use('element', function(){
         element = layui.element;
     });
+
+
     var url  = null;
     var title= null;
     var eid  = null;
 
+
+    function teacherTab() {
+        url='/yoga/venue/teacher';
+        title="招聘教练";
+        eid="teacherTabId";
+        addTab();
+    }
+    function myteacherTab() {
+        url='/yoga/venue/myteacher';
+        title="签约教练";
+        eid="myteacherTabId";
+        addTab();
+    }
     function studentTab() {
         url='/yoga/venueUser/student';
         title="学员管理";
@@ -113,18 +128,19 @@
 
 
     function addTab() {
+        element.tabDelete('demo', eid);
         $.ajax({ url:url,
                  type:"GET",
                 success:function(result){
-                alert(result);
                      element.tabAdd('demo', {
-
                          title:title
                          ,content:result
                          ,id: eid //实际使用一般是规定好的id，这里以时间戳模拟下
                      })
+                    element.tabChange('demo', eid);
                      }
                  });
+        /*element.tabChange('demo', '22'); //切换到：用户管理*/
     }
    /* function reinitIframe(){
         var iframe = document.getElementById("test");

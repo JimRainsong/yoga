@@ -50,6 +50,7 @@ public class VenueServiceImpl implements VenueService {
         return students;
     }
 
+
     @Override
     public List<Vip_type> selShowVipType(Integer currentPage, Integer pageSize, Integer venueId) {
         List<Vip_type>vip_types=vip_typeMapper.selShowVipType(currentPage,pageSize,venueId);
@@ -65,10 +66,11 @@ public class VenueServiceImpl implements VenueService {
     }
 
     @Override
-    public List<Venue_teacher> findTeachers(Integer currentPage, Integer pageSize, TeacherTypeVo teacherTypeVo) {
+    public List<Venue_teacher> findTeachers(Integer currentPage, Integer pageSize, TeacherTypeVo teacherTypeVo,Teacher teacher) {
         Venue_teacher venue_teacher=new Venue_teacher();
         venue_teacher.setVenueId(teacherTypeVo.getVid());
         venue_teacher.setTeacherState(teacherTypeVo.getTeype());
+        venue_teacher.setTeacher(teacher);
         List<Venue_teacher> teachers =venue_teacherMapper.selectTeachers(venue_teacher,currentPage,pageSize);
         return teachers;
     }

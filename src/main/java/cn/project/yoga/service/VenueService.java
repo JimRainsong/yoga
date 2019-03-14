@@ -30,7 +30,7 @@ public interface VenueService {
      *场馆-陈家明
      */
 
-    List<Venue_teacher> findTeachers(Integer currentPage, Integer pageSize, TeacherTypeVo teacherTypeVo);
+    List<Venue_teacher> findTeachers(Integer currentPage, Integer pageSize, TeacherTypeVo teacherTypeVo,Teacher teacher);
 
     List<Vip_type> selShowVipType(Integer currentPage, Integer pageSize, Integer venueId);
     /*
@@ -38,4 +38,5 @@ public interface VenueService {
      *场馆-陈家明
      */
     List<User_info> selShowattention(Integer currentPage, Integer pageSize, Integer venueId);
+
 }

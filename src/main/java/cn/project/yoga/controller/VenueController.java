@@ -63,14 +63,27 @@ public class VenueController {
      */
     @RequestMapping("/teacherDatas")
     @ResponseBody
-    public Map<String, Object> getTeacherData(TeacherTypeVo teacherTypeVo,
+    public Map<String, Object> getTeacherData(@RequestParam(value = "vid")Integer vid,
+                                              @RequestParam(value = "teype")Integer teype,
                                               @RequestParam(value = "page",defaultValue = "1",required = false)Integer currentPage,
-                                              @RequestParam(value = "rows",defaultValue = "2",required = false)Integer pageSize) {
-        List<Venue_teacher> list = venueService.findTeachers(currentPage,pageSize,teacherTypeVo);
+                                              @RequestParam(value = "rows",defaultValue = "2",required = false)Integer pageSize,
+                                              @RequestParam(value = "teacherName")String teacherName,
+                                              @RequestParam(value = "teacherSex")String teacherSex) {
+
+        TeacherTypeVo teacherTypeVo=new TeacherTypeVo();
+        Teacher teacher=new Teacher();
+        teacher.setTeacherName(teacherName);
+        teacher.setTeacherSex(teacherSex);
+        System.out.println(vid+"================================="+teype);
+        teacherTypeVo.setVid(vid);
+        teacherTypeVo.setTeype(teype);
+        List<Venue_teacher> list = (List<Venue_teacher>) venueService.findTeachers(currentPage,pageSize,teacherTypeVo,teacher);
         PageInfo pageInfo = new PageInfo(list);
         Map<String,Object> result = new HashMap<String,Object>();
-        result.put("rows",list);
-        result.put("total",pageInfo.getTotal());
+        result.put("code",200);
+        result.put("msg","");
+        result.put("count",pageInfo.getTotal());
+        result.put("data",list);
         return result;
     }
 
