@@ -28,7 +28,8 @@ public class VenueServiceImpl implements VenueService {
     private Venue_teacherMapper venue_teacherMapper;
     @Autowired
     private TeacherMapper teacherMapper;
-
+    @Autowired
+    private AdMapper adMapper;
 
     @Override
     public int addVenue(Venue venue) {
@@ -68,6 +69,11 @@ public class VenueServiceImpl implements VenueService {
         System.out.println(venue.getUserId());
         List<User_info> attentions=attentionMapper.selShowattention(currentPage,pageSize,venue.getUserId());
         return attentions;
+    }
+
+    @Override
+    public int venueUploadAds(Ad ad) {
+      return adMapper.insertSelective(ad);
     }
 
     @Override

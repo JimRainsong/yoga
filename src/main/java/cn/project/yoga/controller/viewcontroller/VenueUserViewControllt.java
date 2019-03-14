@@ -35,4 +35,10 @@ public class VenueUserViewControllt {
     public String vipType() {
         return "venue/vipType";
     }
+    @RequestMapping("/uploadAds")
+    public String uploadAds() {
+        return "venue/uploadAds";
+    }
+
+
 }

@@ -45,4 +45,12 @@ public interface VenueService {
      */
     List<User_info> selShowattention(Integer currentPage, Integer pageSize, Integer venueId);
 
+
+    /**
+     * 场馆向平台提交广告申请
+     * 场馆-陈家明
+     * @param ad
+     * @return
+     */
+    int venueUploadAds(Ad ad);
 }
