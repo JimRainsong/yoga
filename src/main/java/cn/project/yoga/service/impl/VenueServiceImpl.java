@@ -8,6 +8,7 @@ import cn.project.yoga.dao.VenueMapper;
 import cn.project.yoga.dao.Vip_typeMapper;
 import cn.project.yoga.pojo.*;
 import cn.project.yoga.service.VenueService;
+import cn.project.yoga.vo.CourseVo;
 import cn.project.yoga.vo.TeacherTypeVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -30,6 +31,9 @@ public class VenueServiceImpl implements VenueService {
     private TeacherMapper teacherMapper;
     @Autowired
     private AdMapper adMapper;
+    @Autowired
+    private CourseMapper courseMapper;
+
 
     @Override
     public int addVenue(Venue venue) {
@@ -69,6 +73,11 @@ public class VenueServiceImpl implements VenueService {
         System.out.println(venue.getUserId());
         List<User_info> attentions=attentionMapper.selShowattention(currentPage,pageSize,venue.getUserId());
         return attentions;
+    }
+
+    @Override
+    public List<Course> selCourse(Integer currentPage, Integer pageSize, CourseVo courseVo) {
+        return courseMapper.selCourse(courseVo,currentPage,pageSize);
     }
 
     @Override

@@ -3,6 +3,7 @@ package cn.project.yoga.controller;
 import cn.project.yoga.pojo.*;
 import cn.project.yoga.service.VenueService;
 import cn.project.yoga.utils.LayUiDataUtil;
+import cn.project.yoga.vo.CourseVo;
 import cn.project.yoga.vo.TeacherTypeVo;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.Date;
 import javax.websocket.server.PathParam;
 import java.io.File;
 import java.io.IOException;
@@ -129,7 +131,29 @@ public class VenueController {
         result.put("count",pageInfo.getTotal());
         result.put("data",list);
         return result;
+    }
 
+    @RequestMapping("/courseDatas")
+    @ResponseBody
+    public Map<String, Object> showCourse(@RequestParam(value = "page",defaultValue = "1",required = false)Integer currentPage,
+                                          @RequestParam(value = "rows",defaultValue = "10",required = false)Integer pageSize,
+                                          @RequestParam(value = "vid")Integer venueId,
+                                          @RequestParam(value = "tname")String teacherName,
+                                          @RequestParam(value = "cname")String cname,
+                                          @RequestParam(value = "maxtime")Date maxtime,
+                                          @RequestParam(value = "mintime")Date mintime
+                                          ) {
+        List<Course> list =null;
+        CourseVo courseVo=new CourseVo(venueId,teacherName,cname,maxtime,mintime);
+        list = venueService.selCourse(currentPage,pageSize,courseVo);
+        System.out.println(list);
+        PageInfo pageInfo = new PageInfo(list);
+        Map<String,Object> result = new HashMap<String,Object>();
+        result.put("code",200);
+        result.put("msg","");
+        result.put("count",pageInfo.getTotal());
+        result.put("data",list);
+        return result;
     }
     /*
      *添加广告

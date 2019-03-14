@@ -7,6 +7,7 @@ import cn.project.yoga.pojo.VenMoment;
 import cn.project.yoga.pojo.Venue;
 import cn.project.yoga.pojo.Vip_type;
 import cn.project.yoga.pojo.*;
+import cn.project.yoga.vo.CourseVo;
 import cn.project.yoga.vo.TeacherTypeVo;
 import cn.project.yoga.pojo.*;
 
@@ -53,4 +54,5 @@ public interface VenueService {
      * @return
      */
     int venueUploadAds(Ad ad);
+    List<Course> selCourse(Integer currentPage, Integer pageSize, CourseVo courseVo);
 }
