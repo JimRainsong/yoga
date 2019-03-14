@@ -10,22 +10,27 @@ public class VenueUserViewControllt {
     public String login() {
         return "venue/login";
     }
+
     @RequestMapping("/register")
     public String register() {
         return "venue/register";
     }
+
     @RequestMapping("/venueIndex")
     public String venueIndex() {
         return "venue/venueIndex";
     }
+
     @RequestMapping("/student")
     public String student() {
         return "venue/student";
     }
+
     @RequestMapping("/atention")
     public String atention() {
         return "venue/atention";
     }
+
     @RequestMapping("/vipType")
     public String vipType() {
         return "venue/vipType";

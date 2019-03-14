@@ -2,9 +2,11 @@ package cn.project.yoga.service.impl;
 
 import cn.project.yoga.dao.AdMapper;
 import cn.project.yoga.dao.UserMapper;
+import cn.project.yoga.dao.User_infoMapper;
 import cn.project.yoga.dao.VenueMapper;
 import cn.project.yoga.pojo.*;
 import cn.project.yoga.service.UserService;
+import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.kafka.KafkaProperties;
 import org.springframework.stereotype.Service;
@@ -22,6 +24,9 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private AdMapper adMapper;
 
+    @Autowired
+    private User_infoMapper user_infoMapper;
+
     @Override
     public User selectUserByUserName(String userName) {
         return userMapper.selectUserByUserName(userName);
@@ -34,12 +39,20 @@ public class UserServiceImpl implements UserService {
      * @return  int 影响行数
      */
     @Override
-    public String updateUserInfo1(User user) {
-        int row = userMapper.updateUserInfo1(user);
-        if (row==1){
-            return "修改状态成功";
+    public String updateUserInfo1(User_info user) {
+
+        //查user_id
+        String userName= SecurityUtils.getSubject().getPrincipal().toString();
+        if (userName==null){
+            return "请先登录";
         }
-        return "修改状态失败";
+        int userId=userMapper.selectUserByUserName(userName).getUserId();
+        user.setUserId(userId);
+        int row = user_infoMapper.updateByPrimaryKeySelective(user);
+        if (row==1){
+            return "修改信息成功";
+        }
+        return "修改信息失败";
     }
 
     /**
@@ -120,6 +133,12 @@ public class UserServiceImpl implements UserService {
         }
         return userName;
 }
+
+    @Override
+    public User_info selectMyInfo() {
+        User user=userMapper.selectUserByUserName(SecurityUtils.getSubject().getPrincipal().toString());
+        return user_infoMapper.selectByUserId(user.getUserId());
+    }
 
     @Override
     public int addUser(User user) {

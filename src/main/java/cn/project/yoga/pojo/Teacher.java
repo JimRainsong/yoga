@@ -140,4 +140,24 @@ public class Teacher {
     public void setFlag(Integer flag) {
         this.flag = flag;
     }
+
+    @Override
+    public String toString() {
+        return "Teacher{" +
+                "teacherId=" + teacherId +
+                ", userId=" + userId +
+                ", uId=" + uId +
+                ", teacherName='" + teacherName + '\'' +
+                ", teacherPhone='" + teacherPhone + '\'' +
+                ", teacherQq='" + teacherQq + '\'' +
+                ", teacherIdnum='" + teacherIdnum + '\'' +
+                ", teacherMoney=" + teacherMoney +
+                ", selfMoney=" + selfMoney +
+                ", teacherImg='" + teacherImg + '\'' +
+                ", teacherSex='" + teacherSex + '\'' +
+                ", ifAuth=" + ifAuth +
+                ", authInfo='" + authInfo + '\'' +
+                ", flag=" + flag +
+                '}';
+    }
 }

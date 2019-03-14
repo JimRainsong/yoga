@@ -37,7 +37,7 @@ public interface AdMapper {
             "</if>"+
             "</where>"+
     "</script>")
-    List<Ad> selAllAdBylimitAndPage(@Param("currentPage") Integer currentPage, @Param("pageSize") Integer pageSize,@Param("datas") Integer datas, @Param("adtitle") String adtitle);
+    List<Ad> selAllAdBylimitAndPage(@Param("currentPage") Integer currentPage, @Param("pageSize") Integer pageSize, @Param("datas") Integer datas, @Param("adtitle") String adtitle);
 
     /**  zjl
      * 根据广告id , 更改广告认证
@@ -51,4 +51,10 @@ public interface AdMapper {
      * */
     @Select("select * from ad ORDER BY ad_time desc limit 0,3")
     List<Ad> selthreeads();
+    /**
+     * 查询所有广告
+     * @return
+     */
+    @Select("select * from ad where examine=0 and flag=0")
+    List<Ad> selectAllAd1();
 }
