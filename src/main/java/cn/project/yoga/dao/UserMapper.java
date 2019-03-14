@@ -1,6 +1,6 @@
 package cn.project.yoga.dao;
 
-import cn.project.yoga.pojo.Moment;
+import cn.project.yoga.pojo.StuMoment;
 import cn.project.yoga.pojo.User;
 
 import cn.project.yoga.pojo.User_info;
@@ -57,8 +57,8 @@ public interface UserMapper {
     /**
      * 查看所有的朋友圈动态
      */
-    @Select("select * from moments")
-    List<Moment> allMoments2();
+    @Select("select * from moments_stu")
+    List<StuMoment> allMoments2();
 
     @Insert("insert into user_info(user_id) values((select user_id from user where user_name=#{0})) ")
     int insertIntoUser(String username);

@@ -1,8 +1,11 @@
 package cn.project.yoga.service;
 
+import cn.project.yoga.pojo.TeaMoment;
 import cn.project.yoga.pojo.User;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Update;
+
+import java.util.List;
 
 public interface TeacherService {
 
@@ -17,4 +20,6 @@ public interface TeacherService {
     int updateIfauthById4_1(Integer teacherId,Integer val);
 
     Double selectBalanceByTeacherName2(String name);
+
+    List<TeaMoment> allMoments2();
 }

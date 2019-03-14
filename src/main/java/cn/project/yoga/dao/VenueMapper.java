@@ -1,5 +1,6 @@
 package cn.project.yoga.dao;
 
+import cn.project.yoga.pojo.VenMoment;
 import cn.project.yoga.pojo.Venue;
 import cn.project.yoga.pojo.Vip_type;
 import org.apache.ibatis.annotations.Param;
@@ -17,8 +18,8 @@ public interface VenueMapper {
 
     /**
      * 查找场馆信息
-     * @param venueId
      *
+     * @param venueId
      * @return
      */
     Venue selectByPrimaryKey(Integer venueId);
@@ -27,26 +28,33 @@ public interface VenueMapper {
 
     int updateByPrimaryKey(Venue record);
 
-    /** zjl    模糊查询
-     * 查询所有未认证的场馆*/
-    @Select("<script>"+
-            "select * from venue"+
-            "<where>"+
+    /**
+     * zjl    模糊查询
+     * 查询所有未认证的场馆
+     */
+    @Select("<script>" +
+            "select * from venue" +
+            "<where>" +
             "<if test='venueName !=null and  \"\"!=venueName'>" +
-            "and venue_name like '%' #{venueName} '%'"+
-            "</if>"+
-            "and auth_state !=0"+
+            "and venue_name like '%' #{venueName} '%'" +
+            "</if>" +
+            "and auth_state !=0" +
             "</where>" +
             "</script>")
-    List<Venue> selAllVenues4_1(@Param("currentPage") Integer currentPage, @Param("pageSize") Integer pageSize,@Param("venueName") String venueName);
+    List<Venue> selAllVenues4_1(@Param("currentPage") Integer currentPage, @Param("pageSize") Integer pageSize, @Param("venueName") String venueName);
 
-    /** zjl
+    /**
+     * zjl
      * 根据场馆id 更改认证状态
-     * */
+     */
     @Update("update venue set auth_state =#{val} where venue_id =#{venueId}")
     int upApproveByvenueId(@Param("venueId") Integer venueId, @Param("val") Integer val);
 
     List<Venue> selectMyVen1(int user_id);
 
-
+    /**
+     * 所有教练的动态
+     */
+    @Select("select * from moments_ven")
+    List<VenMoment> allMoments2();
 }

@@ -50,9 +50,9 @@
             dataType: "json",
             success: function (mes) {
                 if (mes.code == 0) {
-                    window.parent.showPage(4);
+                    window.parent.showPage(2);
                 } else {
-                    showMessage(mes.message);
+                    alert(mes.message);
                 }
             }
         })

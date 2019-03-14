@@ -8,7 +8,6 @@ import cn.project.yoga.pojo.*;
 import cn.project.yoga.service.UserService;
 import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.kafka.KafkaProperties;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -120,7 +119,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<Moment> allMoments2() {
+    public List<StuMoment> allMoments2() {
         return userMapper.allMoments2();
     }
 

@@ -1,13 +1,13 @@
 package cn.project.yoga.dao;
 
-import cn.project.yoga.pojo.Moment;
+import cn.project.yoga.pojo.StuMoment;
 import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
 
 public interface MomentMapper {
-    public List<Moment> selectMomentsByCurrentUserId2(Integer currentUserId);
+    public List<StuMoment> selectMomentsByCurrentUserId2(Integer currentUserId);
 
     @Select("select * from moments")
-    public List<Moment> allMoments2();
+    public List<StuMoment> allMoments2();
 }
