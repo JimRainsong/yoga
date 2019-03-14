@@ -1,61 +1,51 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
-    <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
-    <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="/yoga/js/jquery.min.js"></script>
 </head>
 <body>
-<script type="text/javascript" src="/yoga/js/jquery.min.js"></script>
-<div class="container">
-    <div class="row clearfix">
-        <div class="col-md-8 column">
-            <div class="row clearfix">
-                <div class="col-md-2 column">
-                    <img alt="140x140" src="/yoga/user/img/1.jpg" />
-                </div>
-                <div class="col-md-6 column">
-                    <h3>
-                        用户名
-                    </h3>
-                </div>
-                <div class="col-md-4 column">
-                    <button type="button" class="btn btn-default btn-danger">注销</button>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4 column">
-        </div>
-    </div>
-</div>
-<div class="container">
-    <div class="row clearfix">
-        <div class="col-md-8 column">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <a>
-                    <h3 class="panel-title">
-                       我的信息
-                    </h3>
-                    </a>
-                </div>
-                <a>
-                <div class="panel-body">
-                   我的钱包
-                </div>
-                </a>
-                <a>
-                <div class="panel-footer">
-                    我的订单
-                </div>
-                </a>
-            </div>
-        </div>
-        <div class="col-md-4 column">
-        </div>
-    </div>
-</div>
+hello
+<!--<img src="" id="headImg">
+<button onclick='uploadImg()' value="上传"></button>-->
+       <!-- <form action="/yoga/user/updateUserInfo" method="post">
+            昵称：<input type="text" id="netName" name="netName"></br></br>
+            qq:<input type="text" name="qq" id="qq"></br></br>
+            真实姓名：<input type="text" name="realName" id="realName"></br></br>
+            手机号：<input type="text" name="phoneNumber" id="phoneNumber"></br></br>
+            性别：<select id="sex" name="sex">
+            <option>保密</option>
+            <option>男</option>
+            <option>女</option>
+        </select></br></br>
+            身份证号：<input type="text" name="idCard" id="idCard"></br></br>
+            <input type="submit" value="保存"></br></br>
+        </form>-->
+
+<script>
+   /* function selectMyInfo() {
+        $.ajax({
+            url:'/yoga/user/selectMyInfo',
+            type:'post',
+            async:true,
+            success:function (data) {
+                $("#netName").val(data.netName);
+                $("#qq").val(data.qq);
+                $("#realName").val(data.realName);
+                $("#phoneNumber").val(data.phoneNumber);
+                $("#sex").val(data.sex);
+                $("#idCard").val(data.idCard);
+               /!* var img="<img src='"+data.headImg+"'>";
+                $("#headImg1").html(img);
+*!/
+            }
+        });
+    }*/
+    //selectMyInfo();
+   /* function uploadImg() {
+
+    }*/
+</script>
 </body>
 </html>

@@ -3,6 +3,7 @@ package cn.project.yoga.controller;
 import cn.project.yoga.pojo.*;
 import cn.project.yoga.service.VenueService;
 import cn.project.yoga.utils.LayUiDataUtil;
+import cn.project.yoga.vo.TeacherTypeVo;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -39,11 +40,9 @@ public class VenueController {
     * 分页
     * 场馆-陈家明
     */
-
     @RequestMapping("/studentDatas")
     @ResponseBody
-    public Map<String, Object> getStudentDatas(@RequestParam() Integer venueId,
-                                               @RequestParam(value = "page",defaultValue = "1",required = false)Integer currentPage,
+    public Map<String, Object> getStudentDatas(@RequestParam(value = "page",defaultValue = "1",required = false)Integer currentPage,
                                                @RequestParam(value = "rows",defaultValue = "10",required = false)Integer pageSize) {
         List<Selstudent> list = venueService.findStudents(1,10,1);
         PageInfo pageInfo = new PageInfo(list);
@@ -56,13 +55,41 @@ public class VenueController {
 //        result.put("total",pageInfo.getTotal());
         System.out.println(list.get(0).getNetName());
         return result;
+    }
+    /*
+     *所有教练展示
+     * 分页
+     * 场馆-cy
+     */
+    @RequestMapping("/teacherDatas")
+    @ResponseBody
+    public Map<String, Object> getTeacherData(@RequestParam(value = "vid")Integer vid,
+                                              @RequestParam(value = "teype")Integer teype,
+                                              @RequestParam(value = "page",defaultValue = "1",required = false)Integer currentPage,
+                                              @RequestParam(value = "rows",defaultValue = "2",required = false)Integer pageSize,
+                                              @RequestParam(value = "teacherName")String teacherName,
+                                              @RequestParam(value = "teacherSex")String teacherSex) {
 
+        TeacherTypeVo teacherTypeVo=new TeacherTypeVo();
+        Teacher teacher=new Teacher();
+        teacher.setTeacherName(teacherName);
+        teacher.setTeacherSex(teacherSex);
+        System.out.println(vid+"================================="+teype);
+        teacherTypeVo.setVid(vid);
+        teacherTypeVo.setTeype(teype);
+        List<Venue_teacher> list = (List<Venue_teacher>) venueService.findTeachers(currentPage,pageSize,teacherTypeVo,teacher);
+        PageInfo pageInfo = new PageInfo(list);
+        Map<String,Object> result = new HashMap<String,Object>();
+        result.put("code",200);
+        result.put("msg","");
+        result.put("count",pageInfo.getTotal());
+        result.put("data",list);
+        return result;
     }
 
     @RequestMapping("/showVipDatas")
     @ResponseBody
-    public Map<String, Object> showVipType(@RequestParam() Integer venueId,
-                                       @RequestParam(value = "page",defaultValue = "1",required = false)Integer currentPage,
+    public Map<String, Object> showVipType(@RequestParam(value = "page",defaultValue = "1",required = false)Integer currentPage,
                                        @RequestParam(value = "rows",defaultValue = "10",required = false)Integer pageSize) {
         List<Vip_type> list = venueService.selShowVipType(currentPage,pageSize,1);
         PageInfo pageInfo = new PageInfo(list);
@@ -74,13 +101,13 @@ public class VenueController {
         return result;
 
     }
-
+//    @RequestParam() Integer venueId,
     @RequestMapping("/atentionDatas")
     @ResponseBody
-    public Map<String, Object> showatentionDatas(@RequestParam() Integer venueId,
-                                           @RequestParam(value = "page",defaultValue = "1",required = false)Integer currentPage,
+    public Map<String, Object> showattentionDatas(@RequestParam(value = "page",defaultValue = "1",required = false)Integer currentPage,
                                            @RequestParam(value = "rows",defaultValue = "10",required = false)Integer pageSize) {
-        List<Vip_type> list = venueService.selShowVipType(currentPage,pageSize,1);
+        List<User_info> list = venueService.selShowattention(currentPage,pageSize,1);
+        System.out.println(list);
         PageInfo pageInfo = new PageInfo(list);
         Map<String,Object> result = new HashMap<String,Object>();
         result.put("code",200);

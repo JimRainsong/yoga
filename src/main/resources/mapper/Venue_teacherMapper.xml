@@ -1,13 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.project.yoga.dao.Venue_teacherMapper">
+
   <resultMap id="BaseResultMap" type="cn.project.yoga.pojo.Venue_teacher">
     <id column="venue_teacher_id" jdbcType="INTEGER" property="venueTeacherId" />
     <result column="venue_id" jdbcType="INTEGER" property="venueId" />
-    <result column="teacher_id" jdbcType="INTEGER" property="teacherId" />
+    <!--<result column="teacher_id" jdbcType="INTEGER" property="teacherId" />-->
     <result column="teacher_state" jdbcType="INTEGER" property="teacherState" />
     <result column="flag" jdbcType="INTEGER" property="flag" />
+    <association property="teacher" javaType="cn.project.yoga.pojo.Teacher">
+      <id column="teacher_id" jdbcType="INTEGER" property="teacherId" />
+      <result column="user_id" jdbcType="INTEGER" property="userId" />
+      <result column="u_id" jdbcType="INTEGER" property="uId" />
+      <result column="teacher_name" jdbcType="VARCHAR" property="teacherName" />
+      <result column="teacher_phone" jdbcType="VARCHAR" property="teacherPhone" />
+      <result column="teacher_qq" jdbcType="VARCHAR" property="teacherQq" />
+      <result column="teacher_idnum" jdbcType="VARCHAR" property="teacherIdnum" />
+      <result column="teacher_money" jdbcType="INTEGER" property="teacherMoney" />
+      <result column="self_money" jdbcType="INTEGER" property="selfMoney" />
+      <result column="teacher_img" jdbcType="VARCHAR" property="teacherImg" />
+      <result column="teacher_sex" jdbcType="VARCHAR" property="teacherSex" />
+      <result column="if_auth" jdbcType="INTEGER" property="ifAuth" />
+      <result column="auth_info" jdbcType="VARCHAR" property="authInfo" />
+      <result column="flag" jdbcType="INTEGER" property="flag" />
+    </association>
   </resultMap>
+
   <sql id="Base_Column_List">
     venue_teacher_id, venue_id, teacher_id, teacher_state, flag
   </sql>
@@ -24,7 +42,7 @@
   <insert id="insert" parameterType="cn.project.yoga.pojo.Venue_teacher">
     insert into venue_teacher (venue_teacher_id, venue_id, teacher_id, 
       teacher_state, flag)
-    values (#{venueTeacherId,jdbcType=INTEGER}, #{venueId,jdbcType=INTEGER}, #{teacherId,jdbcType=INTEGER}, 
+    values (#{venueTeacherId,jdbcType=INTEGER}, #{venueId,jdbcType=INTEGER}, #{teacher.teacherId,jdbcType=INTEGER},
       #{teacherState,jdbcType=INTEGER}, #{flag,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="cn.project.yoga.pojo.Venue_teacher">

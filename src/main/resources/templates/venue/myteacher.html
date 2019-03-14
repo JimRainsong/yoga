@@ -10,9 +10,9 @@
 </head>
 <body class="layui-layout-body">
 
-<table class="layui-hide" id="vipType" lay-filter="test"></table>
+<table class="layui-hide" id="myteacher" lay-filter="test"></table>
 
-<script type="text/html" id="toolbarDemo">
+<script type="text/html" id="myteachertool">
     <div class="layui-btn-container">
         <button class="layui-btn layui-btn-sm" lay-event="getCheckData">获取选中行数据</button>
     </div>
@@ -25,9 +25,9 @@
     layui.use('table', function(){
         var table = layui.table;
         table.render({
-            elem: '#vipType'
+            elem: '#myteacher'
             ,height: 300
-            ,url:'/yoga/venueDate/showVipDatas'
+            ,url:'/yoga/venueDate/teacherDatas?vid=8&teype=0&teacherName=&teacherSex='
             ,page: true
             ,response: {
                 statusName: 'code'
@@ -36,14 +36,16 @@
                 ,countName: 'count'
                 ,dataName: 'data'
             }
-            ,toolbar: '#toolbarDemo'
+            ,toolbar: '#myteachertool'
             ,cols: [
                 [
                     {type:'radio'},
-                ,{field:'cardName', width:150, title: '会员卡名称', sort: true}
-                ,{field:'cardInfo', width:150, title: '会员卡类型', sort: true}
-                ,{field:'cardPrice', width:150, title: '价格'}
-                ,{field:'useDate', width:150, title: '有效期'}
+                    {field:'d.teacher.teacherId', width:150, title: '教练编号',templet: "<div>{{d.teacher?d.teacher.teacherId:''}}</div>", sort: true}
+                   ,{field:'d.teacher.teacherName', width:150, title: '教练姓名',templet: "<div>{{d.teacher?d.teacher.teacherName:''}}</div>"}
+                    ,{field:'d.teacher.teacherSex', width:150, title: '性别', sort: true ,templet: "<div>{{d.teacher?d.teacher.teacherSex:''}}</div>"}
+                    ,{field:'d.teacher.teacherMoney', width:150, title: '费用',templet: "<div>{{d.teacher?d.teacher.teacherMoney:''}}</div>"}
+                    ,{field:'d.teacher.teacherPhone', title: '联系方式', minWidth: 150 ,templet: "<div>{{d.teacher?d.teacher.teacherPhone:''}}</div>"}
+                    ,{field:'d.teacher.teacherImg', width:150, title: '相片', sort: true ,templet: "<div>{{d.teacher?d.teacher.teacherImg:''}}</div>"}
                 ]
             ]
 
