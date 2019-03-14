@@ -48,7 +48,7 @@ public interface TeacherMapper {
      */
     @Select("select teacher_money from teacher where user_id=(select user_id from user where user_name=#{userName})")
     Double selectBalanceByTeacherName2(@Param("userName") String name);
-    int updateTeacherIf_authById(@Param("teacherId") Integer teacherId,@Param("val") Integer val);
+    
 
 
 
