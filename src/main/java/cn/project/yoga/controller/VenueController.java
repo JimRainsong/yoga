@@ -42,8 +42,7 @@ public class VenueController {
 
     @RequestMapping("/studentDatas")
     @ResponseBody
-    public Map<String, Object> getStudentDatas(@RequestParam() Integer venueId,
-                                               @RequestParam(value = "page",defaultValue = "1",required = false)Integer currentPage,
+    public Map<String, Object> getStudentDatas(@RequestParam(value = "page",defaultValue = "1",required = false)Integer currentPage,
                                                @RequestParam(value = "rows",defaultValue = "10",required = false)Integer pageSize) {
         List<Selstudent> list = venueService.findStudents(1,10,1);
         PageInfo pageInfo = new PageInfo(list);
@@ -61,8 +60,7 @@ public class VenueController {
 
     @RequestMapping("/showVipDatas")
     @ResponseBody
-    public Map<String, Object> showVipType(@RequestParam() Integer venueId,
-                                       @RequestParam(value = "page",defaultValue = "1",required = false)Integer currentPage,
+    public Map<String, Object> showVipType(@RequestParam(value = "page",defaultValue = "1",required = false)Integer currentPage,
                                        @RequestParam(value = "rows",defaultValue = "10",required = false)Integer pageSize) {
         List<Vip_type> list = venueService.selShowVipType(currentPage,pageSize,1);
         PageInfo pageInfo = new PageInfo(list);
@@ -74,13 +72,13 @@ public class VenueController {
         return result;
 
     }
-
+//    @RequestParam() Integer venueId,
     @RequestMapping("/atentionDatas")
     @ResponseBody
-    public Map<String, Object> showatentionDatas(@RequestParam() Integer venueId,
-                                           @RequestParam(value = "page",defaultValue = "1",required = false)Integer currentPage,
+    public Map<String, Object> showattentionDatas(@RequestParam(value = "page",defaultValue = "1",required = false)Integer currentPage,
                                            @RequestParam(value = "rows",defaultValue = "10",required = false)Integer pageSize) {
-        List<Vip_type> list = venueService.selShowVipType(currentPage,pageSize,1);
+        List<User_info> list = venueService.selShowattention(currentPage,pageSize,1);
+        System.out.println(list);
         PageInfo pageInfo = new PageInfo(list);
         Map<String,Object> result = new HashMap<String,Object>();
         result.put("code",200);
