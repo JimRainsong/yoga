@@ -1,20 +1,20 @@
 package cn.project.yoga.controller;
 
+import ch.qos.logback.core.util.FileUtil;
 import cn.project.yoga.pojo.Ad;
 import cn.project.yoga.pojo.User;
 import cn.project.yoga.pojo.User_info;
 import cn.project.yoga.service.UserService;
-import cn.project.yoga.utils.Attributes;
-import cn.project.yoga.utils.Md5Encoder;
-import cn.project.yoga.utils.RegexUtil;
-import cn.project.yoga.utils.ResultUtil;
+import cn.project.yoga.utils.*;
 import cn.project.yoga.vo.LoginVo;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
+import org.apache.tomcat.util.http.fileupload.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -148,10 +148,17 @@ public class UserController {
     }
 
 
+    /**
+     * 上传文件（头像）
+     * @param request
+     * @param imgName
+     * @return
+     * @throws IOException
+     */
     @RequestMapping(value="/upload",produces="text/html;charset=UTF-8")
     @ResponseBody
-    public String upload(HttpServletRequest request,MultipartFile imgName){
-        String imgname=imgName.getOriginalFilename();
+    public String upload(HttpServletRequest request,MultipartFile imgName,String mypath) throws IOException {
+        /*String imgname=imgName.getOriginalFilename();
         System.out.println("图片名："+imgName);
         if (imgname==null || imgname.equals("")) {
             return "请选择文件";
@@ -160,19 +167,24 @@ public class UserController {
 
         //根据当前项目的路径获取到服务器的物理路径
         ServletContext context = request.getServletContext();
-        String path = context.getRealPath("/img");
+        String path1 = context.getRealPath("/img/head_imgs/");
+        String path="D:\\idework\\yoga\\src\\main\\resources\\static\\img\\head_imgs";
         System.out.println(path);
-
+       // System.out.println(path1);
         //判断当前服务器是否有upload文件夹
         File file = new File(path);
+        File file1=new File(path1);
         if(!file.exists()) file.mkdirs();
+        if (!file1.exists()) file.mkdirs();
+        //在file文件夹里面创建一个文件对象*/
+       // String filename=changeName(imgName.getOriginalFilename());
+       /* File file2 = new File(path,filename);
 
-        //在file文件夹里面创建一个文件对象
-        String filename=changeName(imgName.getOriginalFilename());
-        File file2 = new File(path,filename);
+
 
         try {
-            imgName.transferTo(file2);
+            imgName.transferTo(file1);
+            FileCopyUtils.copy(file2,new File(path,filename));
         } catch (IllegalStateException e) {
             e.printStackTrace();
             return "上传失败";
@@ -181,11 +193,22 @@ public class UserController {
             e.printStackTrace();
             return "上传失败";
         }
-        //将路径保存到数据库
-        String source="/yoga/img/"+filename;
-        String state=userService.updateImg(source);
+
+*/
+
+
+      String source =  UpLoadFileUtil.upLoadFile(request,imgName,mypath);
+      String state=userService.updateImg(source);
+
+
         return state;
-    }
+
+
+            }
+
+
+
+
 
     public String changeName(String oldName){
         return UUID.randomUUID()+"_"+oldName;
