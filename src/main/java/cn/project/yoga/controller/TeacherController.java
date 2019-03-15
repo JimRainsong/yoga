@@ -20,6 +20,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -128,6 +130,37 @@ public class TeacherController {
         Double balance = ((TeacherInfo) session.getAttribute(Attributes.CURRENT_USER)).getBalance();
         modelAndView.addObject("balance", balance);
         return modelAndView;
+    }
+
+    @RequestMapping("showteachers")
+    @ResponseBody
+    public List<Teacher> ShowTea4(HttpServletRequest request){
+        int  page=Integer.parseInt(request.getParameter("page"));
+        int  total=teacherService.SelCountTea4();
+        int totalpage=0;
+        if (total/4!=0){
+            totalpage=total/4+1;
+        }else {
+            totalpage=total/4;
+        }
+        int lim=page*4-4;
+        List<Teacher> teachers=teacherService.showTea4(lim);
+        return teachers;
+    }
+
+    @RequestMapping("/deltea")
+    public String DelTea4(HttpServletRequest request){
+        int teacherId=Integer.parseInt(request.getParameter("teacherId"));
+        int row=teacherService.DelTea4(teacherId);
+        return "manager/hsn/mteacher";
+    }
+
+    @RequestMapping("teaDetail")
+    @ResponseBody
+    public Teacher TeaDetail4(HttpServletRequest request, HttpSession session){
+        int teacherId= (int) session.getAttribute("teacherId");
+        Teacher teacher=teacherService.SelTeaById4(teacherId);
+        return teacher;
     }
 }
 //暴风哭泣

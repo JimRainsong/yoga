@@ -11,6 +11,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 @Controller
 @RequestMapping("/teacher")
 public class TeacherViewController {
@@ -76,5 +79,16 @@ public class TeacherViewController {
         return "teacher/g1";
     }
 
+    @RequestMapping("/mteacher")
+    public String Mteacher4(){
+        return "manager/hsn/mteacher";
+    }
+
+    @RequestMapping("/teadetail")
+    public String TeaDetail4(HttpServletRequest request, HttpSession session){
+        int teacherId=Integer.parseInt(request.getParameter("teacherId"));
+        session.setAttribute("teacherId",teacherId);
+        return "manager/hsn/mdetail";
+    }
 
 }

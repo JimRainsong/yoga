@@ -108,4 +108,22 @@ public interface UserService {
     String recharge(Integer money);
 
     String updateImg(String source);
+
+    /*分页查询所有学员信息*/
+    public List<User_info> SelUser4(int lim);
+
+    /*
+     * 查询学员总数*/
+    public int SelUserNum4();
+
+    /*
+     * 根据学员ID查询信息*/
+    public User_info SelUserById(int uId);
+    /*
+     * 动态查询学员*/
+    public List<User_info> shearch(String netName,String realName,String phoneNumber,String qq);
+
+    /*
+     * 根据ID软删除学员*/
+    public int DelUserById4(int uId);
 }

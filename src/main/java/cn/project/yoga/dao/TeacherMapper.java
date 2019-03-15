@@ -81,4 +81,24 @@ public interface TeacherMapper {
      */
     @Select("select * from teacherInfo where user_name=#{userName}")
     TeacherInfo selectSingleTeacherByUserName(String userName);
+
+    /*
+     * 分页查询所有教练信息*/
+    @Select("select * from teacher where flag=0 limit #{lim},4 ")
+    public List<Teacher> showTea4(int lim);
+
+    /*
+     * 软删除教练*/
+    @Update("update teacher set flag=1 where teacher_id=#{teacherId}")
+    public int DelTea4(int teacherId);
+
+    /*
+     * 根据ID查教练信息*/
+    @Select("select * from teacher where teacher_id=#{teacherId} and flag=0")
+    public Teacher SelTeaById4(int teacherId);
+
+    /*
+     * 查询教练表有多少条数据*/
+    @Select("SELECT  COUNT(*) FROM teacher WHERE flag=0")
+    public int SelCountTea4();
 }

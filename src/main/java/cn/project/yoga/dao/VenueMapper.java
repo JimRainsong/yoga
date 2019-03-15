@@ -57,4 +57,60 @@ public interface VenueMapper {
      */
     @Select("select * from moments_ven")
     List<VenMoment> allMoments2();
+
+    /*
+     *查询所有场馆信息
+     */
+    @Select("select * from venue where flag=0")
+    public List<Venue> SelVen(Integer currentPage,Integer pageSize);
+
+    /*
+    软删除场馆
+     */
+    @Update("update venue set flag=1 where venue_id=#{venue_id}")
+    public int DelVen4(int venue_id);
+
+    /*
+     * 根据ID查询场馆*/
+    @Select("select * from venue where flag=0 and venue_id=#{venueId}")
+    public Venue SelVenById4(int venueId);
+
+    /*
+     * 查询场馆数量*/
+    @Select("select count(*) from venue where flag=0")
+    public  int SelVenNum();
+
+    /**
+     * 分页查询所有认证通过的场馆
+     * @author zjn
+     * @return
+     */
+    @Select("select * from venue where flag=0 and auth_state=0 limit #{lim},4")
+    List<Venue> selectAllVenue4(int lim);
+
+    /*
+     * 动态查询学员*/
+    @Select("<script>"  +
+            "  select * from venue"+
+            " <where>"  +
+            " <if test='venname != null and venname!=\"\" '>"  +
+            "  and venue_name like concat('%', #{venname}, '%')"+
+            " </if>" +
+            " <if test='addrass != null and addrass!=\"\" '>" +
+            " and venue_address like concat('%', #{addrass}, '%')" +
+            " </if>" +
+            "<if test='phone !=null and phone !=\"\" '>" +
+            "and venue_phone = #{phone}" +
+            "</if>" +
+            "<if test='qq !=null and qq!=\"\" '>"+
+            "and qq = #{qq}"+
+            "</if>" +
+            "and auth_state=0"+"\n"+
+            "and flag=0"+
+            " </where>" +
+            " </script>")
+    public List<Venue> shearch(@Param("venname") String venname,@Param("addrass") String addrass,
+                               @Param("phone") String phone,@Param("qq") String qq);
+
+
 }

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=no,
+    width=device-width,initial-scale=1.0"/>
+    <meta charset="UTF-8">
+    <title>学员详情</title>
+    <link rel="shortcut icon" type="image/x-icon"
+          href="/yoga/image/icon.png" />
+    <link rel="stylesheet"
+          href="/yoga/hsn/bootstrap-4.1.3/css/bootstrap.min.css">
+    <script src="/yoga/js/jquery.1.9.1.js"></script>
+    <script src="/yoga/hsn/bootstrap-4.1.3/js/bootstrap.min.js"></script>
+
+</head>
+<body>
+
+
+<div class="container" style="margin-top: 80px">
+    <div class="row">
+        <table class="table text-center"
+               style="border-bottom: 2px rgba(0, 0, 0, 0.3) solid;border-top: 2px rgba(0, 0, 0, 0.3) solid;">
+            <tbody>
+            <tr>
+                <td><img src=""
+                         id='g_img' class="img-thumbnail" style="width: 250px;height: 330px;"></td>
+                <td>
+                    <table class="table">
+                        <tbody>
+                        <tr>
+                            <td colspan="2"><h3 id='g_name'></h3></td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: right"><h4>真实姓名:</h4></td>
+                            <td style="text-align: left;vertical-align: middle;" id='g_brand'></td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: right"><h4>余额:</h4></td>
+                            <td style="text-align: left;vertical-align: middle;color: red"><h4 id='g_price'></h4></td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: right"><h4>手机:</h4></td>
+                            <td style="text-align: left;vertical-align: middle;" id='g_description'></td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: right"><h4>QQ:</h4></td>
+                            <td style="text-align: left;vertical-align: middle;" id='g_count'>0</td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: right"><h4>详情:</h4></td>
+                            <td style="text-align: left">
+                                <div class="col-lg-6" style="float: left">
+                                    <div class="input-group" style="width: 120px;">
+													<span class="input-group-btn">
+														<button class="btn btn-default" type="button" onclick="subNum()">-</button>
+													</span> <input type="text" class="form-control" value="1"
+                                                                   disabled="disabled" id='num' /> <span class="input-group-btn">
+														<button class="btn btn-default" type="button" onclick="addNum()">+</button>
+													</span>
+                                    </div>
+                                </div>
+
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2" style="text-align: right;">
+                                <button type="button" class="btn btn-danger" style="margin-right: 100px" onclick="addCart()">加入购物车</button>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+</body>
+<script src="/yoga/js/private4/userdetail.js"></script>
+</html>

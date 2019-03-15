@@ -55,4 +55,32 @@ public interface VenueService {
      */
     int venueUploadAds(Ad ad);
     List<Course> selCourse(Integer currentPage, Integer pageSize, CourseVo courseVo);
+
+    /*
+     *分页查询所有场馆信息
+     */
+    List<Venue> selectAllVenue4(int lim);
+
+    /*
+     *查询所有场馆信息
+     */
+
+    public List<Venue> SelVen(Integer currentPage,Integer pageSize);
+
+    /*
+    软删除场馆
+     */
+    public int DelVen4(int venue_id);
+
+    /*
+     * 根据ID查询场馆*/
+    public Venue SelVenById4(int venueId);
+
+    /*
+     * 查询场馆数量*/
+    public  int SelVenNum();
+
+    /*
+     * 动态查询场馆*/
+    public List<Venue> shearch(String venname, String addrass, String phone, String qq);
 }

@@ -167,7 +167,37 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public List<User_info> SelUser4(int lim) {
+        List<User_info> user_infos=user_infoMapper.SelUser4(lim);
+        return user_infos;
+    }
+
+    @Override
+    public int SelUserNum4() {
+        int total=user_infoMapper.SelUserNum4();
+        return total;
+    }
+
+    @Override
+    public User_info SelUserById(int uId) {
+        return user_infoMapper.SelUserById(uId);
+    }
+
+    @Override
+    public List<User_info> shearch(String netName,String realName,String phoneNumber,String qq) {
+
+        return user_infoMapper.shearch(netName,realName,phoneNumber,qq);
+    }
+
+    @Override
+    public int DelUserById4(int uId) {
+        return user_infoMapper.DelUserById4(uId);
+    }
+
+    @Override
     public int addUser(User user) {
         return userMapper.insert(user);
     }
+
+
 }
