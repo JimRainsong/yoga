@@ -69,7 +69,7 @@ public class TeacherViewController {
 
     @RequestMapping("/mteacher")
     public String Mteacher4(){
-        return "manager/hsn/mteacher";
+        return "manager/hsn/teacher";
     }
 
     @RequestMapping("/teadetail")

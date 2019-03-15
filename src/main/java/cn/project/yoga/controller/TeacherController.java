@@ -9,6 +9,7 @@ import cn.project.yoga.utils.Md5Encoder;
 import cn.project.yoga.utils.RegexUtil;
 import cn.project.yoga.utils.ResultUtil;
 import cn.project.yoga.vo.LoginVo;
+import com.github.pagehelper.PageInfo;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.session.Session;
@@ -22,9 +23,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 
 @Controller
 @RequestMapping("/teacher")
@@ -131,27 +130,11 @@ public class TeacherController {
         return modelAndView;
     }
 
-    @RequestMapping("showteachers")
-    @ResponseBody
-    public List<Teacher> ShowTea4(HttpServletRequest request){
-        int  page=Integer.parseInt(request.getParameter("page"));
-        int  total=teacherService.SelCountTea4();
-        int totalpage=0;
-        if (total/4!=0){
-            totalpage=total/4+1;
-        }else {
-            totalpage=total/4;
-        }
-        int lim=page*4-4;
-        List<Teacher> teachers=teacherService.showTea4(lim);
-        return teachers;
-    }
-
     @RequestMapping("/deltea")
     public String DelTea4(HttpServletRequest request){
         int teacherId=Integer.parseInt(request.getParameter("teacherId"));
         int row=teacherService.DelTea4(teacherId);
-        return "manager/hsn/mteacher";
+        return "manager/hsn/teacher";
     }
 
     @RequestMapping("teaDetail")
@@ -160,6 +143,33 @@ public class TeacherController {
         int teacherId= (int) session.getAttribute("teacherId");
         Teacher teacher=teacherService.SelTeaById4(teacherId);
         return teacher;
+    }
+
+    @RequestMapping("/teacherDatas")
+    @ResponseBody
+    public Map<String, Object> showteacherDatas(@RequestParam(value = "page",defaultValue = "1",required = false)Integer currentPage,
+                                              @RequestParam(value = "rows",defaultValue = "10",required = false)Integer pageSize) {
+        List<Teacher> list = teacherService.showTea4(currentPage,pageSize);
+        PageInfo pageInfo = new PageInfo(list);
+        Map<String,Object> result = new HashMap<String,Object>();
+        result.put("code",200);
+        result.put("msg","");
+        result.put("count",pageInfo.getTotal());
+        result.put("data",list);
+        return result;
+
+    }
+
+    @RequestMapping("/shearch")
+    @ResponseBody
+    public List<Teacher> ShearchVenue4(HttpServletRequest request){
+        String teacherName=request.getParameter("teacherName");
+        String teacherSex=request.getParameter("teacherSex");
+        String teacherPhone=request.getParameter("teacherPhone");
+        String teacherQq=request.getParameter("teacherQq");
+        List<Teacher>teachers=teacherService.shearch(teacherName,teacherSex,teacherPhone,teacherQq);
+        System.out.println(teachers);
+        return teachers;
     }
 }
 //暴风哭泣
