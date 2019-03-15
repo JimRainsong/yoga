@@ -3,6 +3,7 @@ package cn.project.yoga.service.impl;
 import cn.project.yoga.dao.TeacherMapper;
 import cn.project.yoga.dao.UserMapper;
 import cn.project.yoga.pojo.TeaMoment;
+import cn.project.yoga.pojo.Teacher;
 import cn.project.yoga.pojo.User;
 import cn.project.yoga.service.TeacherService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,6 +52,30 @@ public class TeacherServiceImpl implements TeacherService {
     @Override
     public String selectTeacherNameByTeacherId2(Integer teacherId) {
         return teacherMapper.selectTeacherNameByTeacherId2(teacherId);
+    }
+
+    @Override
+    public List<Teacher> showTea4(int lim) {
+        List<Teacher> teachers=teacherMapper.showTea4(lim);
+        return teachers;
+    }
+
+    @Override
+    public int DelTea4(int teacherId) {
+        int row=teacherMapper.DelTea4(teacherId);
+        return row;
+    }
+
+    @Override
+    public Teacher SelTeaById4(int teacherId) {
+        Teacher teacher=teacherMapper.SelTeaById4(teacherId);
+        return teacher;
+    }
+
+    @Override
+    public int SelCountTea4() {
+        int totalpage=teacherMapper.SelCountTea4();
+        return totalpage;
     }
 
 

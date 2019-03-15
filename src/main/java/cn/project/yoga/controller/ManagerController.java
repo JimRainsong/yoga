@@ -6,6 +6,7 @@ import cn.project.yoga.pojo.Teacher;
 import cn.project.yoga.pojo.Venue;
 import cn.project.yoga.service.ManagerService;
 import cn.project.yoga.service.TeacherService;
+import cn.project.yoga.service.VenueService;
 import cn.project.yoga.utils.ManagerUtil;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -28,6 +31,9 @@ public class ManagerController {
     private ManagerService managerService;
     @Autowired
     private TeacherService teacherService;
+
+    @Autowired
+    private VenueService service;
 
     /*场馆分页查询数据*/
     @RequestMapping("/selallvenues")
@@ -119,4 +125,55 @@ public class ManagerController {
        admaps.put("rows",listad);
        return admaps;
     }
+
+    /*
+     * 查询出所有场馆信息传到前端*/
+    @RequestMapping("/showvenues")
+    @ResponseBody
+    public List<Venue> ShowVenues(HttpServletRequest request){
+        int page=Integer.parseInt(request.getParameter("page"));
+
+        int total=service.SelVenNum();
+        int totalpage=0;
+        if (total/4!=0){
+            totalpage=total/4+1;
+        }else {
+            totalpage=total/4;
+        }
+        int lim=page*4-4;
+        List<Venue> venues =service.selectAllVenue4(lim);
+        return venues;
+    }
+
+    /*
+   删除场馆
+    */
+    @RequestMapping("/delven")
+    public String DelVen4(HttpServletRequest request){
+        int venue_id=Integer.parseInt(request.getParameter("venueId"));
+        int row=service.DelVen4(venue_id);
+        return "menager/hsn/mvenues";
+    }
+
+    @RequestMapping("/venueDetail")
+    @ResponseBody
+    public Venue VenDetail4(HttpSession session){
+        int venueId= (int) session.getAttribute("venueId");
+        Venue venue=service.SelVenById4(venueId);
+        System.out.println(venue);
+        return venue;
+    }
+
+    @RequestMapping("/shearch")
+    @ResponseBody
+    public List<Venue> ShearchVenue4(HttpServletRequest request){
+        String venname=request.getParameter("venname");
+        String addrass=request.getParameter("addrass");
+        String phone=request.getParameter("phone");
+        String qq=request.getParameter("qq");
+        List<Venue>venues=service.shearch(venname,addrass,phone,qq);
+        System.out.println(venues);
+        return venues;
+    }
+
 }
