@@ -2,108 +2,122 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <meta name="renderer" content="webkit">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <title>YOGA! 场馆</title>
-    <link rel="stylesheet" th:href="@{/layui/css/layui.css}">
-    <script th:src="@{/js/jquery.min.js}"></script>
-    <script th:src="@{/layui/layer/layer.js}"></script>
-    <style type="text/css">
-        #body01 {
-            margin: 0 auto;
-            align-content: center;
+    <script  th:src="@{/bookstry/js/jquery.min.js}"></script>
+    <script  th:src="@{/bookstry/js/bootstrap.min.js}"></script>
+    <link th:href="@{/bookstry/css/bootstrap.min.css}" rel="stylesheet">
+    <style>
+        .imgsy{
+              height: 300px;
+              width: 250px;
+              margin: auto ;
         }
+
     </style>
 </head>
-<body class="layui-layout-body" id="body01">
-<form class="layui-form" enctype="multipart/form-data" target="frameName" action="/yoga/venueUserDate/uploadAdDatas" method="post" name="form0" id="form0" >
-<div class="layui-form-item">
-    <label class="layui-form-label">广告标题</label>
-    <div class="layui-input-inline">
-        <input type="text" name="adTitle" id="adTitle" required lay-verify="required" placeholder="请输入广告标题" autocomplete="off" class="layui-input">
+<body>
+
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">
+            广告发布
+        </h3>
     </div>
-</div>
-    <div class="layui-upload">
-        <input type="file" class="layui-btn" id="img1"  name="file">上传图片</input>
-        <div class="layui-upload-list">
-            <img class="layui-upload-img" id="demo1" style="width: 300px;height: 200px">
+    <div class="panel-body">
+
+        <div class="panel-body">
+            <p>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        <label>广告图片</label>
+                    </h3>
+                </div>
+                <div class="panel-body">
+                    <div class="imgsy">
+                        <img  th:src="@{/img/vad/admin.jpg}" id="vaimg" class="media-object" style="width:250px;height: 250px">
+                        <form id="form1">
+                            <input type="button" value="上传图片" onclick="f.click()" class="btn_mouseout"/><br>
+                            <input type="file" id="f" name="f" onchange="sc(this);" style="display:none"/>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class='form-group'>
+                <label class='col-sm-5 control-label'>广告标题</label>
+                <div class='col-sm-10'>
+                    <input type="text" class="form-control" id="venueAdname" placeholder="请输入20字以内字符">
+                    <input type="hidden" id="imgname">
+                </div>
+            </div>
+            <div class='form-group'>
+                <label class='col-sm-5 control-label'>广告内容</label>
+                <div class='col-sm-10'>
+                    <textarea class='form-control' rows='5'id='venueAdDesc'></textarea>
+                </div>
+            </div>
+
+            </p>
         </div>
-    </div>
-    <input type="hidden" name="mypath" value="ad">
-    <div class="layui-form-item layui-form-text">
-    <label class="layui-form-label">文本域</label>
-    <div class="layui-input-block">
-        <textarea name="desc" id="desc" placeholder="请输入内容" class="layui-textarea" style="width: 600px;height: 300px;"></textarea>
-    </div>
-</div>
-<div class="layui-form-item">
-    <div class="layui-input-block">
-        <button class="layui-btn" type="submit">立即提交</button>
-        <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+
+        <ul class="list-group">
+        <li class="list-group-item">
+            <button class="btn btn-default" onclick="setAd()">提交</button>
+        </li>
+        </ul>
     </div>
 </div>
-</form>
-<iframe src="" frameborder="0" name="frameName"></iframe>
 <script>
-    //Demo
-    layui.use('form', function(){
-        var form = layui.form;
-        form.on('submit(formDemo)', function(data){
-            layer.msg(JSON.stringify(data.field));
+
+    function sc(){
+        var animateimg = $("#f").val(); //获取上传的图片名 带//
+        var imgarr=animateimg.split('\\'); //分割
+        var myimg=imgarr[imgarr.length-1]; //去掉 // 获取图片名
+        var houzui = myimg.lastIndexOf('.'); //获取 . 出现的位置
+        var ext = myimg.substring(houzui, myimg.length).toUpperCase();  //切割 . 获取文件后缀
+        var file = $('#f').get(0).files[0]; //获取上传的文件
+        var fileSize = file.size;           //获取上传的文件大小
+        var maxSize = 104857600;              //最大100MB
+        if(ext !='.PNG' && ext !='.GIF' && ext !='.JPG' && ext !='.JPEG' && ext !='.BMP'){
+            parent.layer.msg('文件类型错误,请上传图片类型');
             return false;
-        });
-    });
-
-    layui.use('upload', function(){
-        var $ = layui.jquery
-            ,upload = layui.upload;
-
-        //普通图片上传
-        var uploadInst = upload.render({
-            elem: '#img1'
-            ,url: '/yoga/'
-            ,before: function(obj){
-                //预读本地文件示例，不支持ie8
-                obj.preview(function(index, file, result){
-                    $('#demo1').attr('src', result); //图片链接（base64）
-                });
+        }else if(parseInt(fileSize) >= parseInt(maxSize)){
+            parent.layer.msg('上传的文件不能超过1MB');
+            return false;
+        }else{
+            var data = new FormData($('#form1')[0]);
+            var oFReader = new FileReader();
+            srcdate=file;
+            oFReader.readAsDataURL(file);
+            oFReader.onloadend = function(oFRevent){
+                var src = oFRevent.target.result;
+                $('#vaimg').attr('src',src);
             }
-        });
+            $.ajax({
+                url: "/yoga/venueImg/adImg",
+                type: "POST",
+                data: data,
+                dataType: "JSON",
+                cache: false,
+                processData: false,
+                contentType: false,
+                success:function(ret){
+                   var val=eval(ret);
+                    if (val.code==0){
+                       alert(val.msg);
+                       $("#imgname").val(val.msg);
+                    }else {
+                        alert(val.msg);
+                    }
+                }
+            });
+        }
+    }
 
 
-        //绑定原始文件域
-        upload.render({
-            elem: '#test20'
-            ,url: '/upload/'
-            ,done: function(res){
-                console.log(res)
-            }
-        });
-
-    });
-    // function uploadAds() {
-    //     $.ajax({
-    //         url : "/yoga/venueUserDate/uploadAdDatas",
-    //         type : "post",
-    //         enctype:"multipart/form-data",
-    //         processData:false,
-    //         contentType:false,
-    //         data : {
-    //             adTitle : $("#adTitle").val(),
-    //             desc : $("#desc").val(),
-    //              file:$("#demo1").attr()
-    //
-    //         },
-    //         dataType : "json",
-    //         success : function(data) {
-    //             alert(data.message);
-    //             location.href="/yoga/venue/uploadAds";
-    //
-    //         }
-    //
-    // })
-    // }
 </script>
+
+
 </body>
 </html>

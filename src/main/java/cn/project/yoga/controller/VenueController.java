@@ -9,10 +9,7 @@ import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.ServletContext;
@@ -161,49 +158,20 @@ public class VenueController {
      */
     @RequestMapping("/uploadAdDatas")
     @ResponseBody
-    public String uploadAds(HttpServletRequest request, @RequestParam("file")MultipartFile file, @RequestParam("adTitle")String adTitle,@RequestParam("desc")String desc,@RequestParam("mypath")String mypath) {
-        String imgname=file.getOriginalFilename();
-
-        System.out.println("图片名："+file);
-        if (imgname==null || imgname.equals("")) {
-            return "请选择文件";
+    public LayUiDataUtil uploadAds(@RequestBody Ad ad) {
+        System.out.println(ad);
+        if (venueService.findAdByName(ad.getAdTitle())){
+            return LayUiDataUtil.error("此标题已存在，如果想继续添加请与管理员联系");
         }
-         //根据当前项目的路径获取到服务器的物理路径
-        ServletContext context = request.getServletContext();
-        String path = context.getRealPath("/img");
-        System.out.println(path);
-
-        //判断当前服务器是否有upload文件夹
-        File files = new File(path);
-        if(!files.exists()) files.mkdirs();
-
-        //在file文件夹里面创建一个文件对象
-        String filename=changeName(file.getOriginalFilename());
-        File file2 = new File(path,filename);
-
-        try {
-            file.transferTo(file2);
-        } catch (IllegalStateException e) {
-            e.printStackTrace();
-            return "上传失败";
-        } catch (IOException e) {
-
-            e.printStackTrace();
-            return "上传失败";
+        if (venueService.venueUploadAds(ad)>0){
+             return LayUiDataUtil.ok("广告添加成功");
         }
-        //将路径保存到数据库
-        String source="/yoga/img/"+filename;
-        Ad ad=new Ad();
-        ad.setAdImg(source);
-        ad.setAdTitle(adTitle);
-        ad.setAdDetails(desc);
-        int state=venueService.venueUploadAds(ad);
-        if (state==1){
-            return "成功提交添加广告申请";
-        }else {
-            return "提交添加广告申请失败";
-        }
+        return LayUiDataUtil.error("广告添加失败");
      }
+
+
+
+
     public String changeName(String oldName){
         return UUID.randomUUID()+"_"+oldName;
     }

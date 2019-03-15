@@ -127,7 +127,7 @@
     function uploadAds() {
         url='/yoga/venueUser/uploadAds';
         title="广告申请";
-        eid="vipTypeTabId";
+        eid="AdTabId";
         addTab();
     }
 
@@ -146,19 +146,25 @@
                     element.tabChange('demo', eid);
                      }
                  });
-        /*element.tabChange('demo', '22'); //切换到：用户管理*/
-    }
-   /* function reinitIframe(){
-        var iframe = document.getElementById("test");
-        try{
-            var bHeight = iframe.contentWindow.document.body.scrollHeight;
-            var dHeight = iframe.contentWindow.document.documentElement.scrollHeight;
-            var height = Math.max(bHeight, dHeight);
-            iframe.height = height;
-            console.log(height);
-        }catch (ex){}
-    }
-    window.setInterval("reinitIframe()", 200);*/
+              }
+   function setAd(){
+       $.ajax({
+           url:"/yoga/venueDate/uploadAdDatas",
+           type:"post",
+           async:true,
+           contentType:"application/json;charset=utf-8",
+           data:JSON.stringify({"adTitle":$("#venueAdname").val(),"adDetails":$("#venueAdDesc").val(),"adImg":$("#imgname").val()}),
+           success:function(mes){
+                alert(mes.msg);
+              if (mes.code==0){
+                  element.tabDelete('demo',"AdTabId");
+              }else {
+                  return;
+              }
+           }
+       });
+   }
+
 
 </script>
 </body>
