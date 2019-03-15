@@ -46,7 +46,9 @@ public class TeacherController {
             try {
                 subject.login(token);
                 Session session = SecurityUtils.getSubject().getSession();
-                session.setAttribute(Attributes.currentUserName, vo.getUserName());
+                session.setAttribute(Attributes.CURRENT_USER, vo.getUserName());
+                TeacherInfo teacherInfo = teacherService.selectSingleTeacherByUserName2(vo.getUserName());
+                session.setAttribute(Attributes.CURRENT_USER, teacherInfo);
                 return ResultUtil.ok("登陆成功");
             } catch (UnknownAccountException uae) {
                 return ResultUtil.error("未知的用户类型");
@@ -125,8 +127,7 @@ public class TeacherController {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("/teacher/wallet");
         Session session = SecurityUtils.getSubject().getSession();
-        String name = (String) session.getAttribute(Attributes.currentUserName);
-        Double balance = teacherService.selectBalanceByTeacherName2(name);
+        Double balance = ((TeacherInfo) session.getAttribute(Attributes.CURRENT_USER)).getBalance();
         modelAndView.addObject("balance", balance);
         return modelAndView;
     }
