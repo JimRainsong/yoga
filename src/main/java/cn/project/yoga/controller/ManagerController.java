@@ -152,7 +152,7 @@ public class ManagerController {
     public String DelVen4(HttpServletRequest request){
         int venue_id=Integer.parseInt(request.getParameter("venueId"));
         int row=service.DelVen4(venue_id);
-        return "menager/hsn/mvenues";
+        return "manager/hsn/Mvenue";
     }
 
     @RequestMapping("/venueDetail")

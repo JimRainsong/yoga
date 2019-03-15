@@ -28,7 +28,6 @@ public class ManagerViewController {
 
     @RequestMapping("/tvenue")
     public String Tvenue(){
-
         return "manager/hsn/Mvenue";
     }
 
