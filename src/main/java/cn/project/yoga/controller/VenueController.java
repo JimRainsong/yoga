@@ -208,5 +208,19 @@ public class VenueController {
         return UUID.randomUUID()+"_"+oldName;
     }
 
+    @RequestMapping("/venueDatas")
+    @ResponseBody
+    public Map<String, Object> showvenueDatas(@RequestParam(value = "page",defaultValue = "1",required = false)Integer currentPage,
+                                                  @RequestParam(value = "rows",defaultValue = "10",required = false)Integer pageSize) {
+        List<Venue> list = venueService.SelVen(currentPage,pageSize);
+        PageInfo pageInfo = new PageInfo(list);
+        Map<String,Object> result = new HashMap<String,Object>();
+        result.put("code",200);
+        result.put("msg","");
+        result.put("count",pageInfo.getTotal());
+        result.put("data",list);
+        return result;
+
+    }
 
 }
