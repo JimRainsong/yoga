@@ -1,5 +1,11 @@
 package cn.project.yoga.controller.viewcontroller;
 
+import cn.project.yoga.service.TeacherService;
+import cn.project.yoga.utils.Attributes;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.session.Session;
+import org.apache.shiro.subject.Subject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
@@ -7,6 +13,9 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 @RequestMapping("/teacher")
 public class TeacherViewController {
+    @Autowired
+    private TeacherService teacherService;
+
     /**
      * 以下自己写的
      */
@@ -15,9 +24,21 @@ public class TeacherViewController {
         return "teacher/index";
     }
 
-    @RequestMapping("/page5")
-    public String page5() {
-        return "teacher/page5";
+    @RequestMapping("/page2")
+    public ModelAndView page2() {
+        ModelAndView modelAndView = new ModelAndView();
+        Subject subject = SecurityUtils.getSubject();
+        if (subject.isAuthenticated()) {
+            Session session = subject.getSession();
+            modelAndView.addObject("teacherId", session.getAttribute(Attributes.currentTeacherId));
+            modelAndView.addObject("userId", session.getAttribute(Attributes.currentUserId));
+            modelAndView.addObject("userName", session.getAttribute(Attributes.currentUserName));
+            modelAndView.addObject("teacherName", teacherService.selectTeacherNameByTeacherId2((Integer) session.getAttribute(Attributes.currentTeacherId)));
+            modelAndView.setViewName("teacher/page2");
+        } else {
+            modelAndView.setViewName("teacher/register");
+        }
+        return modelAndView;
     }
 
     @RequestMapping("/loginPage")
@@ -25,6 +46,10 @@ public class TeacherViewController {
         return "teacher/login";
     }
 
+    @RequestMapping("/postPage")
+    public String postPage() {
+        return "teacher/post";
+    }
 
     /**
      * 以上是自己写的

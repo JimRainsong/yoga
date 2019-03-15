@@ -17,12 +17,12 @@
                     <img alt="140x140" src="/yoga/user/img/1.jpg" />
                 </div>
                 <div class="col-md-6 column">
-                    <h3>
-                        用户名
+                    <h3 id="username">
+                       未登录
                     </h3>
                 </div>
                 <div class="col-md-4 column">
-                    <button type="button" class="btn btn-default btn-danger">注销</button>
+                    <button type="button" onclick="logout()" class="btn btn-default btn-danger">注销</button>
                 </div>
             </div>
         </div>
@@ -35,13 +35,13 @@
         <div class="col-md-8 column">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <a>
+                    <a href="/yoga/user/info">
                     <h3 class="panel-title">
                        我的信息
                     </h3>
                     </a>
                 </div>
-                <a>
+                <a href="/yoga/user/mymoney">
                 <div class="panel-body">
                    我的钱包
                 </div>
@@ -57,5 +57,38 @@
         </div>
     </div>
 </div>
+<script>
+    //登出
+    function logout() {
+        $.ajax({
+            url:'/yoga/logout',
+            success:function (data) {
+
+                alert(data.message);
+                if (data.code==0){
+                    location.reload(true);
+                }else {
+                    alert(data.message);
+                }
+            }
+        });
+    }
+
+    //显示用户名
+    function getUserName() {
+        $.ajax({
+            url:'/yoga/user/getUserName',
+            type:'post',
+            async:true,
+            success:function (data) {
+                if (data!=null){
+                    $("#username").html(data);
+                }
+            }
+        });
+    }
+
+    getUserName();
+</script>
 </body>
 </html>

@@ -3,6 +3,7 @@ package cn.project.yoga.service.impl;
 import cn.project.yoga.dao.AppointmentMapper;
 import cn.project.yoga.dao.TeacherMapper;
 import cn.project.yoga.dao.UserMapper;
+import cn.project.yoga.pojo.TeaMoment;
 import cn.project.yoga.pojo.Appointment;
 import cn.project.yoga.pojo.User;
 import cn.project.yoga.service.TeacherService;
@@ -45,6 +46,16 @@ public class TeacherServiceImpl implements TeacherService {
     @Override
     public Double selectBalanceByTeacherName2(String name) {
         return teacherMapper.selectBalanceByTeacherName2(name);
+    }
+
+    @Override
+    public List<TeaMoment> allMoments2() {
+        return teacherMapper.allMoments2();
+    }
+
+    @Override
+    public String selectTeacherNameByTeacherId2(Integer teacherId) {
+        return teacherMapper.selectTeacherNameByTeacherId2(teacherId);
     }
 
     @Override

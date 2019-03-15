@@ -17,7 +17,7 @@ public interface UserService {
      * @param user
      * @return
      */
-    String updateUserInfo1(User user);
+    String updateUserInfo1(User_info user);
 
     /**
      * 查询我的场馆
@@ -90,7 +90,7 @@ public interface UserService {
 
     int insert_userid_user(String username);
 
-    List<Moment> allMoments2();
+    List<StuMoment> allMoments2();
 
     /**
      * 查询用户的网名
@@ -98,4 +98,14 @@ public interface UserService {
      * @return
      */
     String selectUserNetName(String userName);
+
+    /**
+     * 查询个人信息 zjn
+     * @return
+     */
+    User_info selectMyInfo();
+
+    String recharge(Integer money);
+
+    String updateImg(String source);
 }

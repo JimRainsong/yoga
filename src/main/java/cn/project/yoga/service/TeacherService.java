@@ -1,5 +1,6 @@
 package cn.project.yoga.service;
 
+import cn.project.yoga.pojo.TeaMoment;
 import cn.project.yoga.pojo.Appointment;
 import cn.project.yoga.pojo.User;
 import org.apache.ibatis.annotations.Param;
@@ -17,12 +18,16 @@ public interface TeacherService {
     int insert_userid_teacher2(String username);
 
 
-    int updateIfauthById4_1(Integer teacherId,Integer val);
+    int updateIfauthById4_1(Integer teacherId, Integer val);
 
 
 
 
     Double selectBalanceByTeacherName2(String name);
+
+    List<TeaMoment> allMoments2();
+
+    String selectTeacherNameByTeacherId2(Integer teacherId);
 
     //通过用户名来获取 user表中 userid
     Integer selUserIdByUsername2(String userName);

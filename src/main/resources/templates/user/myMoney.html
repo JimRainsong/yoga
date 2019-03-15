@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="/yoga/js/jquery.min.js"></script>
+</head>
+<body>
+我的余额：<p id="balance"></p></br></br>
+    累积充值金额：<p id="total_money"></p></br></br>
+    积分：<p id="score"></p></br></br>
+    会员等级：<p id="level"></p></br></br>
+金额：<input type="text" id="mm">
+<button onclick="recharge()">充值</button>
+<script>
+    function selectMyInfo() {
+        $.ajax({
+            url:'/yoga/user/selectMyInfo',
+            type:'post',
+            async:true,
+            success:function (data) {
+                $("#balance").html(data.balance+"元");
+                $("#total_money").html(data.totalMoney+"元");
+                $("#score").html(data.score+"分");
+                $("#level").html(data.level+"级");
+
+            }
+        });
+    }
+    selectMyInfo();
+    function recharge() {
+        $.ajax({
+            url:"/yoga/user/recharge",
+            type:'post',
+            async:"true",
+            data:{
+              money:$("#mm").val()
+            },
+            success:function (data) {
+                alert(data);
+                if (data=="充值成功"){
+                    loaction.reload();
+                }
+            }
+        });
+    }
+</script>
+</body>
+</html>

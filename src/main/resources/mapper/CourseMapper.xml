@@ -1,15 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.project.yoga.dao.CourseMapper">
+
+
   <resultMap id="BaseResultMap" type="cn.project.yoga.pojo.Course">
     <id column="course_id" jdbcType="INTEGER" property="courseId" />
     <result column="venue_id" jdbcType="INTEGER" property="venueId" />
-    <result column="teacher_id" jdbcType="INTEGER" property="teacherId" />
     <result column="start_time" jdbcType="TIMESTAMP" property="startTime" />
     <result column="over_time" jdbcType="TIMESTAMP" property="overTime" />
     <result column="course_money" jdbcType="DOUBLE" property="courseMoney" />
     <result column="course_people" jdbcType="INTEGER" property="coursePeople" />
     <result column="flag" jdbcType="INTEGER" property="flag" />
+    <association property="teacher" javaType="cn.project.yoga.pojo.Teacher">
+      <id column="teacher_id" jdbcType="INTEGER" property="teacherId" />
+      <result column="user_id" jdbcType="INTEGER" property="userId" />
+      <result column="u_id" jdbcType="INTEGER" property="uId" />
+      <result column="teacher_name" jdbcType="VARCHAR" property="teacherName" />
+      <result column="teacher_phone" jdbcType="VARCHAR" property="teacherPhone" />
+      <result column="teacher_qq" jdbcType="VARCHAR" property="teacherQq" />
+      <result column="teacher_idnum" jdbcType="VARCHAR" property="teacherIdnum" />
+      <result column="teacher_money" jdbcType="INTEGER" property="teacherMoney" />
+      <result column="self_money" jdbcType="INTEGER" property="selfMoney" />
+      <result column="teacher_img" jdbcType="VARCHAR" property="teacherImg" />
+      <result column="teacher_sex" jdbcType="VARCHAR" property="teacherSex" />
+      <result column="if_auth" jdbcType="INTEGER" property="ifAuth" />
+      <result column="auth_info" jdbcType="VARCHAR" property="authInfo" />
+      <result column="flag" jdbcType="INTEGER" property="flag" />
+    </association>
   </resultMap>
   <sql id="Base_Column_List">
     course_id, venue_id, teacher_id, start_time, over_time, course_money, course_people, 

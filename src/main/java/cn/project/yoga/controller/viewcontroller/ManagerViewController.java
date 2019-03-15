@@ -19,4 +19,8 @@ public class ManagerViewController {
 
     @RequestMapping("/ve")
     public String ceshi4_1(){return "manager/venueapproveandteacher";}
+
+    @RequestMapping("/ad")
+    public String ceshi4_2(){return "manager/adheadhtml";}
+
 }

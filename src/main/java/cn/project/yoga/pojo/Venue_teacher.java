@@ -6,6 +6,7 @@ public class Venue_teacher {
     private Integer venueId;
 
     private Integer teacherId;
+    private Teacher teacher;
 
     private Integer teacherState;
 
@@ -49,5 +50,25 @@ public class Venue_teacher {
 
     public void setFlag(Integer flag) {
         this.flag = flag;
+    }
+
+    public Teacher getTeacher() {
+        return teacher;
+    }
+
+    public void setTeacher(Teacher teacher) {
+        this.teacher = teacher;
+    }
+
+    @Override
+    public String toString() {
+        return "Venue_teacher{" +
+                "venueTeacherId=" + venueTeacherId +
+                ", venueId=" + venueId +
+                ", teacher=" + teacher +
+                ", teacherState=" + teacherState +
+                ", flag=" + flag +
+                " tid"+teacherId+
+                '}';
     }
 }

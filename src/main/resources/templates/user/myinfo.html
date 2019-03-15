@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thyemeaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="/yoga/js/jquery.min.js"></script>
+   <!-- <link rel="stylesheet" th:href="@{/css/themes/icon.css}">
+    <link rel="stylesheet" th:href="@{/css/themes/tree.css}">-->
+</head>
+<body>
+<div id="headimg">
+
+</div>
+
+<form enctype="multipart/form-data" target="frameName" action="/yoga/user/upload" method="post" name="form0" id="form0" onsubmit="return saveReport()" >
+    头像：
+    <input type="file" name="imgName" id="file0"  />
+    <input type="hidden" name="mypath" value="head_imgs">
+    <input type="submit" value="上传">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</form>
+<iframe src="" frameborder="0" name="frameName"></iframe>
+<form id="showDateForm" action="/yoga/user/updateUserInfo" method="post" >
+    昵称：<input type="text" id="netName" name="netName"></br></br>
+    qq:<input type="text" name="qq" id="qq"></br></br>
+    真实姓名：<input type="text" name="realName" id="realName"></br></br>
+    手机号：<input type="text" name="phoneNumber" id="phoneNumber"></br></br>
+    性别：<select id="sex" name="sex">
+    <option>保密</option>
+    <option>男</option>
+    <option>女</option>
+</select></br></br>
+    身份证号：<input type="text" name="idCard" id="idCard"></br></br>
+    <input type="submit" value="保存"></br></br>
+</form>
+<script>
+    /*function saveReport() {
+
+        $("#form0").ajaxSubmit(function(message) {
+            console.log(message);
+        });
+        return false; // 必须返回false，否则表单会自己再做一次提交操作，并且页面跳转
+    }*/
+
+    function selectMyInfo() {
+        $.ajax({
+            url:'/yoga/user/selectMyInfo',
+            type:'post',
+            async:true,
+            success:function (data) {
+                $("#netName").val(data.netName);
+                $("#qq").val(data.qq);
+                $("#realName").val(data.realName);
+                $("#phoneNumber").val(data.phoneNumber);
+                $("#sex").val(data.sex);
+                $("#idCard").val(data.idCard);
+                 var img="<img src='"+data.headImg+"' style='width: 50px;height: 50px;border-radius: 50%' id='headImg'>"
+                $("#headimg").html(img);
+
+            }
+        });
+    }
+    selectMyInfo();
+</script>
+</body>
+</html>

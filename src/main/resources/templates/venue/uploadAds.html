@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>YOGA! 场馆</title>
+    <link rel="stylesheet" th:href="@{/layui/css/layui.css}">
+    <script th:src="@{/js/jquery.min.js}"></script>
+    <script th:src="@{/layui/layer/layer.js}"></script>
+    <style type="text/css">
+        #body01 {
+            margin: 0 auto;
+            align-content: center;
+        }
+    </style>
+</head>
+<body class="layui-layout-body" id="body01">
+<form class="layui-form" enctype="multipart/form-data" target="frameName" action="/yoga/venueUserDate/uploadAdDatas" method="post" name="form0" id="form0" >
+<div class="layui-form-item">
+    <label class="layui-form-label">广告标题</label>
+    <div class="layui-input-inline">
+        <input type="text" name="adTitle" id="adTitle" required lay-verify="required" placeholder="请输入广告标题" autocomplete="off" class="layui-input">
+    </div>
+</div>
+    <div class="layui-upload">
+        <input type="file" class="layui-btn" id="img1"  name="file">上传图片</input>
+        <div class="layui-upload-list">
+            <img class="layui-upload-img" id="demo1" style="width: 300px;height: 200px">
+        </div>
+    </div>
+    <input type="hidden" name="mypath" value="ad">
+    <div class="layui-form-item layui-form-text">
+    <label class="layui-form-label">文本域</label>
+    <div class="layui-input-block">
+        <textarea name="desc" id="desc" placeholder="请输入内容" class="layui-textarea" style="width: 600px;height: 300px;"></textarea>
+    </div>
+</div>
+<div class="layui-form-item">
+    <div class="layui-input-block">
+        <button class="layui-btn" type="submit">立即提交</button>
+        <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+    </div>
+</div>
+</form>
+<iframe src="" frameborder="0" name="frameName"></iframe>
+<script>
+    //Demo
+    layui.use('form', function(){
+        var form = layui.form;
+        form.on('submit(formDemo)', function(data){
+            layer.msg(JSON.stringify(data.field));
+            return false;
+        });
+    });
+
+    layui.use('upload', function(){
+        var $ = layui.jquery
+            ,upload = layui.upload;
+
+        //普通图片上传
+        var uploadInst = upload.render({
+            elem: '#img1'
+            ,url: '/yoga/'
+            ,before: function(obj){
+                //预读本地文件示例，不支持ie8
+                obj.preview(function(index, file, result){
+                    $('#demo1').attr('src', result); //图片链接（base64）
+                });
+            }
+        });
+
+
+        //绑定原始文件域
+        upload.render({
+            elem: '#test20'
+            ,url: '/upload/'
+            ,done: function(res){
+                console.log(res)
+            }
+        });
+
+    });
+    // function uploadAds() {
+    //     $.ajax({
+    //         url : "/yoga/venueUserDate/uploadAdDatas",
+    //         type : "post",
+    //         enctype:"multipart/form-data",
+    //         processData:false,
+    //         contentType:false,
+    //         data : {
+    //             adTitle : $("#adTitle").val(),
+    //             desc : $("#desc").val(),
+    //              file:$("#demo1").attr()
+    //
+    //         },
+    //         dataType : "json",
+    //         success : function(data) {
+    //             alert(data.message);
+    //             location.href="/yoga/venue/uploadAds";
+    //
+    //         }
+    //
+    // })
+    // }
+</script>
+</body>
+</html>

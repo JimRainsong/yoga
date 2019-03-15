@@ -1,9 +1,11 @@
 package cn.project.yoga.controller;
 
+import cn.project.yoga.pojo.*;
 import cn.project.yoga.pojo.Appointment;
 import cn.project.yoga.service.UserService;
 import cn.project.yoga.pojo.User;
 import cn.project.yoga.service.TeacherService;
+import cn.project.yoga.service.VenueService;
 import cn.project.yoga.utils.Attributes;
 import cn.project.yoga.utils.Md5Encoder;
 import cn.project.yoga.utils.RegexUtil;
@@ -26,6 +28,10 @@ import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
 
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+
 @Controller
 @RequestMapping("/teacher")
 public class TeacherController {
@@ -33,6 +39,8 @@ public class TeacherController {
     private UserService userService;
     @Autowired
     private TeacherService teacherService;
+    @Autowired
+    private VenueService venueService;
 
     @RequestMapping("/login")
     @ResponseBody
@@ -45,11 +53,6 @@ public class TeacherController {
                 subject.login(token);
                 Session session = SecurityUtils.getSubject().getSession();
                 session.setAttribute(Attributes.currentUserName, vo.getUserName());
-                Integer userId =teacherService.selUserIdByUsername2(vo.getUserName());
-                session.setAttribute(Attributes.currentUserId, userId);
-                Integer teacherId =teacherService.selTeacherIdByUserId2(userId);
-                session.setAttribute(Attributes.currentTeacherId, teacherId);
-
                 return ResultUtil.ok("登陆成功");
             } catch (UnknownAccountException uae) {
                 return ResultUtil.error("未知的用户类型");
@@ -67,11 +70,24 @@ public class TeacherController {
         }
     }
 
-    @RequestMapping("/page1")
+    @RequestMapping("/page0")
     public ModelAndView page1() {
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("/teacher/page1");
-        //modelAndView.addObject("moments", userService.allMoments2());
+        modelAndView.setViewName("/teacher/page0");
+        List<StuMoment> stuMomentList = userService.allMoments2();
+        List<TeaMoment> teaMomentList = teacherService.allMoments2();
+        List<VenMoment> venMomentList = venueService.allMoments2();
+        List<Moment> allMoments = new ArrayList<>();
+        allMoments.addAll(stuMomentList);
+        allMoments.addAll(teaMomentList);
+        allMoments.addAll(venMomentList);
+        allMoments.sort(new Comparator<Moment>() {
+            @Override
+            public int compare(Moment m1, Moment m2) {
+                return m1.getTime().compareTo(m2.getTime());
+            }
+        });
+        modelAndView.addObject("moments", allMoments);
         return modelAndView;
     }
 
@@ -148,4 +164,4 @@ public class TeacherController {
 
 
 }
-
+//暴风哭泣

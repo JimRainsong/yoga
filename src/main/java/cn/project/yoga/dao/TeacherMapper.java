@@ -55,4 +55,23 @@ public interface TeacherMapper {
     //通过user表中的userId 查询出 teacher表中 的teacher_id （因为以后后面的所有表都关联的是这个teacher_id）
     @Select("select teacher_id from teacher where user_id=#{0}")
     Integer selTeacherIdByUserId2(Integer userId);
+
+    /**
+     * 所有教练的动态
+     */
+    @Select("select * from moments_tea")
+    List<TeaMoment> allMoments2();
+
+
+    @Select("select * from teacher where teacher_id = #{teacherId} and flag=0")
+    Teacher selByTeacherId(Integer teacherId);
+
+    /**
+     * 教练id查询教练名称
+     *
+     * @param teacherId
+     * @return
+     */
+    @Select("select teacher_name from teacher where teacher_id=#{teacherId}")
+    String selectTeacherNameByTeacherId2(Integer teacherId);
 }

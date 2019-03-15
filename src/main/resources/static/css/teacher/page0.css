@@ -1,0 +1,98 @@
+body {
+    margin: 0;
+    font-family: "Segoe UI";
+    font-weight: 700;
+}
+
+#title {
+    font-size: 26px;
+    width: 100px;
+    height: 30px;
+    line-height: 30px;
+    margin: 2px auto;
+}
+
+.background_img {
+    width: 100%;
+    margin-bottom: 22px;
+}
+
+#time {
+    font-weight: 100;
+    font-family: monospace;
+}
+
+.moments {
+    width: 100%;
+    box-shadow: black;
+}
+
+.head_img {
+    border-radius: 6px;
+    overflow: hidden;
+    height: 60px;
+    width: 60px;
+}
+
+.inside {
+    margin: 10px;
+}
+
+.down h4{
+    font-weight: 100;
+}
+
+p {
+    height: 8px;
+}
+
+.picture {
+    height: 60px;
+    float: left;
+}
+
+.up {
+    height: 60px;
+    width: 100%;
+}
+
+.down {
+    font-weight: 500;
+    width: 100%;
+}
+
+.name_and_time {
+    margin: -4px 0 0 10px;
+    height: 60px;
+    float: left;
+}
+
+h4 p {
+    margin-right: 5px;
+}
+
+.name_and_time p {
+    line-height: 0;
+}
+
+/*.clearfloat {*/
+/*clear: both;*/
+/*height: 0;*/
+/*font-size: 1px;*/
+/*line-height: 0px;*/
+/*}*/
+
+.down h4 {
+    margin: 4px;
+    font-size: 16px;
+}
+
+.net_name {
+    color: #2484e9;
+}
+
+.bottom_line {
+    margin-top: 15px;
+    height: 1px;
+    background: linear-gradient(to left, white, lightblue, white);
+}

@@ -1,6 +1,7 @@
 package cn.project.yoga.controller;
 
 
+import cn.project.yoga.pojo.Ad;
 import cn.project.yoga.pojo.Teacher;
 import cn.project.yoga.pojo.Venue;
 import cn.project.yoga.service.ManagerService;
@@ -34,8 +35,6 @@ public class ManagerController {
     public Map<String,Object> allvenues4_1(@RequestParam(value = "page",defaultValue = "1",required = false)Integer currentPage,@RequestParam(value = "rows"
             ,defaultValue = "10",required = false)Integer
             pageSize, String venueName){
-        System.out.println("获取数据-"+currentPage+"----"+pageSize);
-        System.out.println("前端获取模糊数据+"+venueName);
         List<Venue> listvenues4_1 = managerService.selAllVenues4_1(currentPage,pageSize,venueName);
         PageInfo pageinfo = new PageInfo(listvenues4_1);
         Map<String,Object> map = new HashMap<>();
@@ -82,4 +81,42 @@ public class ManagerController {
         return ManagerUtil.error("认证失败");
     }
 
+    /*分页及模糊查询广告*/
+    @RequestMapping("/selallad")
+    @ResponseBody
+    public Map<String,Object> allAdAndLimit(@RequestParam(value = "page",defaultValue = "1",required = false)Integer currentPage,@RequestParam(value = "rows"
+            ,defaultValue = "10",required = false)Integer
+            pageSize,Integer datas,String adtitles){
+        System.out.println("获取数据广告++++++++++++++++++"+adtitles);
+        System.out.println("获取数据++++++++++++++++++"+datas);
+        List<Ad> listAd = managerService.selAllAdBylimit(currentPage,pageSize,datas,adtitles);
+        PageInfo pagefo = new PageInfo(listAd);
+        Map<String,Object> admap = new HashMap<>();
+        admap.put("rows",listAd);
+        admap.put("total",pagefo.getTotal());
+        return admap;
+    }
+
+    /*认证更新广告*/
+    @RequestMapping("/updatead")
+    @ResponseBody
+    public ManagerUtil updatead(Integer adId,Integer val){
+        System.out.println(adId+"daId"+"*****"+val);
+
+        int result = managerService.updateAdByAdid(adId,val);
+        if (result >0){
+            return ManagerUtil.ok("认证成功");
+        }
+        return ManagerUtil.error("认证失败");
+    }
+
+    /*获取广告表前三个广告的所有数据*/
+    @RequestMapping("/getads")
+    @ResponseBody
+    public Map<String,Object> listad(){
+       List<Ad> listad =  managerService.getadthree();
+       Map<String,Object> admaps = new HashMap<>();
+       admaps.put("rows",listad);
+       return admaps;
+    }
 }

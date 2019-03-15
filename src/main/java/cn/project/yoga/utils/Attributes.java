@@ -7,7 +7,8 @@ public class Attributes {
 
     public static final String currentUserName = "currentUserName";
 
-    public static final String currentUserId ="currentUserId";
-
     public static final String currentTeacherId = "currentTeacherId";
+
+    public static final String currentUserId = "currentUserId";
+
 }

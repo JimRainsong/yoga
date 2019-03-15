@@ -20,7 +20,7 @@ body {
 }
 
 #footer div {
-    background-color: #44a0b3;
+    background-color: rgba(68, 160, 179, 0.5);
     float: left;
     height: 50px;
     text-align: center;
@@ -37,4 +37,16 @@ iframe {
 
 .main {
     display: none;
+}
+
+#add_button {
+    text-align: center;
+    z-index: 8;
+}
+
+#add_picture {
+    width: 90px;
+    height: 50px;
+    border-radius: 75px;
+    background-color: orange !important;
 }

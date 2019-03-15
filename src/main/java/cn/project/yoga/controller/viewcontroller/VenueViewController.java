@@ -6,6 +6,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequestMapping("/venue")
 public class VenueViewController {
+    @RequestMapping("/teacher")
+    public String teacher() {
+        return "venue/teacher";
+    }
+
+    @RequestMapping("/myteacher")
+    public String myteacher() {
+        return "venue/myteacher";
+    }
 
 
 }
