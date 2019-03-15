@@ -4,6 +4,7 @@ import ch.qos.logback.core.util.FileUtil;
 import cn.project.yoga.pojo.Ad;
 import cn.project.yoga.pojo.User;
 import cn.project.yoga.pojo.User_info;
+import cn.project.yoga.pojo.Venue;
 import cn.project.yoga.service.UserService;
 import cn.project.yoga.utils.*;
 import cn.project.yoga.vo.LoginVo;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
@@ -33,6 +35,7 @@ import java.util.UUID;
 public class UserController {
     @Autowired
     private UserService userService;
+
 
 
     @RequestMapping("/login")
@@ -137,6 +140,20 @@ public class UserController {
     }
 
     /**
+     * 查询所有场馆
+     * @return
+     */
+    @RequestMapping("/venues")
+    @ResponseBody
+    public List<Venue> allVenue(){
+        List<Venue> venues=userService.selectAllVenue();
+        for (Venue venue : venues) {
+            System.out.println(venue.toString());
+        }
+        return venues;
+    }
+
+    /**
      * 用户充值
      * @return
      */
@@ -195,23 +212,29 @@ public class UserController {
         }
 
 */
-
-
       String source =  UpLoadFileUtil.upLoadFile(request,imgName,mypath);
       String state=userService.updateImg(source);
 
 
         return state;
-
-
-            }
+    }
 
 
 
 
 
-    public String changeName(String oldName){
+   /* public String changeName(String oldName){
         return UUID.randomUUID()+"_"+oldName;
+    }*/
+
+   @RequestMapping("/venueDetails")
+   @ResponseBody
+    public ModelAndView lookVenueDetails(Integer venueId){
+        ModelAndView modelAndView=new ModelAndView();
+       System.out.println(venueId);
+        modelAndView.setViewName("user/venueDetail");
+        modelAndView.addObject("venue",(Venue)userService.lookVenueDetails(venueId));
+        return modelAndView;
     }
 
 }

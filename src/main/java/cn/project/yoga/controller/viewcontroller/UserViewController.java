@@ -29,4 +29,9 @@ public class UserViewController {
         return "user/myMoney";
     }
 
+    @RequestMapping("/selectAllVenue")
+    public String allVenue1(){
+        return "user/allVenue";
+    }
+
 }

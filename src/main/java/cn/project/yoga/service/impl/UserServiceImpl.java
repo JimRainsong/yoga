@@ -167,6 +167,17 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public List<Venue> selectAllVenue() {
+        List<Venue> venues=userMapper.queryVenues();
+        return venues;
+    }
+
+    @Override
+    public Venue lookVenueDetails(Integer venueId) {
+        return venueMapper.selectByPrimaryKey(venueId);
+    }
+
+    @Override
     public int addUser(User user) {
         return userMapper.insert(user);
     }

@@ -11,6 +11,24 @@ public class Venue {
 
     private String venuePhone;
 
+    @Override
+    public String toString() {
+        return "Venue{" +
+                "venueId=" + venueId +
+                ", userId=" + userId +
+                ", venueName='" + venueName + '\'' +
+                ", venueAddress='" + venueAddress + '\'' +
+                ", venuePhone='" + venuePhone + '\'' +
+                ", qq='" + qq + '\'' +
+                ", venueImg='" + venueImg + '\'' +
+                ", venueDetails='" + venueDetails + '\'' +
+                ", authInfo='" + authInfo + '\'' +
+                ", authState=" + authState +
+                ", flag=" + flag +
+                ", venueMoney=" + venueMoney +
+                '}';
+    }
+
     private String qq;
 
     private String venueImg;

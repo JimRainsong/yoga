@@ -57,4 +57,6 @@ public interface VenueMapper {
      */
     @Select("select * from moments_ven")
     List<VenMoment> allMoments2();
+
+
 }

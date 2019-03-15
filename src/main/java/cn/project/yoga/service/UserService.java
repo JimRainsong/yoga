@@ -108,4 +108,12 @@ public interface UserService {
     String recharge(Integer money);
 
     String updateImg(String source);
+
+    /**
+     * 查询所有可加入场馆
+     * @return
+     */
+    List<Venue> selectAllVenue();
+
+    Venue lookVenueDetails(Integer venueId);
 }

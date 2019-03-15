@@ -1,10 +1,7 @@
 package cn.project.yoga.dao;
 
-import cn.project.yoga.pojo.StuMoment;
-import cn.project.yoga.pojo.User;
+import cn.project.yoga.pojo.*;
 
-import cn.project.yoga.pojo.User_info;
-import cn.project.yoga.pojo.Vip_record;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
@@ -65,4 +62,11 @@ public interface UserMapper {
 
     @Select("select * from user_info where user_id=#{0}")
     User_info selUserLoveName(Integer userId);
+
+    /**
+     * 查询所有可加入的场馆的图片，名字、地址
+     * @return
+     */
+    @Select("select * from venue where auth_state=0 and flag=0")
+    List<Venue> queryVenues();
 }
