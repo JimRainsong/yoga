@@ -24,6 +24,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.IOException;
 import java.util.Collection;
@@ -235,6 +236,56 @@ public class UserController {
         modelAndView.setViewName("user/venueDetail");
         modelAndView.addObject("venue",(Venue)userService.lookVenueDetails(venueId));
         return modelAndView;
+    }
+
+    /*
+     * 分页查询学员信息*/
+    @RequestMapping("/showuser")
+    @ResponseBody
+    public List<User_info> ShowUser4(HttpServletRequest request){
+        int page=Integer.parseInt(request.getParameter("page"));
+        int total=userService.SelUserNum4();
+        int totalpage=0;
+        if (total/4!=0){
+            totalpage=total/4+1;
+        }else {
+            totalpage=total/4;
+        }
+        int lim=page*4-4;
+        List<User_info>user_infos=userService.SelUser4(lim);
+        return user_infos;
+    }
+
+    /*
+     * 根据ID查询学员详细信息*/
+    @RequestMapping("/userDetail")
+    @ResponseBody
+    public User_info userDetail4(HttpSession session){
+        int uId= (int) session.getAttribute("uId");
+        User_info user_info=userService.SelUserById(uId);
+        return user_info;
+    }
+
+    /*
+     * 根据条件查询学员*/
+    @RequestMapping("/shearch")
+    @ResponseBody
+    public List<User_info> Shearch(HttpServletRequest request){
+        String netName=request.getParameter("netname");
+        String realName=request.getParameter("realname");
+        String qq=request.getParameter("qq");
+        String phoneNumber=request.getParameter("phoneNumber");
+        List<User_info>user_infos= userService.shearch(netName,realName,phoneNumber,qq);
+        return user_infos ;
+    }
+    /*
+     * 软删除学员*/
+    @RequestMapping("/deluser")
+    public String DelUser4(HttpServletRequest request){
+        int uId=Integer.parseInt(request.getParameter("uId"));
+        System.out.println(uId);
+        userService.DelUserById4(uId);
+        return "menager/hsn/muser";
     }
 
 }

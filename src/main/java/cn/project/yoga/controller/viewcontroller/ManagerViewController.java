@@ -3,6 +3,9 @@ package cn.project.yoga.controller.viewcontroller;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 @Controller
 @RequestMapping("/manager")
 public class ManagerViewController {
@@ -22,5 +25,16 @@ public class ManagerViewController {
 
     @RequestMapping("/ad")
     public String ceshi4_2(){return "manager/adheadhtml";}
+
+    @RequestMapping("/tvenue")
+    public String Tvenue(){
+        return "manager/hsn/Mvenue";
+    }
+
+    @RequestMapping("/venuedetail")
+    public String VenueDetail4(HttpServletRequest request, HttpSession session){
+        session.setAttribute("venueId",Integer.parseInt(request.getParameter("venueId")));
+        return "manager/hsn/vendetail";
+    }
 
 }
