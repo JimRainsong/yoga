@@ -1,6 +1,7 @@
 package cn.project.yoga.service;
 
 import cn.project.yoga.pojo.TeaMoment;
+import cn.project.yoga.pojo.TeacherInfo;
 import cn.project.yoga.pojo.Teacher;
 import cn.project.yoga.pojo.User;
 import org.apache.ibatis.annotations.Param;
@@ -25,6 +26,8 @@ public interface TeacherService {
     List<TeaMoment> allMoments2();
 
     String selectTeacherNameByTeacherId2(Integer teacherId);
+
+    TeacherInfo selectSingleTeacherByUserName2(String userName);
 
     /*
      * 分页查询所有教练信息*/
