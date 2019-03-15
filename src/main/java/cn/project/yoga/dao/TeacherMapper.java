@@ -25,22 +25,25 @@ public interface TeacherMapper {
     @Insert("insert into teacher (user_id) values((select user_id from user where user_name=#{username})) ")
     int insert_userid_teacher2(@Param("username") String username);
 
-    /** zjl
-     * 根据名字动态模糊查询,所有未认证的教练信息*/
-    @Select("<script>"+
-            "select * from teacher"+
-            "<where>"+
+    /**
+     * zjl
+     * 根据名字动态模糊查询,所有未认证的教练信息
+     */
+    @Select("<script>" +
+            "select * from teacher" +
+            "<where>" +
             "<if test='teacherName !=null and  \"\"!=teacherName'>" +
-            "and teacher_name like '%' #{teacherName} '%'"+
-            "</if>"+
-            "and if_auth !=0"+
+            "and teacher_name like '%' #{teacherName} '%'" +
+            "</if>" +
+            "and if_auth !=0" +
             "</where>" +
             "</script>")
-    List<Teacher> selAllTeacherByName4_1(@Param("currentPage") Integer currentPage,@Param("pageSize") Integer pageSize,@Param("teacherName") String teacherName);
+    List<Teacher> selAllTeacherByName4_1(@Param("currentPage") Integer currentPage, @Param("pageSize") Integer pageSize, @Param("teacherName") String teacherName);
 
-    /** zjl
+    /**
+     * zjl
      * 根据教练的id , 修改教练的认证信息
-     * */
+     */
     @Update("update teacher set if_auth =#{val} where teacher_id=#{teacherId}")
     int updateTeacherIf_authById(@Param("teacherId") Integer teacherId, @Param("val") Integer val);
 
@@ -57,8 +60,15 @@ public interface TeacherMapper {
     List<TeaMoment> allMoments2();
 
 
-
-
     @Select("select * from teacher where teacher_id = #{teacherId} and flag=0")
     Teacher selByTeacherId(Integer teacherId);
+
+    /**
+     * 教练id查询教练名称
+     *
+     * @param teacherId
+     * @return
+     */
+    @Select("select teacher_name from teacher where teacher_id=#{teacherId}")
+    String selectTeacherNameByTeacherId2(Integer teacherId);
 }

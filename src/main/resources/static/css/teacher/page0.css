@@ -38,6 +38,10 @@ body {
     margin: 10px;
 }
 
+.down h4{
+    font-weight: 100;
+}
+
 p {
     height: 8px;
 }

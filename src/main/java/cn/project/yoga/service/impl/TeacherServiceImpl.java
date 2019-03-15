@@ -48,5 +48,10 @@ public class TeacherServiceImpl implements TeacherService {
         return teacherMapper.allMoments2();
     }
 
+    @Override
+    public String selectTeacherNameByTeacherId2(Integer teacherId) {
+        return teacherMapper.selectTeacherNameByTeacherId2(teacherId);
+    }
+
 
 }

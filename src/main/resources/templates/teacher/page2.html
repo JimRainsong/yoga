@@ -14,23 +14,44 @@
 <shiro:authenticated>
     <header class="white_area">
         <div id="head_img" style="width: 24%">
-            <img src="../../static/img/head_imgs/dddsx.jpg"/>
+            <img src="../../static/img/head_imgs/dddsx.jpg" th:src="@{/img/head_imgs/dddsx.jpg}"/>
         </div>
-        <div id="name" style="width: 75%"></div>
+        <div id="name" style="width: 75%">
+            <p th:text="${teacherName}" id="teacher_name">带带大师兄</p>
+            <p>iYoga用户名:<span th:text=" ${userName}">nmsl2333333</span></p>
+            <input type="hidden" th:value="${teacherId}" id="teacherId">
+            <input type="hidden" th:value="${userId}" id="userId">
+        </div>
     </header>
     <div id="my_wallet" class="white_area" onclick="openPage('wallet')">
-        我的钱包
+        <img class="logos" src="../../static/img/logos/wallet.png" th:src="@{/img/logos/wallet.png}">
+        <span class="words">我的钱包</span>
     </div>
     <div class="white_area" id="manager">
-        <div class="single_manager">私教邀请</div>
+        <div class="single_manager">
+            <img class="logos" src="../../static/img/logos/talk.png" th:src="@{/img/logos/talk.png}">
+            <span class="words">私教邀请</span>
+        </div>
         <div class="separate_line"></div>
-        <div class="single_manager">我的场馆</div>
+        <div class="single_manager">
+            <img class="logos" src="../../static/img/logos/arm.png" th:src="@{/img/logos/arm.png}">
+            <span class="words">我的场馆</span>
+        </div>
         <div class="separate_line"></div>
-        <div class="single_manager">个人资料</div>
+        <div class="single_manager">
+            <img class="logos" src="../../static/img/logos/tool.png" th:src="@{/img/logos/tool.png}">
+            <span class="words">个人资料</span>
+        </div>
         <div class="separate_line"></div>
-        <div class="single_manager">我的关注</div>
+        <div class="single_manager">
+            <img class="logos" src="../../static/img/logos/friends.png" th:src="@{/img/logos/friends.png}">
+            <span class="words">我的关注</span>
+        </div>
     </div>
-    <div id="quit" onclick="openFooterConfirmPage()" class="white_area">注销</div>
+    <div id="quit" onclick="openFooterConfirmPage()" class="white_area">
+        <img class="logos" src="../../static/img/logos/exit.png" th:src="@{/img/logos/exit.png}">
+        <span class="words">注销</span>
+    </div>
 </shiro:authenticated>
 
 <script>

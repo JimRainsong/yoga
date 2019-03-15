@@ -17,9 +17,11 @@ public interface TeacherService {
     int insert_userid_teacher2(String username);
 
 
-    int updateIfauthById4_1(Integer teacherId,Integer val);
+    int updateIfauthById4_1(Integer teacherId, Integer val);
 
     Double selectBalanceByTeacherName2(String name);
 
     List<TeaMoment> allMoments2();
+
+    String selectTeacherNameByTeacherId2(Integer teacherId);
 }
