@@ -6,6 +6,9 @@
     <link href="../../static/css/teacher/wallet.css" th:href="@{/css/teacher/wallet.css}" rel="stylesheet"
           type="text/css">
     <script th:src="@{/js/jquery.min.js}" src="../../static/js/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="../../static/css/fzwmodal.css"
+          th:href="@{/css/fzwmodal.css}">
+    <script th:src="@{/js/fzwmodal.js}" src="../../static/js/fzwmodal.js"></script>
 </head>
 <body>
 <header>
@@ -21,5 +24,13 @@
 <div id="manage">
 
 </div>
+
+<!--模态框组件-->
+<div id="block" class="modal"></div>
+<div id="dialog" class="modal">
+    <div id="dialog_message"></div>
+    <button onclick="turnTo()">确认</button>
+</div>
+<!-- !! -->
 </body>
 </html>

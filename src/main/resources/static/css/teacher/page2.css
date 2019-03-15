@@ -24,7 +24,7 @@ a {
     float: left;
 }
 
-#teacher_name {
+.teacher_name {
     font-weight: 500;
 }
 
