@@ -81,6 +81,14 @@ public class VenueServiceImpl implements VenueService {
     }
 
     @Override
+    public boolean findAdByName(String adTitle) {
+        if (adMapper.selAdByAdTitle(adTitle)!=null){
+            return true;
+        }
+        return false;
+    }
+
+    @Override
     public List<Venue> selectAllVenue4(int lim) {
         List<Venue>venues=venueMapper.selectAllVenue4(lim);
         return venues;

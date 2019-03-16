@@ -73,6 +73,15 @@ public interface TeacherMapper {
     @Select("select teacher_name from teacher where teacher_id=#{teacherId}")
     String selectTeacherNameByTeacherId2(Integer teacherId);
 
+    /**
+     * 通过登录用户名查询教练对象
+     *
+     * @param userName
+     * @return
+     */
+    @Select("select * from teacherInfo where user_name=#{userName}")
+    TeacherInfo selectSingleTeacherByUserName(String userName);
+
     /*
      * 分页查询所有教练信息*/
     @Select("select * from teacher where flag=0")

@@ -45,12 +45,6 @@
       <if test="adImg != null">
         ad_img,
       </if>
-      <if test="flag != null">
-        flag,
-      </if>
-      <if test="examine != null">
-        examine,
-      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="adId != null">

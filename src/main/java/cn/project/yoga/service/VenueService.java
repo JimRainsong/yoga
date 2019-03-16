@@ -54,6 +54,10 @@ public interface VenueService {
      * @return
      */
     int venueUploadAds(Ad ad);
+
+
+
+
     List<Course> selCourse(Integer currentPage, Integer pageSize, CourseVo courseVo);
 
     /*
@@ -83,4 +87,11 @@ public interface VenueService {
     /*
      * 动态查询场馆*/
     public List<Venue> shearch(String venname, String addrass, String phone, String qq);
+
+
+
+
+
+    boolean findAdByName(String adTitle);
+
 }

@@ -1,5 +1,6 @@
 package cn.project.yoga.controller.viewcontroller;
 
+import cn.project.yoga.pojo.TeacherInfo;
 import cn.project.yoga.service.TeacherService;
 import cn.project.yoga.utils.Attributes;
 import org.apache.shiro.SecurityUtils;
@@ -33,13 +34,11 @@ public class TeacherViewController {
         Subject subject = SecurityUtils.getSubject();
         if (subject.isAuthenticated()) {
             Session session = subject.getSession();
-            modelAndView.addObject("teacherId", session.getAttribute(Attributes.currentTeacherId));
-            modelAndView.addObject("userId", session.getAttribute(Attributes.currentUserId));
-            modelAndView.addObject("userName", session.getAttribute(Attributes.currentUserName));
-            modelAndView.addObject("teacherName", teacherService.selectTeacherNameByTeacherId2((Integer) session.getAttribute(Attributes.currentTeacherId)));
+            TeacherInfo info = (TeacherInfo) session.getAttribute(Attributes.CURRENT_USER);
+            modelAndView.addObject("info", info);
             modelAndView.setViewName("teacher/page2");
         } else {
-            modelAndView.setViewName("teacher/register");
+            modelAndView.setViewName("teacher/login");
         }
         return modelAndView;
     }
@@ -52,6 +51,19 @@ public class TeacherViewController {
     @RequestMapping("/postPage")
     public String postPage() {
         return "teacher/post";
+    }
+
+    @RequestMapping("/teacherInfo")
+    public ModelAndView teacherInfo() {
+        ModelAndView modelAndView = new ModelAndView();
+        TeacherInfo info = (TeacherInfo) SecurityUtils.getSubject().getSession().getAttribute(Attributes.CURRENT_USER);
+        if (info == null) {
+            modelAndView.setViewName("teacher/register");
+        } else {
+            modelAndView.setViewName("teacher/teacherInfo");
+            modelAndView.addObject("info", info);
+        }
+        return modelAndView;
     }
 
     /**
