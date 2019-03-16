@@ -112,5 +112,7 @@ public interface VenueMapper {
     public List<Venue> shearch(@Param("venname") String venname,@Param("addrass") String addrass,
                                @Param("phone") String phone,@Param("qq") String qq);
 
+    @Select("select * from venue where user_id=#{userId} and flag=0")
+    Venue selVenueByUserId(Integer userId);
 
 }

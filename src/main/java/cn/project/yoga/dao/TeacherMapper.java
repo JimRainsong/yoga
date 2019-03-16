@@ -124,4 +124,6 @@ public interface TeacherMapper {
             " </script>")
     public List<Teacher> shearch(@Param("teachername") String teachername,@Param("teacherSex") String teacherSex,
                                    @Param("teacherPhone") String teacherPhone, @Param("teacherQq") String teacherQq);
+
+
 }

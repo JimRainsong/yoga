@@ -3,11 +3,13 @@ package cn.project.yoga;
 import cn.project.yoga.dao.*;
 import cn.project.yoga.pojo.Ad;
 import cn.project.yoga.pojo.Teacher;
+import cn.project.yoga.pojo.User;
 import cn.project.yoga.pojo.Venue_teacher;
 import cn.project.yoga.pojo.Vip_type;
 import cn.project.yoga.service.VenueService;
 import cn.project.yoga.vo.CourseVo;
 import com.github.pagehelper.PageInfo;
+import org.apache.shiro.SecurityUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,6 +43,9 @@ public class CYTest {
    private AdMapper adMapper;
     @Test
     public void contextLoads() {
+       CourseVo courseVo=new CourseVo(1,null,null,null,null);
+        System.out.println(courseMapper.selCourse(courseVo,1,1));
+
       /* CourseVo courseVo=new CourseVo(1,null,null,null,null);
         System.out.println(courseMapper.selCourse(courseVo,1,1));*/
         Ad ad=new Ad();
