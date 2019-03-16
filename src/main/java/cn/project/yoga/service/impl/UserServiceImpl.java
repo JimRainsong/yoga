@@ -8,7 +8,6 @@ import cn.project.yoga.pojo.*;
 import cn.project.yoga.service.UserService;
 import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.kafka.KafkaProperties;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -120,7 +119,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<Moment> allMoments2() {
+    public List<StuMoment> allMoments2() {
         return userMapper.allMoments2();
     }
 
@@ -141,7 +140,59 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public String recharge(Integer money) {
+        int user_id=userMapper.selectUserByUserName(SecurityUtils.getSubject().getPrincipal().toString()).getUserId();
+        User_info user_info=new User_info();
+        User_info user_info1=user_infoMapper.selectByUserId(user_id);
+        user_info.setBalance(money);
+        user_info.setUserId(user_id);
+        user_info.setLevel((user_info1.getScore()+money)/500);
+        System.out.println(user_info1.getScore()+money);
+        user_info.setScore(money);
+        int row=user_infoMapper.recharge(user_info);
+        if (row==0){
+            return "充值失败，请联系管理员";
+        }
+        return "充值成功";
+    }
+
+    @Override
+    public String updateImg(String source) {
+        int user_id=userMapper.selectUserByUserName(SecurityUtils.getSubject().getPrincipal().toString()).getUserId();
+        int row = user_infoMapper.updateHeadImg(source,user_id);
+        if (row==0){
+            return "上传失败";
+        }
+        return "上传成功";
+    }
+
+
+    @Override
+    public int SelUserNum4() {
+        int total=user_infoMapper.SelUserNum4();
+        return total;
+    }
+
+    @Override
+    public User_info SelUserById(int uId) {
+        return user_infoMapper.SelUserById(uId);
+    }
+
+    @Override
+    public List<User_info> shearch(String netName,String sex,String phoneNumber,String qq) {
+
+        return user_infoMapper.shearch(netName,sex,phoneNumber,qq);
+    }
+
+    @Override
+    public int DelUserById4(int uId) {
+        return user_infoMapper.DelUserById4(uId);
+    }
+
+    @Override
     public int addUser(User user) {
         return userMapper.insert(user);
     }
+
+
 }

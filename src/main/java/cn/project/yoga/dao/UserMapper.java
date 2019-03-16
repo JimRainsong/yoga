@@ -1,6 +1,6 @@
 package cn.project.yoga.dao;
 
-import cn.project.yoga.pojo.Moment;
+import cn.project.yoga.pojo.StuMoment;
 import cn.project.yoga.pojo.User;
 
 import cn.project.yoga.pojo.User_info;
@@ -25,7 +25,7 @@ public interface UserMapper {
 
     int updateByPrimaryKey(User record);
 
-    @Select("select * from user where user_name=#{userName}")
+    @Select("select * from user where user_name=#{userName} and flag=0")
     User selectUserByUserName(String userName);
 
     /**
@@ -34,7 +34,7 @@ public interface UserMapper {
      * @param user
      * @return
      */
-    @Update("update user set  phone_number=#{phoneNumber} where user_id=#{0}")
+    @Update("update user set  phone_number=#{phoneNumber} where user_id=#{0} and flag=0")
     int updateUserInfo1(User user);
 
     /**
@@ -42,7 +42,7 @@ public interface UserMapper {
      * @param state
      * @return  影响行数
       */
-    @Update("update user set info_state=#{0}")
+    @Update("update user set info_state=#{0} and flag=0")
     int updateInfostate1(String state);
 
     /**
@@ -57,8 +57,8 @@ public interface UserMapper {
     /**
      * 查看所有的朋友圈动态
      */
-    @Select("select * from moments")
-    List<Moment> allMoments2();
+    @Select("select * from moments_stu")
+    List<StuMoment> allMoments2();
 
     @Insert("insert into user_info(user_id) values((select user_id from user where user_name=#{0})) ")
     int insertIntoUser(String username);

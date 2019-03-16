@@ -1,5 +1,6 @@
 package cn.project.yoga.dao;
 
+import cn.project.yoga.pojo.VenMoment;
 import cn.project.yoga.pojo.Venue;
 import cn.project.yoga.pojo.Vip_type;
 import org.apache.ibatis.annotations.Param;
@@ -17,8 +18,8 @@ public interface VenueMapper {
 
     /**
      * 查找场馆信息
-     * @param venueId
      *
+     * @param venueId
      * @return
      */
     Venue selectByPrimaryKey(Integer venueId);
@@ -27,26 +28,91 @@ public interface VenueMapper {
 
     int updateByPrimaryKey(Venue record);
 
-    /** zjl    模糊查询
-     * 查询所有未认证的场馆*/
-    @Select("<script>"+
-            "select * from venue"+
-            "<where>"+
+    /**
+     * zjl    模糊查询
+     * 查询所有未认证的场馆
+     */
+    @Select("<script>" +
+            "select * from venue" +
+            "<where>" +
             "<if test='venueName !=null and  \"\"!=venueName'>" +
-            "and venue_name like '%' #{venueName} '%'"+
-            "</if>"+
-            "and auth_state !=0"+
+            "and venue_name like '%' #{venueName} '%'" +
+            "</if>" +
+            "and auth_state !=0" +
             "</where>" +
             "</script>")
-    List<Venue> selAllVenues4_1(@Param("currentPage") Integer currentPage, @Param("pageSize") Integer pageSize,@Param("venueName") String venueName);
+    List<Venue> selAllVenues4_1(@Param("currentPage") Integer currentPage, @Param("pageSize") Integer pageSize, @Param("venueName") String venueName);
 
-    /** zjl
+    /**
+     * zjl
      * 根据场馆id 更改认证状态
-     * */
+     */
     @Update("update venue set auth_state =#{val} where venue_id =#{venueId}")
     int upApproveByvenueId(@Param("venueId") Integer venueId, @Param("val") Integer val);
 
     List<Venue> selectMyVen1(int user_id);
 
+    /**
+     * 所有教练的动态
+     */
+    @Select("select * from moments_ven")
+    List<VenMoment> allMoments2();
+
+    /*
+     *查询所有场馆信息
+     */
+    @Select("select * from venue where flag=0")
+    public List<Venue> SelVen(Integer currentPage,Integer pageSize);
+
+    /*
+    软删除场馆
+     */
+    @Update("update venue set flag=1 where venue_id=#{venue_id}")
+    public int DelVen4(int venue_id);
+
+    /*
+     * 根据ID查询场馆*/
+    @Select("select * from venue where flag=0 and venue_id=#{venueId}")
+    public Venue SelVenById4(int venueId);
+
+    /*
+     * 查询场馆数量*/
+    @Select("select count(*) from venue where flag=0")
+    public  int SelVenNum();
+
+    /**
+     * 分页查询所有认证通过的场馆
+     * @author zjn
+     * @return
+     */
+    @Select("select * from venue where flag=0 and auth_state=0 limit #{lim},4")
+    List<Venue> selectAllVenue4(int lim);
+
+    /*
+     * 动态查询学员*/
+    @Select("<script>"  +
+            "  select * from venue"+
+            " <where>"  +
+            " <if test='venname != null and venname!=\"\" '>"  +
+            "  and venue_name like concat('%', #{venname}, '%')"+
+            " </if>" +
+            " <if test='addrass != null and addrass!=\"\" '>" +
+            " and venue_address like concat('%', #{addrass}, '%')" +
+            " </if>" +
+            "<if test='phone !=null and phone !=\"\" '>" +
+            "and venue_phone = #{phone}" +
+            "</if>" +
+            "<if test='qq !=null and qq!=\"\" '>"+
+            "and qq = #{qq}"+
+            "</if>" +
+            "and auth_state=0"+"\n"+
+            "and flag=0"+
+            " </where>" +
+            " </script>")
+    public List<Venue> shearch(@Param("venname") String venname,@Param("addrass") String addrass,
+                               @Param("phone") String phone,@Param("qq") String qq);
+
+    @Select("select * from venue where user_id=#{userId} and flag=0")
+    Venue selVenueByUserId(Integer userId);
 
 }

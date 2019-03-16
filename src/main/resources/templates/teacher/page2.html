@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <meta charset="UTF-8">
+    <title>个人中心</title>
+    <link rel="stylesheet" type="text/css" href="../../static/css/teacher/page2.css"
+          th:href="@{/css/teacher/page2.css}">
+    <script th:src="@{/js/jquery.min.js}" src="../../static/js/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="../../static/css/fzwmodal.css"
+          th:href="@{/css/fzwmodal.css}">
+    <script th:src="@{/js/fzwmodal.js}" src="../../static/js/fzwmodal.js"></script>
+</head>
+<body>
+<shiro:authenticated>
+    <header class="white_area">
+        <div id="head_img" style="width: 24%">
+            <img src="../../static/img/head_imgs/dddsx.jpg" th:src="${info.img}"/>
+        </div>
+        <div id="name" style="width: 75%">
+            <!--<p th:text="${info.netName}" id="teacher_name">带带大师兄</p>-->
+            <p class="teacher_name" th:if="${info.netName} ne null">[[${info.netName}]]</p>
+            <p class="teacher_name" th:if="${info.netName} eq null">带带大师兄</p>
+            <p>iYoga用户名&nbsp;:&nbsp;<span th:text="${info.userName}">nmsl2333333</span></p>
+            <input type="hidden" th:value="${info.tId}" id="teacherId">
+            <input type="hidden" th:value="${info.uId}" id="userId">
+        </div>
+    </header>
+    <div id="my_wallet" class="white_area" onclick="openPage('wallet')">
+        <img class="logos" src="../../static/img/logos/wallet.png" th:src="@{/img/logos/wallet.png}">
+        <span class="words">我的钱包</span>
+    </div>
+    <div class="white_area" id="manager">
+        <div class="single_manager">
+            <img class="logos" src="../../static/img/logos/talk.png" th:src="@{/img/logos/talk.png}">
+            <span class="words">私教邀请</span>
+        </div>
+        <div class="separate_line"></div>
+        <div class="single_manager">
+            <img class="logos" src="../../static/img/logos/arm.png" th:src="@{/img/logos/arm.png}">
+            <span class="words">我的场馆</span>
+        </div>
+        <div class="separate_line"></div>
+        <div class="single_manager" onclick="openPage('teacherInfo')">
+            <img class="logos" src="../../static/img/logos/tool.png" th:src="@{/img/logos/tool.png}">
+            <span class="words">个人资料</span>
+        </div>
+        <div class="separate_line"></div>
+        <div class="single_manager">
+            <img class="logos" src="../../static/img/logos/friends.png" th:src="@{/img/logos/friends.png}">
+            <span class="words">我的关注</span>
+        </div>
+    </div>
+    <div id="quit" onclick="logout()" class="white_area">
+        <img class="logos" src="../../static/img/logos/exit.png" th:src="@{/img/logos/exit.png}">
+        <span class="words">注销</span>
+    </div>
+</shiro:authenticated>
+
+<!--模态框组件-->
+<div id="block" class="modal"></div>
+<div id="dialog" class="modal">
+    <div id="dialog_message"></div>
+    <button onclick="turnTo()">确认</button>
+</div>
+<!-- !! -->
+<script>
+    //注销
+    function logout() {
+        $.ajax({
+            url: "/yoga/logout",
+            type: "post",
+            success: function () {
+                window.location.reload();
+            }
+        })
+    }
+
+    function openPage(name) {
+        window.location.href = "/yoga/teacher/" + name;
+    }
+
+</script>
+</body>
+</html>

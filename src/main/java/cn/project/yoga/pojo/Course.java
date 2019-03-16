@@ -7,7 +7,8 @@ public class Course {
 
     private Integer venueId;
 
-    private Integer teacherId;
+    /*private Integer teacherId;*/
+    private Teacher teacher;
 
     private Date startTime;
 
@@ -35,12 +36,20 @@ public class Course {
         this.venueId = venueId;
     }
 
-    public Integer getTeacherId() {
+    /*public Integer getTeacherId() {
         return teacherId;
     }
 
     public void setTeacherId(Integer teacherId) {
         this.teacherId = teacherId;
+    }*/
+
+    public Teacher getTeacher() {
+        return teacher;
+    }
+
+    public void setTeacher(Teacher teacher) {
+        this.teacher = teacher;
     }
 
     public Date getStartTime() {

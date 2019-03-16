@@ -5,6 +5,9 @@
     <title>Title</title>
     <link rel="stylesheet" th:href="@{/css/teacher/auth.css}">
     <script th:src="@{/js/jquery.min.js}"></script>
+    <link rel="stylesheet" type="text/css" href="../../static/css/fzwmodal.css"
+          th:href="@{/css/fzwmodal.css}">
+    <script th:src="@{/js/fzwmodal.js}" src="../../static/js/fzwmodal.js"></script>
 </head>
 <body>
 <div class="lowin">
@@ -34,11 +37,18 @@
         </div>
     </div>
 </div>
+
+<!--模态框组件-->
+<div id="block" class="modal"></div>
+<div id="dialog" class="modal">
+    <div id="dialog_message"></div>
+    <button onclick="turnTo()">确认</button>
+</div>
+<!-- !! -->
 <script>
     function login() {
         var username = $("#loginName").val();
         var password = $("#loginPass").val();
-        alert(username + password);
         $.ajax({
             url: "/yoga/teacher/login",
             type: "post",
@@ -50,9 +60,9 @@
             dataType: "json",
             success: function (mes) {
                 if (mes.code == 0) {
-                    window.parent.showPage(4);
+                    window.parent.showPage(2);
                 } else {
-                    showMessage(mes.message);
+                    openDialog(mes.message, "", false);
                 }
             }
         })

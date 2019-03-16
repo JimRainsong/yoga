@@ -1,13 +1,15 @@
 package cn.project.yoga;
 
-import cn.project.yoga.dao.TeacherMapper;
-import cn.project.yoga.dao.Venue_teacherMapper;
-import cn.project.yoga.dao.Vip_typeMapper;
+import cn.project.yoga.dao.*;
+import cn.project.yoga.pojo.Ad;
 import cn.project.yoga.pojo.Teacher;
+import cn.project.yoga.pojo.User;
 import cn.project.yoga.pojo.Venue_teacher;
 import cn.project.yoga.pojo.Vip_type;
 import cn.project.yoga.service.VenueService;
+import cn.project.yoga.vo.CourseVo;
 import com.github.pagehelper.PageInfo;
+import org.apache.shiro.SecurityUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,22 +34,23 @@ public class CYTest {
     @Autowired
     private TeacherMapper teacherMapper;
 
+    @Autowired
+    private CourseMapper courseMapper;
    /* @Autowired
     private VenueService venueService;*/
 
+   @Autowired
+   private AdMapper adMapper;
     @Test
     public void contextLoads() {
-        /*venue_teacherMapper.selectTeachers(1,1,1,1);*/
-        Venue_teacher venue_teacher=new Venue_teacher();
-        venue_teacher.setVenueId(8);
-        venue_teacher.setTeacherState(0);
-        Teacher teacher=new Teacher();
-        /*teacher.setTeacherSex("男");*/
-        System.out.println(teacher);
-        venue_teacher.setTeacher(teacher);
-        List<Venue_teacher> list=venue_teacherMapper.selectTeachers(venue_teacher,1,1);
-        System.out.println(list);
-        /*System.out.println(teacherMapper.selByTeacherId(list.get(0).getTeacherId()));*/
+       CourseVo courseVo=new CourseVo(1,null,null,null,null);
+        System.out.println(courseMapper.selCourse(courseVo,1,1));
+
+      /* CourseVo courseVo=new CourseVo(1,null,null,null,null);
+        System.out.println(courseMapper.selCourse(courseVo,1,1));*/
+        Ad ad=new Ad();
+        ad.setAdTitle("Fucker");
+        System.out.println(adMapper.insertSelective(ad));
     }
 
 }

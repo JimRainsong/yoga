@@ -90,7 +90,7 @@ public interface UserService {
 
     int insert_userid_user(String username);
 
-    List<Moment> allMoments2();
+    List<StuMoment> allMoments2();
 
     /**
      * 查询用户的网名
@@ -104,4 +104,25 @@ public interface UserService {
      * @return
      */
     User_info selectMyInfo();
+
+    String recharge(Integer money);
+
+    String updateImg(String source);
+
+
+
+    /*
+     * 查询学员总数*/
+    public int SelUserNum4();
+
+    /*
+     * 根据学员ID查询信息*/
+    public User_info SelUserById(int uId);
+    /*
+     * 动态查询学员*/
+    public List<User_info> shearch(String netName,String sex,String phoneNumber,String qq);
+
+    /*
+     * 根据ID软删除学员*/
+    public int DelUserById4(int uId);
 }

@@ -1,13 +1,15 @@
 package cn.project.yoga.controller;
 
+import cn.project.yoga.pojo.*;
 import cn.project.yoga.service.UserService;
-import cn.project.yoga.pojo.User;
 import cn.project.yoga.service.TeacherService;
+import cn.project.yoga.service.VenueService;
 import cn.project.yoga.utils.Attributes;
 import cn.project.yoga.utils.Md5Encoder;
 import cn.project.yoga.utils.RegexUtil;
 import cn.project.yoga.utils.ResultUtil;
 import cn.project.yoga.vo.LoginVo;
+import com.github.pagehelper.PageInfo;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.session.Session;
@@ -19,6 +21,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+import java.util.*;
+
 @Controller
 @RequestMapping("/teacher")
 public class TeacherController {
@@ -26,6 +32,8 @@ public class TeacherController {
     private UserService userService;
     @Autowired
     private TeacherService teacherService;
+    @Autowired
+    private VenueService venueService;
 
     @RequestMapping("/login")
     @ResponseBody
@@ -37,7 +45,9 @@ public class TeacherController {
             try {
                 subject.login(token);
                 Session session = SecurityUtils.getSubject().getSession();
-                session.setAttribute(Attributes.currentUserName, vo.getUserName());
+                session.setAttribute(Attributes.CURRENT_USER, vo.getUserName());
+                TeacherInfo teacherInfo = teacherService.selectSingleTeacherByUserName2(vo.getUserName());
+                session.setAttribute(Attributes.CURRENT_USER, teacherInfo);
                 return ResultUtil.ok("登陆成功");
             } catch (UnknownAccountException uae) {
                 return ResultUtil.error("未知的用户类型");
@@ -55,11 +65,24 @@ public class TeacherController {
         }
     }
 
-    @RequestMapping("/page1")
+    @RequestMapping("/page0")
     public ModelAndView page1() {
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("/teacher/page1");
-        //modelAndView.addObject("moments", userService.allMoments2());
+        modelAndView.setViewName("/teacher/page0");
+        List<StuMoment> stuMomentList = userService.allMoments2();
+        List<TeaMoment> teaMomentList = teacherService.allMoments2();
+        List<VenMoment> venMomentList = venueService.allMoments2();
+        List<Moment> allMoments = new ArrayList<>();
+        allMoments.addAll(stuMomentList);
+        allMoments.addAll(teaMomentList);
+        allMoments.addAll(venMomentList);
+        allMoments.sort(new Comparator<Moment>() {
+            @Override
+            public int compare(Moment m1, Moment m2) {
+                return m1.getTime().compareTo(m2.getTime());
+            }
+        });
+        modelAndView.addObject("moments", allMoments);
         return modelAndView;
     }
 
@@ -103,10 +126,51 @@ public class TeacherController {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("/teacher/wallet");
         Session session = SecurityUtils.getSubject().getSession();
-        String name = (String) session.getAttribute(Attributes.currentUserName);
-        Double balance = teacherService.selectBalanceByTeacherName2(name);
+        Double balance = ((TeacherInfo) session.getAttribute(Attributes.CURRENT_USER)).getBalance();
         modelAndView.addObject("balance", balance);
         return modelAndView;
+    }
+
+    @RequestMapping("/deltea")
+    public String DelTea4(HttpServletRequest request){
+        int teacherId=Integer.parseInt(request.getParameter("teacherId"));
+        int row=teacherService.DelTea4(teacherId);
+        return "manager/hsn/teacher";
+    }
+
+    @RequestMapping("teaDetail")
+    @ResponseBody
+    public Teacher TeaDetail4(HttpServletRequest request, HttpSession session){
+        int teacherId= (int) session.getAttribute("teacherId");
+        Teacher teacher=teacherService.SelTeaById4(teacherId);
+        return teacher;
+    }
+
+    @RequestMapping("/teacherDatas")
+    @ResponseBody
+    public Map<String, Object> showteacherDatas(@RequestParam(value = "page",defaultValue = "1",required = false)Integer currentPage,
+                                              @RequestParam(value = "rows",defaultValue = "10",required = false)Integer pageSize) {
+        List<Teacher> list = teacherService.showTea4(currentPage,pageSize);
+        PageInfo pageInfo = new PageInfo(list);
+        Map<String,Object> result = new HashMap<String,Object>();
+        result.put("code",200);
+        result.put("msg","");
+        result.put("count",pageInfo.getTotal());
+        result.put("data",list);
+        return result;
+
+    }
+
+    @RequestMapping("/shearch")
+    @ResponseBody
+    public List<Teacher> ShearchVenue4(HttpServletRequest request){
+        String teacherName=request.getParameter("teacherName");
+        String teacherSex=request.getParameter("teacherSex");
+        String teacherPhone=request.getParameter("teacherPhone");
+        String teacherQq=request.getParameter("teacherQq");
+        List<Teacher>teachers=teacherService.shearch(teacherName,teacherSex,teacherPhone,teacherQq);
+        System.out.println(teachers);
+        return teachers;
     }
 }
 //暴风哭泣

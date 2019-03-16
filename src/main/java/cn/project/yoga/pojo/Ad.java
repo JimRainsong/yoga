@@ -70,4 +70,17 @@ public class Ad {
     public void setExamine(Integer examine) {
         this.examine = examine;
     }
+
+    @Override
+    public String toString() {
+        return "Ad{" +
+                "adId=" + adId +
+                ", adTitle='" + adTitle + '\'' +
+                ", adDetails='" + adDetails + '\'' +
+                ", adImg='" + adImg + '\'' +
+                ", flag=" + flag +
+                ", examine=" + examine +
+                ", adTime='" + adTime + '\'' +
+                '}';
+    }
 }

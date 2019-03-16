@@ -2,6 +2,7 @@ package cn.project.yoga.service;
 
 import cn.project.yoga.pojo.Ad;
 import cn.project.yoga.pojo.Teacher;
+import cn.project.yoga.pojo.User_info;
 import cn.project.yoga.pojo.Venue;
 import java.util.List;
 
@@ -18,4 +19,7 @@ public interface ManagerService {
     int updateAdByAdid(Integer daId, Integer val);
 
     List<Ad> getadthree();
+
+    /*分页查询所有学员信息*/
+    public List<User_info> SelUser4(Integer currentPage,Integer pageSize );
 }

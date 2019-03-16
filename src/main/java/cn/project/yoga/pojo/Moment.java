@@ -2,64 +2,30 @@ package cn.project.yoga.pojo;
 
 import java.util.Date;
 
-/**
- * 这个类与数据库视图moments对应，用来展示朋友圈
- */
-public class Moment {
+public abstract class Moment {
     private Date time;
     private String img;
     private String name;
     private Integer id;
     private String detail;
 
-    @Override
-    public String toString() {
-        return "Moment{" +
-                "time=" + time +
-                ", img='" + img + '\'' +
-                ", name='" + name + '\'' +
-                ", id=" + id +
-                ", detail='" + detail + '\'' +
-                '}';
-    }
+    public abstract Date getTime();
 
-    public Date getTime() {
-        return time;
-    }
+    public abstract void setTime(Date time);
 
-    public void setTime(Date time) {
-        this.time = time;
-    }
+    public abstract String getImg();
 
-    public String getImg() {
-        return img;
-    }
+    public abstract void setImg(String img);
 
-    public void setImg(String img) {
-        this.img = img;
-    }
+    public abstract String getName();
 
-    public String getName() {
-        return name;
-    }
+    public abstract void setName(String name);
 
-    public void setName(String name) {
-        this.name = name;
-    }
+    public abstract Integer getId();
 
-    public Integer getId() {
-        return id;
-    }
+    public abstract void setId(Integer id);
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
+    public abstract String getDetail();
 
-    public String getDetail() {
-        return detail;
-    }
-
-    public void setDetail(String detail) {
-        this.detail = detail;
-    }
+    public abstract void setDetail(String detail);
 }
