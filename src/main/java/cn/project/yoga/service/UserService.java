@@ -90,7 +90,7 @@ public interface UserService {
 
     int insert_userid_user(String username);
 
-    List<Moment> allMoments2();
+    List<StuMoment> allMoments2();
 
     /**
      * 查询用户的网名
