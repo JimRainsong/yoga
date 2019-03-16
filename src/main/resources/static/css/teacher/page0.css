@@ -38,7 +38,7 @@ body {
     margin: 10px;
 }
 
-.down h4{
+.down h4 {
     font-weight: 100;
 }
 
@@ -95,4 +95,60 @@ h4 p {
     margin-top: 15px;
     height: 1px;
     background: linear-gradient(to left, white, lightblue, white);
+}
+
+#post_window {
+    text-align: center;
+    position: fixed;
+    width: 80%;
+    height: 60%;
+    background-color: #5FB878;
+    border-radius: 12px;
+    display: none;
+}
+
+#post_button {
+    font-weight: 100;
+    width: 87px;
+    height: 34px;
+    background-color: #45ac09;
+    border: 0;
+    border-radius: 6px;
+    position: fixed;
+    right: 30px;
+    top: 30px;
+    color: white;
+    line-height: 34px;
+    text-align: center;
+    font-size: 22px;
+}
+
+#abandon {
+    margin-left: 100px;
+    background-color: red;
+}
+
+#post_window button {
+    width: 90px;
+    height: 30px;
+    border: 0;
+    color: white;
+    font-family: monospace;
+    font-size: 20px;
+    line-height: 30px;
+    border-radius: 6px;
+    margin-top: 30px;
+}
+
+#submit {
+    background-color: #f4853b;
+}
+
+#post_window textarea {
+    -webkit-appearance: button-bevel;
+    white-space: nowrap;
+    width: 80%;
+    height: 60%;
+    margin: 50px 0 10px 0;
+    border-radius: 4px;
 }
