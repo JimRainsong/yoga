@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>场馆管理</title>
+    <title>教练管理</title>
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -77,12 +77,12 @@
 </div>
 
 <div class="layui-btn-group demoTable">
-    <button class="layui-btn" data-type="getCheckData">获取选中行数据</button>
+    <button class="layui-btn" data-type="getCheckData">查看详情</button>
     <button class="layui-btn" data-type="getCheckLength">获取选中数目</button>
     <button class="layui-btn" data-type="isAll">验证是否全选</button>
 </div>
 
-<table class="layui-table" lay-data="{width: 892, height:332, url:'/yoga/venueDate/venueDatas/', page:true, id:'idTest',response: {
+<table class="layui-table" lay-data="{width: 892, height:332, url:'/yoga/teacher/teacherDatas/', page:true, id:'idTest',response: {
                 statusName: 'code'
                 ,statusCode: 200
                 ,msgName: 'msg'
@@ -93,15 +93,13 @@
     <thead>
     <tr>
         <th lay-data="{type:'checkbox', fixed: 'left'}"></th>
-        <th lay-data="{field:'venueId', width:80}">ID</th>
-        <th lay-data="{field:'venueName', width:100}">场馆名字</th>
-        <th lay-data="{field:'venueAddress', width:80}">地址</th>
-        <th lay-data="{field:'venuePhone', width:80}">电话</th>
-        <th lay-data="{field:'qq', width:80}">QQ</th>
-        <th lay-data="{field:'venueDetails', width:80, sort: true}">详情</th>
-
-        <th lay-data="{field:'authInfo', width:100}">认证信息</th>
-        <th lay-data="{field:'venueMoney', width:135, sort: true}">费用</th>
+        <th lay-data="{field:'teacherId', width:80}">ID</th>
+        <th lay-data="{field:'teacherName', width:100}">教练名字</th>
+        <th lay-data="{field:'teacherSex', width:80}">性别</th>
+        <th lay-data="{field:'teacherPhone', width:80}">电话</th>
+        <th lay-data="{field:'teacherQq', width:80}">QQ</th>
+        <th lay-data="{field:'selfMoney', width:100}">私教费用</th>
+        <th lay-data="{field:'teacherMoney', width:135, sort: true}">费用</th>
 
         <th lay-data="{fixed: 'right', width:178, align:'center', toolbar: '#barDemo'}"></th>
     </tr>
@@ -109,15 +107,15 @@
 </table>
 
 <div style="float: left">
-<div>场馆名字:<input type="text" name="venname" id="venname"></div>
-<div>场馆地址:<input type="text" name="addrass" id="addrass"></div>
-<div>电话号码:<input type="text" name="phone" id="phone"></div>
-<div>QQ号码:<input type="text" name="qq" id="qq"></div>
-<div onclick="shearch()"><input type="submit" value="确认"></div>
+    <div>教练名字:<input type="text" name="teacherName" id="teacherName"></div>
+    <div>教练性别:<input type="text" name="teacherSex" id="teacherSex"></div>
+    <div>电话号码:<input type="text" name="teacherPhone" id="teacherPhone"></div>
+    <div>QQ号码:<input type="text" name="teacherQq" id="teacherQq"></div>
+    <div onclick="shearch()"><input type="submit" value="确认"></div>
 </div>
 
 <div id="venues">
-    <table id="venues1" border="1">
+    <table id="teacher" border="1">
 
     </table>
 </div>
@@ -135,40 +133,40 @@
 
     function shearch() {
         $.ajax({
-            url: "/yoga/manager/shearch",
+            url: "/yoga/teacher/shearch",
             type: "post",
             async: true,
             dataType: "json",
             data: {
-                venname: $("#venname").val(),
-                addrass: $("#addrass").val(),
-                phone: $("#phone").val(),
-                qq: $("#qq").val()
+                teacherName: $("#teacherName").val(),
+                teacherSex: $("#teacherSex").val(),
+                teacherPhone: $("#teacherPhone").val(),
+                teacherQq: $("#teacherQq").val()
             },
             success:function (message) {
                 alert(message)
                 var content="<tr>"+
-                    "<td>名字</td>"+
-                    "<td>所在地址</td>"+
-                    "<td>QQ</td>"+
-                    "<td>详情</td>"+
-                    "<td>电话</td>"+
+                    "<td>教练名字</td>"+
+                    "<td>教练性别</td>"+
+                    "<td>教练电话</td>"+
+                    "<td>教练QQ</td>"+
+                    "<td>私交费用</td>"+
                     "<td>费用</td>"+
                     "</tr>";
                 for (var i = 0; i < message.length; i++) {
-                    var venue=message[i];
-                    content+="<tr>"+"<td><a href='/yoga/manager/venuedetail?venueId="+venue.venueId+"'>"+venue.venueName+"</a></td>"+
-                        "<td>"+venue.venueAddress+"</td>"+
-                        "<td>"+venue.qq+"</td>"+
-                        "<td>"+venue.venueDetails +"</td>"+
-                        "<td>"+venue.venuePhone +"</td>"+
-                        "<td>"+venue.venueMoney +"</td>"+
-                        "<td><a href='/yoga/manager/delven?venueId="+venue.venueId+"'>删除场馆</a></td>"+
+                    var teacher=message[i];
+                    content+="<tr>"+"<td><a href='/yoga/teacher/teadetail?teacherId="+teacher.teacherId+"'>"+teacher.teacherName+"</a></td>"+
+                        "<td>"+teacher.teacherSex+"</td>"+
+                        "<td>"+teacher.teacherPhone+"</td>"+
+                        "<td>"+teacher.teacherQq +"</td>"+
+                        "<td>"+teacher.selfMoney +"</td>"+
+                        "<td>"+teacher.teacherMoney +"</td>"+
+                        "<td><a href='/yoga/teacher/deltea?teacherId="+teacher.teacherId+"'>删除场馆</a></td>"+
                         "<tr>"
 
                 }
 
-                $("#venues1").html(content);
+                $("#teacher").html(content);
             }
         });
     }
@@ -182,12 +180,13 @@
         table.on('tool(demo)', function(obj){
             var data = obj.data;
             if(obj.event === 'detail'){
-                layer.msg('ID：'+ data.venueId + ' 的查看操作');
+                layer.msg('ID：'+ data.teacherId + ' 的查看操作');
+                window,location.href="/yoga/teacher/teadetail?teacherId="+data.teacherId;
             } else if(obj.event === 'del'){
                 layer.confirm('真的删除行么', function(index){
                     obj.del();
                     layer.close(index);
-                    window.location.href="/yoga/manager/delven?venueId="+data.venueId;
+                    window.location.href="/yoga/teacher/deltea?teacherId="+data.teacherId;
                 });
             } else if(obj.event === 'edit'){
                 layer.alert('编辑行：<br>'+ JSON.stringify(data))
@@ -198,8 +197,8 @@
             getCheckData: function(){ //获取选中数据
                 var checkStatus = table.checkStatus('idTest')
                     ,data = checkStatus.data;
-                layer.alert(JSON.stringify(data[0].venueId));
-                window,location.href="/yoga/manager/venuedetail?venueId="+data[0].venueId;
+                layer.alert(JSON.stringify(data[0].teacherId));
+                window,location.href="/yoga/teacher/teadetail?teacherId="+data[0].teacherId;
             }
             ,getCheckLength: function(){ //获取选中数目
                 var checkStatus = table.checkStatus('idTest')

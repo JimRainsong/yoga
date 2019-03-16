@@ -34,7 +34,7 @@ public class UserViewController {
 
     @RequestMapping("/tuser")
     public String Tuser4(){
-        return "manager/hsn/muser";
+        return "manager/hsn/users";
     }
 
     /*

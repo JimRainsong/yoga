@@ -30,7 +30,7 @@ public interface TeacherService {
 
     /*
      * 分页查询所有教练信息*/
-    public List<Teacher> showTea4(int lim);
+    public List<Teacher> showTea4(Integer currentPage,Integer pageSize);
 
     /*
      * 软删除教练*/
@@ -43,4 +43,8 @@ public interface TeacherService {
     /*
      * 查询教练表有多少条数据*/
      public int SelCountTea4();
+
+     /*
+     * 根据条件查找教练*/
+    public List<Teacher> shearch( String teachername, String teacherSex,String teacherPhone,String teacherQq);
 }
