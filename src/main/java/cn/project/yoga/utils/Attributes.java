@@ -12,4 +12,10 @@ public class Attributes {
     public static final String CURRENT_USER_ID = "currentUserId";
 
     public static final String CURRENT_USER = "currentUser";
+
+    public static final String JPG_FILE_END_NAME = ".jpg";
+
+    public static final String PNG_FILE_END_NAME = ".png";
+
+    public static final String GIF_FILE_END_NAME = "gif";
 }

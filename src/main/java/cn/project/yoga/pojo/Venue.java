@@ -120,4 +120,22 @@ public class Venue {
     public void setVenueMoney(Integer venueMoney) {
         this.venueMoney = venueMoney;
     }
+
+    @Override
+    public String toString() {
+        return "Venue{" +
+                "venueId=" + venueId +
+                ", userId=" + userId +
+                ", venueName='" + venueName + '\'' +
+                ", venueAddress='" + venueAddress + '\'' +
+                ", venuePhone='" + venuePhone + '\'' +
+                ", qq='" + qq + '\'' +
+                ", venueImg='" + venueImg + '\'' +
+                ", venueDetails='" + venueDetails + '\'' +
+                ", authInfo='" + authInfo + '\'' +
+                ", authState=" + authState +
+                ", flag=" + flag +
+                ", venueMoney=" + venueMoney +
+                '}';
+    }
 }

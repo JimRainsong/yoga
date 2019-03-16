@@ -55,14 +55,8 @@ public interface VenueService {
      */
     int venueUploadAds(Ad ad);
 
-    /**
-     * 场馆课程安排
-     * 场馆-崔宇
-     * @param currentPage
-     * @param pageSize
-     * @param courseVo
-     * @return
-     */
+
+
 
     List<Course> selCourse(Integer currentPage, Integer pageSize, CourseVo courseVo);
 
@@ -93,21 +87,6 @@ public interface VenueService {
     /*
      * 动态查询场馆*/
     public List<Venue> shearch(String venname, String addrass, String phone, String qq);
-
-    /**
-     * 场馆审核教练通过
-     * 场馆—陈家明
-     * @param venue_teacher
-     * @return
-     */
-    int venueUpTeacherState(Venue_teacher venue_teacher);
-
-    /**
-     * 用户id查询场馆id
-     * @param userId
-     * @return
-     */
-    Venue selVenueByUserId(Integer userId);
 
 
 

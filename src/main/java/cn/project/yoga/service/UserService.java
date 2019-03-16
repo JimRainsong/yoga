@@ -109,7 +109,8 @@ public interface UserService {
 
     String updateImg(String source);
 
-
+    /*分页查询所有学员信息*/
+    public List<User_info> SelUser4(int lim);
 
     /*
      * 查询学员总数*/
@@ -120,7 +121,7 @@ public interface UserService {
     public User_info SelUserById(int uId);
     /*
      * 动态查询学员*/
-    public List<User_info> shearch(String netName,String sex,String phoneNumber,String qq);
+    public List<User_info> shearch(String netName,String realName,String phoneNumber,String qq);
 
     /*
      * 根据ID软删除学员*/

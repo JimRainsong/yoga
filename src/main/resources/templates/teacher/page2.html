@@ -13,8 +13,13 @@
 <body>
 <shiro:authenticated>
     <header class="white_area">
-        <div id="head_img" style="width: 24%">
-            <img src="../../static/img/head_imgs/dddsx.jpg" th:src="${info.img}"/>
+        <div id="head_img" style="width: 24%" onclick="openBigHeadImg('block')">
+            <span th:if="${info.img ne null}">
+                <img src="../../static/img/head_imgs/dddsx.jpg" th:src="${info.img}"/>
+            </span>
+            <span th:if="${info.img eq null}">
+                <img src="../../static/img/head_imgs/dddsx.jpg" th:src="@{/img/head_imgs/default.png}"/>
+            </span>
         </div>
         <div id="name" style="width: 75%">
             <!--<p th:text="${info.netName}" id="teacher_name">带带大师兄</p>-->
@@ -30,12 +35,8 @@
         <span class="words">我的钱包</span>
     </div>
     <div class="white_area" id="manager">
-        <div class="single_manager">
-            <img class="logos" src="../../static/img/logos/talk.png" th:src="@{/img/logos/talk.png}">
-            <span class="words">私教邀请</span>
-        </div>
         <div class="separate_line"></div>
-        <div class="single_manager">
+        <div class="single_manager" onclick="openPage('venue')">
             <img class="logos" src="../../static/img/logos/arm.png" th:src="@{/img/logos/arm.png}">
             <span class="words">我的场馆</span>
         </div>
@@ -54,7 +55,23 @@
         <img class="logos" src="../../static/img/logos/exit.png" th:src="@{/img/logos/exit.png}">
         <span class="words">注销</span>
     </div>
+
+    <!-- 头像更换窗口 -->
+    <div id="big_head_img">
+        <input type="file" id="upload_file" onchange="refreshBigImg(this)">
+        <span th:if="${info.img ne null}">
+        <img id="current_img" src="../../static/img/head_imgs/dddsx.jpg" th:src="${info.img}"/>
+        </span>
+        <span th:if="${info.img eq null}">
+        <img src="../../static/img/head_imgs/dddsx.jpg" th:src="@{/img/head_imgs/default.png}"/>
+        </span>
+        <br>
+        <button id="select_head_img">选择文件</button>
+        <button id="submit_head_img" onclick="uploadHeadImg()">更换头像</button>
+    </div>
 </shiro:authenticated>
+
+<div id="this_pages_block"></div>
 
 <!--模态框组件-->
 <div id="block" class="modal"></div>
@@ -79,6 +96,47 @@
         window.location.href = "/yoga/teacher/" + name;
     }
 
+    function openBigHeadImg(state) {
+        $("#big_head_img").css("display", state);
+        $("#this_pages_block").css("display", state);
+    }
+
+    $("#this_pages_block").click(function () {
+        openBigHeadImg("none");
+    });
+    $("#select_head_img").click(function () {
+        $("#upload_file").click();
+    });
+
+    function uploadHeadImg() {
+        var upload_file = new FormData();
+        var img = $("#upload_file")[0].files[0];
+        upload_file.append("file", img);
+        $.ajax({
+            cache: false,
+            url: "/yoga/teacher/uploadHeadImg",
+            type: "post",
+            async: false,
+            mimeType: "multipart/form-data",
+            processData: false,
+            contentType: false,
+            data: upload_file,
+            dataType: "json",
+            success: function (mes) {
+                openDialog(mes.message, "", false);
+            }
+        })
+    }
+
+    // 选择文件后即使刷新到前端
+    function refreshBigImg(file) {
+        var read = new FileReader();// 创建FileReader对像;
+        read.readAsDataURL(file.files[0]);// 调用readAsDataURL方法读取文件;
+        read.onload = function () {
+            url = read.result // 拿到读取结果;
+            $("#current_img").attr("src", url);
+        };
+    }
 </script>
 </body>
 </html>

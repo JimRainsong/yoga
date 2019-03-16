@@ -6,7 +6,6 @@ public class Venue_teacher {
     private Integer venueId;
 
     private Integer teacherId;
-
     private Teacher teacher;
 
     private Integer teacherState;
