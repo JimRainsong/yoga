@@ -2,6 +2,8 @@ package cn.project.yoga.service.impl;
 
 
 import cn.project.yoga.dao.*;
+import cn.project.yoga.pojo.*;
+import cn.project.yoga.dao.*;
 import cn.project.yoga.pojo.Ad;
 import cn.project.yoga.pojo.Teacher;
 import cn.project.yoga.pojo.User_info;
@@ -24,6 +26,12 @@ public class ManagerServiceImpl implements ManagerService {
 
     @Autowired
     private AdMapper adMapper;
+
+    @Autowired
+    private GoodsMapper goodsMapper;
+
+    @Autowired
+    private MyorderMapper myorderMapper;
 
     @Autowired
     private User_infoMapper user_infoMapper;
@@ -69,6 +77,42 @@ public class ManagerServiceImpl implements ManagerService {
     @Override
     public List<Ad> getadthree() {
         return adMapper.selthreeads();
+    }
+
+    /** zjl
+     * 商品查询 , 分页 ,模糊查询
+     * */
+    @Override
+    public List<Goods> limitAllGoods4_1(Integer currentPage, Integer pageSize, Integer type, String goodsName) {
+        return goodsMapper.limitSelAllGoods(currentPage,pageSize,type,goodsName);
+    }
+
+    /** zjl
+     *   根据用户id,查询用户订单信息
+    * */
+    @Override
+    public List<Myorder> selAllOrderByuid4_1(int uid) {
+        return myorderMapper.selAllOrderByUserId4_1(uid);
+    }
+
+    /** zjl
+     * 根据 商品id查询商品名称
+     *
+     * @param goodsId
+     * @return
+     */
+    @Override
+    public String selGnameByGid4_1(Integer goodsId) {
+        return myorderMapper.selGnameBygid4_1(goodsId);
+    }
+
+    /** zjl
+     *  根据商品id 删除商品
+     * */
+    @Override
+    public int deletegoodsByGid4_1(Integer gId) {
+
+        return goodsMapper.deletegoodsByGid4_1(gId);
     }
 
     @Override
