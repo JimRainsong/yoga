@@ -101,4 +101,6 @@ public interface TeacherMapper {
      * 查询教练表有多少条数据*/
     @Select("SELECT  COUNT(*) FROM teacher WHERE flag=0")
     public int SelCountTea4();
+
+
 }
