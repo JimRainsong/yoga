@@ -2,10 +2,14 @@ package cn.project.yoga.controller;
 
 import cn.project.yoga.pojo.*;
 import cn.project.yoga.service.VenueService;
+import cn.project.yoga.utils.Attributes;
 import cn.project.yoga.utils.LayUiDataUtil;
 import cn.project.yoga.vo.CourseVo;
 import cn.project.yoga.vo.TeacherTypeVo;
 import com.github.pagehelper.PageInfo;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.session.Session;
+import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Service;
@@ -51,6 +55,10 @@ public class VenueController {
     @ResponseBody
     public Map<String, Object> getStudentDatas(@RequestParam(value = "page",defaultValue = "1",required = false)Integer currentPage,
                                                @RequestParam(value = "rows",defaultValue = "10",required = false)Integer pageSize) {
+        Subject subject = SecurityUtils.getSubject();
+        Session session = subject.getSession();
+        Venue venue = (Venue) session.getAttribute(Attributes.CURRENT_USER);
+        System.out.println("5555556666"+venue.getVenueId());
         List<Selstudent> list = venueService.findStudents(1,10,1);
         PageInfo pageInfo = new PageInfo(list);
         Map<String,Object> result = new HashMap<String,Object>();
@@ -76,12 +84,14 @@ public class VenueController {
                                               @RequestParam(value = "rows",defaultValue = "2",required = false)Integer pageSize,
                                               @RequestParam(value = "teacherName")String teacherName,
                                               @RequestParam(value = "teacherSex")String teacherSex) {
-
+//        Subject subject = SecurityUtils.getSubject();
+//        Session session = subject.getSession();
+//        Venue venue = (Venue) session.getAttribute(Attributes.CURRENT_USER);
         TeacherTypeVo teacherTypeVo=new TeacherTypeVo();
         Teacher teacher=new Teacher();
         teacher.setTeacherName(teacherName);
         teacher.setTeacherSex(teacherSex);
-        System.out.println(vid+"================================="+teype);
+        System.out.println(vid+"=="+teype);
         teacherTypeVo.setVid(vid);
         teacherTypeVo.setTeype(teype);
         List<Venue_teacher> list = (List<Venue_teacher>) venueService.findTeachers(currentPage,pageSize,teacherTypeVo,teacher);
@@ -102,6 +112,9 @@ public class VenueController {
     @ResponseBody
     public Map<String, Object> showVipType(@RequestParam(value = "page",defaultValue = "1",required = false)Integer currentPage,
                                        @RequestParam(value = "rows",defaultValue = "10",required = false)Integer pageSize) {
+//        Subject subject = SecurityUtils.getSubject();
+//        Session session = subject.getSession();
+//        Venue venue = (Venue) session.getAttribute(Attributes.CURRENT_USER);
         List<Vip_type> list = venueService.selShowVipType(currentPage,pageSize,1);
         PageInfo pageInfo = new PageInfo(list);
         Map<String,Object> result = new HashMap<String,Object>();
@@ -120,6 +133,9 @@ public class VenueController {
     @ResponseBody
     public Map<String, Object> showattentionDatas(@RequestParam(value = "page",defaultValue = "1",required = false)Integer currentPage,
                                                   @RequestParam(value = "rows",defaultValue = "10",required = false)Integer pageSize) {
+//        Subject subject = SecurityUtils.getSubject();
+//        Session session = subject.getSession();
+//        Venue venue = (Venue) session.getAttribute(Attributes.CURRENT_USER);
         List<User_info> list = venueService.selShowattention(currentPage,pageSize,1);
         PageInfo pageInfo = new PageInfo(list);
         Map<String,Object> result = new HashMap<String,Object>();
@@ -152,6 +168,7 @@ public class VenueController {
         result.put("data",list);
         return result;
     }
+
     /*
      *添加广告
      * 场馆-cjm
@@ -169,6 +186,11 @@ public class VenueController {
         return LayUiDataUtil.error("广告添加失败");
      }
 
+    /**
+     * 随机数
+     * @param oldName
+     * @return
+     */
 
 
 

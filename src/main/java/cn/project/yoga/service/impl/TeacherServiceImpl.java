@@ -61,8 +61,8 @@ public class TeacherServiceImpl implements TeacherService {
     }
 
     @Override
-    public List<Teacher> showTea4(int lim) {
-        List<Teacher> teachers=teacherMapper.showTea4(lim);
+    public List<Teacher> showTea4(Integer currentPage,Integer pageSize) {
+        List<Teacher> teachers=teacherMapper.showTea4(currentPage,pageSize);
         return teachers;
     }
 
@@ -82,6 +82,12 @@ public class TeacherServiceImpl implements TeacherService {
     public int SelCountTea4() {
         int totalpage=teacherMapper.SelCountTea4();
         return totalpage;
+    }
+
+    @Override
+    public List<Teacher> shearch(String teachername, String teacherSex,String teacherPhone, String teacherQq) {
+        List<Teacher> teachers=teacherMapper.shearch(teachername,teacherSex,teacherPhone,teacherQq);
+        return teachers;
     }
 
 
