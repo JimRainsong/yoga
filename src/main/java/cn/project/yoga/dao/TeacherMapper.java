@@ -2,6 +2,7 @@ package cn.project.yoga.dao;
 
 import cn.project.yoga.pojo.TeaMoment;
 import cn.project.yoga.pojo.Teacher;
+import cn.project.yoga.pojo.TeacherInfo;
 import cn.project.yoga.pojo.User_info;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Param;

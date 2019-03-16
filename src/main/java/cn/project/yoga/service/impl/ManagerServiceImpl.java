@@ -1,11 +1,10 @@
 package cn.project.yoga.service.impl;
 
 
-import cn.project.yoga.dao.AdMapper;
-import cn.project.yoga.dao.TeacherMapper;
-import cn.project.yoga.dao.VenueMapper;
+import cn.project.yoga.dao.*;
 import cn.project.yoga.pojo.Ad;
 import cn.project.yoga.pojo.Teacher;
+import cn.project.yoga.pojo.User_info;
 import cn.project.yoga.pojo.Venue;
 import cn.project.yoga.service.ManagerService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +24,9 @@ public class ManagerServiceImpl implements ManagerService {
 
     @Autowired
     private AdMapper adMapper;
+
+    @Autowired
+    private User_infoMapper user_infoMapper;
 
     /*查询场馆信息表所有数据*/
     @Override
@@ -67,5 +69,11 @@ public class ManagerServiceImpl implements ManagerService {
     @Override
     public List<Ad> getadthree() {
         return adMapper.selthreeads();
+    }
+
+    @Override
+    public List<User_info> SelUser4(Integer currentPage, Integer pageSize) {
+        List<User_info> user_infos=user_infoMapper.SelUser4(currentPage,pageSize);
+        return user_infos;
     }
 }
