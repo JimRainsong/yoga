@@ -90,7 +90,7 @@ public interface UserService {
 
     int insert_userid_user(String username);
 
-    List<StuMoment> allMoments2();
+    List<Moment> allMoments2();
 
     /**
      * 查询用户的网名
@@ -104,6 +104,11 @@ public interface UserService {
      * @return
      */
     User_info selectMyInfo();
+
+    /** zjl
+     * 根据用户名,查id
+     * */
+    int getUserGoods4_1(String uname);
 
     String recharge(Integer money);
 
