@@ -15,16 +15,27 @@
 <div class="title1">
     我的消息
 </div>
-日期
-<select id="select" onchange="sel()">
-</select>
+
+
+
 <div class="date1" id="datenow">
 
 
 </div>
 
+
+<div id="time00">
+    <select id="select" onchange="sel()" >
+    </select>
+</div>
+
 <div class="title2">
-    预约信息 预约人 时间 场馆 场馆状态
+  <div class="message2">---  预约人</div>
+    <div class="message3">---预约时间</div>
+    <div class="message4">---预约地址</div>
+    <div class="message5">---预约状态</div>
+    <div class="message6"></div>
+
 </div>
 
 
@@ -34,11 +45,12 @@
 
 
 
-    <!--<a><img  align="middle" style="width: 95% " th:src="@{/img/cgx2.png}"/></a>-->
+    <!--<a><img  align="middle" style="width: 95% " th:src="@{/img/mymymy/cgx2.png}"/></a>-->
+    <a><img  align="middle" style="position: absolute;left: 70%;top: 2%" th:src="@{/img/mymymy/tree.png}"/></a>
 
     <div class="line" style="margin-top: 20px"></div>
 
-<div></div>
+
 
 
 
@@ -70,19 +82,35 @@
     }
 
 
-    $("#datenow").html(CurentTime(1));
-    var  aa ="bbb"
-    $("#select").append("<option id='o1'  value="+CurentTime(0)+">aa</option>");   //为Select追加一个Option(下拉项)
-    $("#select").append("<option id='o2'  value="+CurentTime(1)+"></option>");   //为Select追加一个Option(下拉项)
-    $("#select").append("<option id='o3'  value="+CurentTime(2)+"></option>");   //为Select追加一个Option(下拉项)
+    $("#datenow").html(CurentTime(0));
 
-    $("#o1").html(CurentTime(0));
-    $("#o2").html(CurentTime(1));
-    $("#o3").html(CurentTime(2));
+    $("#select").append("<option id='o0'  value="+CurentTime(0)+">aa</option>");   //为Select追加一个Option(下拉项)
+    $("#select").append("<option id='o1'  value="+CurentTime(1)+"></option>");   //为Select追加一个Option(下拉项)
+    $("#select").append("<option id='o2'  value="+CurentTime(2)+"></option>");   //为Select追加一个Option(下拉项)
+    $("#select").append("<option id='o3'  value="+CurentTime(3)+">aa</option>");   //为Select追加一个Option(下拉项)
+    $("#select").append("<option id='o4'  value="+CurentTime(4)+"></option>");   //为Select追加一个Option(下拉项)
+    $("#select").append("<option id='o5'  value="+CurentTime(5)+"></option>");   //为Select追加一个Option(下拉项)
+    $("#select").append("<option id='o6'  value="+CurentTime(6)+"></option>");   //为Select追加一个Option(下拉项)
+    $("#select").append("<option id='o7'  value="+CurentTime(7)+"></option>");   //为Select追加一个Option(下拉项)
+
+    $("#o0").html(CurentTime(0));
+    $("#o1").html(CurentTime(1));
+    $("#o2").html(CurentTime(2));
+    $("#o3").html(CurentTime(3));
+    $("#o4").html(CurentTime(4));
+    $("#o5").html(CurentTime(5));
+    $("#o6").html(CurentTime(6));
+    $("#o7").html(CurentTime(7));
+
+    
+
+
 
     // 默认执行以下初始的ajax
-    sel()
+    sel();
    function sel() {
+       $("#datenow").html($("#select").val());
+
 
        $.ajax({
            url: "/yoga/teacher/allappointment",
@@ -92,7 +120,7 @@
            dataType: "json",
            success: function (list) {
 
-               var  content = null;
+               var  content = "";
                for (var i = 0; i < list.length; i++) {
                    var b = list[i];
                    var c = "";
@@ -106,14 +134,17 @@
 
                     content += "<div class=\"title3\" id=" + b.cId + ">" +
                        "<div class=\"message2\">" + b.uName + "</div>" +
-                       "<div class=\"message2\">" + b.uName + "</div>" +
-                       "<div class=\"message2\">" + b.startTime + b.endTime + "</div>" +
-                       "<div class=\"message2\">" + b.vAddress + "</div>" +
-                       "<div class=\"message2\">" + c + "</div>" +
-                       "<div class='line' style='margin-top: 20px'></div>" +
-                       "<input type='button' value='接受' onclick='alert(" + b.cId + ")'>" +
-                       "<input type='button' value='拒绝'>" +
-                       "</div>";
+
+                       "<div class=\"message3\">" + b.startTime.substring(0,16) +'-'+ b.endTime.substring(11,16) + "</div>" +
+                       "<div class=\"message4\">" + b.vAddress + "</div>" +
+                       "<div class=\"message5\">" + c + "</div>" +
+
+                            "<div class='message6'>"+
+                        "<input type='button' value='接受' onclick='accept1(" + b.cId + ")'>" +
+                       "<input type='button' value='拒绝' onclick='refuse(" + b.cId + ")'>" +
+
+
+                        "</div></div>";
 
                }
 
@@ -122,15 +153,37 @@
        })
 
    }
+   function accept1(id) {
+       alert(id)
 
-    function accept() {
+       $.ajax({
+           url: "/yoga/teacher/accept",
+           type: "post",
+           async: false,
+           data: {"acceptid":id},
+           dataType: "json",
+           success: function (list) {
+               alert(list.message)
+               location.reload()
+           }
+       });
 
+   }
+
+    function refuse(id) {
+        alert(id);
+        $.ajax({
+            url: "/yoga/teacher/refuse",
+            type: "post",
+            async: false,
+            data: {"refuseid":id},
+            dataType: "json",
+            success: function (list) {
+                alert(list.message)
+                location.reload()
+            }
+        });
     }
-    function refuse() {
-
-    }
-
-
 
 
 

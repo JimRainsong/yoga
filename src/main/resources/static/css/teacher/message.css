@@ -1,37 +1,119 @@
 div{
 	float: left;
+
 }
+
+
+select:focus option:checked{
+	background-color: lavender;
+
+}
+select{
+
+	border: none;
+	outline: none;
+	width: 100%;
+	height: 40px;
+	line-height: 40px;
+	appearance: none;
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	padding-left: 20px;
+	font-size: 23px;
+}
+#time00{
+	margin-left: 5%;
+ width: 400px;
+	height: 40px;
+	border-radius: 10px;
+	box-shadow: 0 0 5px #cccccc;
+font-size: 26px;
+	border: 2px solid #b7d2ff;
+}
+
+
+#time00:after{
+	content: "";
+	width: 50px;
+	height: 50px;
+	background: url(/yoga/img/2.jpg)no-repeat center;
+
+	right: 20px;
+	top: 45%;
+	pointer-events: none;
+
+}
+
+
 body{
-	background-color: #01AAED;
+	background-color:lightcyan;
+	font-family: Arial;
 }
 .title1{
-	width: 94%;height: 200px;font-size: 100px;border: #0E2D5F 5px solid
+	width: 94%;height: 200px;font-size: 100px;border: whitesmoke 1px solid;
+	margin-left: 2%;
 }
 
 .date1{
-	width: 94%;height: 200px;font-size: 100px;border: #0E2D5F 5px solid;
+	width: 94%;height: 200px;font-size: 100px;border: whitesmoke 1px solid;
 	margin-top: 30px;
+	margin-left: 2%;
 }
 .title2{
-	width: 94%;height: 200px;font-size: 60px;border: #0E2D5F 5px solid;
+	width: 94%;height: 100px;font-size: 40px;border: whitesmoke 1px solid;
 	margin-top: 50px;
+	margin-left: 2%;
 }
 #dogs{
-	width: 94%;height: 500px;font-size: 35px;border: #0E2D5F 5px solid;
+	width: 94%;font-size: 35px;border: whitesmoke 1px solid;
 	margin-top: 50px;
+	margin-left: 2%;
 }
 
 .title3{margin-left: 5%;
-	height: 300px;
+	height: 170px;
 	width: 90%;
-	border: 10px pink solid;
+	border: 1px pink solid;
 	border-radius: 30px;
+	margin-top: 5%;
 }
 .message2{
-	width: 18%;
-	border: #0C0C0C solid 2px;
-	height: 200px;
-	font-size: 30px;
+	width: 21%;
+    margin-top: 5%;
+	height: 170px;
+	font-size: 26px;
+	text-align: center
+
+}
+.message5{
+	width: 12%;
+	margin-top: 5%;
+	height: 170px;
+	font-size: 26px;
+	text-align: center
+}
+.message6{
+	width: 8%;
+	margin-top: 1.5%;
+	height: 100px;
+	margin-left: 3%;
+
+}
+
+.message4{
+	width: 15%;
+	margin-top: 5%;
+	height: 170px;
+	font-size: 26px;
+	text-align: center
+}
+
+.message3{
+	width: 35%;
+	margin-top: 5%;
+	height: 170px;
+	font-size: 26px;
+	text-align: center
 
 }
 

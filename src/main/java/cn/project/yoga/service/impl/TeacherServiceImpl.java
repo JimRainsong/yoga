@@ -1,6 +1,7 @@
 package cn.project.yoga.service.impl;
 
 import cn.project.yoga.dao.AppointmentMapper;
+import cn.project.yoga.dao.Myself_courseMapper;
 import cn.project.yoga.dao.TeacherMapper;
 import cn.project.yoga.dao.UserMapper;
 import cn.project.yoga.pojo.TeaMoment;
@@ -33,6 +34,9 @@ public class TeacherServiceImpl implements TeacherService {
 
     @Autowired
     private AppointmentMapper appointmentMapper;
+
+    @Autowired
+    private Myself_courseMapper myself_courseMapper;
 
     @Override
     public int insertUser(User user1) {
@@ -166,6 +170,25 @@ public class TeacherServiceImpl implements TeacherService {
 //            return ResultUtil.error("上传失败");
 //        }
         return ResultUtil.ok("ok");
+    }
+
+    /*
+    接受 课程邀请
+     */
+    @Override
+    public int acceptcourse2(Integer id) {
+        int count =myself_courseMapper.acceptCoursebyId(id);
+    return  count;
+    }
+    /*
+    拒绝课程邀请
+     */
+
+    @Override
+    public int refusecourse2(Integer id) {
+        int count =myself_courseMapper.refuseCoursebyId(id);
+        return count;
+
     }
 
     //查看所有  当前老师id 的 appointment  预约信息

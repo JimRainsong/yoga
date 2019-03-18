@@ -3,8 +3,6 @@ package cn.project.yoga.service;
 import cn.project.yoga.pojo.*;
 import cn.project.yoga.utils.ResultUtil;
 import cn.project.yoga.vo.TeacherVo;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Update;
 import org.springframework.web.multipart.MultipartFile;
 import cn.project.yoga.pojo.TeaMoment;
 import cn.project.yoga.pojo.Appointment;
@@ -80,4 +78,11 @@ public interface TeacherService {
      * 上传教练头像
      */
     ResultUtil uploadHeadImg2(MultipartFile file);
+
+    /*接受课程
+
+     */
+    int acceptcourse2(Integer id);
+
+    int refusecourse2(Integer id);
 }

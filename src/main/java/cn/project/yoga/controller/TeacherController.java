@@ -223,10 +223,10 @@ public class TeacherController {
 
 
     List<Appointment> list = new ArrayList<Appointment>();
-    Session session=SecurityUtils.getSubject().getSession();
 
-    Integer teacherId =(Integer)session.getAttribute(Attributes.currentTeacherId);
-        System.out.println(teacherId);
+//    Session session=SecurityUtils.getSubject().getSession();
+//    TeacherVo teacherVo = (TeacherVo) session.getAttribute(Attributes.CURRENT_USER);
+//        int id = teacherVo.gettId();
         //老师的id  两个date 时间
 
     list = teacherService.selappointmentbyTeacherId2(10,date1,date2);
@@ -235,7 +235,29 @@ public class TeacherController {
 
     }
 
+    @RequestMapping("/accept")
+    @ResponseBody
+    public ResultUtil accept(@RequestParam(value = "acceptid")Integer id){
+        /*前端传回acceptid
+        更新 myself course中状态值
 
+      */
+       int count = teacherService.acceptcourse2(id);
+        ResultUtil resultUtil =  ResultUtil.ok("已接收");
+        return resultUtil;
+    }
+
+    @RequestMapping("/refuse")
+    @ResponseBody
+    public ResultUtil refuse(@RequestParam(value = "refuseid")Integer id){
+        /*前端传回acceptid
+        更新 myself course中状态值
+
+      */
+        int count = teacherService.refusecourse2(id);
+        ResultUtil resultUtil =  ResultUtil.ok("已拒绝");
+        return resultUtil;
+    }
 
 
 
