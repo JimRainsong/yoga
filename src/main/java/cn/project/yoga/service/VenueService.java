@@ -109,4 +109,12 @@ public interface VenueService {
      * @return
      */
     int insertVipTypeDatas(Vip_type vip_type);
+
+    /**
+     * 审核场馆教练
+     * 场馆-cjm
+     * @param venue_teacher
+     * @return
+     */
+    int updataTeacherState(Venue_teacher venue_teacher);
 }
