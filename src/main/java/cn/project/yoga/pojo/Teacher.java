@@ -36,7 +36,7 @@ public class Teacher {
     }
 
     public void setHTMLimg(String HTMLimg) {
-        this.HTMLimg = "<img src='"+HTMLimg+"' style=\"width:40px;height: 40px\" >";
+        this.HTMLimg = "<img src='"+HTMLimg+"' class=\"layui-nav-img\">";
     }
 
     public Integer getTeacherId() {

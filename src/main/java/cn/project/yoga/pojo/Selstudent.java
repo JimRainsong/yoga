@@ -40,7 +40,7 @@ public class Selstudent {
     }
 
     public void setHeadImg(String headImg) {
-        this.headImg = "<img src='"+headImg+"' style=\"width:40px;height: 40px\" >";
+        this.headImg = "<img src='"+headImg+"'  class=\"layui-nav-img\" >";
     }
 
     public Integer getVenueId() {
