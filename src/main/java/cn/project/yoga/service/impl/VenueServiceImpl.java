@@ -119,8 +119,8 @@ public class VenueServiceImpl implements VenueService {
     }
 
     @Override
-    public List<Venue> shearch(String venname, String addrass, String phone, String qq) {
-        List<Venue>  venues=venueMapper.shearch(venname,addrass,phone,qq);
+    public List<Venue> shearch(String venname, String addrass, String phone, String qq,Integer currentPage,Integer pageSize) {
+        List<Venue>  venues=venueMapper.shearch(venname,addrass,phone,qq,currentPage,pageSize);
         return venues;
     }
 

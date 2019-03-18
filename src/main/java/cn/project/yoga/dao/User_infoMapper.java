@@ -64,7 +64,7 @@ public interface User_infoMapper {
             " </where>" +
             " </script>")
     public List<User_info> shearch(@Param("netName") String netName, @Param("sex") String sex,
-                                   @Param("phoneNumber") String phoneNumber, @Param("qq") String qq);
+                                   @Param("phoneNumber") String phoneNumber, @Param("qq") String qq,Integer currentPage,Integer pageSize);
 
 
     /*

@@ -234,13 +234,22 @@ public class UserController {
      * 根据条件查询学员*/
     @RequestMapping("/shearch")
     @ResponseBody
-    public List<User_info> Shearch(HttpServletRequest request){
-        String netName=request.getParameter("netName");
-        String sex=request.getParameter("sex");
-        String qq=request.getParameter("qq");
-        String phoneNumber=request.getParameter("phoneNumber");
-        List<User_info>user_infos= userService.shearch(netName,sex,phoneNumber,qq);
-        return user_infos ;
+    public Map<String,Object> ShearchVenue4(@RequestParam(value = "page",defaultValue = "1",required = false)Integer currentPage,
+                                            @RequestParam(value = "rows",defaultValue = "10",required = false)Integer pageSize,HttpServletRequest request,HttpSession session){
+        String netName= (String) session.getAttribute("netName");
+        String sex= (String) session.getAttribute("sex");
+        String phoneNumber= (String) session.getAttribute("phoneNumber");
+        String qq= (String) session.getAttribute("qq");
+
+        List<User_info>list=userService.shearch(netName,sex,phoneNumber,qq,currentPage,pageSize);
+
+        PageInfo pageInfo = new PageInfo(list);
+        Map<String,Object> result = new HashMap<String,Object>();
+        result.put("code",200);
+        result.put("msg","");
+        result.put("count",pageInfo.getTotal());
+        result.put("data",list);
+        return result;
     }
     /*
      * 软删除学员*/
@@ -259,17 +268,6 @@ public class UserController {
     public Map<String, Object> showuserDatas4(@RequestParam(value = "page",defaultValue = "1",required = false)Integer currentPage,
                                                 @RequestParam(value = "rows",defaultValue = "10",required = false)Integer pageSize,HttpServletRequest request) {
         List<User_info> list = managerService.SelUser4(currentPage,pageSize);
-        if (request.getParameter("data")!=null && request.getParameter("data")!=""){
-            if (request.getParameter("data").equals("seracher")){
-                String netName=request.getParameter("netName");
-                String sex=request.getParameter("sex");
-                String qq=request.getParameter("qq");
-                String phoneNumber=request.getParameter("phoneNumber");
-                list=userService.shearch(netName,sex,phoneNumber,qq);
-            }
-
-        }
-
         PageInfo pageInfo = new PageInfo(list);
         Map<String,Object> result = new HashMap<String,Object>();
         result.put("code",200);

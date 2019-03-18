@@ -68,7 +68,7 @@
         box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(102,175,233,.6)
     }
 </style>
-<body>
+<body style="background:url(/yoga/hsn/img/class.jpeg)">
 <div style="margin-bottom: 5px;">
 
     <!-- 示例-970 -->
@@ -109,11 +109,12 @@
 </table>
 
 <div style="float: left">
+    <div style="text-align: center;font-size: 30px">查询</div>
     <div>场馆名字:<input type="text" name="venname" id="venname"></div>
     <div>场馆地址:<input type="text" name="addrass" id="addrass"></div>
     <div>电话号码:<input type="text" name="phone" id="phone"></div>
     <div>QQ号码:<input type="text" name="qq" id="qq"></div>
-    <div onclick="shearch()"><input type="submit" value="确认"></div>
+    <div onclick="shearch()" style="text-align: center"><input type="submit" value="确认"></div>
 </div>
 
 <div id="venues">
@@ -146,29 +147,9 @@
                 qq: $("#qq").val()
             },
             success:function (message) {
-                alert(message)
-                var content="<tr>"+
-                    "<td>名字</td>"+
-                    "<td>所在地址</td>"+
-                    "<td>QQ</td>"+
-                    "<td>详情</td>"+
-                    "<td>电话</td>"+
-                    "<td>费用</td>"+
-                    "</tr>";
-                for (var i = 0; i < message.length; i++) {
-                    var venue=message[i];
-                    content+="<tr>"+"<td><a href='/yoga/manager/venuedetail?venueId="+venue.venueId+"'>"+venue.venueName+"</a></td>"+
-                        "<td>"+venue.venueAddress+"</td>"+
-                        "<td>"+venue.qq+"</td>"+
-                        "<td>"+venue.venueDetails +"</td>"+
-                        "<td>"+venue.venuePhone +"</td>"+
-                        "<td>"+venue.venueMoney +"</td>"+
-                        "<td><a href='/yoga/manager/delven?venueId="+venue.venueId+"'>删除场馆</a></td>"+
-                        "<tr>"
+                window.location.href="/yoga/manager/svenue?venname="+$("#venname").val()+"&addrass="+$("#addrass").val()+
+                    "&phone="+$("#phone").val()+"&qq="+$("#qq").val();
 
-                }
-
-                $("#venues1").html(content);
             }
         });
     }
@@ -183,6 +164,7 @@
             var data = obj.data;
             if(obj.event === 'detail'){
                 layer.msg('ID：'+ data.venueId + ' 的查看操作');
+                window,location.href="/yoga/manager/venuedetail?venueId="+data.venueId;
             } else if(obj.event === 'del'){
                 layer.confirm('真的删除行么', function(index){
                     obj.del();

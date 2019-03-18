@@ -125,7 +125,7 @@ public interface UserService {
     public User_info SelUserById(int uId);
     /*
      * 动态查询学员*/
-    public List<User_info> shearch(String netName,String sex,String phoneNumber,String qq);
+    public List<User_info> shearch(String netName,String sex,String phoneNumber,String qq,Integer currentPage,Integer pageSize);
 
     /*
      * 根据ID软删除学员*/

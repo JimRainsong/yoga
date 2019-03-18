@@ -134,8 +134,8 @@ public class ManagerServiceImpl implements ManagerService {
     }
 
     @Override
-    public List<Teacher> shearch(String teachername, String teacherSex, String teacherPhone, String teacherQq) {
-        List<Teacher> teachers=teacherMapper.shearch(teachername,teacherSex,teacherPhone,teacherQq);
+    public List<Teacher> shearch(String teachername, String teacherSex, String teacherPhone, String teacherQq,Integer currentPage,Integer pageSize) {
+        List<Teacher> teachers=teacherMapper.shearch(teachername,teacherSex,teacherPhone,teacherQq,currentPage,pageSize);
         return teachers;
     }
 }

@@ -195,14 +195,22 @@ public class TeacherController {
 
     @RequestMapping("/shearch")
     @ResponseBody
-    public List<Teacher> ShearchVenue4(HttpServletRequest request){
-        String teacherName=request.getParameter("teacherName");
-        String teacherSex=request.getParameter("teacherSex");
-        String teacherPhone=request.getParameter("teacherPhone");
-        String teacherQq=request.getParameter("teacherQq");
-        List<Teacher>teachers=managerService.shearch(teacherName,teacherSex,teacherPhone,teacherQq);
-        System.out.println(teachers);
-        return teachers;
+    public Map<String,Object> ShearchVenue4(@RequestParam(value = "page",defaultValue = "1",required = false)Integer currentPage,
+                                            @RequestParam(value = "rows",defaultValue = "10",required = false)Integer pageSize,HttpServletRequest request,HttpSession session){
+        String teacherName= (String) session.getAttribute("teacherName");
+        String teacherSex= (String) session.getAttribute("teacherSex");
+        String teacherPhone= (String) session.getAttribute("teacherPhone");
+        String teacherQq= (String) session.getAttribute("teacherQq");
+        System.out.println(teacherName);
+        List<Teacher>list=managerService.shearch(teacherName,teacherSex,teacherPhone,teacherQq,currentPage,pageSize);
+        System.out.println(list);
+        PageInfo pageInfo = new PageInfo(list);
+        Map<String,Object> result = new HashMap<String,Object>();
+        result.put("code",200);
+        result.put("msg","");
+        result.put("count",pageInfo.getTotal());
+        result.put("data",list);
+        return result;
     }
 }
 //暴风哭泣

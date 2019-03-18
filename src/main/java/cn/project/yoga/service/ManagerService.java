@@ -34,5 +34,5 @@ public interface ManagerService {
 
     /*
      * 根据条件查找教练*/
-    public List<Teacher> shearch( String teachername, String teacherSex,String teacherPhone,String teacherQq);
+    public List<Teacher> shearch( String teachername, String teacherSex,String teacherPhone,String teacherQq,Integer currentPage,Integer pageSize);
 }
