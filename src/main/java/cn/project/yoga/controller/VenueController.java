@@ -1,4 +1,5 @@
 package cn.project.yoga.controller;
+
 import cn.project.yoga.pojo.*;
 import cn.project.yoga.service.VenueService;
 import cn.project.yoga.utils.Attributes;
@@ -12,11 +13,9 @@ import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+
+
+import java.util.*;
 
 @Controller
 @RequestMapping("/venueDate")
@@ -27,39 +26,48 @@ public class VenueController {
     /*
      *场馆测试
      */
-    @RequestMapping("/updata")
-    @ResponseBody
-    public LayUiDataUtil updata(Venue venue) {
+
+    @RequestMapping("/uploadVenueDatas")
+    public LayUiDataUtil updata(@RequestBody Venue venue) {
         System.out.println(venue.getVenueName());
         System.out.println(venue.getVenueAddress());
-        LayUiDataUtil layUiDataUtil = new LayUiDataUtil();
-        layUiDataUtil.setData(venue);
-        return layUiDataUtil;
+        return LayUiDataUtil.ok(venue);
     }
-    /**
-    *所有学员展示
-    * 分页
-    * 场馆-陈家明
-    */
-    @RequestMapping("/studentDatas")
-    @ResponseBody
-    public Map<String, Object> getStudentDatas(@RequestParam(value = "page",defaultValue = "1",required = false)Integer currentPage,
-                                               @RequestParam(value = "rows",defaultValue = "10",required = false)Integer pageSize) {
-        Subject subject = SecurityUtils.getSubject();
-        Session session = subject.getSession();
-        Venue venue = (Venue) session.getAttribute(Attributes.CURRENT_USER);
-        System.out.println("5555556666"+venue.getVenueId());
-        List<Selstudent> list = venueService.findStudents(1,10,1);
-        PageInfo pageInfo = new PageInfo(list);
-        Map<String, Object> result = new HashMap<String, Object>();
-        result.put("code", 200);
-        result.put("msg", "");
-        result.put("count", pageInfo.getTotal());
-        result.put("data", list);
-        System.out.println(list.get(0).getNetName());
-        return result;
-    }
-    /**
+        /*
+         *所有学员展示
+         * 分页
+         * 场馆-陈家明
+         */
+        @RequestMapping("/studentDatas")
+        @ResponseBody
+        public Map<String, Object> getStudentDatas(@RequestParam(value = "page",defaultValue = "1",required = false)Integer currentPage,
+                @RequestParam(value = "rows",defaultValue = "10",required = false)Integer pageSize) {
+            /*Subject subject = SecurityUtils.getSubject();
+            Session session = subject.getSession();
+             Venue venue = (Venue) session.getAttribute(Attributes.CURRENT_USER);
+            System.out.println("5555556666"+venue.getVenueId());*/
+            List<Selstudent> list = venueService.findStudents(1,10,1);
+            PageInfo pageInfo = new PageInfo(list);
+            Map<String,Object> result = new HashMap<String,Object>();
+            result.put("code",200);
+            result.put("msg","");
+            result.put("count",pageInfo.getTotal());
+            result.put("data",list);
+//        result.put("rows",list);
+//        result.put("total",pageInfo.getTotal());
+            System.out.println(list.get(0).getNetName());
+            return result;
+        }
+
+
+
+
+
+
+
+
+
+    /*
      *所有教练展示
      * 分页
      * 场馆-cy
@@ -89,6 +97,7 @@ public class VenueController {
         result.put("msg","");
         result.put("count",pageInfo.getTotal());
         result.put("data",list);
+        /*System.out.println(list.get(1).getTeacher().getHTMLimg());*/
         return result;
     }
     /*
@@ -113,7 +122,7 @@ public class VenueController {
         return result;
 
     }
-    /**
+    /*
      *展示所有关注该场馆的用户
      * 场馆-cjm
      */
@@ -136,26 +145,27 @@ public class VenueController {
 
     @RequestMapping("/courseDatas")
     @ResponseBody
-    public Map<String, Object> showCourse(@RequestParam(value = "page", defaultValue = "1", required = false) Integer currentPage,
-                                          @RequestParam(value = "rows", defaultValue = "10", required = false) Integer pageSize,
-                                          @RequestParam(value = "vid") Integer venueId,
-                                          @RequestParam(value = "tname") String teacherName,
-                                          @RequestParam(value = "cname") String cname,
-                                          @RequestParam(value = "maxtime") Date maxtime,
-                                          @RequestParam(value = "mintime") Date mintime
-    ) {
-        List<Course> list = null;
-        CourseVo courseVo = new CourseVo(venueId, teacherName, cname, maxtime, mintime);
-        list = venueService.selCourse(currentPage, pageSize, courseVo);
+    public Map<String, Object> showCourse(@RequestParam(value = "page",defaultValue = "1",required = false)Integer currentPage,
+                                          @RequestParam(value = "rows",defaultValue = "10",required = false)Integer pageSize,
+                                          @RequestParam(value = "vid")Integer venueId,
+                                          @RequestParam(value = "tname")String teacherName,
+                                          @RequestParam(value = "cname")String cname,
+                                          @RequestParam(value = "maxtime")Date maxtime,
+                                          @RequestParam(value = "mintime")Date mintime
+                                          ) {
+        List<Course> list =null;
+        CourseVo courseVo=new CourseVo(venueId,teacherName,cname,maxtime,mintime);
+        list = venueService.selCourse(currentPage,pageSize,courseVo);
         System.out.println(list);
         PageInfo pageInfo = new PageInfo(list);
-        Map<String, Object> result = new HashMap<String, Object>();
-        result.put("code", 200);
-        result.put("msg", "");
-        result.put("count", pageInfo.getTotal());
-        result.put("data", list);
+        Map<String,Object> result = new HashMap<String,Object>();
+        result.put("code",200);
+        result.put("msg","");
+        result.put("count",pageInfo.getTotal());
+        result.put("data",list);
         return result;
     }
+
     /*
      *添加广告
      * 场馆-cjm
@@ -164,14 +174,14 @@ public class VenueController {
     @ResponseBody
     public LayUiDataUtil uploadAds(@RequestBody Ad ad) {
         System.out.println(ad);
-        if (venueService.findAdByName(ad.getAdTitle())) {
+        if (venueService.findAdByName(ad.getAdTitle())){
             return LayUiDataUtil.error("此标题已存在，如果想继续添加请与管理员联系");
         }
-        if (venueService.venueUploadAds(ad) > 0) {
-            return LayUiDataUtil.ok("广告添加成功");
+        if (venueService.venueUploadAds(ad)>0){
+             return LayUiDataUtil.ok("广告添加成功");
         }
         return LayUiDataUtil.error("广告添加失败");
-    }
+     }
 
     /**
      * 随机数
@@ -198,6 +208,22 @@ public class VenueController {
         result.put("data",list);
         return result;
 
+    }
+/*
+ * 展示该场馆信息通过场馆id
+ * 场馆-cy
+ */
+    @RequestMapping("/VenueData")
+    @ResponseBody
+    public LayUiDataUtil showVenueData( ) {
+//        Subject subject = SecurityUtils.getSubject();
+//        Session session = subject.getSession();
+//        Venue venue = (Venue) session.getAttribute(Attributes.CURRENT_USER);
+        Venue venue = venueService.SelVenById4(1);
+       if (venue!=null){
+           return  LayUiDataUtil.ok(venue);
+       }
+        return LayUiDataUtil.error(null);
     }
 
 
