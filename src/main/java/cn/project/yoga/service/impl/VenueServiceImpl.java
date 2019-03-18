@@ -89,6 +89,17 @@ public class VenueServiceImpl implements VenueService {
     }
 
     @Override
+    public int deleteVipTypeDatas(Vip_type vip_type) {
+
+        return vip_typeMapper.updateByPrimaryKeySelective(vip_type);
+    }
+
+    @Override
+    public int insertVipTypeDatas(Vip_type vip_type) {
+        return vip_typeMapper.insertSelective(vip_type);
+    }
+
+    @Override
     public List<Venue> selectAllVenue4(int lim) {
         List<Venue>venues=venueMapper.selectAllVenue4(lim);
         return venues;

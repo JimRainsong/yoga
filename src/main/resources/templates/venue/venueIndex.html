@@ -147,6 +147,27 @@
                      }
                  });
               }
+
+    /**
+     * 删除场馆vip类型
+     * @param vid
+     */
+    function deleteVipType(vid) {
+        alert(vid);
+        $.ajax({
+            url : "/yoga/venueDate/deleteVipTypeDatas",
+            type : "post",
+            data : {
+                vipTypeId:vid
+            },
+            dataType : "json",
+            success : function(data) {
+                alert(data.msg);
+                eid="vipTypeTabId";
+                addTab();
+            }
+        })
+    }
    function setAd(){
        $.ajax({
            url:"/yoga/venueDate/uploadAdDatas",

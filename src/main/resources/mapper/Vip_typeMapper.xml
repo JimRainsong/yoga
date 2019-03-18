@@ -94,26 +94,11 @@
   <update id="updateByPrimaryKeySelective" parameterType="cn.project.yoga.pojo.Vip_type">
     update vip_type
     <set>
-      <if test="venueId != null">
-        venue_id = #{venueId,jdbcType=INTEGER},
-      </if>
-      <if test="cardPrice != null">
-        card_price = #{cardPrice,jdbcType=INTEGER},
-      </if>
-      <if test="cardName != null">
-        card_name = #{cardName,jdbcType=VARCHAR},
-      </if>
-      <if test="cardInfo != null">
-        card_info = #{cardInfo,jdbcType=VARCHAR},
-      </if>
-      <if test="flag != null">
-        flag = #{flag,jdbcType=INTEGER},
-      </if>
-      <if test="useDate != null">
-        use_date = #{useDate,jdbcType=VARCHAR},
-      </if>
+      flag = 1,
     </set>
     where vip_type_id = #{vipTypeId,jdbcType=INTEGER}
+    and venue_id = #{venueId,jdbcType=INTEGER}
+    and flag=0;
   </update>
   <update id="updateByPrimaryKey" parameterType="cn.project.yoga.pojo.Vip_type">
     update vip_type
