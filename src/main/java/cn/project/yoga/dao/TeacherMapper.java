@@ -84,8 +84,8 @@ public interface TeacherMapper {
     /**
      * 分页查询所有教练信息
      */
-    @Select("select * from teacher where flag=0 limit #{lim},4 ")
-    public List<Teacher> showTea4(int lim);
+    @Select("select * from teacher where flag=0")
+    public List<Teacher> showTea4(Integer currentPage,Integer pageSize);
 
     /**
      * 软删除教练
@@ -122,4 +122,26 @@ public interface TeacherMapper {
      */
     @Select("select v.* from venue v,venue_teacher t where v.venue_id=t.venue_id and t.teacher_id=#{tId}")
     Venue selectMyVenueByCurrentUserId2(Integer tId);
+
+    /*
+     * 动态查询学员*/
+    @Select("<script>"  +
+            "  select * from teacher"+
+            " <where>"  +
+            " <if test='teachername != null and teachername!=\"\" '>"  +
+            "  and teacher_name like concat('%', #{teachername}, '%')"+
+            " </if>" +
+            " <if test='teacherSex != null and teacherSex!=\"\" '>"  +
+            "  and teacher_sex like concat('%', #{teacherSex}, '%')"+
+            " </if>" +
+            "<if test='teacherPhone !=null and teacherPhone !=\"\" '>" +
+            "and teacher_phone = #{teacherPhone}" +
+            "</if>" +
+            "<if test='teacherQq !=null and teacherQq!=\"\" '>"+
+            "and teacher_qq = #{teacherQq}"+
+            "</if>" +
+            " </where>" +
+            " </script>")
+    public List<Teacher> shearch(@Param("teachername") String teachername,@Param("teacherSex") String teacherSex,
+                                 @Param("teacherPhone") String teacherPhone, @Param("teacherQq") String teacherQq,Integer currentPage,Integer pageSize);
 }

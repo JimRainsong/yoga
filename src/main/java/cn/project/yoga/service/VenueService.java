@@ -86,7 +86,7 @@ public interface VenueService {
 
     /*
      * 动态查询场馆*/
-    public List<Venue> shearch(String venname, String addrass, String phone, String qq);
+    public List<Venue> shearch(String venname, String addrass, String phone, String qq,Integer currentPage,Integer pageSize);
 
 
 

@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>场馆管理</title>
+    <title>学员管理</title>
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -16,11 +16,8 @@
         border-collapse: collapse;
 
         margin: 0 auto;
-
         text-align: center;
-
     }
-
     table td, table th {
 
         border: 1px solid #cad9ea;
@@ -28,9 +25,7 @@
         color: #666;
 
         height: 30px;
-
     }
-
     table thead th {
 
         background-color: #CCE8EB;
@@ -68,7 +63,7 @@
         box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(102,175,233,.6)
     }
 </style>
-<body style="background:url(/yoga/hsn/img/class.jpeg)">
+<body>
 <div style="margin-bottom: 5px;">
 
     <!-- 示例-970 -->
@@ -77,12 +72,12 @@
 </div>
 
 <div class="layui-btn-group demoTable">
-    <button class="layui-btn" data-type="getCheckData">获取选中行数据</button>
+    <button class="layui-btn" data-type="getCheckData">查看详情</button>
     <button class="layui-btn" data-type="getCheckLength">获取选中数目</button>
     <button class="layui-btn" data-type="isAll">验证是否全选</button>
 </div>
 
-<table class="layui-table" lay-data="{width: 892, height:332, url:'/yoga/venueDate/venueDatas/', page:true, id:'idTest',response: {
+<table class="layui-table" lay-data="{width: 892, height:332, url:'/yoga/user/userDatas/', page:true, id:'idTest',response: {
                 statusName: 'code'
                 ,statusCode: 200
                 ,msgName: 'msg'
@@ -93,15 +88,14 @@
     <thead>
     <tr>
         <th lay-data="{type:'checkbox', fixed: 'left'}"></th>
-        <th lay-data="{field:'venueId', width:80}">ID</th>
-        <th lay-data="{field:'venueName', width:100}">场馆名字</th>
-        <th lay-data="{field:'venueAddress', width:80}">地址</th>
-        <th lay-data="{field:'venuePhone', width:80}">电话</th>
+        <th lay-data="{field:'uId', width:80}">ID</th>
+        <th lay-data="{field:'netName', width:100}">学员昵称</th>
+        <th lay-data="{field:'realName', width:80}">姓名</th>
+        <th lay-data="{field:'sex', width:80}">性别</th>
+        <th lay-data="{field:'phoneNumber', width:80}">电话</th>
         <th lay-data="{field:'qq', width:80}">QQ</th>
-        <th lay-data="{field:'venueDetails', width:80, sort: true}">详情</th>
-
-        <th lay-data="{field:'authInfo', width:100}">认证信息</th>
-        <th lay-data="{field:'venueMoney', width:135, sort: true}">费用</th>
+        <th lay-data="{field:'balance', width:100}">余额</th>
+        <th lay-data="{field:'score', width:135, sort: true}">积分</th>
 
         <th lay-data="{fixed: 'right', width:178, align:'center', toolbar: '#barDemo'}"></th>
     </tr>
@@ -110,17 +104,11 @@
 
 <div style="float: left">
     <div style="text-align: center;font-size: 30px">查询</div>
-    <div>场馆名字:<input type="text" name="venname" id="venname"></div>
-    <div>场馆地址:<input type="text" name="addrass" id="addrass"></div>
-    <div>电话号码:<input type="text" name="phone" id="phone"></div>
+    <div>学员昵称:<input type="text" name="netName" id="netName"></div>
+    <div>学员性别:<input type="text" name="sex" id="sex"></div>
+    <div>电话号码:<input type="text" name="phoneNumber" id="phoneNumber"></div>
     <div>QQ号码:<input type="text" name="qq" id="qq"></div>
-    <div onclick="shearch()" style="text-align: center"><input type="submit" value="确认"></div>
-</div>
-
-<div id="venues">
-    <table id="venues1" border="1">
-
-    </table>
+    <div onclick="shearch()" style="text-align: right"><input type="button" value="查找"></div>
 </div>
 
 <script type="text/html" id="barDemo">
@@ -134,22 +122,25 @@
 <!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
 <script>
 
+    function close() {
+       document.getElementById("user").style.display="none";
+    }
+
     function shearch() {
         $.ajax({
-            url: "/yoga/manager/shearch",
+            url: "/yoga/user/shearch",
             type: "post",
             async: true,
             dataType: "json",
             data: {
-                venname: $("#venname").val(),
-                addrass: $("#addrass").val(),
-                phone: $("#phone").val(),
+                netName: $("#netName").val(),
+                sex: $("#sex").val(),
+                phoneNumber: $("#phoneNumber").val(),
                 qq: $("#qq").val()
             },
             success:function (message) {
-                window.location.href="/yoga/manager/svenue?venname="+$("#venname").val()+"&addrass="+$("#addrass").val()+
-                    "&phone="+$("#phone").val()+"&qq="+$("#qq").val();
-
+                window.location.href="/yoga/user/susers?netName="+$("#netName").val()+"&sex="+$("#sex").val()+
+                        "&phoneNumber="+$("#phoneNumber").val()+"&qq="+$("#qq").val();
             }
         });
     }
@@ -163,13 +154,13 @@
         table.on('tool(demo)', function(obj){
             var data = obj.data;
             if(obj.event === 'detail'){
-                layer.msg('ID：'+ data.venueId + ' 的查看操作');
-                window,location.href="/yoga/manager/venuedetail?venueId="+data.venueId;
+                layer.msg('ID：'+ data.teacherId + ' 的查看操作');
+                window,location.href="/yoga/user/userdetail?uId="+data.uId;
             } else if(obj.event === 'del'){
                 layer.confirm('真的删除行么', function(index){
                     obj.del();
                     layer.close(index);
-                    window.location.href="/yoga/manager/delven?venueId="+data.venueId;
+                    window.location.href="/yoga/user/deluser?uId="+data.uId;
                 });
             } else if(obj.event === 'edit'){
                 layer.alert('编辑行：<br>'+ JSON.stringify(data))
@@ -180,8 +171,8 @@
             getCheckData: function(){ //获取选中数据
                 var checkStatus = table.checkStatus('idTest')
                     ,data = checkStatus.data;
-                layer.alert(JSON.stringify(data[0].venueId));
-                window,location.href="/yoga/manager/venuedetail?venueId="+data[0].venueId;
+                layer.alert(JSON.stringify(data[0].teacherId));
+                window,location.href="/yoga/user/userdetail?uId="+data[0].uId;
             }
             ,getCheckLength: function(){ //获取选中数目
                 var checkStatus = table.checkStatus('idTest')

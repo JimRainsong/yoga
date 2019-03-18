@@ -7,8 +7,6 @@ function detail(){
             oper:'detail'
         },
         success:function(data){
-            alert(data);
-
             $("#g_name").html(data.venueName);
             $("#g_price").html(data.venueMoney+' 元');
             $("#g_description").html(data.venueDetails);

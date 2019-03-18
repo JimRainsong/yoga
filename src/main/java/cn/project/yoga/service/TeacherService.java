@@ -32,7 +32,7 @@ public interface TeacherService {
     /**
      * 分页查询所有教练信息
      */
-    public List<Teacher> showTea4(int lim);
+    public List<Teacher> showTea4(Integer currentPage,Integer pageSize);
 
     /**
      * 软删除教练

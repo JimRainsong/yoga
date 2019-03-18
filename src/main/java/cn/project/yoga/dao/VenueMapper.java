@@ -110,7 +110,7 @@ public interface VenueMapper {
             " </where>" +
             " </script>")
     public List<Venue> shearch(@Param("venname") String venname,@Param("addrass") String addrass,
-                               @Param("phone") String phone,@Param("qq") String qq);
+                               @Param("phone") String phone,@Param("qq") String qq,Integer currentPage,Integer pageSize);
 
 
 }

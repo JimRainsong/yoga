@@ -34,7 +34,17 @@ public class UserViewController {
 
     @RequestMapping("/tuser")
     public String Tuser4(){
-        return "manager/hsn/muser";
+        return "manager/hsn/users";
+    }
+    /*
+    * 跳转到查询页*/
+    @RequestMapping("/susers")
+    public String Susers4(HttpServletRequest request,HttpSession session){
+        session.setAttribute("netName",request.getParameter("netName"));
+        session.setAttribute("sex",request.getParameter("sex"));
+        session.setAttribute("phoneNumber",request.getParameter("phoneNumber"));
+        session.setAttribute("qq",request.getParameter("qq"));
+        return "manager/hsn/susers";
     }
 
     /*
