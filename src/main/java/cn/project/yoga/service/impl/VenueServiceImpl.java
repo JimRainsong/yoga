@@ -100,6 +100,12 @@ public class VenueServiceImpl implements VenueService {
     }
 
     @Override
+    public int updataTeacherState(Venue_teacher venue_teacher) {
+
+        return venue_teacherMapper.updateByPrimaryKeySelective(venue_teacher);
+    }
+
+    @Override
     public List<Venue> selectAllVenue4(int lim) {
         List<Venue>venues=venueMapper.selectAllVenue4(lim);
         return venues;

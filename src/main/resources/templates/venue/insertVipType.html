@@ -12,12 +12,12 @@
             width: 400px;
             height: 400px;
             text-align:center;
-            margin: 0 auto;
+            margin:  auto;
         }
     </style>
 </head>
 <body id="body01">
-<br><br><br>
+
 &nbsp;&nbsp;<input value="欢迎来到！YOGA！！" style="font-size: 20px;background-color:rgba(0,0,0,0.2);"><br><br><br>
 <div class="layui-form-item">
     <label class="layui-form-label">会员卡名称</label>
@@ -43,19 +43,15 @@
         <input type="text" name="useDate" id="useDate" required lay-verify="required" placeholder="会员卡有效期" autocomplete="off" class="layui-input">
     </div>
 </div>
-
-<div class="layui-form-item">
-    <div class="layui-input-block" >
-        <button class="layui-btn"  onclick="insertVipType()" >提交</button>
-        <button  class="layui-btn" onclick="exits()" >返回</button>
-    </div>
-</div>
-<script th:src="@{/layui/layui.js}"></script>
+<div class="layui-layer-btn layui-layer-btn-">
+    <a class="layui-layer-btn0"  onclick="insertVipTypeaa()" >提交</a>
+    <a class="layui-layer-btn0" onclick=" exits()">返回</a></div>
 <script>
     function exits() {
-        location.reload();
+       window.parent.location.reload();
+       parent.layer.close(index);
     }
-    function insertVipType(){
+    function insertVipTypeaa(){
         $.ajax({
             url : "/yoga/venueDate/insertVipTypeDatas",
             type : "post",
@@ -69,13 +65,14 @@
             success : function(data) {
                 if(data.code == 0){
                     alert(data.msg)
+                    window.parent.location.reload();
+                    parent.layer.close(index);
                 }
-                alert(data.msg)
-                location.reload();
+                alert(data.msg);
+
             }
         })
     }
-
 </script>
 </body>
 </html>

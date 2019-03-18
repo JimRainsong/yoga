@@ -41,7 +41,7 @@ public class VenueUserViewControllt {
         return "venue/uploadAds";
     }
 
-    @RequestMapping("/insertVipType")
+    @RequestMapping("/inVipTypes")
     public String insertVipType() {
         return "venue/insertVipType";
     }
