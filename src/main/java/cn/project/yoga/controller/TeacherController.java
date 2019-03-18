@@ -9,7 +9,7 @@ import cn.project.yoga.utils.Md5Encoder;
 import cn.project.yoga.utils.RegexUtil;
 import cn.project.yoga.utils.ResultUtil;
 import cn.project.yoga.vo.LoginVo;
-import com.github.pagehelper.PageInfo;
+import cn.project.yoga.vo.TeacherVo;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.session.Session;
@@ -19,11 +19,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
 
 @Controller
 @RequestMapping("/teacher")
@@ -79,11 +82,24 @@ public class TeacherController {
         allMoments.sort(new Comparator<Moment>() {
             @Override
             public int compare(Moment m1, Moment m2) {
-                return m1.getTime().compareTo(m2.getTime());
+                return m2.getTime().compareTo(m1.getTime());
             }
         });
         modelAndView.addObject("moments", allMoments);
         return modelAndView;
+    }
+
+    @RequestMapping("/uploadHeadImg")
+    @ResponseBody
+    public ResultUtil uploadHeadImg2(MultipartFile file) {
+        String wholeName = file.getOriginalFilename();
+        if (!(wholeName.endsWith(Attributes.JPG_FILE_END_NAME)
+                || wholeName.endsWith(Attributes.PNG_FILE_END_NAME)
+                || wholeName.endsWith(Attributes.GIF_FILE_END_NAME))) {
+            return ResultUtil.error("要上传图片啦!!");
+        } else {
+            return teacherService.uploadHeadImg2(file);
+        }
     }
 
 //https://github.com/JimRainsong/repository.git
@@ -131,46 +147,47 @@ public class TeacherController {
         return modelAndView;
     }
 
+    @RequestMapping("showteachers")
+    @ResponseBody
+    public List<Teacher> ShowTea4(HttpServletRequest request) {
+        int page = Integer.parseInt(request.getParameter("page"));
+        int total = teacherService.SelCountTea4();
+        int totalpage = 0;
+        if (total / 4 != 0) {
+            totalpage = total / 4 + 1;
+        } else {
+            totalpage = total / 4;
+        }
+        int lim = page * 4 - 4;
+        List<Teacher> teachers = teacherService.showTea4(lim);
+        return teachers;
+    }
+
     @RequestMapping("/deltea")
-    public String DelTea4(HttpServletRequest request){
-        int teacherId=Integer.parseInt(request.getParameter("teacherId"));
-        int row=teacherService.DelTea4(teacherId);
-        return "manager/hsn/teacher";
+    public String DelTea4(HttpServletRequest request) {
+        int teacherId = Integer.parseInt(request.getParameter("teacherId"));
+        int row = teacherService.DelTea4(teacherId);
+        return "manager/hsn/mteacher";
     }
 
     @RequestMapping("teaDetail")
     @ResponseBody
-    public Teacher TeaDetail4(HttpServletRequest request, HttpSession session){
-        int teacherId= (int) session.getAttribute("teacherId");
-        Teacher teacher=teacherService.SelTeaById4(teacherId);
+    public Teacher TeaDetail4(HttpServletRequest request, HttpSession session) {
+        int teacherId = (int) session.getAttribute("teacherId");
+        Teacher teacher = teacherService.SelTeaById4(teacherId);
         return teacher;
     }
 
-    @RequestMapping("/teacherDatas")
+    @RequestMapping("/updateTeacher")
     @ResponseBody
-    public Map<String, Object> showteacherDatas(@RequestParam(value = "page",defaultValue = "1",required = false)Integer currentPage,
-                                              @RequestParam(value = "rows",defaultValue = "10",required = false)Integer pageSize) {
-        List<Teacher> list = teacherService.showTea4(currentPage,pageSize);
-        PageInfo pageInfo = new PageInfo(list);
-        Map<String,Object> result = new HashMap<String,Object>();
-        result.put("code",200);
-        result.put("msg","");
-        result.put("count",pageInfo.getTotal());
-        result.put("data",list);
-        return result;
-
+    public ResultUtil updateTeacher2(TeacherVo vo) {
+        return teacherService.updateTeacher2(vo);
     }
 
-    @RequestMapping("/shearch")
+    @RequestMapping("/postNewMoment")
     @ResponseBody
-    public List<Teacher> ShearchVenue4(HttpServletRequest request){
-        String teacherName=request.getParameter("teacherName");
-        String teacherSex=request.getParameter("teacherSex");
-        String teacherPhone=request.getParameter("teacherPhone");
-        String teacherQq=request.getParameter("teacherQq");
-        List<Teacher>teachers=teacherService.shearch(teacherName,teacherSex,teacherPhone,teacherQq);
-        System.out.println(teachers);
-        return teachers;
+    public ResultUtil postNewMoment2(String content) {
+        return teacherService.postNewMoment2(content);
     }
 }
 //暴风哭泣

@@ -93,16 +93,16 @@
     <thead>
     <tr>
         <th lay-data="{type:'checkbox', fixed: 'left'}"></th>
-        <th lay-data="{field:'venueId', width:80}">ID</th>
-        <th lay-data="{field:'venueName', width:100}">场馆名字</th>
-        <th lay-data="{field:'venueAddress', width:80}">地址</th>
-        <th lay-data="{field:'venuePhone', width:80}">电话</th>
-        <th lay-data="{field:'qq', width:80}">QQ</th>
-        <th lay-data="{field:'venueDetails', width:80, sort: true}">详情</th>
+        <th lay-data="{field:'venueId', width:80, sort: true, fixed: true}">ID</th>
+        <th lay-data="{field:'venueName', width:80}">用户名</th>
+        <th lay-data="{field:'venueAddress', width:80, sort: true}">性别</th>
+        <th lay-data="{field:'venuePhone', width:80}">城市</th>
+        <th lay-data="{field:'qq', width:160}">签名</th>
+        <th lay-data="{field:'venueDetails', width:80, sort: true}">积分</th>
 
-        <th lay-data="{field:'authInfo', width:100}">认证信息</th>
-        <th lay-data="{field:'venueMoney', width:135, sort: true}">费用</th>
-
+        <th lay-data="{field:'authInfo', width:80}">职业</th>
+        <th lay-data="{field:'venueMoney', width:135, sort: true}">财富</th>
+        <th lay-data="{field:'score', width:80, sort: true, fixed: 'right'}">评分</th>
         <th lay-data="{fixed: 'right', width:178, align:'center', toolbar: '#barDemo'}"></th>
     </tr>
     </thead>

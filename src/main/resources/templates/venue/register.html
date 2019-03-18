@@ -46,10 +46,10 @@
 <script th:src="@{/layui/layui.js}"></script>
 <script>
     function exits() {
-       location.href="/yoga/logout";
+        // location.href="/yoga/venueUser/login";
     }
     function register(){
-        $.ajax({
+    $.ajax({
             url : "/yoga/venueUserDate/registerVenue",
             type : "post",
             data : {
@@ -59,15 +59,16 @@
             },
             dataType : "json",
             success : function(data) {
-                alert(data.code);
-                if(data.code == 0){
+                var json = eval('('+data+')');
+                alert(json);
+                if(json.code == 0){
                     location.href="/yoga/venueUser/login";
+                }else{
+                    $.messager.alert('系统提示',json.message);
                 }
-                alert(data.msg+"请登录");
             }
         })
     }
-
 </script>
 </body>
 </html>

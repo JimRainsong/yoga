@@ -55,14 +55,8 @@ public interface VenueService {
      */
     int venueUploadAds(Ad ad);
 
-    /**
-     * 场馆课程安排
-     * 场馆-崔宇
-     * @param currentPage
-     * @param pageSize
-     * @param courseVo
-     * @return
-     */
+
+
 
     List<Course> selCourse(Integer currentPage, Integer pageSize, CourseVo courseVo);
 
@@ -94,25 +88,25 @@ public interface VenueService {
      * 动态查询场馆*/
     public List<Venue> shearch(String venname, String addrass, String phone, String qq);
 
-    /**
-     * 场馆审核教练通过
-     * 场馆—陈家明
-     * @param venue_teacher
-     * @return
-     */
-    int venueUpTeacherState(Venue_teacher venue_teacher);
-
-    /**
-     * 用户id查询场馆id
-     * @param userId
-     * @return
-     */
-    Venue selVenueByUserId(Integer userId);
-
 
 
 
 
     boolean findAdByName(String adTitle);
 
+    /**
+     * 删除该场馆的对应vip类型
+     * 场馆-cjm
+     * @param vip_type
+     * @return
+     */
+    int deleteVipTypeDatas(Vip_type vip_type);
+
+    /**
+     * 添加该场馆的vip类型
+     * 场馆-cjm
+     * @param vip_type
+     * @return
+     */
+    int insertVipTypeDatas(Vip_type vip_type);
 }

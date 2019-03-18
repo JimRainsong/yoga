@@ -15,6 +15,16 @@ public class Myorder {
 
     private Date time;
 
+    private String gName;
+
+    public String getgName() {
+        return gName;
+    }
+
+    public void setgName(String gName) {
+        this.gName = gName;
+    }
+
     public Integer getOrderId() {
         return orderId;
     }

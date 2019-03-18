@@ -25,7 +25,7 @@ public interface UserMapper {
 
     int updateByPrimaryKey(User record);
 
-    @Select("select * from user where user_name=#{userName} and flag=0")
+    @Select("select * from user where user_name=#{userName}")
     User selectUserByUserName(String userName);
 
     /**
@@ -34,7 +34,7 @@ public interface UserMapper {
      * @param user
      * @return
      */
-    @Update("update user set  phone_number=#{phoneNumber} where user_id=#{0} and flag=0")
+    @Update("update user set  phone_number=#{phoneNumber} where user_id=#{0}")
     int updateUserInfo1(User user);
 
     /**
@@ -42,7 +42,7 @@ public interface UserMapper {
      * @param state
      * @return  影响行数
       */
-    @Update("update user set info_state=#{0} and flag=0")
+    @Update("update user set info_state=#{0}")
     int updateInfostate1(String state);
 
     /**
@@ -65,4 +65,10 @@ public interface UserMapper {
 
     @Select("select * from user_info where user_id=#{0}")
     User_info selUserLoveName(Integer userId);
+
+    /**   zjl
+     *   根据用户名,查询用户id
+     * */
+    @Select("select user_id from user where user_name=#{0} and flag =0")
+    int selUserIdByName4_1(String uname);
 }

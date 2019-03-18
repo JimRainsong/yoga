@@ -1,14 +1,14 @@
 package cn.project.yoga.controller;
 
 
-import cn.project.yoga.pojo.Ad;
-import cn.project.yoga.pojo.Teacher;
-import cn.project.yoga.pojo.Venue;
+import cn.project.yoga.pojo.*;
 import cn.project.yoga.service.ManagerService;
 import cn.project.yoga.service.TeacherService;
+import cn.project.yoga.service.UserService;
 import cn.project.yoga.service.VenueService;
 import cn.project.yoga.utils.ManagerUtil;
 import com.github.pagehelper.PageInfo;
+import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -31,6 +31,9 @@ public class ManagerController {
     private ManagerService managerService;
     @Autowired
     private TeacherService teacherService;
+    @Autowired
+    private UserService userService;
+
 
     @Autowired
     private VenueService service;
@@ -124,6 +127,69 @@ public class ManagerController {
        Map<String,Object> admaps = new HashMap<>();
        admaps.put("rows",listad);
        return admaps;
+    }
+
+    /**
+     * 查询出所有场馆信息传到前端
+     * */
+    @RequestMapping("/showvenues")
+    @ResponseBody
+    public List<Venue> ShowVenues(HttpServletRequest request){
+        int page=Integer.parseInt(request.getParameter("page"));
+
+        int total=service.SelVenNum();
+        int totalpage=0;
+        if (total/4!=0){
+            totalpage=total/4+1;
+        }else {
+            totalpage=total/4;
+        }
+        int lim=page*4-4;
+        List<Venue> venues =service.selectAllVenue4(lim);
+        return venues;
+    }
+    /**
+     * 分页,模糊查询所有商品信息
+     */
+    @RequestMapping("/getallgoods")
+    @ResponseBody
+    public Map<String,Object> allGoodsLimit(@RequestParam(value = "page",defaultValue = "1",required = false)Integer currentPage,@RequestParam(value = "rows"
+            ,defaultValue = "10",required = false)Integer
+            pageSize,Integer type,String goodsName){
+        System.out.println("测试获取前端传参:+"+type+"名字:"+goodsName);
+        List<Goods> listgoods = managerService.limitAllGoods4_1(currentPage,pageSize,type,goodsName);
+        PageInfo pageinfogoods = new PageInfo(listgoods);
+        Map<String,Object> goodsmap = new HashMap<>();
+        goodsmap.put("rows",listgoods);
+        goodsmap.put("total",pageinfogoods.getTotal());
+        return goodsmap;
+    }
+
+    /**
+     * 获取订单表的信息
+     */
+    @RequestMapping("/getmygoods")
+    @ResponseBody
+    public List<Myorder> listmyorder(){
+        //String username  = (String) SecurityUtils.getSubject().getPrincipal();/*shiro 里面获取用户名*/
+        //测试用
+        String uname ="朱俊陇(测试用)";
+        int uid = userService.getUserGoods4_1(uname);
+        List<Myorder> listorder = managerService.selAllOrderByuid4_1(uid);
+        for (Myorder myorder : listorder) {
+            myorder.setgName(managerService.selGnameByGid4_1(myorder.getGoodsId()));
+        }
+        return listorder;
+    }
+
+    @RequestMapping("/deletegoods")
+    @ResponseBody
+    public  ManagerUtil deletegoods(Integer gId){
+        int result = managerService.deletegoodsByGid4_1(gId);
+        if (result >0){
+            return ManagerUtil.ok("删除成功");
+        }
+        return ManagerUtil.error("删除失败");
     }
 
 

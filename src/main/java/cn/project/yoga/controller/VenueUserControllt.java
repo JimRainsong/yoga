@@ -1,26 +1,21 @@
 package cn.project.yoga.controller;
 
-import cn.project.yoga.pojo.TeacherInfo;
 import cn.project.yoga.pojo.User;
 import cn.project.yoga.pojo.Venue;
 import cn.project.yoga.service.UserService;
 import cn.project.yoga.service.VenueService;
-import cn.project.yoga.utils.Attributes;
 import cn.project.yoga.utils.LayUiDataUtil;
 import cn.project.yoga.utils.Md5Encoder;
 import cn.project.yoga.utils.RegexUtil;
 import cn.project.yoga.vo.LoginVo;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
-import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import sun.misc.Request;
 
 @Controller
 @RequestMapping("/venueUserDate")
@@ -45,10 +40,6 @@ public class VenueUserControllt {
             token.setRememberMe(true);
             try {
                 subject.login(token);
-                Session session = SecurityUtils.getSubject().getSession();
-                User user=userService.selectUserByUserName(vo.getUserName());
-                Venue venue=venueService.selVenueByUserId(user.getUserId());
-                session.setAttribute(Attributes.CURRENT_USER, venue);
                 return LayUiDataUtil.ok("登陆成功");
             } catch (UnknownAccountException uae) {
                 return LayUiDataUtil.error("未知的用户类型");
@@ -72,7 +63,7 @@ public class VenueUserControllt {
     @ResponseBody
     public LayUiDataUtil register(User user,String password1) {
         System.out.println(password1);
-        if (!RegexUtil.isMobile(user.getUserName())){
+        if (!RegexUtil.isUsername(user.getUserName())){
             return LayUiDataUtil.error("用户名格式有误");
         }
         if (userService.selectUserByUserName(user.getUserName()) != null) {
@@ -85,11 +76,10 @@ public class VenueUserControllt {
             return LayUiDataUtil.error("密码格式有误");
         }
             try {
-                user.setPassword(Md5Encoder.md5Encode(user.getUserName(),user.getPassword()));
-                System.out.println(user.getPassword());
-               int num = userService.addUser(user);
-                System.out.println(user.getPassword());
+
+                int num = userService.addUser(user);
                 if (num > 0) {
+                    user.setPassword(Md5Encoder.md5Encode(user.getUserName(),user.getPassword()));
                     user = userService.selectUserByUserName(user.getUserName());
                     if (user != null) {
                         Venue venue = new Venue();

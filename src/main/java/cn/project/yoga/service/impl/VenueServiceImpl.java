@@ -49,7 +49,10 @@ public class VenueServiceImpl implements VenueService {
     @Override
     public List<Selstudent> findStudents(Integer currentPage, Integer pageSize, Integer venueId) {
             List<Selstudent> students =selstudentMapper.selectStudentByvenueId(currentPage,pageSize,venueId);
-          return students;
+
+
+
+        return students;
     }
 
 
@@ -78,23 +81,22 @@ public class VenueServiceImpl implements VenueService {
     }
 
     @Override
-    public int venueUpTeacherState(Venue_teacher venue_teacher) {
-        int result=venue_teacherMapper.updateByPrimaryKeySelective(venue_teacher);
-        return result;
-    }
-
-    @Override
-    public Venue selVenueByUserId(Integer userId) {
-
-        return venueMapper.selVenueByUserId(userId);
-    }
-
-    @Override
     public boolean findAdByName(String adTitle) {
         if (adMapper.selAdByAdTitle(adTitle)!=null){
             return true;
         }
         return false;
+    }
+
+    @Override
+    public int deleteVipTypeDatas(Vip_type vip_type) {
+
+        return vip_typeMapper.updateByPrimaryKeySelective(vip_type);
+    }
+
+    @Override
+    public int insertVipTypeDatas(Vip_type vip_type) {
+        return vip_typeMapper.insertSelective(vip_type);
     }
 
     @Override

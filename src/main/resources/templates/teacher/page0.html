@@ -6,9 +6,23 @@
     <link rel="stylesheet" type="text/css" th:href="@{/css/teacher/page0.css}"
           href="../../static/css/teacher/page0.css"/>
     <script th:src="@{/js/jquery.min.js}" src="../../static/js/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="../../static/css/fzwmodal.css"
+          th:href="@{/css/fzwmodal.css}">
+    <script th:src="@{/js/fzwmodal.js}" src="../../static/js/fzwmodal.js"></script>
 </head>
 <body>
+<!--模态框组件-->
+<div id="block" class="modal"></div>
+<div id="dialog" class="modal">
+    <div id="dialog_message"></div>
+    <button onclick="turnTo()">确认</button>
+</div>
+<!-- !! -->
+
 <div>
+    <div id="post_button" onclick="openPostWindow('block')">
+        发布
+    </div>
     <div class="background_img" id="background_img">
         <img src="../../static/img/gim.jpg" th:src="@{/img/gim.jpg}" class="background_img">
     </div>
@@ -36,13 +50,50 @@
         </div>
     </div>
 </div>
+<div id="post_window">
+    <textarea id="new_moment" placeholder="今天的锻炼/授课体验如何呢？有没有交到新朋♂♂友？"></textarea>
+    <br>
+    <button id="submit" onclick="postNewMoment()">提交</button>
+    <button id="abandon" onclick="openPostWindow('none')">放弃</button>
+</div>
 <script>
     $(function () {
+        // 初始化背景图片大小
         var picWidth = $("#background_img").css("width");
         picWidth = picWidth.substr(0, picWidth.length - 2);
         var picHeight = parseInt(picWidth) * 440 / 840;
         $("#background_img").css("height", picHeight + "px");
+
+        //初始化postWindow位置
+        var mes_window = $("#post_window");
+        var mes_width = mes_window.css("width");
+        var mes_height = mes_window.css("height");
+        // 去掉px单位
+        mes_width = mes_width.substr(0, mes_width.length - 2);
+        mes_height = mes_height.substr(0, mes_height.length - 2);
+        // 获取左边的距离和上边的距离
+        var left_distance = (windowWidth - mes_width) / 2;
+        var top_distance = (windowHeight - mes_height) / 2;
+        // 设置css属性
+        mes_window.css("left", left_distance + "px");
+        mes_window.css("top", top_distance + "px");
     })
+
+    function openPostWindow(state) {
+        $("#post_window").css("display", state);
+    }
+
+    function postNewMoment() {
+        var content = $("#new_moment").val();
+        $.post("/yoga/teacher/postNewMoment", {"content": content}, function (mes) {
+            if (mes.code == 0) {
+                openPostWindow('none');
+                window.parent.showPage(0);
+            } else {
+                openDialog(mes.message, "", false);
+            }
+        })
+    }
 </script>
 </body>
 
