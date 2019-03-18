@@ -10,27 +10,24 @@
 </head>
 <body class="layui-layout-body">
 
-<script type="text/html" id="toolbarDemo">
+<table class="layui-hide" id="teacher" lay-filter="test"></table>
+
+<script type="text/html" id="teachertool">
     <div class="layui-btn-container">
-        <button class="layui-btn layui-btn-sm" lay-event="getCheckData">通过</button>
-        <button class="layui-btn layui-btn-sm" lay-event="getCheckData">驳回</button>
+        <button class="layui-btn layui-btn-sm" lay-event="getCheckData">获取选中行数据</button>
     </div>
 </script>
-
-
-<table class="layui-hide" id="teacher" lay-filter="test"></table>
 
 
 <script th:src="@{/yoga/layui/layui.js}" charset="utf-8"></script>
 
 <script th:inline="javascript">
-    var tid;
     layui.use('table', function(){
         var table = layui.table;
         table.render({
             elem: '#teacher'
             ,height: 300
-            ,url:'/yoga/venueDate/teacherDatas?vid=1&teype=1&teacherName=&teacherSex='
+            ,url:'/yoga/venueDate/teacherDatas?vid=8&teype=1&teacherName=&teacherSex='
             ,page: true
             ,response: {
                 statusName: 'code'
@@ -39,16 +36,16 @@
                 ,countName: 'count'
                 ,dataName: 'data'
             }
-            ,toolbar: '#toolbarDemo'
+            ,toolbar: '#teachertool'
             ,cols: [
                 [
                     {type:'radio'},
-                    {field:'d.teacher.teacherId', width:150, title: '教练编号',templet: "<div>{{d.teacher?d.teacher.teacherId:''}}</div>", sort: true}
-                    ,{field:'d.teacher.teacherName', width:150, title: '教练姓名',templet: "<div>{{d.teacher?d.teacher.teacherName:''}}</div>"}
-                    ,{field:'d.teacher.teacherSex', width:150, title: '性别', sort: true ,templet: "<div>{{d.teacher?d.teacher.teacherSex:''}}</div>"}
-                    ,{field:'d.teacher.teacherMoney', width:150, title: '费用',templet: "<div>{{d.teacher?d.teacher.teacherMoney:''}}</div>"}
-                    ,{field:'d.teacher.teacherPhone', title: '联系方式', minWidth: 150 ,templet: "<div>{{d.teacher?d.teacher.teacherPhone:''}}</div>"}
-                    ,{field:'d.teacher.teacherImg', width:150, title: '相片', sort: true ,templet: "<div>{{d.teacher?d.teacher.teacherImg:''}}</div>"}
+                    {field:'teacher.teacherId', width:150, title: '教练编号', sort: true}
+                    ,{field:'teacher.teacherName', width:150, title: '教练姓名'}
+                    ,{field:'teacher.teacherSex', width:150, title: '性别', sort: true}
+                    ,{field:'teacher.teacherMoney', width:150, title: '费用'}
+                    ,{field:'teacher.teacherPhone', title: '联系方式', minWidth: 150}
+                    ,{field:'teacher.teacherImg', width:150, title: '相片', sort: true}
                 ]
             ]
 
@@ -60,16 +57,11 @@
             switch(obj.event){
                 case 'getCheckData':
                     var data = checkStatus.data;  //获取选中行数据
-                    tid = data[0].teacher.teacherId;
-                    alert(tid+"????")
-                    UpTeacherState(0);
+                    layer.alert(JSON.stringify(data));
                     break;
             };
         });
     });
-
-
 </script>
-
 </body>
 </html>

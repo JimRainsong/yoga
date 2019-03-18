@@ -59,8 +59,8 @@
             switch(obj.event){
                 case 'getCheckData':
                     var data = checkStatus.data;  //获取选中行数据
-                   alert(data[0].id);
-
+                    layer.alert(JSON.stringify(data));
+                    break;
             };
         });
     });

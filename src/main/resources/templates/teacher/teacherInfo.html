@@ -141,7 +141,7 @@
         </tr>
     </table>
     <br>
-    <button id="submit" onclick="updateteacher()">提交</button>
+    <button id="submit" onclick="updateTeacher()">提交</button>
     <button id="abandon" onclick="openUpdateWindow('none')">关闭</button>
 </div>
 
@@ -154,10 +154,56 @@
 <!-- !! -->
 
 <script>
+    $(function () {
+        // 获取属性
+        var mes_window = $("#update_window");
+        var mes_width = mes_window.css("width");
+        var mes_height = mes_window.css("height");
+        // 去掉px单位
+        mes_width = mes_width.substr(0, mes_width.length - 2);
+        mes_height = mes_height.substr(0, mes_height.length - 2);
+        // 获取左边的距离和上边的距离
+        var left_distance = (windowWidth - mes_width) / 2;
+        var top_distance = (windowHeight - mes_height) / 2;
+        // 设置css属性
+        mes_window.css("left", left_distance + "px");
+        mes_window.css("top", top_distance + "px");
+    })
+
     function openUpdateWindow(state) {
         $("#update_window").css("display", state);
     }
 
+    function updateTeacher() {
+        var netName = $("#net_name").val();
+        var authInfo = $("#auth_num").val();
+        var realName = $("#real_name").val();
+        var qq = $("#qq").val();
+        var phone = $("#phone").val();
+        var sex = $("#sex").val();
+        var idNum = $("#id_num").val();
+        $.ajax({
+            url: "/yoga/teacher/updateTeacher",
+            type: "post",
+            data: {
+                "netName": netName,
+                "authInfo": authInfo,
+                "realName": realName,
+                "qq": qq,
+                "phone": phone,
+                "sex": sex,
+                "idNum": idNum
+            },
+            dataType: "json",
+            success: function (mes) {
+                if (mes.code == 0) {
+                    openDialog(mes.message, "teacherInfo", true);
+                } else {
+                    openDialog(mes.message, "", false);
+                }
+            }
+        })
+    }
 </script>
 </body>
 </html>

@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>商品</title>
+    <link rel="stylesheet" th:href="@{/css/themes/icon.css}">
+    <link rel="stylesheet" th:href="@{/css/themes/default/easyui.css}">
+    <link rel="stylesheet" th:href="@{/css/themes/tree.css}">
+    <script th:src="@{/js/jquery.min.js}"></script>
+    <script th:src="@{/js/jquery.easyui.min.js}"></script>
+    <script th:src="@{/js/easyui-lang-zh_CN.js}"></script>
+</head>
+<body>
+<div><button onclick="mygoods()">我的订单</button></div><br>
+<table id="dggoods" class="easyui-datagrid"
+       data-options="width:1000,title:'瑜伽商城',url:'/yoga/manager/getallgoods',fitColumns:true,striped:true,pagination:true,rownumbers:true,pageNumber:1,pageSize:10,pageList:[10,20,30],toolbar:'#tbgoods'">
+    <thead>
+    <tr>
+        <input data-options="field:'gId'" type="hidden" id="goodsId" name="goodsId">
+        <th data-options="field:'gName',title:'商品名称',width:80,align:'center'"></th>
+        <th data-options="field:'gDescrption',title:'商品介绍',width:80,align:'center'"></th>
+        <th data-options="field:'gPrice',title:'商品价格',width:80,align:'center'"></th>
+        <th data-options="field:'gImg',title:'图片',width:80,align:'center',formatter:showgoodsImg"></th>
+        <th data-options="field:'gStock',title:'数量',width:80,align:'center'"></th>
+    </tr>
+    </thead>
+</table>
+<div id="tbgoods">
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <a class="easyui-linkbutton" data-options="iconCls:'icon-search'" onclick="searchGoods(0)">查看瑜伽器械</a>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <a class="easyui-linkbutton" data-options="iconCls:'icon-search'" onclick="searchGoods(1)">查看零食</a>
+    <form>
+        <br>
+        搜索你想要的 : <input type="text" name="goodsName" id="goodsName">
+        <a class="easyui-linkbutton" data-options="iconCls:'icon-search'" onclick="searchGoods(-99)">搜索</a>
+    </form>
+    <br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <a class="easyui-linkbutton" data-options="iconCls:'icon-ok'" onclick="addcar()">购物车结算</a>
+</div>
+<div id="dlgcar" class="easyui-dialog" data-options="buttons:'#butscar',width:700,height:700,modal:true,closed:true" style="padding: 20px">
+    <div id="fmcar">
+        <input type="hidden" name="gId" id="gId">
+        <table cellpadding="5">
+            <tr id="tr01">
+            </tr>
+        </table>
+    </div>
+</div>
+<div id="butscar">
+    <a class="easyui-linkbutton" data-options="iconCls:'icon-ok'" onclick="operatecar()">结算</a>
+    <a class="easyui-linkbutton" data-options="iconCls:'icon-cancel'" onclick="closeDialogcar()">关闭</a>
+</div>
+
+<div id="dlgmygoods" class="easyui-dialog" data-options="width:700,height:700,modal:true,closed:true" style="padding: 20px">
+        <table cellpadding="5" id="ordertable" style="color: #1E9FFF;font-size: 30px;align:center">
+        </table>
+</div>
+</body>
+<script>
+    /*模糊+指定查询*/
+    function searchGoods(da) {
+        $("#dggoods").datagrid("reload", {
+            type: da,
+            goodsName:$('#goodsName').val()
+        });
+        $("#goodsName").val("")
+    }
+    /*图片格式转换*/
+    function showgoodsImg(value,row,index){
+        if (value){
+            return "<img src='"+value+"' style='width:60px;height:60px'";
+        } else{
+            return null;
+        }
+    }
+    /*添加购物车操作 , 将选中的数据放进购物车*/
+    var rowstwo;
+    function addcar() {
+        var rows = $("#dggoods").datagrid("getSelections");
+        rowstwo = rows;
+        if (rows.length <=0 ){
+            $.messager.alert("提示","请至少选择一种商品");
+            return;
+        }
+        $("#dlgcar").dialog("open").dialog("setTitle","购物车");
+        for (var i=0;i<rows.length;i++){
+            $("#tr01").append("<br><div id=d"+rows[i].gId+"><td>商品名 :" +
+                " <span size='15' style='color: #CC2222'>"+rows[i].gName+"</span></td>"+"<td>" +
+                "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;选择购买数量 : <input id="+rows[i].gId+" type='text' value='1'></td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" +
+                "<button onclick='removegoods("+rows[i].gId+")'>移除商品</button></div>");
+        }
+    }
+    /*关闭按钮*/
+    function closeDialogcar() {
+        $("#dlgcar").dialog("close");
+        $("#fmcar").form("clear");
+        $("#dggoods").datagrid("reload");
+        $('#tr01').html("");
+        rowstwo ="";
+    }
+    
+    /*移除标签*/
+    function removegoods(gid) {
+        $("#d"+gid+"").remove();
+        movearray(gid);
+    }
+    /*删除数组里面保存的商品信息*/
+    function movearray(gid) {
+        var newArray=[];
+        var index=0;
+        for (var x=0;x<rowstwo.length;x++){
+            if (rowstwo[x].gId != gid){
+                newArray[index++]=rowstwo[x];
+            }
+        }
+        rowstwo=newArray;
+    }
+
+    /*提交购买申请*/
+    function operatecar() {
+        var money=0;
+        if (rowstwo.length <=0){
+            $.messager.alert("提示","请至少购买一种商品");
+            $("#dlgcar").dialog("close");
+            $("#dggoods").datagrid("reload");
+            return;
+        }
+        for (var i=0;i<rowstwo.length;i++){
+            if ($("#"+rowstwo[i].gId+"").val() > rowstwo[i].gStock ){
+                $.messager.alert("提示",rowstwo[i].gName+"购买数量超出库存量,请重新选择");
+                return;
+            }
+            if ( $("#"+rowstwo[i].gId+"").val() <=0){
+                $.messager.alert("提示",rowstwo[i].gName+"至少购买一个,请重新选择");
+                return;
+            }
+            money +=$("#"+rowstwo[i].gId+"").val() * rowstwo[i].gPrice;
+            }
+        alert("总金额"+money);
+    }
+
+    /*我的订单*/
+    function mygoods() {
+        $("#dlgmygoods").dialog("open").dialog("setTitle","购物订单");
+        $.ajax({
+            url:'/yoga/manager/getmygoods',
+            type:'get',
+            success:function (data) {
+                var tr2 = $("<tr><td>商品名称</td>&nbsp;&nbsp;&nbsp;&nbsp;<td>数量</td>&nbsp;&nbsp;&nbsp;&nbsp;<td>价格</td>&nbsp;&nbsp;&nbsp;&nbsp;<td>购买时间</td></tr>");
+                $("#ordertable").append(tr2);
+                for (var i=0;i<data.length;i++){
+                    var trorder = $("<tr style='align:center'></tr>");
+                    var td1=$("<td></td>").text(data[i].gName);
+                    var td2=$("<td></td>").text(data[i].count);
+                    var td3=$("<td></td>").text(data[i].price);
+                    var td4=$("<td></td>").text(data[i].time);
+                    trorder.append(td1);
+                    trorder.append(td2);
+                    trorder.append(td3);
+                    trorder.append(td4);
+                    $("#ordertable").append(trorder);
+                }
+            }
+        })
+
+
+    }
+
+</script>
+</html>

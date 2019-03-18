@@ -131,27 +131,10 @@
         addTab();
     }
 
-    function UpTeacherState(states) {
-        alert(states)
-        $.ajax({
-            url : "/yoga/venueDate/UpTeacherState",
-            type : "post",
-            data : {
-                teacherId:tid,
-                teacherState:states
-            },
-            dataType : "json",
-            success : function(data) {
-                alert(data.msg);
-                eid="teacherTabId";
-                addTab();
-            }
-        })
-    }
+
 
     function addTab() {
         element.tabDelete('demo', eid);
-
         $.ajax({ url:url,
                  type:"GET",
                 success:function(result){

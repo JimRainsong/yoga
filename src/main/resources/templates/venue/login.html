@@ -87,15 +87,19 @@
              },
              dataType : "json",
              success : function(data) {
-                 alert(data.msg);
+                 alert(data.message);
                  location.href="/yoga/venueUser/venueIndex";
-
+                 // var json = eval('('+data+')');
+                 // if(json.code == 0){
+                 //
+                 // }else{
+                 //     $.messager.alert('系统提示',json.message);
+                 // }
              }
+
 
          })
     }
-
-
 </script>
 
 </body>
