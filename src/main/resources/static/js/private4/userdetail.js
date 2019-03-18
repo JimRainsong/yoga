@@ -12,8 +12,10 @@ function userdetail(){
             $("#g_price").html(data.balance+' 元');
             $("#g_description").html(data.phoneNumber);
             $("#g_count").html(data.qq);
-            $("#g_img").attr('src',data.venueImg);
+            $("#g_img").attr('src',data.headImg);
             $("#g_brand").html(data.realName);
+            $("#sex").html(data.sex);
+            $("#card").html(data.idCard);
 
 
 

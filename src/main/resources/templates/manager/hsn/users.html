@@ -138,7 +138,7 @@
 
     function shearch() {
         $.ajax({
-            url: "/yoga/user/userDatas",
+            url: "/yoga/user/shearch",
             type: "post",
             async: true,
             dataType: "json",
@@ -151,6 +151,7 @@
             },
             success:function (message) {
                 document.getElementById("user").style.display="block";
+
                 var content =
                     "<tr style='width: 100px'>"+
                     "<td>查找结果</td>"+

@@ -66,8 +66,8 @@ public class TeacherServiceImpl implements TeacherService {
     }
 
     @Override
-    public List<Teacher> showTea4(int lim) {
-        List<Teacher> teachers = teacherMapper.showTea4(lim);
+    public List<Teacher> showTea4(Integer currentPage,Integer pageSize) {
+        List<Teacher> teachers = teacherMapper.showTea4(currentPage,pageSize);
         return teachers;
     }
 

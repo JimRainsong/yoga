@@ -249,7 +249,7 @@ public class UserController {
         int uId=Integer.parseInt(request.getParameter("uId"));
         System.out.println(uId);
         userService.DelUserById4(uId);
-        return "menager/hsn/user";
+        return "manager/hsn/users";
     }
 
     /*
@@ -259,15 +259,17 @@ public class UserController {
     public Map<String, Object> showuserDatas4(@RequestParam(value = "page",defaultValue = "1",required = false)Integer currentPage,
                                                 @RequestParam(value = "rows",defaultValue = "10",required = false)Integer pageSize,HttpServletRequest request) {
         List<User_info> list = managerService.SelUser4(currentPage,pageSize);
-        String data="123";
-         data=request.getParameter("data");
-        if (data.equals("seracher") && data!=null && data!=""){
-            String netName=request.getParameter("netName");
-            String sex=request.getParameter("sex");
-            String qq=request.getParameter("qq");
-            String phoneNumber=request.getParameter("phoneNumber");
-            list=userService.shearch(netName,sex,phoneNumber,qq);
+        if (request.getParameter("data")!=null && request.getParameter("data")!=""){
+            if (request.getParameter("data").equals("seracher")){
+                String netName=request.getParameter("netName");
+                String sex=request.getParameter("sex");
+                String qq=request.getParameter("qq");
+                String phoneNumber=request.getParameter("phoneNumber");
+                list=userService.shearch(netName,sex,phoneNumber,qq);
+            }
+
         }
+
         PageInfo pageInfo = new PageInfo(list);
         Map<String,Object> result = new HashMap<String,Object>();
         result.put("code",200);
