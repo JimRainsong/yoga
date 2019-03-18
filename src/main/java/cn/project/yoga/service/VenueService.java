@@ -54,6 +54,10 @@ public interface VenueService {
      * @return
      */
     int venueUploadAds(Ad ad);
+
+
+
+
     List<Course> selCourse(Integer currentPage, Integer pageSize, CourseVo courseVo);
 
     /*
@@ -83,4 +87,26 @@ public interface VenueService {
     /*
      * 动态查询场馆*/
     public List<Venue> shearch(String venname, String addrass, String phone, String qq);
+
+
+
+
+
+    boolean findAdByName(String adTitle);
+
+    /**
+     * 删除该场馆的对应vip类型
+     * 场馆-cjm
+     * @param vip_type
+     * @return
+     */
+    int deleteVipTypeDatas(Vip_type vip_type);
+
+    /**
+     * 添加该场馆的vip类型
+     * 场馆-cjm
+     * @param vip_type
+     * @return
+     */
+    int insertVipTypeDatas(Vip_type vip_type);
 }

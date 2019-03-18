@@ -63,6 +63,12 @@ public interface UserMapper {
     @Select("select * from user_info where user_id=#{0}")
     User_info selUserLoveName(Integer userId);
 
+    /**   zjl
+     *   根据用户名,查询用户id
+     * */
+    @Select("select user_id from user where user_name=#{0} and flag =0")
+    int selUserIdByName4_1(String uname);
+
     /**
      * 查询所有可加入的场馆的图片，名字、地址
      * @return

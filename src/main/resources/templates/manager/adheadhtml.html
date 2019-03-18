@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>广告头部</title>
+    <link rel="stylesheet" th:href="@{/css/themes/icon.css}">
+    <link rel="stylesheet" th:href="@{/css/themes/default/easyui.css}">
+    <link rel="stylesheet" th:href="@{/css/themes/tree.css}">
+    <link rel="stylesheet" th:href="@{/layui/css/layui.css}">
+    <script th:src="@{/js/jquery.min.js}"></script>
+    <script th:src="@{/js/jquery.easyui.min.js}"></script>
+    <script th:src="@{/js/easyui-lang-zh_CN.js}"></script>
+    <script th:src="@{/layui/layui.all.js}"></script>
+    <script th:src="@{/layui/layui.js}"></script>
+</head>
+<body>
+<div id="ll" style="width:20px;height: 20px"></div>
+<div class="layui-carousel" id="test1"  lay-filter="test1" style="text-align: center;margin: 0 auto;border: green solid 1px;">
+    <div id="bigad" carousel-item="">
+        <div id="ad01" style="margin: 0 auto;text-align:center;"></div>
+        <div id="ad02"></div>
+        <div id="ad03"></div>
+    </div>
+</div>
+<script type="text/javascript">
+    layui.use('carousel', function(){
+        var carousel = layui.carousel;
+        //建造实例
+        carousel.render({
+            elem: '#test1'
+            ,width: '800px'
+            ,height: '200px'
+            ,interval: 5000 //每5秒，自动轮播
+            ,arrow: 'always'
+        });
+
+        //监听轮播切换事件
+        carousel.on('change(test1)', function(obj){ //test1来源于对应HTML容器的 lay-filter="test1" 属性值
+            console.log(obj.index); //当前条目的索引
+            console.log(obj.prevIndex); //上一个条目的索引
+            console.log(obj.item); //当前条目的元素对象
+        });
+
+    });
+
+    /*自动加载广告*/
+    function getads() {
+        $.ajax({
+            url:'/yoga/manager/getads',
+            type:'get',
+            success:function (data) {
+                var list = data.rows;
+                var datas =-1;
+                for (var i=0;i<list.length;i++){
+                    datas = i;
+                    switch (datas) {
+                        case 0:$("#ad01").append("<p style='color: #CC2222;font-size:20px;font-family:'黑体' "+"'>"+list[i].adTitle+"</p>" +
+                            "<img src="+list[i].adImg+" width='100%'height='100%'>" +
+                            "<p style='position:absolute;width: 800px;bottom:0px;color: #CC2222;font-size: 15px;'>"+list[i].adDetails+"</p>");
+                        break;
+                        case 1:$("#ad02").append("<p style='color: #CC2222;font-size:20px;font-family:'黑体' "+"'>"+list[i].adTitle+"</p>" +
+                            "<img src="+list[i].adImg+" width='100%'height='100%'>" +
+                            "<p style='position:absolute;width: 800px;bottom:0px;color: #CC2222;font-size: 15px;'>"+list[i].adDetails+"</p>");
+                        break;
+                        case 2:$("#ad03").append("<p style='color: #CC2222;font-size:20px;font-family:'黑体' "+"'>"+list[i].adTitle+"</p>" +
+                            "<img src="+list[i].adImg+" width='100%'height='100%'>" +
+                            "<p style='position:absolute;width: 800px;bottom:0px;color: #CC2222;font-size: 15px;'>"+list[i].adDetails+"</p>");
+                        break;
+                    }
+                }
+            }
+        })
+    }
+    getads();
+</script>
+</body>
+</body>
+</html>

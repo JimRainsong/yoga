@@ -9,6 +9,7 @@ import cn.project.yoga.utils.Md5Encoder;
 import cn.project.yoga.utils.RegexUtil;
 import cn.project.yoga.utils.ResultUtil;
 import cn.project.yoga.vo.LoginVo;
+import cn.project.yoga.vo.TeacherVo;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.session.Session;
@@ -18,6 +19,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
@@ -80,11 +82,24 @@ public class TeacherController {
         allMoments.sort(new Comparator<Moment>() {
             @Override
             public int compare(Moment m1, Moment m2) {
-                return m1.getTime().compareTo(m2.getTime());
+                return m2.getTime().compareTo(m1.getTime());
             }
         });
         modelAndView.addObject("moments", allMoments);
         return modelAndView;
+    }
+
+    @RequestMapping("/uploadHeadImg")
+    @ResponseBody
+    public ResultUtil uploadHeadImg2(MultipartFile file) {
+        String wholeName = file.getOriginalFilename();
+        if (!(wholeName.endsWith(Attributes.JPG_FILE_END_NAME)
+                || wholeName.endsWith(Attributes.PNG_FILE_END_NAME)
+                || wholeName.endsWith(Attributes.GIF_FILE_END_NAME))) {
+            return ResultUtil.error("要上传图片啦!!");
+        } else {
+            return teacherService.uploadHeadImg2(file);
+        }
     }
 
 //https://github.com/JimRainsong/repository.git
@@ -134,33 +149,45 @@ public class TeacherController {
 
     @RequestMapping("showteachers")
     @ResponseBody
-    public List<Teacher> ShowTea4(HttpServletRequest request){
-        int  page=Integer.parseInt(request.getParameter("page"));
-        int  total=teacherService.SelCountTea4();
-        int totalpage=0;
-        if (total/4!=0){
-            totalpage=total/4+1;
-        }else {
-            totalpage=total/4;
+    public List<Teacher> ShowTea4(HttpServletRequest request) {
+        int page = Integer.parseInt(request.getParameter("page"));
+        int total = teacherService.SelCountTea4();
+        int totalpage = 0;
+        if (total / 4 != 0) {
+            totalpage = total / 4 + 1;
+        } else {
+            totalpage = total / 4;
         }
-        int lim=page*4-4;
-        List<Teacher> teachers=teacherService.showTea4(lim);
+        int lim = page * 4 - 4;
+        List<Teacher> teachers = teacherService.showTea4(lim);
         return teachers;
     }
 
     @RequestMapping("/deltea")
-    public String DelTea4(HttpServletRequest request){
-        int teacherId=Integer.parseInt(request.getParameter("teacherId"));
-        int row=teacherService.DelTea4(teacherId);
+    public String DelTea4(HttpServletRequest request) {
+        int teacherId = Integer.parseInt(request.getParameter("teacherId"));
+        int row = teacherService.DelTea4(teacherId);
         return "manager/hsn/mteacher";
     }
 
     @RequestMapping("teaDetail")
     @ResponseBody
-    public Teacher TeaDetail4(HttpServletRequest request, HttpSession session){
-        int teacherId= (int) session.getAttribute("teacherId");
-        Teacher teacher=teacherService.SelTeaById4(teacherId);
+    public Teacher TeaDetail4(HttpServletRequest request, HttpSession session) {
+        int teacherId = (int) session.getAttribute("teacherId");
+        Teacher teacher = teacherService.SelTeaById4(teacherId);
         return teacher;
+    }
+
+    @RequestMapping("/updateTeacher")
+    @ResponseBody
+    public ResultUtil updateTeacher2(TeacherVo vo) {
+        return teacherService.updateTeacher2(vo);
+    }
+
+    @RequestMapping("/postNewMoment")
+    @ResponseBody
+    public ResultUtil postNewMoment2(String content) {
+        return teacherService.postNewMoment2(content);
     }
 }
 //暴风哭泣

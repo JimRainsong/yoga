@@ -105,6 +105,11 @@ public interface UserService {
      */
     User_info selectMyInfo();
 
+    /** zjl
+     * 根据用户名,查id
+     * */
+    int getUserGoods4_1(String uname);
+
     String recharge(Integer money);
 
     String updateImg(String source);

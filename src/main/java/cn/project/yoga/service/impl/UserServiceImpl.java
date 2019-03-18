@@ -139,6 +139,13 @@ public class UserServiceImpl implements UserService {
         return user_infoMapper.selectByUserId(user.getUserId());
     }
 
+    /**    zjl   根据用户名  查 id
+     * */
+    @Override
+    public int getUserGoods4_1(String uname) {
+        return userMapper.selUserIdByName4_1(uname);
+    }
+
     @Override
     public String recharge(Integer money) {
         int user_id=userMapper.selectUserByUserName(SecurityUtils.getSubject().getPrincipal().toString()).getUserId();

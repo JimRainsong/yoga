@@ -1,6 +1,7 @@
 package cn.project.yoga.controller.viewcontroller;
 
 import cn.project.yoga.pojo.TeacherInfo;
+import cn.project.yoga.pojo.Venue;
 import cn.project.yoga.service.TeacherService;
 import cn.project.yoga.utils.Attributes;
 import org.apache.shiro.SecurityUtils;
@@ -66,6 +67,21 @@ public class TeacherViewController {
         return modelAndView;
     }
 
+    @RequestMapping("/venue")
+    public ModelAndView venuePage2() {
+        ModelAndView modelAndView = new ModelAndView();
+        Session session = SecurityUtils.getSubject().getSession();
+        TeacherInfo currentUser = (TeacherInfo) (session.getAttribute(Attributes.CURRENT_USER));
+        if (currentUser == null) {
+            modelAndView.setViewName("teacher/register");
+        } else {
+            Venue venue = teacherService.selectMyVenueByCurrentUserId2(currentUser.gettId());
+            modelAndView.setViewName("teacher/venue");
+            modelAndView.addObject("venue", venue);
+        }
+        return modelAndView;
+    }
+
     /**
      * 以上是自己写的
      */
@@ -80,14 +96,14 @@ public class TeacherViewController {
     }
 
     @RequestMapping("/mteacher")
-    public String Mteacher4(){
+    public String Mteacher4() {
         return "manager/hsn/mteacher";
     }
 
     @RequestMapping("/teadetail")
-    public String TeaDetail4(HttpServletRequest request, HttpSession session){
-        int teacherId=Integer.parseInt(request.getParameter("teacherId"));
-        session.setAttribute("teacherId",teacherId);
+    public String TeaDetail4(HttpServletRequest request, HttpSession session) {
+        int teacherId = Integer.parseInt(request.getParameter("teacherId"));
+        session.setAttribute("teacherId", teacherId);
         return "manager/hsn/mdetail";
     }
 

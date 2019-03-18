@@ -1,8 +1,7 @@
 package cn.project.yoga.dao;
 
-import cn.project.yoga.pojo.TeaMoment;
-import cn.project.yoga.pojo.Teacher;
-import cn.project.yoga.pojo.TeacherInfo;
+import cn.project.yoga.pojo.*;
+import cn.project.yoga.vo.TeacherVo;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
@@ -82,23 +81,45 @@ public interface TeacherMapper {
     @Select("select * from teacherInfo where user_name=#{userName}")
     TeacherInfo selectSingleTeacherByUserName(String userName);
 
-    /*
-     * 分页查询所有教练信息*/
+    /**
+     * 分页查询所有教练信息
+     */
     @Select("select * from teacher where flag=0 limit #{lim},4 ")
     public List<Teacher> showTea4(int lim);
 
-    /*
-     * 软删除教练*/
+    /**
+     * 软删除教练
+     */
     @Update("update teacher set flag=1 where teacher_id=#{teacherId}")
     public int DelTea4(int teacherId);
 
-    /*
-     * 根据ID查教练信息*/
+    /**
+     * 根据ID查教练信息
+     */
     @Select("select * from teacher where teacher_id=#{teacherId} and flag=0")
     public Teacher SelTeaById4(int teacherId);
 
-    /*
-     * 查询教练表有多少条数据*/
+    /**
+     * 查询教练表有多少条数据
+     */
     @Select("SELECT  COUNT(*) FROM teacher WHERE flag=0")
     public int SelCountTea4();
+
+    /**
+     * 更新教练信息
+     */
+    @Update("update teacher set teacher_name=#{netName},teacher_phone=#{phone},teacher_qq=#{qq},teacher_idnum=#{idNum},real_name=#{realName},teacher_sex=#{sex},auth_info=#{authInfo} where teacher_id=#{tId}")
+    int updateTeacher2(TeacherVo vo);
+
+    /**
+     * 教练端发布动态
+     */
+    @Insert("insert into friends(user_id,f_detail,f_time) values(#{id},#{detail},#{time})")
+    int postNewMoment2(Moment moment);
+
+    /**
+     * 根据当前登录的教练的uid查询所在场馆
+     */
+    @Select("select v.* from venue v,venue_teacher t where v.venue_id=t.venue_id and t.teacher_id=#{tId}")
+    Venue selectMyVenueByCurrentUserId2(Integer tId);
 }
