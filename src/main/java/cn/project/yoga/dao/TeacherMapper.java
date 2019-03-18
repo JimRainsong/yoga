@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
+import java.util.Collection;
 import java.util.List;
 
 public interface TeacherMapper {
@@ -122,4 +123,20 @@ public interface TeacherMapper {
      */
     @Select("select v.* from venue v,venue_teacher t where v.venue_id=t.venue_id and t.teacher_id=#{tId}")
     Venue selectMyVenueByCurrentUserId2(Integer tId);
+
+    /**
+     * 注册后绑定用户_角色 id
+     */
+    @Insert("insert into user_role(user_id,role_id) values((select user_id from user where user_name=#{username}),2)")
+    int connectRoleIdAndUserId2(String username);
+
+    /**
+     * 用来查当前登录用户所关注的其他人
+     */
+    @Select("SELECT t.* FROM `teacher_detail` t WHERE t.user_id IN (SELECT follow_id FROM attention WHERE user_id=#{0})")
+    List<Detail> selectMyFollowedTeaByCurrentUserId2(Integer currentUserId);
+
+
+
+
 }

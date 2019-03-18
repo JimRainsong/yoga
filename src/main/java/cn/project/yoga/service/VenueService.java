@@ -11,6 +11,7 @@ import cn.project.yoga.vo.CourseVo;
 import cn.project.yoga.vo.TeacherTypeVo;
 import cn.project.yoga.pojo.*;
 
+import java.util.Collection;
 import java.util.List;
 
 
@@ -94,4 +95,8 @@ public interface VenueService {
 
     boolean findAdByName(String adTitle);
 
+    /**
+     * 根据当前登录的账号去查询此账号关注的人的信息
+     */
+    Collection<? extends Detail> selectMyfollowedVenByCurrentUserId2(Integer currentUserId);
 }

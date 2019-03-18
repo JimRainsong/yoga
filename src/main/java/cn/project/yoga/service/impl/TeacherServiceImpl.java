@@ -13,7 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
@@ -158,5 +158,15 @@ public class TeacherServiceImpl implements TeacherService {
 //            return ResultUtil.error("上传失败");
 //        }
         return ResultUtil.ok("ok");
+    }
+
+    @Override
+    public int connectRoleIdAndUserId2(String username) {
+        return teacherMapper.connectRoleIdAndUserId2(username);
+    }
+
+    @Override
+    public Collection<? extends Detail> selectMyFollowedTeaByCurrentUserId2(Integer currentUserId) {
+        return teacherMapper.selectMyFollowedTeaByCurrentUserId2(currentUserId);
     }
 }
