@@ -157,7 +157,7 @@ public class TeacherServiceImpl implements TeacherService {
 //        } catch (IOException e) {
 //            return ResultUtil.error("上传失败");
 //        }
-        return ResultUtil.ok("ok");
+        return ResultUtil.ok("Okay");
     }
 
     @Override
