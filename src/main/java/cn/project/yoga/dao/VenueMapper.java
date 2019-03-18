@@ -1,9 +1,6 @@
 package cn.project.yoga.dao;
 
-import cn.project.yoga.pojo.Detail;
-import cn.project.yoga.pojo.VenMoment;
-import cn.project.yoga.pojo.Venue;
-import cn.project.yoga.pojo.Vip_type;
+import cn.project.yoga.pojo.*;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
@@ -63,7 +60,7 @@ public interface VenueMapper {
      *查询所有场馆信息
      */
     @Select("select * from venue where flag=0")
-    public List<Venue> SelVen(Integer currentPage, Integer pageSize);
+    public List<Venue> SelVen(Integer currentPage,Integer pageSize);
 
     /*
     软删除场馆
@@ -83,7 +80,6 @@ public interface VenueMapper {
 
     /**
      * 分页查询所有认证通过的场馆
-     *
      * @return
      * @author zjn
      */
@@ -114,6 +110,8 @@ public interface VenueMapper {
     public List<Venue> shearch(@Param("venname") String venname,@Param("addrass") String addrass,
                                @Param("phone") String phone,@Param("qq") String qq,Integer currentPage,Integer pageSize);
 
+    @Select("select * from venue where user_id=#{userId} and flag=0")
+    Venue selvenueByUserId(User user);
     /**
      * 用来查当前登录用户所关注的其他人
      */

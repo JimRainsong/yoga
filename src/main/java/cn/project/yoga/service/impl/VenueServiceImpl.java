@@ -107,6 +107,11 @@ public class VenueServiceImpl implements VenueService {
     }
 
     @Override
+    public Venue selvenueByUserId(User user) {
+        return venueMapper.selvenueByUserId(user);
+    }
+
+    @Override
     public List<Venue> selectAllVenue4(int lim) {
         List<Venue> venues = venueMapper.selectAllVenue4(lim);
         return venues;

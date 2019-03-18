@@ -118,4 +118,12 @@ public interface VenueService {
      * @return
      */
     int updataTeacherState(Venue_teacher venue_teacher);
+
+    /**
+     * 通过用户Id查询场馆
+     * 场馆-cjm
+     * @param user
+     * @return
+     */
+    Venue selvenueByUserId(User user);
 }
