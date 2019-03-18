@@ -17,17 +17,13 @@
         <button class="layui-btn layui-btn-sm" lay-event="getCheckData">获取选中行数据</button>
     </div>
 </script>
-
-
-<script th:src="@{/yoga/layui/layui.js}" charset="utf-8"></script>
-
 <script th:inline="javascript">
     layui.use('table', function(){
         var table = layui.table;
         table.render({
             elem: '#myteacher'
             ,height: 300
-            ,url:'/yoga/venueDate/teacherDatas?vid=8&teype=0&teacherName=&teacherSex='
+            ,url:'/yoga/venueDate/teacherDatas?vid=1&teype=0&teacherName=&teacherSex='
             ,page: true
             ,response: {
                 statusName: 'code'
@@ -45,7 +41,7 @@
                     ,{field:'d.teacher.teacherSex', width:150, title: '性别', sort: true ,templet: "<div>{{d.teacher?d.teacher.teacherSex:''}}</div>"}
                     ,{field:'d.teacher.teacherMoney', width:150, title: '费用',templet: "<div>{{d.teacher?d.teacher.teacherMoney:''}}</div>"}
                     ,{field:'d.teacher.teacherPhone', title: '联系方式', minWidth: 150 ,templet: "<div>{{d.teacher?d.teacher.teacherPhone:''}}</div>"}
-                    ,{field:'d.teacher.teacherImg', width:150, title: '相片', sort: true ,templet: "<div>{{d.teacher?d.teacher.teacherImg:''}}</div>"}
+                    ,{field:'d.teacher.htmlimg', width:150, title: '相片', sort: true ,templet: "<div>{{d.teacher?d.teacher.htmlimg:''}}</div>"}
                 ]
             ]
 

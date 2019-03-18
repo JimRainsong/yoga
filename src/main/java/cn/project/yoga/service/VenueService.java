@@ -87,7 +87,7 @@ public interface VenueService {
 
     /*
      * 动态查询场馆*/
-    public List<Venue> shearch(String venname, String addrass, String phone, String qq);
+    public List<Venue> shearch(String venname, String addrass, String phone, String qq,Integer currentPage,Integer pageSize);
 
 
 
@@ -96,7 +96,26 @@ public interface VenueService {
     boolean findAdByName(String adTitle);
 
     /**
-     * 根据当前登录的账号去查询此账号关注的人的信息
+     * 删除该场馆的对应vip类型
+     * 场馆-cjm
+     * @param vip_type
+     * @return
      */
-    Collection<? extends Detail> selectMyfollowedVenByCurrentUserId2(Integer currentUserId);
+    int deleteVipTypeDatas(Vip_type vip_type);
+
+    /**
+     * 添加该场馆的vip类型
+     * 场馆-cjm
+     * @param vip_type
+     * @return
+     */
+    int insertVipTypeDatas(Vip_type vip_type);
+
+    /**
+     * 审核场馆教练
+     * 场馆-cjm
+     * @param venue_teacher
+     * @return
+     */
+    int updataTeacherState(Venue_teacher venue_teacher);
 }

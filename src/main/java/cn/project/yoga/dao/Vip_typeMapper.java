@@ -14,6 +14,12 @@ public interface Vip_typeMapper {
 
     Vip_type selectByPrimaryKey(Integer vipTypeId);
 
+    /**
+     * 删除该场馆的对应vip类型
+     * 场馆-cjm
+     * @param record
+     * @return
+     */
     int updateByPrimaryKeySelective(Vip_type record);
 
     int updateByPrimaryKey(Vip_type record);

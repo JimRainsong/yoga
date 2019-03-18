@@ -52,6 +52,7 @@ public class VenueServiceImpl implements VenueService {
         List<Selstudent> students = selstudentMapper.selectStudentByvenueId(currentPage, pageSize, venueId);
 
 
+
         return students;
     }
 
@@ -89,8 +90,20 @@ public class VenueServiceImpl implements VenueService {
     }
 
     @Override
-    public List<Detail> selectMyfollowedVenByCurrentUserId2(Integer currentUserId) {
-        return venueMapper.selectMyFollowedVenByCurrentUserId(currentUserId);
+    public int deleteVipTypeDatas(Vip_type vip_type) {
+
+        return vip_typeMapper.updateByPrimaryKeySelective(vip_type);
+    }
+
+    @Override
+    public int insertVipTypeDatas(Vip_type vip_type) {
+        return vip_typeMapper.insertSelective(vip_type);
+    }
+
+    @Override
+    public int updataTeacherState(Venue_teacher venue_teacher) {
+
+        return venue_teacherMapper.updateByPrimaryKeySelective(venue_teacher);
     }
 
     @Override
@@ -124,8 +137,8 @@ public class VenueServiceImpl implements VenueService {
     }
 
     @Override
-    public List<Venue> shearch(String venname, String addrass, String phone, String qq) {
-        List<Venue> venues = venueMapper.shearch(venname, addrass, phone, qq);
+    public List<Venue> shearch(String venname, String addrass, String phone, String qq,Integer currentPage,Integer pageSize) {
+        List<Venue>  venues=venueMapper.shearch(venname,addrass,phone,qq,currentPage,pageSize);
         return venues;
     }
 

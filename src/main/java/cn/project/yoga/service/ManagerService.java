@@ -31,4 +31,8 @@ public interface ManagerService {
 
     /*分页查询所有学员信息*/
     public List<User_info> SelUser4(Integer currentPage,Integer pageSize );
+
+    /*
+     * 根据条件查找教练*/
+    public List<Teacher> shearch( String teachername, String teacherSex,String teacherPhone,String teacherQq,Integer currentPage,Integer pageSize);
 }

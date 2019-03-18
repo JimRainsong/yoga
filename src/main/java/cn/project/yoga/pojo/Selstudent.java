@@ -33,6 +33,16 @@ public class Selstudent {
 
     private Date registTime;
 
+    private String headImg;
+
+    public String getHeadImg() {
+        return headImg;
+    }
+
+    public void setHeadImg(String headImg) {
+        this.headImg = "<img src='"+headImg+"'  class=\"layui-nav-img\" >";
+    }
+
     public Integer getVenueId() {
         return venueId;
     }

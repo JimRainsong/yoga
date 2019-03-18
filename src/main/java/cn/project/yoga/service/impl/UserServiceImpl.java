@@ -177,6 +177,7 @@ public class UserServiceImpl implements UserService {
         return "上传成功";
     }
 
+
     @Override
     public List<User_info> SelUser4(int lim) {
         List<User_info> user_infos = user_infoMapper.SelUser4(lim);
@@ -195,9 +196,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<User_info> shearch(String netName, String realName, String phoneNumber, String qq) {
+    public List<User_info> shearch(String netName,String sex,String phoneNumber,String qq,Integer currentPage,Integer pageSize) {
 
-        return user_infoMapper.shearch(netName, realName, phoneNumber, qq);
+        return user_infoMapper.shearch(netName,sex,phoneNumber,qq,currentPage,pageSize);
     }
 
     @Override

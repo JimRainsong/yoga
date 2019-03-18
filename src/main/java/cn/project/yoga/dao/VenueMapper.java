@@ -3,6 +3,7 @@ package cn.project.yoga.dao;
 import cn.project.yoga.pojo.Detail;
 import cn.project.yoga.pojo.VenMoment;
 import cn.project.yoga.pojo.Venue;
+import cn.project.yoga.pojo.Vip_type;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
@@ -110,8 +111,8 @@ public interface VenueMapper {
             "and flag=0" +
             " </where>" +
             " </script>")
-    public List<Venue> shearch(@Param("venname") String venname, @Param("addrass") String addrass,
-                               @Param("phone") String phone, @Param("qq") String qq);
+    public List<Venue> shearch(@Param("venname") String venname,@Param("addrass") String addrass,
+                               @Param("phone") String phone,@Param("qq") String qq,Integer currentPage,Integer pageSize);
 
     /**
      * 用来查当前登录用户所关注的其他人

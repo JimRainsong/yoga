@@ -1,6 +1,7 @@
 package cn.project.yoga.controller;
 
 import cn.project.yoga.pojo.*;
+import cn.project.yoga.service.ManagerService;
 import cn.project.yoga.service.UserService;
 import cn.project.yoga.service.TeacherService;
 import cn.project.yoga.service.VenueService;
@@ -10,6 +11,7 @@ import cn.project.yoga.utils.RegexUtil;
 import cn.project.yoga.utils.ResultUtil;
 import cn.project.yoga.vo.LoginVo;
 import cn.project.yoga.vo.TeacherVo;
+import com.github.pagehelper.PageInfo;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.session.Session;
@@ -24,9 +26,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 
 @Controller
 @RequestMapping("/teacher")
@@ -37,6 +37,9 @@ public class TeacherController {
     private TeacherService teacherService;
     @Autowired
     private VenueService venueService;
+
+    @Autowired
+    private ManagerService managerService;
 
     @RequestMapping("/login")
     @ResponseBody
@@ -161,27 +164,12 @@ public class TeacherController {
         return modelAndView;
     }
 
-    @RequestMapping("showteachers")
-    @ResponseBody
-    public List<Teacher> ShowTea4(HttpServletRequest request) {
-        int page = Integer.parseInt(request.getParameter("page"));
-        int total = teacherService.SelCountTea4();
-        int totalpage = 0;
-        if (total / 4 != 0) {
-            totalpage = total / 4 + 1;
-        } else {
-            totalpage = total / 4;
-        }
-        int lim = page * 4 - 4;
-        List<Teacher> teachers = teacherService.showTea4(lim);
-        return teachers;
-    }
 
     @RequestMapping("/deltea")
     public String DelTea4(HttpServletRequest request) {
         int teacherId = Integer.parseInt(request.getParameter("teacherId"));
         int row = teacherService.DelTea4(teacherId);
-        return "manager/hsn/mteacher";
+        return "manager/hsn/teacher";
     }
 
     @RequestMapping("teaDetail")
@@ -202,6 +190,41 @@ public class TeacherController {
     @ResponseBody
     public ResultUtil postNewMoment2(String content) {
         return teacherService.postNewMoment2(content);
+    }
+
+    @RequestMapping("/teacherDatas")
+    @ResponseBody
+    public Map<String, Object> showteacherDatas(@RequestParam(value = "page",defaultValue = "1",required = false)Integer currentPage,
+                                                @RequestParam(value = "rows",defaultValue = "10",required = false)Integer pageSize) {
+        List<Teacher> list = teacherService.showTea4(currentPage,pageSize);
+        PageInfo pageInfo = new PageInfo(list);
+        Map<String,Object> result = new HashMap<String,Object>();
+        result.put("code",200);
+        result.put("msg","");
+        result.put("count",pageInfo.getTotal());
+        result.put("data",list);
+        return result;
+
+    }
+
+    @RequestMapping("/shearch")
+    @ResponseBody
+    public Map<String,Object> ShearchVenue4(@RequestParam(value = "page",defaultValue = "1",required = false)Integer currentPage,
+                                            @RequestParam(value = "rows",defaultValue = "10",required = false)Integer pageSize,HttpServletRequest request,HttpSession session){
+        String teacherName= (String) session.getAttribute("teacherName");
+        String teacherSex= (String) session.getAttribute("teacherSex");
+        String teacherPhone= (String) session.getAttribute("teacherPhone");
+        String teacherQq= (String) session.getAttribute("teacherQq");
+        System.out.println(teacherName);
+        List<Teacher>list=managerService.shearch(teacherName,teacherSex,teacherPhone,teacherQq,currentPage,pageSize);
+        System.out.println(list);
+        PageInfo pageInfo = new PageInfo(list);
+        Map<String,Object> result = new HashMap<String,Object>();
+        result.put("code",200);
+        result.put("msg","");
+        result.put("count",pageInfo.getTotal());
+        result.put("data",list);
+        return result;
     }
 }
 //暴风哭泣
