@@ -1,55 +1,44 @@
-.modal {
-	display: none;
-	position: absolute;
-	z-index: 100;
-}
-
-#wall {
-	position: absolute;
-	left: 0;
-	top: 0;
-	display: none;
-	width: 100%;
-	height: 100%;
-	background-color: black;
-	opacity: 0.6;
-	z-index: 99;
-}
-
-body{
-	background-color: #00FFFF;
-}
-
-.head1{
-	height: 200px;
-	width: 95%;
-	border: 2px red solid;
-}
-
-.message1{
-	border: 2px #555555 solid;
-	width: 95%;
-	margin-left: 2%;
-	margin-top: 20px;
-}
-
-.mes2{
-	border: 2px green solid;
-	width: 90%;
-	height: 300px;
-}
-
-.message2{
-	font-size: 30px;
-	border: 2px #555555 solid;
-	height: 200px;
-	width: 18%;
+div{
 	float: left;
-	margin-left: 1%;
+}
+body{
+	background-color: #01AAED;
+}
+.title1{
+	width: 94%;height: 200px;font-size: 100px;border: #0E2D5F 5px solid
+}
+
+.date1{
+	width: 94%;height: 200px;font-size: 100px;border: #0E2D5F 5px solid;
+	margin-top: 30px;
+}
+.title2{
+	width: 94%;height: 200px;font-size: 60px;border: #0E2D5F 5px solid;
+	margin-top: 50px;
+}
+#dogs{
+	width: 94%;height: 500px;font-size: 35px;border: #0E2D5F 5px solid;
+	margin-top: 50px;
+}
+
+.title3{margin-left: 5%;
+	height: 300px;
+	width: 90%;
+	border: 10px pink solid;
+	border-radius: 30px;
+}
+.message2{
+	width: 18%;
+	border: #0C0C0C solid 2px;
+	height: 200px;
+	font-size: 30px;
 
 }
 
-.button1{
-	width: 40%;
-	border: 2px red solid;
+.line{
+	height: 10px;
+	width: 70%;
+	background: -webkit-linear-gradient(left,rgba(255, 255, 255, 0),#5DDDD3,rgba(255,255,255,0));
+	background: linear-gradient(to right, rgba(255, 255, 255, 0),#5DDDD3,rgba(255,255,255,0));
+
 }

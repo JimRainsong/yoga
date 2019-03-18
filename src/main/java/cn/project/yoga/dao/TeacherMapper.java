@@ -1,5 +1,6 @@
 package cn.project.yoga.dao;
 
+import cn.project.yoga.pojo.TeaMoment;
 import cn.project.yoga.pojo.Teacher;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Param;
@@ -52,9 +53,7 @@ public interface TeacherMapper {
     @Select("select teacher_money from teacher where user_id=(select user_id from user where user_name=#{userName})")
     Double selectBalanceByTeacherName2(@Param("userName") String name);
 
-    //通过user表中的userId 查询出 teacher表中 的teacher_id （因为以后后面的所有表都关联的是这个teacher_id）
-    @Select("select teacher_id from teacher where user_id=#{0}")
-    Integer selTeacherIdByUserId2(Integer userId);
+
 
     /**
      * 所有教练的动态

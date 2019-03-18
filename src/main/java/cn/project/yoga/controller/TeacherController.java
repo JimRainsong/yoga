@@ -25,11 +25,10 @@ import org.springframework.web.servlet.ModelAndView;
 import sun.security.provider.MD5;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
-import java.util.List;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 
 @Controller
@@ -139,15 +138,37 @@ public class TeacherController {
 
     @RequestMapping("/allappointment")
     @ResponseBody
-    public List<Appointment> allmessages(){
+    public List<Appointment> allmessages(@RequestParam(value = "currentTime")String time){
         System.out.println("查询老师的课程");
+        System.out.println(time);
+        System.out.println(Attributes.currentTime);
+
+        Date date1 =null;
+        Date date2 = null;
+        try {
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            date1 = new Date(simpleDateFormat.parse(time).getTime());
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(date1);
+            calendar.add(Calendar.DAY_OF_MONTH, +1);
+             date2 = calendar.getTime();
+
+            System.out.println("***"+date1+date2);
+
+        }catch (Exception e){
+
+        }
+
+
 
     List<Appointment> list = new ArrayList<Appointment>();
     Session session=SecurityUtils.getSubject().getSession();
 
     Integer teacherId =(Integer)session.getAttribute(Attributes.currentTeacherId);
         System.out.println(teacherId);
-    list = teacherService.selappointmentbyTeacherId2(teacherId);
+        //老师的id  两个date 时间
+
+    list = teacherService.selappointmentbyTeacherId2(10,date1,date2);
     System.out.println(list);
     return  list;
 

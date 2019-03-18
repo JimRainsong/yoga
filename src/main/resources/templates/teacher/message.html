@@ -6,106 +6,132 @@
     <link rel="stylesheet" type="text/css" th:href="@{/css/teacher/message.css}">
     <script th:src="@{/js/jquery.min.js}"></script>
 
-    <style>
-        .line{
-            height: 10px;
-            width: 70%;
-            background: -webkit-linear-gradient(left,rgba(255, 255, 255, 0),#5DDDD3,rgba(255,255,255,0));
-            background: linear-gradient(to right, rgba(255, 255, 255, 0),#5DDDD3,rgba(255,255,255,0));
 
-        }
-
-    </style>
 </head>
 <body>
 
-<br>
-<br>
-<br>
 
-<div class="message001" style="width: 95%;height: 40%">
-    <h1>我的消息11</h1>
-    <h1>消息列表</h1>
-    <h1>我的消息11</h1>
+
+<div class="title1">
+    我的消息
+</div>
+日期
+<select id="select" onchange="sel()">
+</select>
+<div class="date1" id="datenow">
+
+
+</div>
+
+<div class="title2">
+    预约信息 预约人 时间 场馆 场馆状态
+</div>
+
+
+<div id="dogs">
+
+</div>
+
+
+
     <!--<a><img  align="middle" style="width: 95% " th:src="@{/img/cgx2.png}"/></a>-->
 
     <div class="line" style="margin-top: 20px"></div>
-</div>
+
+<div></div>
 
 
-<button onclick="openDialog('message','block')">QQQQQQ</button>
-         <div class="message1" id="dogs"></div>
 
-
-<div id="wall" class="modal"></div>
-
-<div id="message" class="modal">
-    <span id="word">这是一条测试内容</span><br><br>
-    <button onclick="openDialog('message','none')">知道了</button>
-</div>
 <script>
-    // 初始化各个模态框的位置，居中显示
-    $(function () {
-        var modals = $(".modal");
-        for (var i = 0; i < modals.length; i++) {
-            var thisWidth = modals.eq(i).css("width");
-            var thisHeight = modals.eq(i).css("height");
-            var useWidth = thisWidth.substr(0, thisWidth.length - 2);
-            var userHeight = thisHeight.substr(0, thisHeight.length - 2);
-            var topDistance = (windowHeight - userHeight) / 2 - 50;
-            var leftDinstance = (windowWidth - useWidth) / 2;
-            modals.eq(i).css("margin", topDistance + "px " + leftDinstance + "px");
-        }
-    })
 
-    function openDialog(id, state) {
-        $("#" + id).css("display", state);
-        $("#wall").css("display", state);
+    function CurentTime(count)
+    {
+        var now = new Date();
+        now.setDate(now.getDate()+count);
+        var year = now.getFullYear();       //年
+        var month = now.getMonth()+1;    //月
+        var day = now.getDate();            //日
+
+        var clock = year + "-";
+
+        if(month < 10)
+            clock += "0";
+
+        clock += month + "-";
+
+        if(day < 10)
+            clock += "0";
+
+        clock += day + " ";
+
+
+
+        return(clock);
     }
 
 
+    $("#datenow").html(CurentTime(1));
+    var  aa ="bbb"
+    $("#select").append("<option id='o1'  value="+CurentTime(0)+">aa</option>");   //为Select追加一个Option(下拉项)
+    $("#select").append("<option id='o2'  value="+CurentTime(1)+"></option>");   //为Select追加一个Option(下拉项)
+    $("#select").append("<option id='o3'  value="+CurentTime(2)+"></option>");   //为Select追加一个Option(下拉项)
 
-    $.ajax({
-        url: "/yoga/teacher/allappointment",
-        type: "post",
-        async: false,
-        data: {},
-        dataType: "json",
-        success: function (list) {
+    $("#o1").html(CurentTime(0));
+    $("#o2").html(CurentTime(1));
+    $("#o3").html(CurentTime(2));
 
+    // 默认执行以下初始的ajax
+    sel()
+   function sel() {
 
-            for( var i=0; i< list.length;i++) {
-                var b = list[i];
-                var  c = "";
-                if (b.state==1){
-                    c="未审核"
-                }else if (b.state==0){
-                    c="已通过"
-                }else if (b.state==2){
-                    c="已拒绝"
-                }
+       $.ajax({
+           url: "/yoga/teacher/allappointment",
+           type: "post",
+           async: false,
+           data: {"currentTime": $("#select").val()},
+           dataType: "json",
+           success: function (list) {
 
-                var content =  "<div class=\"mes2\" id="+b.cId+">"+
-                    "<div class=\"message2\">"+b.uName+"</div>"+
-                    "<div class=\"message2\">"+b.uName+"</div>"+
-                    "<div class=\"message2\">"+b.startTime+b.endTime+"</div>"+
-                    "<div class=\"message2\">"+b.vAddress+"</div>"+
-                    "<div class=\"message2\">"+c+"</div>"+
-                    "<div class='line' style='margin-top: 20px'></div>"+
-                        "<input type='button' value='接受' onclick='alert("+b.cId+")'>"+
-                        "<input type='button' value='拒绝'>"+
-                    "</div>";
-                $("#dogs").append(content);
-            }
-        }
-    })
-    
+               var  content = null;
+               for (var i = 0; i < list.length; i++) {
+                   var b = list[i];
+                   var c = "";
+                   if (b.state == 1) {
+                       c = "未审核"
+                   } else if (b.state == 0) {
+                       c = "已通过"
+                   } else if (b.state == 2) {
+                       c = "已拒绝"
+                   }
+
+                    content += "<div class=\"title3\" id=" + b.cId + ">" +
+                       "<div class=\"message2\">" + b.uName + "</div>" +
+                       "<div class=\"message2\">" + b.uName + "</div>" +
+                       "<div class=\"message2\">" + b.startTime + b.endTime + "</div>" +
+                       "<div class=\"message2\">" + b.vAddress + "</div>" +
+                       "<div class=\"message2\">" + c + "</div>" +
+                       "<div class='line' style='margin-top: 20px'></div>" +
+                       "<input type='button' value='接受' onclick='alert(" + b.cId + ")'>" +
+                       "<input type='button' value='拒绝'>" +
+                       "</div>";
+
+               }
+
+               $("#dogs").html(content);
+           }
+       })
+
+   }
+
     function accept() {
-        
+
     }
     function refuse() {
-        
+
     }
+
+
+
 
 
 </script>

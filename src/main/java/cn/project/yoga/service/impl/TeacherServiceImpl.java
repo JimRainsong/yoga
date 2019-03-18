@@ -10,6 +10,7 @@ import cn.project.yoga.service.TeacherService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -58,21 +59,12 @@ public class TeacherServiceImpl implements TeacherService {
         return teacherMapper.selectTeacherNameByTeacherId2(teacherId);
     }
 
-    @Override
-    public Integer selUserIdByUsername2(String userName) {
-        return userMapper.selUserIdByUserName(userName);
-    }
-
-    @Override
-    public Integer selTeacherIdByUserId2(Integer userId) {
-        return teacherMapper.selTeacherIdByUserId2(userId);
-    }
 
 
     //查看所有  当前老师id 的 appointment  预约信息
     @Override
-    public List<Appointment> selappointmentbyTeacherId2(Integer teacherId) {
-        return appointmentMapper.selappointmentbyteacherId2(teacherId);
+    public List<Appointment> selappointmentbyTeacherId2(Integer teacherId, Date date1, Date date2) {
+        return appointmentMapper.selappointmentbyteacherId2(teacherId,date1,date2);
     }
 
 
