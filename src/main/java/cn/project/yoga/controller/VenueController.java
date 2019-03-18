@@ -1,4 +1,5 @@
 package cn.project.yoga.controller;
+
 import cn.project.yoga.pojo.*;
 import cn.project.yoga.service.VenueService;
 import cn.project.yoga.utils.Attributes;
@@ -12,11 +13,9 @@ import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+
+
+import java.util.*;
 
 @Controller
 @RequestMapping("/venueDate")
@@ -27,60 +26,66 @@ public class VenueController {
     /*
      *场馆测试
      */
-    @RequestMapping("/updata")
-    @ResponseBody
-    public LayUiDataUtil updata(Venue venue) {
+
+    @RequestMapping("/uploadVenueDatas")
+    public LayUiDataUtil updata(@RequestBody Venue venue) {
         System.out.println(venue.getVenueName());
         System.out.println(venue.getVenueAddress());
-        LayUiDataUtil layUiDataUtil = new LayUiDataUtil();
-        layUiDataUtil.setData(venue);
-        return layUiDataUtil;
+        return LayUiDataUtil.ok(venue);
     }
-    /**
-    *所有学员展示
-    * 分页
-    * 场馆-陈家明
-    */
-    @RequestMapping("/studentDatas")
-    @ResponseBody
-    public Map<String, Object> getStudentDatas(@RequestParam(value = "page",defaultValue = "1",required = false)Integer currentPage,
-                                               @RequestParam(value = "rows",defaultValue = "10",required = false)Integer pageSize) {
-        Subject subject = SecurityUtils.getSubject();
-        Session session = subject.getSession();
-        Venue venue = (Venue) session.getAttribute(Attributes.CURRENT_USER);
-        System.out.println("5555556666"+venue.getVenueId());
-        List<Selstudent> list = venueService.findStudents(1,10,1);
-        PageInfo pageInfo = new PageInfo(list);
-        Map<String, Object> result = new HashMap<String, Object>();
-        result.put("code", 200);
-        result.put("msg", "");
-        result.put("count", pageInfo.getTotal());
-        result.put("data", list);
-        System.out.println(list.get(0).getNetName());
-        return result;
-    }
-    /**
+        /*
+         *所有学员展示
+         * 分页
+         * 场馆-陈家明
+         */
+        @RequestMapping("/studentDatas")
+        @ResponseBody
+        public Map<String, Object> getStudentDatas(@RequestParam(value = "page",defaultValue = "1",required = false)Integer currentPage,
+                @RequestParam(value = "rows",defaultValue = "10",required = false)Integer pageSize) {
+            Subject subject = SecurityUtils.getSubject();
+            Session session = subject.getSession();
+             Venue venue = (Venue) session.getAttribute(Attributes.CURRENT_USER);
+             List<Selstudent> list = venueService.findStudents(1,10,venue.getVenueId());
+            PageInfo pageInfo = new PageInfo(list);
+            Map<String,Object> result = new HashMap<String,Object>();
+            result.put("code",200);
+            result.put("msg","");
+            result.put("count",pageInfo.getTotal());
+            result.put("data",list);
+//        result.put("rows",list);
+//        result.put("total",pageInfo.getTotal());
+            System.out.println(list.get(0).getNetName());
+            return result;
+        }
+
+
+
+
+
+
+
+
+
+    /*
      *所有教练展示
      * 分页
      * 场馆-cy
      */
     @RequestMapping("/teacherDatas")
     @ResponseBody
-    public Map<String, Object> getTeacherData(@RequestParam(value = "vid")Integer vid,
-                                              @RequestParam(value = "teype")Integer teype,
+    public Map<String, Object> getTeacherData(@RequestParam(value = "teype")Integer teype,
                                               @RequestParam(value = "page",defaultValue = "1",required = false)Integer currentPage,
                                               @RequestParam(value = "rows",defaultValue = "2",required = false)Integer pageSize,
                                               @RequestParam(value = "teacherName")String teacherName,
                                               @RequestParam(value = "teacherSex")String teacherSex) {
-//        Subject subject = SecurityUtils.getSubject();
-//        Session session = subject.getSession();
-//        Venue venue = (Venue) session.getAttribute(Attributes.CURRENT_USER);
+        Subject subject = SecurityUtils.getSubject();
+        Session session = subject.getSession();
+        Venue venue = (Venue) session.getAttribute(Attributes.CURRENT_USER);
         TeacherTypeVo teacherTypeVo=new TeacherTypeVo();
         Teacher teacher=new Teacher();
         teacher.setTeacherName(teacherName);
         teacher.setTeacherSex(teacherSex);
-        System.out.println(vid+"=="+teype);
-        teacherTypeVo.setVid(vid);
+        teacherTypeVo.setVid(venue.getVenueId());
         teacherTypeVo.setTeype(teype);
         List<Venue_teacher> list = (List<Venue_teacher>) venueService.findTeachers(currentPage,pageSize,teacherTypeVo,teacher);
         PageInfo pageInfo = new PageInfo(list);
@@ -100,10 +105,10 @@ public class VenueController {
     @ResponseBody
     public Map<String, Object> showVipType(@RequestParam(value = "page",defaultValue = "1",required = false)Integer currentPage,
                                        @RequestParam(value = "rows",defaultValue = "10",required = false)Integer pageSize) {
-//        Subject subject = SecurityUtils.getSubject();
-//        Session session = subject.getSession();
-//        Venue venue = (Venue) session.getAttribute(Attributes.CURRENT_USER);
-        List<Vip_type> list = venueService.selShowVipType(currentPage,pageSize,1);
+        Subject subject = SecurityUtils.getSubject();
+        Session session = subject.getSession();
+        Venue venue = (Venue) session.getAttribute(Attributes.CURRENT_USER);
+        List<Vip_type> list = venueService.selShowVipType(currentPage,pageSize,venue.getVenueId());
         PageInfo pageInfo = new PageInfo(list);
         Map<String,Object> result = new HashMap<String,Object>();
         result.put("code",200);
@@ -112,7 +117,7 @@ public class VenueController {
         result.put("data",list);
         return result;
     }
-    /**
+    /*
      *展示所有关注该场馆的用户
      * 场馆-cjm
      */
@@ -120,10 +125,34 @@ public class VenueController {
     @ResponseBody
     public Map<String, Object> showattentionDatas(@RequestParam(value = "page",defaultValue = "1",required = false)Integer currentPage,
                                                   @RequestParam(value = "rows",defaultValue = "10",required = false)Integer pageSize) {
-//        Subject subject = SecurityUtils.getSubject();
-//        Session session = subject.getSession();
-//        Venue venue = (Venue) session.getAttribute(Attributes.CURRENT_USER);
-        List<User_info> list = venueService.selShowattention(currentPage,pageSize,1);
+        Subject subject = SecurityUtils.getSubject();
+        Session session = subject.getSession();
+        Venue venue = (Venue) session.getAttribute(Attributes.CURRENT_USER);
+        List<User_info> list = venueService.selShowattention(currentPage,pageSize,venue.getVenueId());
+        PageInfo pageInfo = new PageInfo(list);
+        Map<String,Object> result = new HashMap<String,Object>();
+        result.put("code",200);
+        result.put("msg","");
+        result.put("count",pageInfo.getTotal());
+        result.put("data",list);
+        return result;
+    }
+    /**课程
+     *@RequestMapping("/courseDatas")
+     *@ResponseBody
+     */
+    public Map<String, Object> showCourse(@RequestParam(value = "page",defaultValue = "1",required = false)Integer currentPage,
+                                          @RequestParam(value = "rows",defaultValue = "10",required = false)Integer pageSize,
+                                          @RequestParam(value = "vid")Integer venueId,
+                                          @RequestParam(value = "tname")String teacherName,
+                                          @RequestParam(value = "cname")String cname,
+                                          @RequestParam(value = "maxtime")Date maxtime,
+                                          @RequestParam(value = "mintime")Date mintime
+                                          ) {
+        List<Course> list =null;
+        CourseVo courseVo=new CourseVo(venueId,teacherName,cname,maxtime,mintime);
+        list = venueService.selCourse(currentPage,pageSize,courseVo);
+        System.out.println(list);
         PageInfo pageInfo = new PageInfo(list);
         Map<String,Object> result = new HashMap<String,Object>();
         result.put("code",200);
@@ -133,28 +162,6 @@ public class VenueController {
         return result;
     }
 
-    @RequestMapping("/courseDatas")
-    @ResponseBody
-    public Map<String, Object> showCourse(@RequestParam(value = "page", defaultValue = "1", required = false) Integer currentPage,
-                                          @RequestParam(value = "rows", defaultValue = "10", required = false) Integer pageSize,
-                                          @RequestParam(value = "vid") Integer venueId,
-                                          @RequestParam(value = "tname") String teacherName,
-                                          @RequestParam(value = "cname") String cname,
-                                          @RequestParam(value = "maxtime") Date maxtime,
-                                          @RequestParam(value = "mintime") Date mintime
-    ) {
-        List<Course> list = null;
-        CourseVo courseVo = new CourseVo(venueId, teacherName, cname, maxtime, mintime);
-        list = venueService.selCourse(currentPage, pageSize, courseVo);
-        System.out.println(list);
-        PageInfo pageInfo = new PageInfo(list);
-        Map<String, Object> result = new HashMap<String, Object>();
-        result.put("code", 200);
-        result.put("msg", "");
-        result.put("count", pageInfo.getTotal());
-        result.put("data", list);
-        return result;
-    }
     /*
      *添加广告
      * 场馆-cjm
@@ -163,14 +170,14 @@ public class VenueController {
     @ResponseBody
     public LayUiDataUtil uploadAds(@RequestBody Ad ad) {
         System.out.println(ad);
-        if (venueService.findAdByName(ad.getAdTitle())) {
+        if (venueService.findAdByName(ad.getAdTitle())){
             return LayUiDataUtil.error("此标题已存在，如果想继续添加请与管理员联系");
         }
-        if (venueService.venueUploadAds(ad) > 0) {
-            return LayUiDataUtil.ok("广告添加成功");
+        if (venueService.venueUploadAds(ad)>0){
+             return LayUiDataUtil.ok("广告添加成功");
         }
         return LayUiDataUtil.error("广告添加失败");
-    }
+     }
 
     /**
      * 随机数
@@ -198,19 +205,40 @@ public class VenueController {
         return result;
 
     }
+/*
+ * 展示该场馆信息通过场馆id
+ * 场馆-cy
+ */
+    @RequestMapping("/VenueData")
+    @ResponseBody
+    public LayUiDataUtil showVenueData( ) {
+        Subject subject = SecurityUtils.getSubject();
+        Session session = subject.getSession();
+        Venue venues = (Venue) session.getAttribute(Attributes.CURRENT_USER);
+        Venue venue = venueService.SelVenById4(venues.getVenueId());
+       if (venue!=null){
+           return  LayUiDataUtil.ok(venue);
+       }
+        return LayUiDataUtil.error(null);
+    }
 
-
+    /**
+     * 删除会员卡类型
+     * 场馆-cjm
+     * @param vipTypeId
+     * @return
+     */
     @RequestMapping("/deleteVipTypeDatas")
     @ResponseBody
     public LayUiDataUtil deleteVipTypeDatas(@RequestParam() Integer vipTypeId) {
         if (vipTypeId == null) {
             return LayUiDataUtil.error("删除失败，请选择要删除的类型");
         }
-//        Subject subject = SecurityUtils.getSubject();
-//        Session session = subject.getSession();
-//        Venue venue = (Venue) session.getAttribute(Attributes.CURRENT_USER);
+        Subject subject = SecurityUtils.getSubject();
+        Session session = subject.getSession();
+        Venue venue = (Venue) session.getAttribute(Attributes.CURRENT_USER);
         Vip_type vip_type = new Vip_type();
-        vip_type.setVenueId(1);
+        vip_type.setVenueId(venue.getVenueId());
         vip_type.setVipTypeId(vipTypeId);
         int result = venueService.deleteVipTypeDatas(vip_type);
         if (result != 0 & result == 1) {
@@ -225,14 +253,34 @@ public class VenueController {
         if (vip_type == null) {
             return LayUiDataUtil.error("添加失败，请输入要添加的会员卡信息");
         }
-//        Subject subject = SecurityUtils.getSubject();
-//        Session session = subject.getSession();
-//        Venue venue = (Venue) session.getAttribute(Attributes.CURRENT_USER);
-        vip_type.setVenueId(1);
+        Subject subject = SecurityUtils.getSubject();
+        Session session = subject.getSession();
+        Venue venue = (Venue) session.getAttribute(Attributes.CURRENT_USER);
+        vip_type.setVenueId(venue.getVenueId());
         int result = venueService.insertVipTypeDatas(vip_type);
         if (result != 0 & result == 1) {
             return LayUiDataUtil.ok("添加成功");
         }
         return LayUiDataUtil.error("添加失败");
+    }
+
+    /**
+     * 审核教练
+     * 场馆—cjm
+     * @param
+     * @return
+     */
+    @RequestMapping("/translateTeacher")
+    @ResponseBody
+    public LayUiDataUtil translateTeacher(Venue_teacher venue_teacher) {
+        Subject subject = SecurityUtils.getSubject();
+       Session session = subject.getSession();
+      Venue venue = (Venue) session.getAttribute(Attributes.CURRENT_USER);
+        venue_teacher.setVenueId(venue.getVenueId());
+        int result=venueService.updataTeacherState(venue_teacher);
+        if (result!=1){
+            return LayUiDataUtil.error("审核失败");
+        }
+        return LayUiDataUtil.ok("审核成功");
     }
 }

@@ -16,5 +16,10 @@ public class VenueViewController {
         return "venue/myteacher";
     }
 
+    @RequestMapping("/VenueInFo")
+    public String venueInFo() {
+        return "venue/VenueInFo";
+    }
+
 
 }

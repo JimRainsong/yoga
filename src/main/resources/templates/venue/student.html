@@ -18,9 +18,6 @@
     </div>
 </script>
 
-
-<script th:src="@{/yoga/layui/layui.js}" charset="utf-8"></script>
-
 <script th:inline="javascript">
     layui.use('table', function(){
         var table = layui.table;
@@ -48,6 +45,7 @@
                 ,{field:'cardName', width:150, title: '会员卡名称', sort: true}
                 ,{field:'useDate', width:150, title: '有效期', sort: true}
                 ,{field:'registTime', width:150, title: '注册时间', sort: true}
+                ,{field:'headImg', width:150, title: '头像', sort: true}
                 ]
             ]
 
