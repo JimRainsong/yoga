@@ -94,4 +94,27 @@ public interface VenueService {
 
     boolean findAdByName(String adTitle);
 
+    /**
+     * 删除该场馆的对应vip类型
+     * 场馆-cjm
+     * @param vip_type
+     * @return
+     */
+    int deleteVipTypeDatas(Vip_type vip_type);
+
+    /**
+     * 添加该场馆的vip类型
+     * 场馆-cjm
+     * @param vip_type
+     * @return
+     */
+    int insertVipTypeDatas(Vip_type vip_type);
+
+    /**
+     * 审核场馆教练
+     * 场馆-cjm
+     * @param venue_teacher
+     * @return
+     */
+    int updataTeacherState(Venue_teacher venue_teacher);
 }

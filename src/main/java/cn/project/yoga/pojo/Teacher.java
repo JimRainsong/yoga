@@ -29,6 +29,16 @@ public class Teacher {
 
     private Integer flag;
 
+    private String HTMLimg;
+
+    public String getHTMLimg() {
+        return HTMLimg;
+    }
+
+    public void setHTMLimg(String HTMLimg) {
+        this.HTMLimg = "<img src='"+HTMLimg+"' class=\"layui-nav-img\">";
+    }
+
     public Integer getTeacherId() {
         return teacherId;
     }
@@ -107,6 +117,7 @@ public class Teacher {
 
     public void setTeacherImg(String teacherImg) {
         this.teacherImg = teacherImg;
+        setHTMLimg(teacherImg);
     }
 
     public String getTeacherSex() {

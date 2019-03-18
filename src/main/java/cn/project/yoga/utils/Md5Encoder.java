@@ -11,6 +11,6 @@ public class Md5Encoder {
     }
 
     public static void main(String[] args) {
-        System.out.println(new Md5Hash("zjn666","zjn666",2).toString());
+        System.out.println(new Md5Hash("123","test",2).toString());
     }
 }
