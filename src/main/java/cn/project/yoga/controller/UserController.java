@@ -257,8 +257,17 @@ public class UserController {
     @RequestMapping("/userDatas")
     @ResponseBody
     public Map<String, Object> showuserDatas4(@RequestParam(value = "page",defaultValue = "1",required = false)Integer currentPage,
-                                                @RequestParam(value = "rows",defaultValue = "10",required = false)Integer pageSize) {
+                                                @RequestParam(value = "rows",defaultValue = "10",required = false)Integer pageSize,HttpServletRequest request) {
         List<User_info> list = managerService.SelUser4(currentPage,pageSize);
+        String data="123";
+         data=request.getParameter("data");
+        if (data.equals("seracher") && data!=null && data!=""){
+            String netName=request.getParameter("netName");
+            String sex=request.getParameter("sex");
+            String qq=request.getParameter("qq");
+            String phoneNumber=request.getParameter("phoneNumber");
+            list=userService.shearch(netName,sex,phoneNumber,qq);
+        }
         PageInfo pageInfo = new PageInfo(list);
         Map<String,Object> result = new HashMap<String,Object>();
         result.put("code",200);

@@ -138,11 +138,12 @@
 
     function shearch() {
         $.ajax({
-            url: "/yoga/user/shearch",
+            url: "/yoga/user/userDatas",
             type: "post",
             async: true,
             dataType: "json",
             data: {
+                data:"seracher",
                 netName: $("#netName").val(),
                 sex: $("#sex").val(),
                 phoneNumber: $("#phoneNumber").val(),
