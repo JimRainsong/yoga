@@ -6,21 +6,28 @@
     <link rel="stylesheet" type="text/css" href="../../static/css/teacher/page2.css"
           th:href="@{/css/teacher/page2.css}">
     <script th:src="@{/js/jquery.min.js}" src="../../static/js/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="../../static/css/fzwmodal.css"
+          th:href="@{/css/fzwmodal.css}">
+    <script th:src="@{/js/fzwmodal.js}" src="../../static/js/fzwmodal.js"></script>
 </head>
 <body>
-<!--<shiro:guest>-->
-<!--<div class="logout">请<a th:href="@{/teacher/registerPage}">注册</a>或者<a th:href="@{/teacher/loginPage}">登陆</a></div>-->
-<!--</shiro:guest>-->
 <shiro:authenticated>
     <header class="white_area">
-        <div id="head_img" style="width: 24%">
-            <img src="../../static/img/head_imgs/dddsx.jpg" th:src="@{/img/head_imgs/dddsx.jpg}"/>
+        <div id="head_img" style="width: 24%" onclick="openBigHeadImg('block')">
+            <span th:if="${info.img ne null}">
+                <img src="../../static/img/head_imgs/dddsx.jpg" th:src="${info.img}"/>
+            </span>
+            <span th:if="${info.img eq null}">
+                <img src="../../static/img/head_imgs/dddsx.jpg" th:src="@{/img/head_imgs/default.png}"/>
+            </span>
         </div>
         <div id="name" style="width: 75%">
-            <p th:text="${teacherName}" id="teacher_name">带带大师兄</p>
-            <p>iYoga用户名:<span th:text=" ${userName}">nmsl2333333</span></p>
-            <input type="hidden" th:value="${teacherId}" id="teacherId">
-            <input type="hidden" th:value="${userId}" id="userId">
+            <!--<p th:text="${info.netName}" id="teacher_name">带带大师兄</p>-->
+            <p class="teacher_name" th:if="${info.netName} ne null">[[${info.netName}]]</p>
+            <p class="teacher_name" th:if="${info.netName} eq null">带带大师兄</p>
+            <p>iYoga用户名&nbsp;:&nbsp;<span th:text="${info.userName}">nmsl2333333</span></p>
+            <input type="hidden" th:value="${info.tId}" id="teacherId">
+            <input type="hidden" th:value="${info.uId}" id="userId">
         </div>
     </header>
     <div id="my_wallet" class="white_area" onclick="openPage('wallet')">
@@ -28,17 +35,13 @@
         <span class="words">我的钱包</span>
     </div>
     <div class="white_area" id="manager">
-        <div class="single_manager">
-            <img class="logos" src="../../static/img/logos/talk.png" th:src="@{/img/logos/talk.png}">
-            <span class="words">私教邀请</span>
-        </div>
         <div class="separate_line"></div>
-        <div class="single_manager">
+        <div class="single_manager" onclick="openPage('venue')">
             <img class="logos" src="../../static/img/logos/arm.png" th:src="@{/img/logos/arm.png}">
             <span class="words">我的场馆</span>
         </div>
         <div class="separate_line"></div>
-        <div class="single_manager">
+        <div class="single_manager" onclick="openPage('teacherInfo')">
             <img class="logos" src="../../static/img/logos/tool.png" th:src="@{/img/logos/tool.png}">
             <span class="words">个人资料</span>
         </div>
@@ -48,61 +51,36 @@
             <span class="words">我的关注</span>
         </div>
     </div>
-    <div id="quit" onclick="openFooterConfirmPage()" class="white_area">
+    <div id="quit" onclick="logout()" class="white_area">
         <img class="logos" src="../../static/img/logos/exit.png" th:src="@{/img/logos/exit.png}">
         <span class="words">注销</span>
     </div>
+
+    <!-- 头像更换窗口 -->
+    <div id="big_head_img">
+        <input type="file" id="upload_file" onchange="refreshBigImg(this)">
+        <span th:if="${info.img ne null}">
+        <img id="current_img" src="../../static/img/head_imgs/dddsx.jpg" th:src="${info.img}"/>
+        </span>
+        <span th:if="${info.img eq null}">
+        <img src="../../static/img/head_imgs/dddsx.jpg" th:src="@{/img/head_imgs/default.png}"/>
+        </span>
+        <br>
+        <button id="select_head_img">选择文件</button>
+        <button id="submit_head_img" onclick="uploadHeadImg()">更换头像</button>
+    </div>
 </shiro:authenticated>
 
+<div id="this_pages_block"></div>
+
+<!--模态框组件-->
+<div id="block" class="modal"></div>
+<div id="dialog" class="modal">
+    <div id="dialog_message"></div>
+    <button onclick="turnTo()">确认</button>
+</div>
+<!-- !! -->
 <script>
-    // 视窗可见区域的宽和高
-    var windowHeight = document.documentElement.clientHeight;
-    var windowWidth = document.documentElement.clientWidth;
-    // 初始化各个模态框的位置，居中显示
-    $(function () {
-        var modals = $(".modal");
-        for (var i = 0; i < modals.length; i++) {
-            var thisWidth = modals.eq(i).css("width");
-            var thisHeight = modals.eq(i).css("height");
-            var useWidth = thisWidth.substr(0, thisWidth.length - 2);
-            var userHeight = thisHeight.substr(0, thisHeight.length - 2);
-            var topDistance = (windowHeight - userHeight) / 2 - 50;
-            var leftDinstance = (windowWidth - useWidth) / 2;
-            modals.eq(i).css("margin", topDistance + "px " + leftDinstance + "px");
-        }
-    })
-
-    function openDialog(id, state) {
-        $("#" + id).css("display", state);
-        $("#wall").css("display", state);
-    }
-
-    function login() {
-        var username = $("#username").val();
-        var password = $("#password").val();
-        $.ajax({
-            url: "/yoga/teacher/login",
-            type: "post",
-            data: {
-                "userName": username,
-                "password": password
-            },
-            dataType: "json",
-            success: function (mes) {
-                if (mes.code == 0) {
-                    window.location.reload();
-                } else {
-                    showMessage(mes.message);
-                }
-            }
-        })
-    }
-
-    function showMessage(word) {
-        $("#word").html(word);
-        openDialog("message", "block");
-    }
-
     //注销
     function logout() {
         $.ajax({
@@ -118,8 +96,46 @@
         window.location.href = "/yoga/teacher/" + name;
     }
 
-    function openFooterConfirmPage() {
+    function openBigHeadImg(state) {
+        $("#big_head_img").css("display", state);
+        $("#this_pages_block").css("display", state);
+    }
 
+    $("#this_pages_block").click(function () {
+        openBigHeadImg("none");
+    });
+    $("#select_head_img").click(function () {
+        $("#upload_file").click();
+    });
+
+    function uploadHeadImg() {
+        var upload_file = new FormData();
+        var img = $("#upload_file")[0].files[0];
+        upload_file.append("file", img);
+        $.ajax({
+            cache: false,
+            url: "/yoga/teacher/uploadHeadImg",
+            type: "post",
+            async: false,
+            mimeType: "multipart/form-data",
+            processData: false,
+            contentType: false,
+            data: upload_file,
+            dataType: "json",
+            success: function (mes) {
+                openDialog(mes.message, "", false);
+            }
+        })
+    }
+
+    // 选择文件后即使刷新到前端
+    function refreshBigImg(file) {
+        var read = new FileReader();// 创建FileReader对像;
+        read.readAsDataURL(file.files[0]);// 调用readAsDataURL方法读取文件;
+        read.onload = function () {
+            url = read.result // 拿到读取结果;
+            $("#current_img").attr("src", url);
+        };
     }
 </script>
 </body>

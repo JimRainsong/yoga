@@ -53,9 +53,8 @@
         </div>
         <div class="layui-form-item">
             <div class="layui-input-block">
-                <button  onclick="login()">登录</button>
-                <button  id="regi">注册</button>
-
+                <button class="layui-btn"  onclick="login()">登录</button>
+                <button class="layui-btn"  id="regi">注册</button>
             </div>
         </div>
 
@@ -87,19 +86,13 @@
              },
              dataType : "json",
              success : function(data) {
-                 alert(data.message);
+                 alert(data.msg);
                  location.href="/yoga/venueUser/venueIndex";
-                 // var json = eval('('+data+')');
-                 // if(json.code == 0){
-                 //
-                 // }else{
-                 //     $.messager.alert('系统提示',json.message);
-                 // }
-             }
-
-
+          }
          })
     }
+
+
 </script>
 
 </body>

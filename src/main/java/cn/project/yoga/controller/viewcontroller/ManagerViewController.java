@@ -28,7 +28,6 @@ public class ManagerViewController {
 
     @RequestMapping("/tvenue")
     public String Tvenue(){
-
         return "manager/hsn/Mvenue";
     }
 
@@ -38,4 +37,12 @@ public class ManagerViewController {
         return "manager/hsn/vendetail";
     }
 
+    @RequestMapping("/sell")
+    public  String sell(){return "manager/sellgoods";}
+
+    @RequestMapping("/getad")
+    public  String getad(){return "manager/sellgoods";}
+
+    @RequestMapping("/goodsadmin")
+    public  String goodsadmin(){return "manager/goodsoperation";}
 }

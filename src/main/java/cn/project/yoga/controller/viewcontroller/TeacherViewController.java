@@ -1,5 +1,7 @@
 package cn.project.yoga.controller.viewcontroller;
 
+import cn.project.yoga.pojo.TeacherInfo;
+import cn.project.yoga.pojo.Venue;
 import cn.project.yoga.service.TeacherService;
 import cn.project.yoga.utils.Attributes;
 import org.apache.shiro.SecurityUtils;
@@ -33,13 +35,11 @@ public class TeacherViewController {
         Subject subject = SecurityUtils.getSubject();
         if (subject.isAuthenticated()) {
             Session session = subject.getSession();
-            modelAndView.addObject("teacherId", session.getAttribute(Attributes.currentTeacherId));
-            modelAndView.addObject("userId", session.getAttribute(Attributes.currentUserId));
-            modelAndView.addObject("userName", session.getAttribute(Attributes.currentUserName));
-            modelAndView.addObject("teacherName", teacherService.selectTeacherNameByTeacherId2((Integer) session.getAttribute(Attributes.currentTeacherId)));
+            TeacherInfo info = (TeacherInfo) session.getAttribute(Attributes.CURRENT_USER);
+            modelAndView.addObject("info", info);
             modelAndView.setViewName("teacher/page2");
         } else {
-            modelAndView.setViewName("teacher/register");
+            modelAndView.setViewName("teacher/login");
         }
         return modelAndView;
     }
@@ -52,6 +52,34 @@ public class TeacherViewController {
     @RequestMapping("/postPage")
     public String postPage() {
         return "teacher/post";
+    }
+
+    @RequestMapping("/teacherInfo")
+    public ModelAndView teacherInfo() {
+        ModelAndView modelAndView = new ModelAndView();
+        TeacherInfo info = (TeacherInfo) SecurityUtils.getSubject().getSession().getAttribute(Attributes.CURRENT_USER);
+        if (info == null) {
+            modelAndView.setViewName("teacher/register");
+        } else {
+            modelAndView.setViewName("teacher/teacherInfo");
+            modelAndView.addObject("info", info);
+        }
+        return modelAndView;
+    }
+
+    @RequestMapping("/venue")
+    public ModelAndView venuePage2() {
+        ModelAndView modelAndView = new ModelAndView();
+        Session session = SecurityUtils.getSubject().getSession();
+        TeacherInfo currentUser = (TeacherInfo) (session.getAttribute(Attributes.CURRENT_USER));
+        if (currentUser == null) {
+            modelAndView.setViewName("teacher/register");
+        } else {
+            Venue venue = teacherService.selectMyVenueByCurrentUserId2(currentUser.gettId());
+            modelAndView.setViewName("teacher/venue");
+            modelAndView.addObject("venue", venue);
+        }
+        return modelAndView;
     }
 
     /**
@@ -71,14 +99,14 @@ public class TeacherViewController {
 //    }
 
     @RequestMapping("/mteacher")
-    public String Mteacher4(){
+    public String Mteacher4() {
         return "manager/hsn/mteacher";
     }
 
     @RequestMapping("/teadetail")
-    public String TeaDetail4(HttpServletRequest request, HttpSession session){
-        int teacherId=Integer.parseInt(request.getParameter("teacherId"));
-        session.setAttribute("teacherId",teacherId);
+    public String TeaDetail4(HttpServletRequest request, HttpSession session) {
+        int teacherId = Integer.parseInt(request.getParameter("teacherId"));
+        session.setAttribute("teacherId", teacherId);
         return "manager/hsn/mdetail";
     }
 

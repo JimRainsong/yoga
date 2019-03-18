@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" type="text/css" href="../../static/css/teacher/venue.css"
+          th:href="@{/css/teacher/venue.css}">
+    <script th:src="@{/js/jquery.min.js}" src="../../static/js/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="../../static/css/fzwmodal.css"
+          th:href="@{/css/fzwmodal.css}">
+    <script th:src="@{/js/fzwmodal.js}" src="../../static/js/fzwmodal.js"></script>
+</head>
+<body>
+<!--模态框组件-->
+<div id="block" class="modal"></div>
+<div id="dialog" class="modal">
+    <div id="dialog_message"></div>
+    <button onclick="turnTo()">确认</button>
+</div>
+
+<!-- 正文 -->
+<!--venue_id,user_id,venue_name,venue_address,venue_phone,qq,venue_img,venue_details,auth_info,auth_state-->
+<div id="venue_img" class="venue_img">
+    <img src="../../static/img/big_imgs/monan.jpg" th:src="${venue.venueImg}" class="venue_img">
+</div>
+<div id="intro">
+    <div id="inside_intro">
+        <h3 id="venue_name" class="shiny" th:text="${venue.venueName}">玩比利健身房</h3>
+        <h6 id="venue_address" class="shiny" th:text="${venue.venueAddress}">新日暮里DeepDark大道233号</h6>
+        <h6 id="venue_details" class="shiny" th:text="${venue.venueDetails}">警署有规定，下属莫啵上司嘴。来一起摔跤!!</h6>
+    </div>
+</div>
+<div class="white_area">
+    <div class="single_manager">
+        <div class="icon"></div>
+        <div class="front">联系电话</div>
+        <div th:text="${venue.venuePhone}"></div>
+    </div>
+    <div class="border_line"></div>
+    <div class="single_manager">
+        <div class="icon"></div>
+        <div class="front">场馆QQ群</div>
+        <div th:text="${venue.qq}"></div>
+    </div>
+    <div class="border_line"></div>
+    <div class="single_manager">
+        <div class="icon"></div>
+        <div class="front">场所认证状态</div>
+        <div th:if="${venue.authState eq '0'}">已认证</div>
+        <div th:if="${venue.authState ne '0'}">未认证</div>
+    </div>
+</div>
+<script>
+    $(function () {
+        // 初始化背景图片大小
+        var picWidth = $("#venue_img").css("width");
+        picWidth = picWidth.substr(0, picWidth.length - 2);
+        var picHeight = parseInt(picWidth) * 440 / 840;
+        $("#venue_img").css("height", picHeight + "px");
+    })
+
+    // 颜色名字库
+    var colors = ["aqua", "black", "blueviolet", "brown", "cadetblue", "chocolate", "crimson", "lime", "white"];
+    $(window.setInterval("changeColor()", 300));
+
+    function changeColor() {
+        var words = $(".shiny");
+        for (var i = 0; i < words.length; i++) {
+            var randomNum = parseInt(Math.random() * 9);
+            words.eq(i).css("color", colors[randomNum]);
+        }
+    }
+</script>
+</body>
+</html>

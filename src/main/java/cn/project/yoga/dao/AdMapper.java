@@ -10,8 +10,14 @@ import java.util.List;
 public interface AdMapper {
     int deleteByPrimaryKey(Integer adId);
 
+
     int insert(Ad record);
 
+
+    /**
+     * 添加广告
+     * @return
+     */
     int insertSelective(Ad record);
 
     Ad selectByPrimaryKey(Integer adId);
@@ -51,10 +57,19 @@ public interface AdMapper {
      * */
     @Select("select * from ad ORDER BY ad_time desc limit 0,3")
     List<Ad> selthreeads();
+
     /**
      * 查询所有广告
      * @return
      */
     @Select("select * from ad where examine=0 and flag=0")
     List<Ad> selectAllAd1();
+
+
+    /**
+     * 查询广告通过广告标题
+     * @return
+     */
+    @Select("select * from ad where ad_title=#{adTitle} and flag=0")
+    Ad selAdByAdTitle(String adTitle);
 }

@@ -81,6 +81,61 @@ public class VenueServiceImpl implements VenueService {
     }
 
     @Override
+    public boolean findAdByName(String adTitle) {
+        if (adMapper.selAdByAdTitle(adTitle)!=null){
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public int deleteVipTypeDatas(Vip_type vip_type) {
+
+        return vip_typeMapper.updateByPrimaryKeySelective(vip_type);
+    }
+
+    @Override
+    public int insertVipTypeDatas(Vip_type vip_type) {
+        return vip_typeMapper.insertSelective(vip_type);
+    }
+
+    @Override
+    public List<Venue> selectAllVenue4(int lim) {
+        List<Venue>venues=venueMapper.selectAllVenue4(lim);
+        return venues;
+    }
+
+    @Override
+    public List<Venue> SelVen(Integer currentPage,Integer pageSize) {
+
+        return venueMapper.SelVen(currentPage,pageSize);
+    }
+
+    @Override
+    public int DelVen4(int venue_id) {
+        int row=venueMapper.DelVen4(venue_id);
+        return row;
+    }
+
+    @Override
+    public Venue SelVenById4(int venueId) {
+        Venue venue=venueMapper.SelVenById4(venueId);
+        return venue;
+    }
+
+    @Override
+    public int SelVenNum() {
+        int total=venueMapper.SelVenNum();
+        return total;
+    }
+
+    @Override
+    public List<Venue> shearch(String venname, String addrass, String phone, String qq) {
+        List<Venue>  venues=venueMapper.shearch(venname,addrass,phone,qq);
+        return venues;
+    }
+
+    @Override
     public int venueUploadAds(Ad ad) {
       return adMapper.insertSelective(ad);
     }

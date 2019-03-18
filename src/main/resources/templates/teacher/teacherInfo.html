@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" type="text/css" href="../../static/css/teacher/teacherInfo.css"
+          th:href="@{/css/teacher/teacherInfo.css}">
+    <script th:src="@{/js/jquery.min.js}" src="../../static/js/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="../../static/css/fzwmodal.css"
+          th:href="@{/css/fzwmodal.css}">
+    <script th:src="@{/js/fzwmodal.js}" src="../../static/js/fzwmodal.js"></script>
+</head>
+<body>
+<header class="white_area"><span id="title">个人资料</span></header>
+<div class="white_area" id="userInfo">
+    <div class="ex_title">
+        <div class="orange"></div>
+        <span class="name">账号信息</span>
+    </div>
+    <div class="border_line"></div>
+    <div class="single_manager">
+        <span class="name"><div class="brick">昵称</div></span>
+        <span class="value" th:text="${info.netName}">带带大师兄</span>
+    </div>
+    <div class="border_line"></div>
+    <div class="single_manager">
+        <span class="name"><div class="brick">认证状态</div></span>
+        <span class="value" th:if="${info.ifAuth} eq '1'">未认证</span>
+        <span class="value" th:if="${info.ifAuth} eq '0'">认证成功</span>
+    </div>
+</div>
+<div class="white_area" id="personal">
+    <div class="ex_title">
+        <div class="orange"></div>
+        <span class="name">个人信息</span>
+    </div>
+    <div class="border_line"></div>
+    <div class="single_manager">
+        <span class="name"><div class="brick">真实名称</div></span>
+        <span class="value" th:text="${info.realName}">孙笑川</span>
+    </div>
+    <div class="border_line"></div>
+    <div class="single_manager">
+        <span class="name"><div class="brick">QQ号</div></span>
+        <span class="value" th:text="${info.qq}">nmsl23333</span>
+    </div>
+    <div class="border_line"></div>
+    <div class="single_manager">
+        <span class="name"><div class="brick">手机号</div></span>
+        <span class="value" th:text="${info.phone}">13315478596</span>
+    </div>
+    <div class="border_line"></div>
+    <div class="single_manager">
+        <span class="name"><div class="brick">性别</div></span>
+        <span class="value" th:text="${info.sex}">男</span>
+    </div>
+    <div class="border_line"></div>
+    <div class="single_manager">
+        <span class="name"><div class="brick">身份证号</div></span>
+        <span class="value" th:text="${info.idNum}">9527</span>
+    </div>
+</div>
+<div class="white_area" id="update" onclick="openUpdateWindow('block')">
+    编辑
+</div>
+<div id="update_window">
+    <table>
+        <tr>
+            <td>iYoga昵称</td>
+            <td colspan="5">
+                <input type="text" id="net_name" th:value="${info.netName}" placeholder="给自己请个炫酷的网名吧">
+            </td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>教练认证</td>
+            <td colspan="5">
+                <input type="text" id="auth_num" th:value="${info.authInfo}" placeholder="教练资格证的号码">
+            </td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>真实姓名</td>
+            <td colspan="5">
+                <input type="text" id="real_name" th:value="${info.realName}" placeholder="阁下的尊姓大名">
+            </td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>QQ:</td>
+            <td colspan="5">
+                <input type="text" id="qq" th:value="${info.qq}" placeholder="QQ/微信号">
+            </td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>手机号</td>
+            <td colspan="5">
+                <input type="text" id="phone" th:value="${info.phone}" placeholder="请输入(大陆)11位手机号">
+            </td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>性别</td>
+            <td colspan="5">
+                <select id="sex" th:value="${info.sex}">
+                    <option value="保密" selected="selected">保密</option>
+                    <option value="男">男</option>
+                    <option value="女">女</option>
+                </select>
+            </td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>身份证号</td>
+            <td colspan="5">
+                <input id="id_num" th:value="${info.idNum}" placeholder="18位新一代身份证号">
+            </td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+    </table>
+    <br>
+    <button id="submit" onclick="updateTeacher()">提交</button>
+    <button id="abandon" onclick="openUpdateWindow('none')">关闭</button>
+</div>
+
+<!--模态框组件-->
+<div id="block" class="modal"></div>
+<div id="dialog" class="modal">
+    <div id="dialog_message"></div>
+    <button onclick="turnTo()">确认</button>
+</div>
+<!-- !! -->
+
+<script>
+    $(function () {
+        // 获取属性
+        var mes_window = $("#update_window");
+        var mes_width = mes_window.css("width");
+        var mes_height = mes_window.css("height");
+        // 去掉px单位
+        mes_width = mes_width.substr(0, mes_width.length - 2);
+        mes_height = mes_height.substr(0, mes_height.length - 2);
+        // 获取左边的距离和上边的距离
+        var left_distance = (windowWidth - mes_width) / 2;
+        var top_distance = (windowHeight - mes_height) / 2;
+        // 设置css属性
+        mes_window.css("left", left_distance + "px");
+        mes_window.css("top", top_distance + "px");
+    })
+
+    function openUpdateWindow(state) {
+        $("#update_window").css("display", state);
+    }
+
+    function updateTeacher() {
+        var netName = $("#net_name").val();
+        var authInfo = $("#auth_num").val();
+        var realName = $("#real_name").val();
+        var qq = $("#qq").val();
+        var phone = $("#phone").val();
+        var sex = $("#sex").val();
+        var idNum = $("#id_num").val();
+        $.ajax({
+            url: "/yoga/teacher/updateTeacher",
+            type: "post",
+            data: {
+                "netName": netName,
+                "authInfo": authInfo,
+                "realName": realName,
+                "qq": qq,
+                "phone": phone,
+                "sex": sex,
+                "idNum": idNum
+            },
+            dataType: "json",
+            success: function (mes) {
+                if (mes.code == 0) {
+                    openDialog(mes.message, "teacherInfo", true);
+                } else {
+                    openDialog(mes.message, "", false);
+                }
+            }
+        })
+    }
+</script>
+</body>
+</html>
