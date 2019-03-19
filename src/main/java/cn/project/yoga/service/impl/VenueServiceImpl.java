@@ -34,6 +34,8 @@ public class VenueServiceImpl implements VenueService {
     private AdMapper adMapper;
     @Autowired
     private CourseMapper courseMapper;
+    @Autowired
+    private Venue_commentMapper venueCommentMapper;
 
 
     @Override
@@ -132,6 +134,11 @@ public class VenueServiceImpl implements VenueService {
     @Override
     public List<Venue_teacher> selTeacherName(Venue_teacher venue_teacher) {
         return venue_teacherMapper.selectTeachers(venue_teacher,1,50);
+    }
+
+    @Override
+    public List<Venue_comment> selComent(String commentType, Integer venueId,Integer currentPage,Integer pageSize) {
+        return venueCommentMapper.selComent(commentType,venueId,currentPage,pageSize);
     }
 
     @Override
