@@ -44,20 +44,29 @@ public class VenueController {
                                                     @RequestParam(value = "rows",defaultValue = "10",required = false)Integer pageSize) {
             Subject subject = SecurityUtils.getSubject();
             Session session = subject.getSession();
-            Venue venue = (Venue) session.getAttribute(Attributes.CURRENT_USER);
-            System.out.println(venue.getVenueId()+"666666666");
+             Venue venue = (Venue) session.getAttribute(Attributes.CURRENT_USER);
              List<Selstudent> list = venueService.findStudents(1,10,venue.getVenueId());
             PageInfo pageInfo = new PageInfo(list);
-             Map<String,Object> result = new HashMap<String,Object>();
+            Map<String,Object> result = new HashMap<String,Object>();
             result.put("code",200);
             result.put("msg","");
             result.put("count",pageInfo.getTotal());
             result.put("data",list);
+//        result.put("rows",list);
+//        result.put("total",pageInfo.getTotal());
             System.out.println(list.get(0).getNetName());
             return result;
         }
 
- /*
+
+
+
+
+
+
+
+
+    /*
      *所有教练展示
      * 分页
      * 场馆-cy
@@ -266,8 +275,8 @@ public class VenueController {
     @ResponseBody
     public LayUiDataUtil translateTeacher(Venue_teacher venue_teacher) {
         Subject subject = SecurityUtils.getSubject();
-       Session session = subject.getSession();
-      Venue venue = (Venue) session.getAttribute(Attributes.CURRENT_USER);
+        Session session = subject.getSession();
+        Venue venue = (Venue) session.getAttribute(Attributes.CURRENT_USER);
         venue_teacher.setVenueId(venue.getVenueId());
         int result=venueService.updataTeacherState(venue_teacher);
         if (result!=1){

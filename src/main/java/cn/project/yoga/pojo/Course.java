@@ -1,6 +1,7 @@
 package cn.project.yoga.pojo;
 
 import java.util.Date;
+import java.util.List;
 
 public class Course {
     private Integer courseId;
@@ -39,6 +40,16 @@ public class Course {
 
     public void setCourseState(String courseState) {
         this.courseState = courseState;
+    }
+
+    private List<My_course> myCourses;
+
+    public List<My_course> getMyCourses() {
+        return myCourses;
+    }
+
+    public void setMyCourses(List<My_course> myCourses) {
+        this.myCourses = myCourses;
     }
 
     public Integer getCourseId() {
@@ -111,5 +122,20 @@ public class Course {
 
     public void setFlag(Integer flag) {
         this.flag = flag;
+    }
+
+    @Override
+    public String toString() {
+        return "Course{" +
+                "courseId=" + courseId +
+                ", venueId=" + venueId +
+                ", teacher=" + teacher +
+                ", startTime=" + startTime +
+                ", overTime=" + overTime +
+                ", courseMoney=" + courseMoney +
+                ", coursePeople=" + coursePeople +
+                ", flag=" + flag +
+                ", myCourses=" + myCourses +
+                '}';
     }
 }

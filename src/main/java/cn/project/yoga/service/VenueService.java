@@ -12,6 +12,7 @@ import cn.project.yoga.vo.TeacherTypeVo;
 import cn.project.yoga.pojo.*;
 
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 
 
@@ -123,4 +124,8 @@ public interface VenueService {
     Venue selvenueByUserId(User user);
 
     Collection<? extends Detail> selectMyfollowedVenByCurrentUserId2(Integer currentUserId);
+
+    boolean findStartTimeByCourse(Date startTime,int vid,int tid);
+
+    int addCourse(Course course);
 }

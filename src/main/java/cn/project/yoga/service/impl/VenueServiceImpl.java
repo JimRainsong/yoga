@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -103,6 +104,19 @@ public class VenueServiceImpl implements VenueService {
     public int updataTeacherState(Venue_teacher venue_teacher) {
 
         return venue_teacherMapper.updateByPrimaryKeySelective(venue_teacher);
+    }
+
+    @Override
+    public boolean findStartTimeByCourse(Date startTime,int vid,int tid) {
+       if (courseMapper.selCourseByStartTime(tid,vid,startTime)!=null){
+              return true;
+       }
+        return false;
+    }
+
+    @Override
+    public int addCourse(Course course) {
+        return 0;
     }
 
     @Override

@@ -4,6 +4,7 @@ import cn.project.yoga.pojo.Course;
 import cn.project.yoga.vo.CourseVo;
 import org.apache.ibatis.annotations.*;
 
+import java.util.Date;
 import java.util.List;
 
 public interface CourseMapper {
@@ -66,7 +67,16 @@ public interface CourseMapper {
     @Results({
             @Result(column="teacherId",property="teacher",
                     one=@One(select="cn.project.yoga.dao.TeacherMapper.selByTeacherId")
-            )
+            ),
+            @Result(column = "courseId",property = "myCourses",
+                    many=@Many(select = "cn.project.yoga.dao.My_courseMapper.selMyCourseByCid")
+            ),
+            @Result(column = "courseId",property = "courseId"),
+
     })
     List<Course> selCourse(@Param("courseVo")CourseVo courseVo,@Param("currentPage")Integer currentPage, @Param("pageSize")Integer pageSize);
+
+
+    @Select("SELECT * FROM course WHERE teacher_id=#{tid} and  venue_id=#{vid} and #{startTime}  between start_time and over_time  ")
+    List<Course> selCourseByStartTime(@Param("tid")int tid, @Param("vid") int vid, @Param("startTime") Date startTime);
 }
