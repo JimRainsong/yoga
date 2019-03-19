@@ -178,11 +178,7 @@ public class UserServiceImpl implements UserService {
     }
 
 
-    @Override
-    public List<User_info> SelUser4(int lim) {
-        List<User_info> user_infos = user_infoMapper.SelUser4(lim);
-        return user_infos;
-    }
+
 
 
 
