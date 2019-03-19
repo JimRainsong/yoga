@@ -1,15 +1,13 @@
 package cn.project.yoga.dao;
 
-import cn.project.yoga.pojo.StuMoment;
-import cn.project.yoga.pojo.User;
+import cn.project.yoga.pojo.*;
 
-import cn.project.yoga.pojo.User_info;
-import cn.project.yoga.pojo.Vip_record;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
+import java.util.Collection;
 import java.util.List;
 
 public interface UserMapper {
@@ -25,7 +23,7 @@ public interface UserMapper {
 
     int updateByPrimaryKey(User record);
 
-    @Select("select * from user where user_name=#{userName}")
+    @Select("select * from user where user_name=#{userName} and flag=0")
     User selectUserByUserName(String userName);
 
     /**
@@ -34,7 +32,7 @@ public interface UserMapper {
      * @param user
      * @return
      */
-    @Update("update user set  phone_number=#{phoneNumber} where user_id=#{0}")
+    @Update("update user set  phone_number=#{phoneNumber} where user_id=#{0} and flag=0")
     int updateUserInfo1(User user);
 
     /**
@@ -42,7 +40,7 @@ public interface UserMapper {
      * @param state
      * @return  影响行数
       */
-    @Update("update user set info_state=#{0}")
+    @Update("update user set info_state=#{0} and flag=0")
     int updateInfostate1(String state);
 
     /**
@@ -51,7 +49,7 @@ public interface UserMapper {
      * @param venue_id
      * @return
      */
-    @Select("select * from vip_crcord where user_id=#{0} and venue_id=#{1}")
+    @Select("select * from vip_crcord where user_id=#{0} and venue_id=#{1} and flag=0")
     Vip_record queryVip1(@Param("user_id") int user_id,@Param("venue_id") int venue_id);
 
     /**
@@ -71,6 +69,12 @@ public interface UserMapper {
      * */
     @Select("select user_id from user where user_name=#{0} and flag =0")
     int selUserIdByName4_1(String uname);
+
+    /**
+     * 用来查当前登录用户所关注的其他人
+     */
+    @Select("SELECT t.* FROM `user_detail` t WHERE t.user_id IN (SELECT follow_id FROM attention WHERE user_id=#{0})")
+    List<Detail> selectMyFollowedStuByCurrentUserId2(Integer currentUserId);
 
 
     @Select("select user_id from user where user_name=#{0}")

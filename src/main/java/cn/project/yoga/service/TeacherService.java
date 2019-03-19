@@ -8,7 +8,9 @@ import cn.project.yoga.pojo.TeaMoment;
 import cn.project.yoga.pojo.Appointment;
 import cn.project.yoga.pojo.User;
 
+import javax.xml.soap.Detail;
 import java.util.Date;
+import java.util.Collection;
 import java.util.List;
 
 public interface TeacherService {
@@ -42,7 +44,7 @@ public interface TeacherService {
     /**
      * 分页查询所有教练信息
      */
-    public List<Teacher> showTea4(int lim);
+    public List<Teacher> showTea4(Integer currentPage,Integer pageSize);
 
     /**
      * 软删除教练
@@ -54,10 +56,7 @@ public interface TeacherService {
      */
     public Teacher SelTeaById4(int teacherId);
 
-    /**
-     * 查询教练表有多少条数据
-     */
-    public int SelCountTea4();
+
 
     /**
      * 更新教练数据
@@ -85,4 +84,11 @@ public interface TeacherService {
     int acceptcourse2(Integer id);
 
     int refusecourse2(Integer id);
+
+    int connectRoleIdAndUserId2(String username);
+
+    /**
+     * 根据当前登录的账号去查询此账号关注的人的信息
+     */
+    Collection<? extends Detail> selectMyFollowedTeaByCurrentUserId2(Integer currentUserId);
 }

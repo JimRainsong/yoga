@@ -7,6 +7,12 @@
     <link rel="stylesheet" th:href="@{/layui/css/layui.css}">
     <script th:src="@{/js/jquery.min.js}"></script>
     <script th:src="@{/layui/layer/layer.js}"></script>
+    <style>
+        .layui-table-cell {
+            height: auto;
+            line-height: 40px;
+        }
+    </style>
 </head>
 <body class="layui-layout-body">
 <div class="layui-layout layui-layout-admin">
@@ -33,7 +39,7 @@
 
                 </a>
                 <dl class="layui-nav-child">
-                    <dd><a href="">基本资料</a></dd>
+                    <dd><a href="javascript:venueInFoTab();">基本资料</a></dd>
                     <dd><a href="">安全设置</a></dd>
                     <dd><a href="javascript:atention()">关注</a></dd>
                 </dl>
@@ -81,6 +87,7 @@
 </div>
 <script th:src="@{/layui/layui.js}"></script>
 <script>
+
     var element =null;
     //JavaScript代码区域
     layui.use('element', function(){
@@ -91,8 +98,15 @@
     var url  = null;
     var title= null;
     var eid  = null;
+    
+    function venueInFoTab() {
+        url='/yoga/venue/VenueInFo';
+        title="基本资料";
+        eid="venueInFoTabId";
+        addTab();
+    }
 
-
+    
     function teacherTab() {
         url='/yoga/venue/teacher';
         title="招聘教练";
@@ -185,7 +199,23 @@
            }
        });
    }
-
+function updateVenue() {
+    $.ajax({
+        url:"/yoga/venueDate/uploadVenueDatas",
+        type:"post",
+        async:true,
+        contentType:"application/json;charset=utf-8",
+        data:JSON.stringify({"venueName":$("#venueName").val(),"venueAddress":$("#venueAddress").val(),"venuePhone":$("#venuePhone").val(),"qq":$("#venueQQ").val(),"venueDetails":$("#venueDesc").val(),"venueImg":$("#venueImg").val()}),
+        success:function(mes){
+            alert(mes.msg);
+            if (mes.code==0){
+                element.tabDelete('demo',"AdTabId");
+            }else {
+                return;
+            }
+        }
+    });
+}
 
 </script>
 </body>

@@ -2,6 +2,7 @@ package cn.project.yoga.controller;
 
 import cn.project.yoga.pojo.*;
 import cn.project.yoga.pojo.Appointment;
+import cn.project.yoga.service.ManagerService;
 import cn.project.yoga.service.UserService;
 import cn.project.yoga.pojo.User;
 import cn.project.yoga.service.TeacherService;
@@ -12,6 +13,7 @@ import cn.project.yoga.utils.RegexUtil;
 import cn.project.yoga.utils.ResultUtil;
 import cn.project.yoga.vo.LoginVo;
 import cn.project.yoga.vo.TeacherVo;
+import com.github.pagehelper.PageInfo;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.session.Session;
@@ -32,6 +34,8 @@ import java.util.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import javax.xml.soap.Detail;
+import java.util.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,6 +48,9 @@ public class TeacherController {
     private TeacherService teacherService;
     @Autowired
     private VenueService venueService;
+
+    @Autowired
+    private ManagerService managerService;
 
     @RequestMapping("/login")
     @ResponseBody
@@ -73,6 +80,20 @@ public class TeacherController {
         } else {
             return ResultUtil.error("干哈?!你都已经登陆成功了");
         }
+    }
+
+    @RequestMapping("/follow")
+    public ModelAndView follow() {
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("teacher/follow");
+        Session session = SecurityUtils.getSubject().getSession();
+        Integer currentUserId = ((TeacherInfo) (session.getAttribute(Attributes.CURRENT_USER))).getuId();
+        List<Detail> details = new ArrayList<>();
+        details.addAll(userService.selectMyFollowedStuByCurrentUserId2(currentUserId));
+        details.addAll(teacherService.selectMyFollowedTeaByCurrentUserId2(currentUserId));
+        details.addAll(venueService.selectMyfollowedVenByCurrentUserId2(currentUserId));
+        modelAndView.addObject("details", details);
+        return modelAndView;
     }
 
     @RequestMapping("/page0")
@@ -139,9 +160,9 @@ public class TeacherController {
         user1.setPassword(newpassword);
         int i1 = teacherService.insertUser(user1);
         int i2 = teacherService.insert_userid_teacher2(username);
-        System.out.println(i1 + i2);
+        // 然后在用户_角色表中把关联绑定上
+        int i3 = teacherService.connectRoleIdAndUserId2(username);
         return ResultUtil.ok("注册成功");
-
     }
 
     @RequestMapping("/wallet")
@@ -154,27 +175,12 @@ public class TeacherController {
         return modelAndView;
     }
 
-    @RequestMapping("showteachers")
-    @ResponseBody
-    public List<Teacher> ShowTea4(HttpServletRequest request) {
-        int page = Integer.parseInt(request.getParameter("page"));
-        int total = teacherService.SelCountTea4();
-        int totalpage = 0;
-        if (total / 4 != 0) {
-            totalpage = total / 4 + 1;
-        } else {
-            totalpage = total / 4;
-        }
-        int lim = page * 4 - 4;
-        List<Teacher> teachers = teacherService.showTea4(lim);
-        return teachers;
-    }
 
     @RequestMapping("/deltea")
     public String DelTea4(HttpServletRequest request) {
         int teacherId = Integer.parseInt(request.getParameter("teacherId"));
         int row = teacherService.DelTea4(teacherId);
-        return "manager/hsn/mteacher";
+        return "manager/hsn/teacher";
     }
 
     @RequestMapping("teaDetail")
@@ -195,6 +201,41 @@ public class TeacherController {
     @ResponseBody
     public ResultUtil postNewMoment2(String content) {
         return teacherService.postNewMoment2(content);
+    }
+
+    @RequestMapping("/teacherDatas")
+    @ResponseBody
+    public Map<String, Object> showteacherDatas(@RequestParam(value = "page",defaultValue = "1",required = false)Integer currentPage,
+                                                @RequestParam(value = "rows",defaultValue = "10",required = false)Integer pageSize) {
+        List<Teacher> list = teacherService.showTea4(currentPage,pageSize);
+        PageInfo pageInfo = new PageInfo(list);
+        Map<String,Object> result = new HashMap<String,Object>();
+        result.put("code",200);
+        result.put("msg","");
+        result.put("count",pageInfo.getTotal());
+        result.put("data",list);
+        return result;
+
+    }
+
+    @RequestMapping("/shearch")
+    @ResponseBody
+    public Map<String,Object> ShearchVenue4(@RequestParam(value = "page",defaultValue = "1",required = false)Integer currentPage,
+                                            @RequestParam(value = "rows",defaultValue = "10",required = false)Integer pageSize,HttpServletRequest request,HttpSession session){
+        String teacherName= (String) session.getAttribute("teacherName");
+        String teacherSex= (String) session.getAttribute("teacherSex");
+        String teacherPhone= (String) session.getAttribute("teacherPhone");
+        String teacherQq= (String) session.getAttribute("teacherQq");
+        System.out.println(teacherName);
+        List<Teacher>list=managerService.shearch(teacherName,teacherSex,teacherPhone,teacherQq,currentPage,pageSize);
+        System.out.println(list);
+        PageInfo pageInfo = new PageInfo(list);
+        Map<String,Object> result = new HashMap<String,Object>();
+        result.put("code",200);
+        result.put("msg","");
+        result.put("count",pageInfo.getTotal());
+        result.put("data",list);
+        return result;
     }
 
     @RequestMapping("/allappointment")

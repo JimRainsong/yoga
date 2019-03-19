@@ -129,9 +129,13 @@ public class ManagerServiceImpl implements ManagerService {
 
     @Override
     public List<User_info> SelUser4(Integer currentPage, Integer pageSize) {
-//        List<User_info> user_infos = user_infoMapper.SelUser4(currentPage, pageSize);
-//        return user_infos;
-        // 暂时先返回null，此行代码有问题
-        return null;
+        List<User_info> user_infos = user_infoMapper.SelUser4(currentPage, pageSize);
+        return user_infos;
+    }
+
+    @Override
+    public List<Teacher> shearch(String teachername, String teacherSex, String teacherPhone, String teacherQq,Integer currentPage,Integer pageSize) {
+        List<Teacher> teachers=teacherMapper.shearch(teachername,teacherSex,teacherPhone,teacherQq,currentPage,pageSize);
+        return teachers;
     }
 }

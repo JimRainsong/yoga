@@ -10,6 +10,7 @@ import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Collection;
 import java.util.List;
 
 @Service
@@ -33,22 +34,23 @@ public class UserServiceImpl implements UserService {
 
     /**
      * 修改用户信息
-     * @author zjn
+     *
      * @param user
-     * @return  int 影响行数
+     * @return int 影响行数
+     * @author zjn
      */
     @Override
     public String updateUserInfo1(User_info user) {
 
         //查user_id
-        String userName= SecurityUtils.getSubject().getPrincipal().toString();
-        if (userName==null){
+        String userName = SecurityUtils.getSubject().getPrincipal().toString();
+        if (userName == null) {
             return "请先登录";
         }
-        int userId=userMapper.selectUserByUserName(userName).getUserId();
+        int userId = userMapper.selectUserByUserName(userName).getUserId();
         user.setUserId(userId);
         int row = user_infoMapper.updateByPrimaryKeySelective(user);
-        if (row==1){
+        if (row == 1) {
             return "修改信息成功";
         }
         return "修改信息失败";
@@ -56,12 +58,13 @@ public class UserServiceImpl implements UserService {
 
     /**
      * 查询我的场馆
+     *
      * @param user_id
      * @return
      */
     @Override
     public List<Venue> selectMyVenue1(int user_id) {
-        List<Venue> venues=venueMapper.selectMyVen1(user_id);
+        List<Venue> venues = venueMapper.selectMyVen1(user_id);
         return venues;
     }
 
@@ -91,10 +94,10 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public String intoCourse1(int user_id, int course_id,int venue_id) {
+    public String intoCourse1(int user_id, int course_id, int venue_id) {
         //1.判断是不是该场馆会员，如果不是，返回‘您还不是此场馆会员’
-        Vip_record vip_record=userMapper.queryVip1(user_id,venue_id);
-        if (vip_record==null){
+        Vip_record vip_record = userMapper.queryVip1(user_id, venue_id);
+        if (vip_record == null) {
             return "您还不是该场馆会员，无法预约";
         }
         //2.向我的课程表中插入用户id和课程id
@@ -125,22 +128,23 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public String selectUserNetName(String userName) {
-        User user=userMapper.selectUserByUserName(userName);
-        User_info user_info=userMapper.selUserLoveName(user.getUserId());
-        if (user_info.getNetName()!=null){
+        User user = userMapper.selectUserByUserName(userName);
+        User_info user_info = userMapper.selUserLoveName(user.getUserId());
+        if (user_info.getNetName() != null) {
             return user_info.getNetName();
         }
         return userName;
-}
+    }
 
     @Override
     public User_info selectMyInfo() {
-        User user=userMapper.selectUserByUserName(SecurityUtils.getSubject().getPrincipal().toString());
+        User user = userMapper.selectUserByUserName(SecurityUtils.getSubject().getPrincipal().toString());
         return user_infoMapper.selectByUserId(user.getUserId());
     }
 
-    /**    zjl   根据用户名  查 id
-     * */
+    /**
+     * zjl   根据用户名  查 id
+     */
     @Override
     public int getUserGoods4_1(String uname) {
         return userMapper.selUserIdByName4_1(uname);
@@ -148,16 +152,16 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public String recharge(Integer money) {
-        int user_id=userMapper.selectUserByUserName(SecurityUtils.getSubject().getPrincipal().toString()).getUserId();
-        User_info user_info=new User_info();
-        User_info user_info1=user_infoMapper.selectByUserId(user_id);
+        int user_id = userMapper.selectUserByUserName(SecurityUtils.getSubject().getPrincipal().toString()).getUserId();
+        User_info user_info = new User_info();
+        User_info user_info1 = user_infoMapper.selectByUserId(user_id);
         user_info.setBalance(money);
         user_info.setUserId(user_id);
-        user_info.setLevel((user_info1.getScore()+money)/500);
-        System.out.println(user_info1.getScore()+money);
+        user_info.setLevel((user_info1.getScore() + money) / 500);
+        System.out.println(user_info1.getScore() + money);
         user_info.setScore(money);
-        int row=user_infoMapper.recharge(user_info);
-        if (row==0){
+        int row = user_infoMapper.recharge(user_info);
+        if (row == 0) {
             return "充值失败，请联系管理员";
         }
         return "充值成功";
@@ -165,25 +169,18 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public String updateImg(String source) {
-        int user_id=userMapper.selectUserByUserName(SecurityUtils.getSubject().getPrincipal().toString()).getUserId();
-        int row = user_infoMapper.updateHeadImg(source,user_id);
-        if (row==0){
+        int user_id = userMapper.selectUserByUserName(SecurityUtils.getSubject().getPrincipal().toString()).getUserId();
+        int row = user_infoMapper.updateHeadImg(source, user_id);
+        if (row == 0) {
             return "上传失败";
         }
         return "上传成功";
     }
 
-    @Override
-    public List<User_info> SelUser4(int lim) {
-        List<User_info> user_infos=user_infoMapper.SelUser4(lim);
-        return user_infos;
-    }
 
-    @Override
-    public int SelUserNum4() {
-        int total=user_infoMapper.SelUserNum4();
-        return total;
-    }
+
+
+
 
     @Override
     public User_info SelUserById(int uId) {
@@ -191,14 +188,19 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<User_info> shearch(String netName,String realName,String phoneNumber,String qq) {
+    public List<User_info> shearch(String netName,String sex,String phoneNumber,String qq,Integer currentPage,Integer pageSize) {
 
-        return user_infoMapper.shearch(netName,realName,phoneNumber,qq);
+        return user_infoMapper.shearch(netName,sex,phoneNumber,qq,currentPage,pageSize);
     }
 
     @Override
     public int DelUserById4(int uId) {
         return user_infoMapper.DelUserById4(uId);
+    }
+
+    @Override
+    public Collection<? extends Detail> selectMyFollowedStuByCurrentUserId2(Integer currentUserId) {
+        return userMapper.selectMyFollowedStuByCurrentUserId2(currentUserId);
     }
 
     @Override

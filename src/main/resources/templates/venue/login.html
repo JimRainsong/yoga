@@ -53,8 +53,9 @@
         </div>
         <div class="layui-form-item">
             <div class="layui-input-block">
-                <button class="layui-btn"  onclick="login()">登录</button>
-                <button class="layui-btn"  id="regi">注册</button>
+                <button  onclick="login()">登录</button>
+                <button  id="regi">注册</button>
+
             </div>
         </div>
 
@@ -63,7 +64,6 @@
 
 </div>
 <script th:src="@{/layui/layui.js}"></script>
-
 <script>
 
     $('#regi').on('click', function(){
@@ -87,8 +87,10 @@
              dataType : "json",
              success : function(data) {
                  alert(data.msg);
-                 location.href="/yoga/venueUser/venueIndex";
-          }
+                 if (data.code == 0) {
+                     location.href="/yoga/venueUser/venueIndex";
+                 }
+             }
          })
     }
 
