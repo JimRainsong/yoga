@@ -1,8 +1,6 @@
 package cn.project.yoga.dao;
 
-import cn.project.yoga.pojo.VenMoment;
-import cn.project.yoga.pojo.Venue;
-import cn.project.yoga.pojo.Vip_type;
+import cn.project.yoga.pojo.*;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
@@ -79,8 +77,8 @@ public interface VenueMapper {
 
     /**
      * 分页查询所有认证通过的场馆
-     * @author zjn
      * @return
+     * @author zjn
      */
     @Select("select * from venue where flag=0 and auth_state=0 limit #{lim},4")
     List<Venue> selectAllVenue4(int lim);
@@ -109,5 +107,11 @@ public interface VenueMapper {
     public List<Venue> shearch(@Param("venname") String venname,@Param("addrass") String addrass,
                                @Param("phone") String phone,@Param("qq") String qq,Integer currentPage,Integer pageSize);
 
-
+    @Select("select * from venue where user_id=#{userId} and flag=0")
+    Venue selvenueByUserId(User user);
+    /**
+     * 用来查当前登录用户所关注的其他人
+     */
+    @Select("SELECT t.* FROM `venue_detail` t WHERE t.user_id IN (SELECT follow_id FROM attention WHERE user_id=#{0})")
+    List<Detail> selectMyFollowedVenByCurrentUserId(Integer currentUserId);
 }

@@ -41,32 +41,23 @@ public class VenueController {
         @RequestMapping("/studentDatas")
         @ResponseBody
         public Map<String, Object> getStudentDatas(@RequestParam(value = "page",defaultValue = "1",required = false)Integer currentPage,
-                @RequestParam(value = "rows",defaultValue = "10",required = false)Integer pageSize) {
+                                                    @RequestParam(value = "rows",defaultValue = "10",required = false)Integer pageSize) {
             Subject subject = SecurityUtils.getSubject();
             Session session = subject.getSession();
-             Venue venue = (Venue) session.getAttribute(Attributes.CURRENT_USER);
+            Venue venue = (Venue) session.getAttribute(Attributes.CURRENT_USER);
+            System.out.println(venue.getVenueId()+"666666666");
              List<Selstudent> list = venueService.findStudents(1,10,venue.getVenueId());
             PageInfo pageInfo = new PageInfo(list);
-            Map<String,Object> result = new HashMap<String,Object>();
+             Map<String,Object> result = new HashMap<String,Object>();
             result.put("code",200);
             result.put("msg","");
             result.put("count",pageInfo.getTotal());
             result.put("data",list);
-//        result.put("rows",list);
-//        result.put("total",pageInfo.getTotal());
             System.out.println(list.get(0).getNetName());
             return result;
         }
 
-
-
-
-
-
-
-
-
-    /*
+ /*
      *所有教练展示
      * 分页
      * 场馆-cy

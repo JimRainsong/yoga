@@ -13,6 +13,7 @@ import cn.project.yoga.vo.TeacherTypeVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Collection;
 import java.util.List;
 
 @Service
@@ -48,7 +49,7 @@ public class VenueServiceImpl implements VenueService {
 
     @Override
     public List<Selstudent> findStudents(Integer currentPage, Integer pageSize, Integer venueId) {
-            List<Selstudent> students =selstudentMapper.selectStudentByvenueId(currentPage,pageSize,venueId);
+        List<Selstudent> students = selstudentMapper.selectStudentByvenueId(currentPage, pageSize, venueId);
 
 
 
@@ -58,7 +59,7 @@ public class VenueServiceImpl implements VenueService {
 
     @Override
     public List<Vip_type> selShowVipType(Integer currentPage, Integer pageSize, Integer venueId) {
-        List<Vip_type>vip_types=vip_typeMapper.selShowVipType(currentPage,pageSize,venueId);
+        List<Vip_type> vip_types = vip_typeMapper.selShowVipType(currentPage, pageSize, venueId);
         return vip_types;
     }
 
@@ -69,20 +70,20 @@ public class VenueServiceImpl implements VenueService {
 
     @Override
     public List<User_info> selShowattention(Integer currentPage, Integer pageSize, Integer venueId) {
-        Venue venue=venueMapper.selectByPrimaryKey(venueId);
+        Venue venue = venueMapper.selectByPrimaryKey(venueId);
         System.out.println(venue.getUserId());
-        List<User_info> attentions=attentionMapper.selShowattention(currentPage,pageSize,venue.getUserId());
+        List<User_info> attentions = attentionMapper.selShowattention(currentPage, pageSize, venue.getUserId());
         return attentions;
     }
 
     @Override
     public List<Course> selCourse(Integer currentPage, Integer pageSize, CourseVo courseVo) {
-        return courseMapper.selCourse(courseVo,currentPage,pageSize);
+        return courseMapper.selCourse(courseVo, currentPage, pageSize);
     }
 
     @Override
     public boolean findAdByName(String adTitle) {
-        if (adMapper.selAdByAdTitle(adTitle)!=null){
+        if (adMapper.selAdByAdTitle(adTitle) != null) {
             return true;
         }
         return false;
@@ -135,16 +136,16 @@ public class VenueServiceImpl implements VenueService {
 
     @Override
     public int venueUploadAds(Ad ad) {
-      return adMapper.insertSelective(ad);
+        return adMapper.insertSelective(ad);
     }
 
     @Override
-    public List<Venue_teacher> findTeachers(Integer currentPage, Integer pageSize, TeacherTypeVo teacherTypeVo,Teacher teacher) {
-        Venue_teacher venue_teacher=new Venue_teacher();
+    public List<Venue_teacher> findTeachers(Integer currentPage, Integer pageSize, TeacherTypeVo teacherTypeVo, Teacher teacher) {
+        Venue_teacher venue_teacher = new Venue_teacher();
         venue_teacher.setVenueId(teacherTypeVo.getVid());
         venue_teacher.setTeacherState(teacherTypeVo.getTeype());
         venue_teacher.setTeacher(teacher);
-        List<Venue_teacher> teachers =venue_teacherMapper.selectTeachers(venue_teacher,currentPage,pageSize);
+        List<Venue_teacher> teachers = venue_teacherMapper.selectTeachers(venue_teacher, currentPage, pageSize);
         return teachers;
     }
 }

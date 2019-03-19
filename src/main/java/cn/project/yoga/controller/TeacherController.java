@@ -71,6 +71,20 @@ public class TeacherController {
         }
     }
 
+    @RequestMapping("/follow")
+    public ModelAndView follow() {
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("teacher/follow");
+        Session session = SecurityUtils.getSubject().getSession();
+        Integer currentUserId = ((TeacherInfo) (session.getAttribute(Attributes.CURRENT_USER))).getuId();
+        List<Detail> details = new ArrayList<>();
+        details.addAll(userService.selectMyFollowedStuByCurrentUserId2(currentUserId));
+        details.addAll(teacherService.selectMyFollowedTeaByCurrentUserId2(currentUserId));
+        details.addAll(venueService.selectMyfollowedVenByCurrentUserId2(currentUserId));
+        modelAndView.addObject("details", details);
+        return modelAndView;
+    }
+
     @RequestMapping("/page0")
     public ModelAndView page1() {
         ModelAndView modelAndView = new ModelAndView();
@@ -135,9 +149,9 @@ public class TeacherController {
         user1.setPassword(newpassword);
         int i1 = teacherService.insertUser(user1);
         int i2 = teacherService.insert_userid_teacher2(username);
-        System.out.println(i1 + i2);
+        // 然后在用户_角色表中把关联绑定上
+        int i3 = teacherService.connectRoleIdAndUserId2(username);
         return ResultUtil.ok("注册成功");
-
     }
 
     @RequestMapping("/wallet")

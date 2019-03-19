@@ -2,6 +2,7 @@ package cn.project.yoga.service;
 
 import cn.project.yoga.pojo.*;
 
+import java.util.Collection;
 import java.util.List;
 
 public interface UserService {
@@ -128,4 +129,9 @@ public interface UserService {
     /*
      * 根据ID软删除学员*/
     public int DelUserById4(int uId);
+
+    /**
+     * 根据当前登录的账号去查询此账号关注的人的信息
+     */
+    Collection<? extends Detail> selectMyFollowedStuByCurrentUserId2(Integer currentUserId);
 }

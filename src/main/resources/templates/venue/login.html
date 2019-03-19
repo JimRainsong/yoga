@@ -87,10 +87,10 @@
              dataType : "json",
              success : function(data) {
                  alert(data.msg);
-                 location.href="/yoga/venueUser/venueIndex";
-
+                 if (data.code == 0) {
+                     location.href="/yoga/venueUser/venueIndex";
+                 }
              }
-
          })
     }
 
