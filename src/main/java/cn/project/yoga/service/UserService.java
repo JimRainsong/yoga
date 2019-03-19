@@ -1,6 +1,7 @@
 package cn.project.yoga.service;
 
 import cn.project.yoga.pojo.*;
+import cn.project.yoga.utils.ResultUtil;
 
 import java.util.Collection;
 import java.util.List;
@@ -119,14 +120,15 @@ public interface UserService {
 
 
 
-    /*
+    /**
      * 根据学员ID查询信息*/
     public User_info SelUserById(int uId);
-    /*
+
+    /**
      * 动态查询学员*/
     public List<User_info> shearch(String netName,String sex,String phoneNumber,String qq,Integer currentPage,Integer pageSize);
 
-    /*
+    /**
      * 根据ID软删除学员*/
     public int DelUserById4(int uId);
 
@@ -134,4 +136,17 @@ public interface UserService {
      * 根据当前登录的账号去查询此账号关注的人的信息
      */
     Collection<? extends Detail> selectMyFollowedStuByCurrentUserId2(Integer currentUserId);
+
+    /**
+     * 根据“用户id”查找一个学员
+     * @param userId
+     * @return
+     */
+    User_info selectUserByUserId2(Integer userId);
+
+    Attention hasIfollowedThis2(Integer currentUserId, Integer userId);
+
+    ResultUtil doFollow2(Integer currentUser, Integer targetUserId);
+
+    ResultUtil cancleFollow2(Integer currentUser, Integer targetUserId);
 }

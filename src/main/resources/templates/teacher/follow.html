@@ -25,7 +25,7 @@
 
 <div class="white_area">
     <div th:each="detail:${details}">
-        <div class="single_manager" th:onclick="watchDetail(${detail.userId}+','+${detail.roleId})">
+        <div class="single_manager" th:onclick="|watchDetail(${detail.roleId},${detail.userId})|">
             <div class="head_img_div float_inside">
                 <img src="../../static/img/head_imgs/dddsx.jpg" th:src="${detail.img}">
             </div>
@@ -54,5 +54,11 @@
         <div class="border_line"></div>
     </div>
 </div>
+
+<script>
+    function watchDetail(roleId, userId) {
+        window.location.href = "/yoga/teacher/watchDetail?roleId=" + roleId + "&userId=" + userId;
+    }
+</script>
 </body>
 </html>

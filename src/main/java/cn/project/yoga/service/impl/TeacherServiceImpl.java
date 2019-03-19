@@ -80,8 +80,8 @@ public class TeacherServiceImpl implements TeacherService {
     }
 
     @Override
-    public List<Teacher> showTea4(Integer currentPage,Integer pageSize) {
-        List<Teacher> teachers = teacherMapper.showTea4(currentPage,pageSize);
+    public List<Teacher> showTea4(Integer currentPage, Integer pageSize) {
+        List<Teacher> teachers = teacherMapper.showTea4(currentPage, pageSize);
         return teachers;
     }
 
@@ -96,7 +96,6 @@ public class TeacherServiceImpl implements TeacherService {
         Teacher teacher = teacherMapper.SelTeaById4(teacherId);
         return teacher;
     }
-
 
 
     @Override
@@ -207,4 +206,9 @@ public class TeacherServiceImpl implements TeacherService {
 
 
 
+
+    @Override
+    public TeacherInfo selectTeacherByItsUserId2(Integer userId) {
+        return teacherMapper.selectTeacherByItsUserId2(userId);
+    }
 }

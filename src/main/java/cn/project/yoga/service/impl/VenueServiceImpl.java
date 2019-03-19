@@ -6,7 +6,6 @@ import cn.project.yoga.dao.AttentionMapper;
 import cn.project.yoga.dao.SelstudentMapper;
 import cn.project.yoga.dao.VenueMapper;
 import cn.project.yoga.dao.Vip_typeMapper;
-import cn.project.yoga.pojo.*;
 import cn.project.yoga.service.VenueService;
 import cn.project.yoga.vo.CourseVo;
 import cn.project.yoga.vo.TeacherTypeVo;
@@ -14,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -50,7 +50,6 @@ public class VenueServiceImpl implements VenueService {
     @Override
     public List<Selstudent> findStudents(Integer currentPage, Integer pageSize, Integer venueId) {
         List<Selstudent> students = selstudentMapper.selectStudentByvenueId(currentPage, pageSize, venueId);
-
 
 
         return students;
@@ -107,39 +106,57 @@ public class VenueServiceImpl implements VenueService {
     }
 
     @Override
+    public boolean findStartTimeByCourse(Date startTime,int vid,int tid) {
+       if (courseMapper.selCourseByStartTime(tid,vid,startTime)!=null){
+              return true;
+       }
+        return false;
+    }
+
+    @Override
+    public int addCourse(Course course) {
+        return 0;
+    }
+
+    @Override
     public Venue selvenueByUserId(User user) {
         return null;
     }
+
 
     @Override
     public Collection<? extends Detail> selectMyfollowedVenByCurrentUserId2(Integer currentUserId) {
         return venueMapper.selectMyFollowedVenByCurrentUserId(currentUserId);
     }
 
+    @Override
+    public Venue selectVenueByItsUserId2(Integer userId) {
+        return venueMapper.selectVenueByItsUserId2(userId);
+    }
+
 
     @Override
-    public List<Venue> SelVen(Integer currentPage,Integer pageSize) {
+    public List<Venue> SelVen(Integer currentPage, Integer pageSize) {
 
-        return venueMapper.SelVen(currentPage,pageSize);
+        return venueMapper.SelVen(currentPage, pageSize);
     }
 
     @Override
     public int DelVen4(int venue_id) {
-        int row=venueMapper.DelVen4(venue_id);
+        int row = venueMapper.DelVen4(venue_id);
         return row;
     }
 
     @Override
     public Venue SelVenById4(int venueId) {
-        Venue venue=venueMapper.SelVenById4(venueId);
+        Venue venue = venueMapper.SelVenById4(venueId);
         return venue;
     }
 
 
-
     @Override
-    public List<Venue> shearch(String venname, String addrass, String phone, String qq,Integer currentPage,Integer pageSize) {
-        List<Venue>  venues=venueMapper.shearch(venname,addrass,phone,qq,currentPage,pageSize);
+    public List<Venue> shearch(String venname, String addrass, String phone, String qq, Integer currentPage, Integer pageSize) {
+        List<Venue> venues = venueMapper.shearch(venname, addrass, phone, qq, currentPage, pageSize);
         return venues;
     }
 

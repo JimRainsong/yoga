@@ -46,5 +46,10 @@ public class VenueUserViewControllt {
         return "venue/insertVipType";
     }
 
+    @RequestMapping("/insertCourse")
+    public String insertCourse() {
+        return "venue/insertCourse";
+    }
+
 
 }

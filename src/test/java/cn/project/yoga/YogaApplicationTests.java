@@ -1,8 +1,10 @@
 package cn.project.yoga;
 
+import cn.project.yoga.dao.TeacherMapper;
 import cn.project.yoga.dao.AppointmentMapper;
 import cn.project.yoga.dao.TeacherMapper;
 import cn.project.yoga.dao.UserMapper;
+import cn.project.yoga.dao.VenueMapper;
 import cn.project.yoga.pojo.Selstudent;
 import cn.project.yoga.service.UserService;
 import cn.project.yoga.service.VenueService;
@@ -20,6 +22,7 @@ import java.util.List;
 @SpringBootTest
 public class YogaApplicationTests {
     @Autowired
+    private TeacherMapper teacherMapper;
     private UserService userService;
     @Autowired
     private AppointmentMapper mapper;
@@ -28,6 +31,8 @@ public class YogaApplicationTests {
     private VenueService venueService;
     @Autowired
     private UserMapper userMapper;
+    @Autowired
+    private VenueMapper venueMapper;
 
     @Test
     public void contextLoads() {
@@ -40,6 +45,7 @@ public class YogaApplicationTests {
         System.out.println(list.get(0).getNetName());
 
 
+        System.out.println(userMapper.hasIfollowedThis2(6, 8));
     }
 
 }

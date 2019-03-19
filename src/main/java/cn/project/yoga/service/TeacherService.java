@@ -91,4 +91,11 @@ public interface TeacherService {
      * 根据当前登录的账号去查询此账号关注的人的信息
      */
     Collection<? extends Detail> selectMyFollowedTeaByCurrentUserId2(Integer currentUserId);
+
+    /**
+     * 根据“用户id”查找一个教练
+     * @param userId
+     * @return
+     */
+    TeacherInfo selectTeacherByItsUserId2(Integer userId);
 }
