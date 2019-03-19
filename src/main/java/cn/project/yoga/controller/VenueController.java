@@ -190,7 +190,7 @@ public class VenueController {
          if (!course.getStartTime().before(course.getOverTime())){
                  return LayUiDataUtil.error("课程时间有误");
          }
-         if (venueService.findStartTimeByCourse(course.getStartTime(),course.getVenueId(),course.getTeacher().getTeacherId())){
+         if (!venueService.findStartTimeByCourse(course.getStartTime(),course.getVenueId(),course.getTeacher().getTeacherId())){
                  return LayUiDataUtil.error("请检查时间段");
          }
          int result=venueService.addCourse(course);
