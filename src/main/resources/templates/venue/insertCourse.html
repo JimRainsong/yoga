@@ -28,19 +28,22 @@
 <div class="layui-form-item">
     <label class="layui-form-label">教练名称</label>
     <div class="layui-input-inline">
-        <input type="text" name="teacher.teacherName" id="teacher.teacherName" required lay-verify="required" placeholder="教练名称" autocomplete="off" class="layui-input">
+        <select name="teacherName" id="teacherNamesa" lay-verify="required" class="layui-input">
+            <option value=""></option>
+
+        </select>
     </div>
 </div>
 <div class="layui-form-item">
     <label class="layui-form-label">开始时间</label>
     <div class="layui-input-inline">
-        <input type="date"  name="startTime" id="startTime" required lay-verify="required" placeholder="开始时间" autocomplete="off" class="layui-input">
+        <input type="text" class="layui-input" id="startTime" placeholder="yyyy-MM-dd HH:mm:ss">
     </div>
 </div>
 <div class="layui-form-item">
     <label class="layui-form-label">结束时间</label>
     <div class="layui-input-inline">
-        <input type="date"  name="overTime" id="overTime" required lay-verify="required" placeholder="结束时间" autocomplete="off" class="layui-input">
+        <input type="text" class="layui-input" id="overTime" placeholder="yyyy-MM-dd HH:mm:ss">
     </div>
 </div>
 <div class="layui-form-item">
@@ -59,23 +62,36 @@
 <div class="layui-layer-btn layui-layer-btn-">
     <a class="layui-layer-btn0"  onclick="insertCourse()" >提交</a>
     <a class="layui-layer-btn0" onclick=" exits()">返回</a></div>
+<script th:src="@{/layui/layui.js}"></script>
 <script>
+    selTeacher();
+    function selTeacher() {
+        $.ajax({
+            url : "/yoga/venueDate/selTeacher",
+            type : "post",
+            dataType : "json",
+            success : function(data) {
+                   alert(data.msg);
+                var datas = data.data
+                var str="<option value=\"\">--请选择--</option>";
+                $.each(datas,function (i,val) {
+                 str+=" <option value=\" "+val.teacher.teacherId+"\">"+val.teacher.teacherName+"</option>"
+              });
+                $("#teacherNamesa").html(str);
+            }
+        });
+    }
     function exits() {
        window.parent.location.reload();
        parent.layer.close(index);
     }
     function insertCourse(){
+        alert(JSON.stringify({"courseName":$("#courseName").val(),"teacherName":$("#teacherNamesa").val(),"startTime":$("#startTime").val(),"overTime":$("#overTime").val(),"courseMoney":$("#courseMoney").val(),"coursePeople":$("#coursePeople").val()}))
         $.ajax({
-            url : "/yoga/venueDate/insertCourseDatas",
+            url : "/yoga/venueDate/addCourse",
             type : "post",
-            data : {
-                courseName : $("#courseName").val(),
-                teacherName : $("#teacher.teacherName").val(),
-                startTime : $("#startTime").val(),
-                overTime : $("#overTime").val(),
-                courseMoney : $("#courseMoney").val(),
-                coursePeople : $("#coursePeople").val(),
-            },
+            contentType:"application/json;charset=utf-8",
+            data:JSON.stringify({"courseName":$("#courseName").val(),"teacher":{"teacherId" : $("#teacherNamesa").val()},"startTime":$("#startTime").val(),"overTime":$("#overTime").val(),"courseMoney":$("#courseMoney").val(),"coursePeople":$("#coursePeople").val()}),
             dataType : "json",
             success : function(data) {
                 if(data.code == 0){
@@ -88,6 +104,20 @@
             }
         })
     }
+
+    layui.use('laydate', function() {
+        var laydate = layui.laydate;
+        //日期时间选择器
+        laydate.render({
+            elem: '#startTime'
+            , type: 'datetime'
+        });
+
+        laydate.render({
+            elem: '#overTime'
+            , type: 'datetime'
+        });
+    });
 </script>
 </body>
 </html>

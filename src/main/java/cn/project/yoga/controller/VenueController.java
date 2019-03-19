@@ -52,21 +52,11 @@ public class VenueController {
             result.put("msg","");
             result.put("count",pageInfo.getTotal());
             result.put("data",list);
-//        result.put("rows",list);
-//        result.put("total",pageInfo.getTotal());
             System.out.println(list.get(0).getNetName());
             return result;
         }
 
-
-
-
-
-
-
-
-
-    /*
+ /*
      *所有教练展示
      * 分页
      * 场馆-cy
@@ -138,9 +128,9 @@ public class VenueController {
         result.put("data",list);
         return result;
     }
-    /**
-     * 查看课程
-     *
+    /**课程
+     *@RequestMapping("/courseDatas")
+     *@ResponseBody
      */
     @RequestMapping("/courseDatas")
     @ResponseBody
@@ -151,12 +141,11 @@ public class VenueController {
                                           @RequestParam(value = "maxtime")Date maxtime,
                                           @RequestParam(value = "mintime")Date mintime
                                           ) {
-     /*   Subject subject = SecurityUtils.getSubject();
+      Subject subject = SecurityUtils.getSubject();
         Session session = subject.getSession();
-        Venue venue = (Venue) session.getAttribute(Attributes.CURRENT_USER);*/
-
+        Venue venue = (Venue) session.getAttribute(Attributes.CURRENT_USER);
         List<Course> list =null;
-        CourseVo courseVo=new CourseVo(1,teacherName,cname,maxtime,mintime);
+        CourseVo courseVo=new CourseVo(venue.getVenueId(),teacherName,cname,maxtime,mintime);
         list = venueService.selCourse(currentPage,pageSize,courseVo);
         for (Course course:list) {
             System.out.println(course);
@@ -166,9 +155,9 @@ public class VenueController {
         List<Course> courses= pageInfo.getList();
         for (int i=0;i<courses.size();i++) {
             Date date=new Date();
-            Course course=new Course();
-            if (!date.before(courses.get(i).getStartTime())){
-                if (date.before(courses.get(i).getOverTime())){
+            Course course=courses.get(i);
+            if (!date.before(course.getStartTime())){
+                if (date.before(course.getOverTime())){
                     course.setCourseState("正在上课");
                 }else {
                     course.setCourseState("今日课程已结束");
@@ -343,5 +332,23 @@ public class VenueController {
             return LayUiDataUtil.error("审核失败");
         }
         return LayUiDataUtil.ok("审核成功");
+    }
+
+    @RequestMapping("/selTeacher")
+    @ResponseBody
+    public LayUiDataUtil selTeacher(Venue_teacher venue_teacher,Integer currentPage,Integer pageSize) {
+        Subject subject = SecurityUtils.getSubject();
+        Session session = subject.getSession();
+        Venue venue = (Venue) session.getAttribute(Attributes.CURRENT_USER);
+        venue_teacher.setVenueId(venue.getVenueId());
+        venue_teacher.setTeacher(new Teacher());
+        venue_teacher.setTeacherState(0);
+        System.out.println(venue_teacher);
+        List<Venue_teacher> result=venueService.selTeacherName(venue_teacher);
+        if (result==null){
+            return LayUiDataUtil.error("查找在本场馆的教练失败");
+        }
+
+        return LayUiDataUtil.ok(result);
     }
 }

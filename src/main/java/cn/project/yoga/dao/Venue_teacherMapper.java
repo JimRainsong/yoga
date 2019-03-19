@@ -45,9 +45,7 @@ public interface Venue_teacherMapper {
 
             @Result(column="teacherId",property="teacher",
                     one=@One(select="cn.project.yoga.dao.TeacherMapper.selByTeacherId")
-            )/*
-              @Result(column="teacherName",property="teacher.teacherName"
-            )*/
+            )
     })
     List<Venue_teacher> selectTeachers(@Param("venue_teacher")Venue_teacher venue_teacher,@Param("currentPage")Integer currentPage,@Param("pageSize")Integer pageSize);
     /**/

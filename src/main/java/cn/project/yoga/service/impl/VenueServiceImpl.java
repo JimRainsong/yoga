@@ -106,10 +106,10 @@ public class VenueServiceImpl implements VenueService {
     }
 
     @Override
-    public boolean findStartTimeByCourse(Date startTime, int vid, int tid) {
-        if (courseMapper.selCourseByStartTime(tid, vid, startTime) != null) {
-            return true;
-        }
+    public boolean findStartTimeByCourse(Date startTime,int vid,int tid) {
+       if (courseMapper.selCourseByStartTime(tid,vid,startTime)!=null){
+              return true;
+       }
         return false;
     }
 
@@ -130,8 +130,13 @@ public class VenueServiceImpl implements VenueService {
     }
 
     @Override
-    public Venue selvenueByUserId(User user) {
-        return null;
+    public List<Venue_teacher> selTeacherName(Venue_teacher venue_teacher) {
+        return venue_teacherMapper.selectTeachers(venue_teacher,1,50);
+    }
+
+    @Override
+    public Venue selVenueByUserId(User user) {
+        return venueMapper.selvenueByUserId(user);
     }
 
 

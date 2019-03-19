@@ -24,8 +24,8 @@
         var table = layui.table;
         table.render({
             elem: '#Course'
-            ,height: 300
-            ,url:'/yoga/venueDate/showCourse'
+            ,height: 800
+            ,url:'/yoga/venueDate/courseDatas?tname=&cname=&maxtime=&mintime='
             ,page: true
             ,response: {
                 statusName: 'code'
@@ -52,7 +52,14 @@
             ]
 
         });
-
+        laydate.render({
+            elem: '#startTime'
+            ,format: 'HH:mm:ss' //可任意组合
+        });
+        laydate.render({
+            elem: '#overTime'
+            ,format: 'HH:mm:ss' //可任意组合
+        });
         //头工具栏事件
         table.on('toolbar(test)', function(obj){
             var checkStatus = table.checkStatus(obj.config.id); //获取选中行状态
@@ -73,6 +80,7 @@
             content: '/yoga/venueUser/insertCourse'
         });
     }
+
     // function insertVipType() {
     //     url='/yoga/venueUser/inVipTypes';
     //     title="添加VIP类型";
