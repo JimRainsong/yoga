@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>YOGA! 场馆</title>
+    <link rel="stylesheet" th:href="@{/layui/css/layui.css}">
+    <script th:src="@{/js/jquery.min.js}"></script>
+    <script th:src="@{/layui/layer/layer.js}"></script>
+    <script th:src="@{/yoga/layui/layui.js}"></script>
+</head>
+<body class="layui-layout-body">
+
+<table class="layui-hide" id="Course" lay-filter="test"></table>
+
+<script type="text/html" id="toolbarDemo">
+    <div class="layui-btn-container">
+        <button class="layui-btn layui-btn-sm" lay-event="selCourse">删除课程</button>
+        <button  class="layui-btn" id="insertCourse" onclick="insertCourse()">新增课程</button>
+    </div>
+</script>
+<script>
+    layui.use('table', function(){
+        var table = layui.table;
+        table.render({
+            elem: '#Course'
+            ,height: 300
+            ,url:'/yoga/venueDate/showCourse'
+            ,page: true
+            ,response: {
+                statusName: 'code'
+                ,statusCode: 200
+                ,msgName: 'msg'
+                ,countName: 'count'
+                ,dataName: 'data'
+            }
+            ,toolbar: '#toolbarDemo'
+            ,cols: [
+                [
+                    {type:'radio'}
+                ,{field:'courseId', width:150, title: '课程ID', sort: true}
+                ,{field:'courseName', width:150, title: '课程名称', sort: true}
+                ,{field:'teacher.teacherName', width:150, title: '教练名称'}
+                ,{field:'startTime', width:150, title: '开始时间', sort: true}
+                ,{field:'overTime', width:150, title: '结束时间', sort: true}
+                ,{field:'courseMoney', width:150, title: '价格'}
+                ,{field:'coursePeople', width:150, title: '已报名人数'}
+                ,{field:'coursePeople', width:150, title: '总人数'}
+                ,{field:'courseState', width:150, title: '课程状态'}
+
+                ]
+            ]
+
+        });
+
+        //头工具栏事件
+        table.on('toolbar(test)', function(obj){
+            var checkStatus = table.checkStatus(obj.config.id); //获取选中行状态
+            switch(obj.event){
+                case 'selCourse':
+                    var data = checkStatus.data;  //获取选中行数据
+
+                    deleteVipType(data[0].courseId);
+                    break;
+            };
+        });
+    });
+    function insertCourse() {
+        layer.open({
+            type: 2,
+            title: '添加会员卡',
+            area : ['600px' , '500px'],
+            content: '/yoga/venueUser/insertCourse'
+        });
+    }
+    // function insertVipType() {
+    //     url='/yoga/venueUser/inVipTypes';
+    //     title="添加VIP类型";
+    //     eid="AdVipTypeId";
+    //     add();
+    // }
+    //
+    //
+    //  function add() {
+    //      $.ajax({ url:url,
+    //          type:"GET",
+    //          success:function(result) {
+    //                     layer.open({
+    //                  title: '添加会员卡'
+    //                         , area: ['600px', '500px']
+    //                  , content: result
+    //
+    //              });
+    //          }
+    //          });
+    //  }
+</script>
+</body>
+</html>

@@ -6,7 +6,6 @@ import cn.project.yoga.dao.AttentionMapper;
 import cn.project.yoga.dao.SelstudentMapper;
 import cn.project.yoga.dao.VenueMapper;
 import cn.project.yoga.dao.Vip_typeMapper;
-import cn.project.yoga.pojo.*;
 import cn.project.yoga.service.VenueService;
 import cn.project.yoga.vo.CourseVo;
 import cn.project.yoga.vo.TeacherTypeVo;
@@ -110,6 +109,7 @@ public class VenueServiceImpl implements VenueService {
     public Venue selvenueByUserId(User user) {
         return null;
     }
+
 
     @Override
     public Collection<? extends Detail> selectMyfollowedVenByCurrentUserId2(Integer currentUserId) {

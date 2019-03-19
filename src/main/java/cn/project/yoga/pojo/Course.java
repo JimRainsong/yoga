@@ -20,6 +20,27 @@ public class Course {
 
     private Integer flag;
 
+    private String courseState;
+
+    private String courseName;
+
+
+    public String getCourseName() {
+        return courseName;
+    }
+
+    public void setCourseName(String courseName) {
+        this.courseName = courseName;
+    }
+
+    public String getCourseState() {
+        return courseState;
+    }
+
+    public void setCourseState(String courseState) {
+        this.courseState = courseState;
+    }
+
     public Integer getCourseId() {
         return courseId;
     }

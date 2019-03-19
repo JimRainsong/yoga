@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>注册</title>
+    <link rel="stylesheet" th:href="@{/layui/css/layui.css}">
+    <script th:src="@{/js/jquery.min.js}"></script>
+    <script th:src="@{/layui/layer/layer.js}"></script>
+    <style type="text/css">
+        #body01 {
+            width: 400px;
+            height: 400px;
+            text-align:center;
+            margin:  auto;
+        }
+    </style>
+</head>
+<body id="body01">
+
+&nbsp;&nbsp;<input value="欢迎来到！YOGA！！" style="font-size: 20px;background-color:rgba(0,0,0,0.2);"><br><br><br>
+<div class="layui-form-item">
+    <label class="layui-form-label">课程名称</label>
+    <div class="layui-input-inline">
+        <input type="text" name="courseName" id="courseName" required lay-verify="required" placeholder="课程名称" autocomplete="off" class="layui-input">
+    </div>
+</div>
+<div class="layui-form-item">
+    <label class="layui-form-label">教练名称</label>
+    <div class="layui-input-inline">
+        <input type="text" name="teacher.teacherName" id="teacher.teacherName" required lay-verify="required" placeholder="教练名称" autocomplete="off" class="layui-input">
+    </div>
+</div>
+<div class="layui-form-item">
+    <label class="layui-form-label">开始时间</label>
+    <div class="layui-input-inline">
+        <input type="date"  name="startTime" id="startTime" required lay-verify="required" placeholder="开始时间" autocomplete="off" class="layui-input">
+    </div>
+</div>
+<div class="layui-form-item">
+    <label class="layui-form-label">结束时间</label>
+    <div class="layui-input-inline">
+        <input type="date"  name="overTime" id="overTime" required lay-verify="required" placeholder="结束时间" autocomplete="off" class="layui-input">
+    </div>
+</div>
+<div class="layui-form-item">
+    <label class="layui-form-label">课程价格</label>
+    <div class="layui-input-inline">
+        <input type="number" name="courseMoney" id="courseMoney" required lay-verify="required" placeholder="课程价格" autocomplete="off" class="layui-input">
+    </div>
+</div>
+<div class="layui-form-item">
+    <label class="layui-form-label">可报名人数</label>
+    <div class="layui-input-inline">
+        <input type="number" name="coursePeople" id="coursePeople" required lay-verify="required" placeholder="可报名人数" autocomplete="off" class="layui-input">
+    </div>
+</div>
+
+<div class="layui-layer-btn layui-layer-btn-">
+    <a class="layui-layer-btn0"  onclick="insertCourse()" >提交</a>
+    <a class="layui-layer-btn0" onclick=" exits()">返回</a></div>
+<script>
+    function exits() {
+       window.parent.location.reload();
+       parent.layer.close(index);
+    }
+    function insertCourse(){
+        $.ajax({
+            url : "/yoga/venueDate/insertCourseDatas",
+            type : "post",
+            data : {
+                courseName : $("#courseName").val(),
+                teacherName : $("#teacher.teacherName").val(),
+                startTime : $("#startTime").val(),
+                overTime : $("#overTime").val(),
+                courseMoney : $("#courseMoney").val(),
+                coursePeople : $("#coursePeople").val(),
+            },
+            dataType : "json",
+            success : function(data) {
+                if(data.code == 0){
+                    alert(data.msg)
+                    window.parent.location.reload();
+                    parent.layer.close(index);
+                }
+                alert(data.msg);
+
+            }
+        })
+    }
+</script>
+</body>
+</html>
