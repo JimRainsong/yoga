@@ -106,16 +106,21 @@ public class VenueServiceImpl implements VenueService {
     }
 
     @Override
-    public boolean findStartTimeByCourse(Date startTime,int vid,int tid) {
-       if (courseMapper.selCourseByStartTime(tid,vid,startTime)!=null){
-              return true;
-       }
+    public boolean findStartTimeByCourse(Date startTime, int vid, int tid) {
+        if (courseMapper.selCourseByStartTime(tid, vid, startTime) != null) {
+            return true;
+        }
         return false;
     }
 
     @Override
     public int addCourse(Course course) {
         return 0;
+    }
+
+    @Override
+    public List<VenMoment> onlyFollowedallMoments2(Integer currentUserId) {
+        return venueMapper.onlyFollowedMonents2(currentUserId);
     }
 
     @Override

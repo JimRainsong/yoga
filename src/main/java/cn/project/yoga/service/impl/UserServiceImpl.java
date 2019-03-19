@@ -238,6 +238,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public List<StuMoment> onlyFollowedMoments2(Integer currentUserId) {
+        return userMapper.onlyFollowedMoments2(currentUserId);
+    }
+
+    @Override
     public int addUser(User user) {
         return userMapper.insert(user);
     }

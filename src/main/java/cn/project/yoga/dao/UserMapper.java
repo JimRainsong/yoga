@@ -110,4 +110,12 @@ public interface UserMapper {
      */
     @Delete("delete from attention where user_id=#{currentUserId} and follow_id=#{targetUserId}")
     int cancleFollow2(Integer currentUserId, Integer targetUserId);
+
+    /**
+     * 已关注的所有学院动态
+     * @param currentUserId
+     * @return
+     */
+    @Select("select * from moments_stu where id in (select follow_id from attention where user_id=#{currentUserId})")
+    List<StuMoment> onlyFollowedMoments2(Integer currentUserId);
 }

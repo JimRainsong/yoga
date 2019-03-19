@@ -78,4 +78,6 @@ public interface TeacherService {
      * @return
      */
     TeacherInfo selectTeacherByItsUserId2(Integer userId);
+
+    List<TeaMoment> onlyFollowedallMoments2(Integer currentUserId);
 }

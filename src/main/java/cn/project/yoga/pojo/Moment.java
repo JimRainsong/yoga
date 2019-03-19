@@ -8,6 +8,11 @@ public abstract class Moment {
     private String name;
     private Integer id;
     private String detail;
+    private Integer roleId;
+
+    public abstract Integer getRoleId();
+
+    public abstract void setRoleId(Integer roleId);
 
     public abstract Date getTime();
 

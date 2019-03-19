@@ -169,4 +169,9 @@ public class TeacherServiceImpl implements TeacherService {
     public TeacherInfo selectTeacherByItsUserId2(Integer userId) {
         return teacherMapper.selectTeacherByItsUserId2(userId);
     }
+
+    @Override
+    public List<TeaMoment> onlyFollowedallMoments2(Integer currentUserId) {
+        return teacherMapper.onlyFollowedallMoments2(currentUserId);
+    }
 }

@@ -146,4 +146,6 @@ public interface VenueService {
     boolean findStartTimeByCourse(Date startTime,int vid,int tid);
 
     int addCourse(Course course);
+
+    List<VenMoment> onlyFollowedallMoments2(Integer currentUserId);
 }

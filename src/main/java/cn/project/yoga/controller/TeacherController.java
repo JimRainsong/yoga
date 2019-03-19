@@ -86,12 +86,24 @@ public class TeacherController {
     }
 
     @RequestMapping("/page0")
-    public ModelAndView page1() {
+    public ModelAndView page1(@RequestParam(required = false, defaultValue = "true") Boolean myFollowedOnly) {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("/teacher/page0");
-        List<StuMoment> stuMomentList = userService.allMoments2();
-        List<TeaMoment> teaMomentList = teacherService.allMoments2();
-        List<VenMoment> venMomentList = venueService.allMoments2();
+        List<StuMoment> stuMomentList = new ArrayList<>();
+        List<TeaMoment> teaMomentList = new ArrayList<>();
+        List<VenMoment> venMomentList = new ArrayList<>();
+        if (!myFollowedOnly) {
+            stuMomentList = userService.allMoments2();
+            teaMomentList = teacherService.allMoments2();
+            venMomentList = venueService.allMoments2();
+            modelAndView.addObject("seeAll", true);
+        } else {
+            Integer currentUserId = ((TeacherInfo) SecurityUtils.getSubject().getSession().getAttribute(Attributes.CURRENT_USER)).getuId();
+            stuMomentList = userService.onlyFollowedMoments2(currentUserId);
+            teaMomentList = teacherService.onlyFollowedallMoments2(currentUserId);
+            venMomentList = venueService.onlyFollowedallMoments2(currentUserId);
+            modelAndView.addObject("seeAll", false);
+        }
         List<Moment> allMoments = new ArrayList<>();
         allMoments.addAll(stuMomentList);
         allMoments.addAll(teaMomentList);

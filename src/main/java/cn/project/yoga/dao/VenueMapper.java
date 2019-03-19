@@ -118,9 +118,19 @@ public interface VenueMapper {
 
     /**
      * 根据登录的用户id查询场馆
+     *
      * @param userId
      * @return
      */
     @Select("select * from venue where user_id=#{userId}")
     Venue selectVenueByItsUserId2(Integer userId);
+
+    /**
+     * 查看所有已关注的场馆动态
+     *
+     * @param currentUserId
+     * @return
+     */
+    @Select("select * from moments_ven where id in (select follow_id from attention where user_id=#{currentUserId})")
+    List<VenMoment> onlyFollowedMonents2(Integer currentUserId);
 }
