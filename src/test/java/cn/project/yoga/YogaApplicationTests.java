@@ -1,6 +1,8 @@
 package cn.project.yoga;
 
+import cn.project.yoga.dao.TeacherMapper;
 import cn.project.yoga.dao.UserMapper;
+import cn.project.yoga.dao.VenueMapper;
 import cn.project.yoga.pojo.Selstudent;
 import cn.project.yoga.service.UserService;
 import cn.project.yoga.service.VenueService;
@@ -18,16 +20,14 @@ import java.util.List;
 @SpringBootTest
 public class YogaApplicationTests {
     @Autowired
-    private UserService userService;
-    @Autowired
-    private VenueService venueService;
+    private TeacherMapper teacherMapper;
     @Autowired
     private UserMapper userMapper;
+    @Autowired
+    private VenueMapper venueMapper;
 
     @Test
     public void contextLoads() {
-        Date d1 = new Date(20048L);
-        Date d2 = new Date(20048L);
-        System.out.println(d2.compareTo(d1));
+        System.out.println(userMapper.hasIfollowedThis2(6, 8));
     }
 }

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" type="text/css" href="../../static/css/teacher/student&teacher.css"
+          th:href="@{/css/teacher/student&teacher.css}">
+    <script th:src="@{/js/jquery.min.js}" src="../../static/js/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="../../static/css/fzwmodal.css"
+          th:href="@{/css/fzwmodal.css}">
+    <script th:src="@{/js/fzwmodal.js}" src="../../static/js/fzwmodal.js"></script>
+</head>
+<body>
+<header>
+    <div class="head_img_div">
+        <img src="../../static/img/head_imgs/default.png" th:src="${student.headImg}" id="head_img">
+    </div>
+    <div class="net_name" th:text="${student.netName}">菜蓿鲲</div>
+    <button th:if="${isFollowed} eq null" th:onclick="|doFollow(${student.userId})|" class="follow_button"
+            style="background-color: #f4853b">关注
+    </button>
+    <button th:if="${isFollowed} ne null" th:onclick="|doFollow(${student.userId})|" class="follow_button"
+            style="background-color: green">已关注
+    </button>
+</header>
+<div class="white_area">
+    <div class="single_manager">
+        <div class="orange_icon"></div>
+        <div class="key">会员卡号:</div>
+        <div class="value" th:text="${student.idCard}">9527</div>
+    </div>
+    <div class="border_line"></div>
+    <div class="single_manager">
+        <div class="orange_icon"></div>
+        <div class="key">积分:</div>
+        <div class="value" th:text="${student.score}">1234</div>
+    </div>
+    <div class="border_line"></div>
+    <div class="single_manager">
+        <div class="orange_icon"></div>
+        <div class="key">等级:</div>
+        <div class="value" th:text="${student.level}">黑铁4大神</div>
+    </div>
+</div>
+
+<!--模态框组件-->
+<div id="block" class="modal"></div>
+<div id="dialog" class="modal">
+    <div id="dialog_message"></div>
+    <button onclick="turnTo()">确认</button>
+</div>
+<!-- !! -->
+<script>
+    function doFollow(targetUserId) {
+        $.post("/yoga/teacher/doFollow", {"targetUserId": targetUserId}, function (mes) {
+            openDialog(mes.message, "", false);
+            var button = $(".follow_button").eq(0);
+            if (mes.code == 0) {
+                button.css("background-color", "green");
+                button.html("已关注");
+            } else if (mes.code == -1) {
+                button.css("background-color", "#f4853b");
+                button.html("关注");
+            }
+        })
+    }
+</script>
+</body>
+</html>
