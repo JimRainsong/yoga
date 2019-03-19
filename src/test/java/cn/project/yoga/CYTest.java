@@ -3,24 +3,17 @@ package cn.project.yoga;
 import cn.project.yoga.dao.*;
 import cn.project.yoga.pojo.Ad;
 import cn.project.yoga.pojo.Teacher;
-import cn.project.yoga.pojo.User;
 import cn.project.yoga.pojo.Venue_teacher;
 import cn.project.yoga.pojo.Vip_type;
 import cn.project.yoga.service.VenueService;
 import cn.project.yoga.vo.CourseVo;
 import com.github.pagehelper.PageInfo;
-import javafx.scene.input.DataFormat;
-import org.apache.shiro.SecurityUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import javax.xml.crypto.Data;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 @RunWith(SpringRunner.class)
