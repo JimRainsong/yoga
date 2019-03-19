@@ -51,4 +51,9 @@ public class UserViewController {
         return "user/allVenue";
     }
 
+    @RequestMapping("/selectAllCoach")
+    public String allCoach(){
+        return "user/allCoach";
+    }
+
 }

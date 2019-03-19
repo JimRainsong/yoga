@@ -1,15 +1,18 @@
 package cn.project.yoga.service.impl;
 
-import cn.project.yoga.dao.AdMapper;
-import cn.project.yoga.dao.UserMapper;
-import cn.project.yoga.dao.User_infoMapper;
-import cn.project.yoga.dao.VenueMapper;
+import cn.project.yoga.dao.*;
 import cn.project.yoga.pojo.*;
 import cn.project.yoga.service.UserService;
+import cn.project.yoga.vo.MyVenueVo;
 import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.sql.Time;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -25,6 +28,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private User_infoMapper user_infoMapper;
+
+    @Autowired
+    private TeacherMapper teacherMapper;
 
     @Override
     public User selectUserByUserName(String userName) {
@@ -56,13 +62,17 @@ public class UserServiceImpl implements UserService {
 
     /**
      * 查询我的场馆
-     * @param user_id
+     * @param
      * @return
      */
     @Override
-    public List<Venue> selectMyVenue1(int user_id) {
-        List<Venue> venues=venueMapper.selectMyVen1(user_id);
-        return venues;
+    public List<MyVenueVo> selectMyVenue1() {
+        String userName=SecurityUtils.getSubject().getPrincipal().toString();
+        int userId=userMapper.selectUserByUserName(userName).getUserId();
+        int uId=userMapper.selUidByUserId(userId);
+
+        List<MyVenueVo> list=userMapper.selMyVipRecord(uId,new Date().getTime());
+        return list;
     }
 
     @Override
@@ -210,6 +220,81 @@ public class UserServiceImpl implements UserService {
     @Override
     public Venue lookVenueDetails(Integer venueId) {
         return venueMapper.selectByPrimaryKey(venueId);
+    }
+
+    @Override
+    public List<Vip_type> selShowVipType(Integer venueId) {
+        return userMapper.selShowVipType(venueId);
+    }
+
+    @Override
+    public Vip_type selVipTypeById(Integer vipTypeId) {
+        return userMapper.selVipTypeById(vipTypeId);
+    }
+
+    @Override
+    public String openVip(Integer venueId, Integer vipTypeId) {
+        Date date=new Date();
+        Timestamp registTime=new Timestamp(date.getTime());
+
+
+        //SimpleDateFormat simpleDateFormat=new SimpleDateFormat("yyyy-MM-dd");
+        Calendar calendar=Calendar.getInstance();
+
+        Vip_type vip_type=userMapper.selVipTypeById(vipTypeId);
+        String useDate=vip_type.getUseDate();
+        if (useDate.equals("一个月") || useDate.equals("月卡")){
+            calendar.add(Calendar.MONTH,1);
+        }else if (useDate.equals("3个月") || useDate.equals("三个月") || useDate.equals("季卡")){
+            calendar.add(Calendar.MONTH,3);
+        }else if(useDate.equals("一年") || useDate.equals("一年")){
+            calendar.add(Calendar.YEAR,1);
+        }
+        Date updateTime=calendar.getTime();
+        Timestamp updateTime1=new Timestamp(updateTime.getTime());
+        Vip_record vip_record=new Vip_record();
+        if (SecurityUtils.getSubject().getPrincipal()==null){
+            return "请先登录";
+        }
+        int userId=userMapper.selectUserByUserName(SecurityUtils.getSubject().getPrincipal().toString()).getUserId();
+        int u_id=userMapper.selUidByUserId(userId);
+        vip_record.setUserId(u_id);
+        Vip_type vip_type1=userMapper.selVipTypeById(vipTypeId);
+
+        vip_record.setVipType(vip_type1);
+        vip_record.setRegistTime(registTime);
+        vip_record.setUpdateTime(updateTime1);
+
+        //是否已经办理过
+        Vip_record vip_record1=userMapper.selVipRecord(u_id,venueId,new Date().getTime());
+
+        if (vip_record1!=null){
+            return "你已经办理过该场馆的会员";
+        }
+
+        int balacce=userMapper.selBalanceByUserId(userId);
+        if (balacce<vip_type1.getCardPrice()){
+            return "办理失败，余额不足";
+        }
+        int row1 = userMapper.updateMyMoney(userId,vip_type1.getCardPrice());
+        if (row1==0){
+            return "办理失败，原因：扣钱失败";
+        }
+        int row=userMapper.insertVipRecord(vip_record);
+        if (row==0){
+            return "办理失败";
+        }
+        return "办理成功";
+    }
+
+    @Override
+    public List<Teacher> selAllTeacher() {
+        return userMapper.selAllCoach();
+    }
+
+    @Override
+    public Teacher selTeacherByTid(Integer teacherId) {
+        return teacherMapper.SelTeaById4(teacherId);
     }
 
     @Override

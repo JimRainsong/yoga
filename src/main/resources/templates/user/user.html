@@ -13,8 +13,8 @@
     <div class="row clearfix">
         <div class="col-md-8 column">
             <div class="row clearfix">
-                <div class="col-md-2 column">
-                    <img alt="140x140" src="/yoga/user/img/1.jpg" />
+                <div class="col-md-2 column" id="headimg">
+
                 </div>
                 <div class="col-md-6 column">
                     <h3 id="username">
@@ -89,6 +89,21 @@
     }
 
     getUserName();
+    //获取头像
+    function selectMyHead() {
+        $.ajax({
+            url:'/yoga/user/selectMyInfo',
+            type:'post',
+            async:true,
+            success:function (data) {
+                if (data.headImg!=null) {
+                    var img = "<img src='" + data.headImg + "' style='width: 50px;height: 50px;border-radius: 50%' id='headImg'>"
+                    $("#headimg").html(img);
+                }
+            }
+        });
+    }
+    selectMyHead();
 </script>
 </body>
 </html>

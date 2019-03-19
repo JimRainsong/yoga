@@ -1,13 +1,13 @@
 package cn.project.yoga.controller;
 
 import ch.qos.logback.core.util.FileUtil;
-import cn.project.yoga.pojo.Ad;
-import cn.project.yoga.pojo.User;
-import cn.project.yoga.pojo.User_info;
-import cn.project.yoga.pojo.Venue;
+import cn.project.yoga.dao.UserMapper;
+import cn.project.yoga.pojo.*;
 import cn.project.yoga.service.UserService;
+import cn.project.yoga.service.VenueService;
 import cn.project.yoga.utils.*;
 import cn.project.yoga.vo.LoginVo;
+import cn.project.yoga.vo.MyVenueVo;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.session.Session;
@@ -27,6 +27,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
@@ -36,6 +37,9 @@ import java.util.UUID;
 public class UserController {
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private VenueService venueService;
 
 
 
@@ -288,4 +292,48 @@ public class UserController {
         return "menager/hsn/muser";
     }
 
+    @RequestMapping("/selAllVipType")
+    @ResponseBody
+    public List<Vip_type> allVipTypeByVenueId(Integer venueId){
+        return  userService.selShowVipType(venueId);
+    }
+
+    @RequestMapping("/selVipById")
+    @ResponseBody
+    public Vip_type selVipTypeById(Integer vipTypeId){
+        Vip_type vip_type = userService.selVipTypeById(vipTypeId);
+        return vip_type;
+    }
+
+    @RequestMapping("/openVip")
+    @ResponseBody
+    public String openVip(Integer venueId,Integer vipTypeId){
+        return userService.openVip(venueId,vipTypeId);
+    }
+
+
+    @RequestMapping("/myvenue")
+    @ResponseBody
+    public List<MyVenueVo> myVenue(){
+
+
+        List<MyVenueVo> list=userService.selectMyVenue1();
+
+        return list;
+    }
+
+    @RequestMapping("/coaches")
+    @ResponseBody
+    public List<Teacher> allCoaches(){
+        return userService.selAllTeacher();
+    }
+
+    @RequestMapping("/coachDetail")
+    @ResponseBody
+    public  ModelAndView coachDetail(Integer teacherId){
+        ModelAndView modelAndView=new ModelAndView();
+        modelAndView.setViewName("user/coachDetails");
+        modelAndView.addObject(userService.selTeacherByTid(teacherId));
+        return modelAndView;
+    }
 }

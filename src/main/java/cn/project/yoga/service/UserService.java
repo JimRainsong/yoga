@@ -1,6 +1,7 @@
 package cn.project.yoga.service;
 
 import cn.project.yoga.pojo.*;
+import cn.project.yoga.vo.MyVenueVo;
 
 import java.util.List;
 
@@ -21,10 +22,10 @@ public interface UserService {
 
     /**
      * 查询我的场馆
-     * @param user_id
+     * @param
      * @return 场馆的集合
      */
-    List<Venue> selectMyVenue1(int user_id);
+    List<MyVenueVo> selectMyVenue1();
 
     /**
      *购买会员卡
@@ -139,4 +140,14 @@ public interface UserService {
     List<Venue> selectAllVenue();
 
     Venue lookVenueDetails(Integer venueId);
+
+    List<Vip_type> selShowVipType(Integer venueId);
+
+    Vip_type selVipTypeById(Integer vipTypeId);
+
+    String openVip(Integer venueId, Integer vipTypeId);
+
+    List<Teacher> selAllTeacher();
+
+    Teacher selTeacherByTid(Integer teacherId);
 }

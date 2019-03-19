@@ -14,8 +14,8 @@
 联系电话：<p th:text="${venue.venuePhone}"></p>
 qq:<p th:text="${venue.qq}"></p>
 详细介绍：<p th:text="${venue.venueDetails}"></p>
-<input type="hidden" th:value="${venue.venueId}">
-
+<input type="hidden" id="venueId" th:value="${venue.venueId}">
+<input type="hidden" id="mylist">
 <!-- 按钮触发模态框 -->
 <button class="btn btn-primary btn-lg" data-toggle="modal" onclick="selAllVipType()" data-target="#myModal">加入我们</button>
 <!-- 模态框（Modal） -->
@@ -26,37 +26,84 @@ qq:<p th:text="${venue.qq}"></p>
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 <h4 class="modal-title" id="myModalLabel">办理会员</h4>
             </div>
-            <div class="modal-body">
-
-                <table id="dg" class="easyui-datagrid"
-                       data-options="width:1000,title:'会员卡类型',url:'/yoga/manager/selallvenues',fitColumns:true,striped:true,pagination:true,rownumbers:true,pageNumber:1,pageSize:5,pageList:[5,10,15],toolbar:'#tb'">
-                    <thead>
-                    <tr>
-                        <th data-options="field:'venueId',title:'场馆编号',width:80,align:'center'"></th>
-                        <th data-options="field:'userId',title:'用户ID',width:80,align:'center'"></th>
-                        <th data-options="field:'venueName',title:'场馆名称',width:80,align:'center'"></th>
-                        <th data-options="field:'venueAddress',title:'场馆地址',width:80,align:'center'"></th>
-                        <th data-options="field:'venuePhone',title:'场馆电话',width:80,align:'center'"></th>
-                        <th data-options="field:'qq',title:'场馆QQ',width:80,align:'center'"></th>
-                        <th data-options="field:'venueDetails',title:'场馆详细信息',width:80,align:'center'"></th>
-                        <th data-options="field:'authInfo',title:'认证资料',width:80,align:'center'"></th>
-                        <th data-options="field:'authState',title:'认证是否通过',width:80,align:'center'" formatter="checkState"></th>
-                    </tr>
-                    </thead>
-                </table>
-
-
-
+            <div class="modal-body" id="vip_type">
+                <select id="vip_type_name">
+                    <option>未选择</option>
+                </select>
+            </div>
+            <div id="mydiv" style="display: none">
+                说明：<p id="cardInfo"></p>
+                价格：<p id="cardPrice"></p>
+                使用时间：<p id="useDate"></p>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-                <button type="button" class="btn btn-primary">提交更改</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary" onclick="openVip()">办理</button>
             </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal -->
 </div>
-<script>
+<h2>所有课程</h2>
 
+<script>
+    function selAllVipType(){
+        $.ajax({
+            url:'/yoga/user/selAllVipType',
+            type:'post',
+            data:{
+                venueId:$("#venueId").val()
+            },
+            success:function (data) {
+                content="<option>未选择</option>";
+                for(var i=0;i<data.length;i++){
+                    content+="<option value='"+data[i].vipTypeId+"'>"+data[i].cardName+"</option>";
+                }
+            $("#vip_type_name").html(content);
+                $("#mylist").val(data);
+            }
+        })
+    }
+    $("#vip_type_name").change(function () {
+        var options=$("#vip_type_name option:selected");
+        var vipId=options.val();
+        var viptext=options.text();
+
+        if (viptext=="未选择"){
+            $("#mydiv").hide();
+        } else {
+            $("#mydiv").show();
+           $.ajax({
+               url:'/yoga/user/selVipById',
+               type:'post',
+               anync:true,
+               data:{
+                 vipTypeId:vipId
+               },
+               success:function (data) {
+                   $("#cardInfo").html(data.cardInfo);
+
+                   $("#cardPrice").html(data.cardPrice);
+
+                   $("#useDate").html(data.useDate);
+               }
+           });
+        }
+    });
+    function openVip() {
+        var options=$("#vip_type_name option:selected");
+        $.ajax({
+            url:'/yoga/user/openVip',
+            type:'post',
+            async:true,
+            data:{
+                venueId:$("#venueId").val(),
+                vipTypeId:options.val()
+            },
+            success:function (data) {
+              alert(data);
+            }
+        });
+    }
 </script>
 </body>
 </html>
