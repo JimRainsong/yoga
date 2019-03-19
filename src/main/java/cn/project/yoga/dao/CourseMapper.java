@@ -39,7 +39,7 @@ public interface CourseMapper {
 
 
     @Select("<script>"+
-            "select * from course as co,teacher as t " +
+            "select course_id as courseId,venue_id,t.teacher_id as teacherId,start_time,over_time,course_money,course_people,co.flag,course_name from course as co,teacher as t " +
             "<where>"+
             "co.teacher_id=t.teacher_id " +
           "<if test=' courseVo.cname!=null and  \"\"!=courseVo.cname'>" +
