@@ -11,6 +11,7 @@ import cn.project.yoga.vo.TeacherTypeVo;
 import cn.project.yoga.pojo.*;
 
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 
 
@@ -61,6 +62,8 @@ public interface VenueService {
     int venueUploadAds(Ad ad);
 
 
+
+
     List<Course> selCourse(Integer currentPage, Integer pageSize, CourseVo courseVo);
 
 
@@ -79,6 +82,7 @@ public interface VenueService {
     /*
      * 根据ID查询场馆*/
     public Venue SelVenById4(int venueId);
+
 
 
     /*
@@ -138,4 +142,8 @@ public interface VenueService {
      * @return
      */
     Venue selectVenueByItsUserId2(Integer userId);
+
+    boolean findStartTimeByCourse(Date startTime,int vid,int tid);
+
+    int addCourse(Course course);
 }

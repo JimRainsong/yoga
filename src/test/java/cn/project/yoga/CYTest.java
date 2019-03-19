@@ -41,11 +41,17 @@ public class CYTest {
    private AdMapper adMapper;
     @Test
     public void contextLoads() {
+       /*CourseVo courseVo=new CourseVo(1,null,null,null,null);
+        System.out.println(courseMapper.selCourse(courseVo,1,1));*/
+
       /* CourseVo courseVo=new CourseVo(1,null,null,null,null);
         System.out.println(courseMapper.selCourse(courseVo,1,1));*/
-        Ad ad=new Ad();
+       /* Ad ad=new Ad();
         ad.setAdTitle("Fucker");
-        System.out.println(adMapper.insertSelective(ad));
+        System.out.println(adMapper.insertSelective(ad));*/
+        /*Date date=new Date();
+        DateFormat dataFormat=new SimpleDateFormat("HH:mm:ss");
+        String s=dataFormat.format(date);
+        System.out.println(courseMapper.selCourseByStartTime(1,1,date));*/
     }
-
 }

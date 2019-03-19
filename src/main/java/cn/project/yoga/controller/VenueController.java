@@ -44,20 +44,29 @@ public class VenueController {
                                                     @RequestParam(value = "rows",defaultValue = "10",required = false)Integer pageSize) {
             Subject subject = SecurityUtils.getSubject();
             Session session = subject.getSession();
-            Venue venue = (Venue) session.getAttribute(Attributes.CURRENT_USER);
-            System.out.println(venue.getVenueId()+"666666666");
+             Venue venue = (Venue) session.getAttribute(Attributes.CURRENT_USER);
              List<Selstudent> list = venueService.findStudents(1,10,venue.getVenueId());
             PageInfo pageInfo = new PageInfo(list);
-             Map<String,Object> result = new HashMap<String,Object>();
+            Map<String,Object> result = new HashMap<String,Object>();
             result.put("code",200);
             result.put("msg","");
             result.put("count",pageInfo.getTotal());
             result.put("data",list);
+//        result.put("rows",list);
+//        result.put("total",pageInfo.getTotal());
             System.out.println(list.get(0).getNetName());
             return result;
         }
 
- /*
+
+
+
+
+
+
+
+
+    /*
      *所有教练展示
      * 分页
      * 场馆-cy
@@ -129,23 +138,48 @@ public class VenueController {
         result.put("data",list);
         return result;
     }
-    /**课程
-     *@RequestMapping("/courseDatas")
-     *@ResponseBody
+    /**
+     * 查看课程
+     *
      */
+    @RequestMapping("/courseDatas")
+    @ResponseBody
     public Map<String, Object> showCourse(@RequestParam(value = "page",defaultValue = "1",required = false)Integer currentPage,
                                           @RequestParam(value = "rows",defaultValue = "10",required = false)Integer pageSize,
-                                          @RequestParam(value = "vid")Integer venueId,
                                           @RequestParam(value = "tname")String teacherName,
                                           @RequestParam(value = "cname")String cname,
                                           @RequestParam(value = "maxtime")Date maxtime,
                                           @RequestParam(value = "mintime")Date mintime
                                           ) {
+     /*   Subject subject = SecurityUtils.getSubject();
+        Session session = subject.getSession();
+        Venue venue = (Venue) session.getAttribute(Attributes.CURRENT_USER);*/
+
         List<Course> list =null;
-        CourseVo courseVo=new CourseVo(venueId,teacherName,cname,maxtime,mintime);
+        CourseVo courseVo=new CourseVo(1,teacherName,cname,maxtime,mintime);
         list = venueService.selCourse(currentPage,pageSize,courseVo);
+        for (Course course:list) {
+            System.out.println(course);
+        }
         System.out.println(list);
         PageInfo pageInfo = new PageInfo(list);
+        List<Course> courses= pageInfo.getList();
+        for (int i=0;i<courses.size();i++) {
+            Date date=new Date();
+            Course course=new Course();
+            if (!date.before(courses.get(i).getStartTime())){
+                if (date.before(courses.get(i).getOverTime())){
+                    course.setCourseState("正在上课");
+                }else {
+                    course.setCourseState("今日课程已结束");
+                }
+            }else {
+                    course.setCourseState("课程尚未开始");
+            }
+            courses.set(i,course);
+            System.out.println(course);
+        }
+        pageInfo.setList(list);
         Map<String,Object> result = new HashMap<String,Object>();
         result.put("code",200);
         result.put("msg","");
@@ -153,6 +187,20 @@ public class VenueController {
         result.put("data",list);
         return result;
     }
+    /**
+     *添加课程
+     *
+     */
+     @RequestMapping("/addCourse")
+     @ResponseBody
+     public LayUiDataUtil addCourse(@RequestBody Course course){
+     if (venueService.findStartTimeByCourse(course.getStartTime(),course.getVenueId(),course.getTeacher().getTeacherId())){
+
+     }
+
+     return LayUiDataUtil.error();
+     }
+
 
     /*
      *添加广告
@@ -266,8 +314,8 @@ public class VenueController {
     @ResponseBody
     public LayUiDataUtil translateTeacher(Venue_teacher venue_teacher) {
         Subject subject = SecurityUtils.getSubject();
-       Session session = subject.getSession();
-      Venue venue = (Venue) session.getAttribute(Attributes.CURRENT_USER);
+        Session session = subject.getSession();
+        Venue venue = (Venue) session.getAttribute(Attributes.CURRENT_USER);
         venue_teacher.setVenueId(venue.getVenueId());
         int result=venueService.updataTeacherState(venue_teacher);
         if (result!=1){

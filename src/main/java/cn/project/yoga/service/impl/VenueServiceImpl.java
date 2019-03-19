@@ -6,7 +6,6 @@ import cn.project.yoga.dao.AttentionMapper;
 import cn.project.yoga.dao.SelstudentMapper;
 import cn.project.yoga.dao.VenueMapper;
 import cn.project.yoga.dao.Vip_typeMapper;
-import cn.project.yoga.pojo.*;
 import cn.project.yoga.service.VenueService;
 import cn.project.yoga.vo.CourseVo;
 import cn.project.yoga.vo.TeacherTypeVo;
@@ -14,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -106,9 +106,23 @@ public class VenueServiceImpl implements VenueService {
     }
 
     @Override
+    public boolean findStartTimeByCourse(Date startTime,int vid,int tid) {
+       if (courseMapper.selCourseByStartTime(tid,vid,startTime)!=null){
+              return true;
+       }
+        return false;
+    }
+
+    @Override
+    public int addCourse(Course course) {
+        return 0;
+    }
+
+    @Override
     public Venue selvenueByUserId(User user) {
         return null;
     }
+
 
     @Override
     public Collection<? extends Detail> selectMyfollowedVenByCurrentUserId2(Integer currentUserId) {
