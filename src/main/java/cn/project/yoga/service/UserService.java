@@ -2,7 +2,9 @@ package cn.project.yoga.service;
 
 import cn.project.yoga.pojo.*;
 import cn.project.yoga.vo.MyVenueVo;
+import cn.project.yoga.utils.ResultUtil;
 
+import java.util.Collection;
 import java.util.List;
 
 public interface UserService {
@@ -115,23 +117,41 @@ public interface UserService {
 
     String updateImg(String source);
 
-    /*分页查询所有学员信息*/
-    public List<User_info> SelUser4(int lim);
 
-    /*
-     * 查询学员总数*/
-    public int SelUserNum4();
 
-    /*
+
+
+    /**
      * 根据学员ID查询信息*/
     public User_info SelUserById(int uId);
-    /*
-     * 动态查询学员*/
-    public List<User_info> shearch(String netName,String realName,String phoneNumber,String qq);
 
-    /*
+    /**
+     * 动态查询学员*/
+    public List<User_info> shearch(String netName,String sex,String phoneNumber,String qq,Integer currentPage,Integer pageSize);
+
+    /**
      * 根据ID软删除学员*/
     public int DelUserById4(int uId);
+
+    /**
+     * 根据当前登录的账号去查询此账号关注的人的信息
+     */
+    Collection<? extends Detail> selectMyFollowedStuByCurrentUserId2(Integer currentUserId);
+
+    /**
+     * 根据“用户id”查找一个学员
+     * @param userId
+     * @return
+     */
+    User_info selectUserByUserId2(Integer userId);
+
+    Attention hasIfollowedThis2(Integer currentUserId, Integer userId);
+
+    ResultUtil doFollow2(Integer currentUser, Integer targetUserId);
+
+    ResultUtil cancleFollow2(Integer currentUser, Integer targetUserId);
+
+    List<StuMoment> onlyFollowedMoments2(Integer currentUserId);
 
     /**
      * 查询所有可加入场馆

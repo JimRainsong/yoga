@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
+import java.util.Collection;
 import java.util.List;
 
 public interface TeacherMapper {
@@ -84,8 +85,8 @@ public interface TeacherMapper {
     /**
      * 分页查询所有教练信息
      */
-    @Select("select * from teacher where flag=0 limit #{lim},4 ")
-    public List<Teacher> showTea4(int lim);
+    @Select("select * from teacher where flag=0")
+    public List<Teacher> showTea4(Integer currentPage, Integer pageSize);
 
     /**
      * 软删除教练
@@ -99,11 +100,6 @@ public interface TeacherMapper {
     @Select("select * from teacher where teacher_id=#{teacherId} and flag=0")
     public Teacher SelTeaById4(int teacherId);
 
-    /**
-     * 查询教练表有多少条数据
-     */
-    @Select("SELECT  COUNT(*) FROM teacher WHERE flag=0")
-    public int SelCountTea4();
 
     /**
      * 更新教练信息
@@ -122,4 +118,57 @@ public interface TeacherMapper {
      */
     @Select("select v.* from venue v,venue_teacher t where v.venue_id=t.venue_id and t.teacher_id=#{tId}")
     Venue selectMyVenueByCurrentUserId2(Integer tId);
+
+    /*
+     * 动态查询教练*/
+    @Select("<script>" +
+            "  select * from teacher" +
+            " <where>" +
+            " <if test='teachername != null and teachername!=\"\" '>" +
+            "  and teacher_name like concat('%', #{teachername}, '%')" +
+            " </if>" +
+            " <if test='teacherSex != null and teacherSex!=\"\" '>" +
+            "  and teacher_sex like concat('%', #{teacherSex}, '%')" +
+            " </if>" +
+            "<if test='teacherPhone !=null and teacherPhone !=\"\" '>" +
+            "and teacher_phone = #{teacherPhone}" +
+            "</if>" +
+            "<if test='teacherQq !=null and teacherQq!=\"\" '>" +
+            "and teacher_qq = #{teacherQq}" +
+            "</if>" +
+            " </where>" +
+            " </script>")
+    public List<Teacher> shearch(@Param("teachername") String teachername, @Param("teacherSex") String teacherSex,
+                                 @Param("teacherPhone") String teacherPhone, @Param("teacherQq") String teacherQq, Integer currentPage, Integer pageSize);
+
+    /**
+     * 注册后绑定用户_角色 id
+     */
+    @Insert("insert into user_role(user_id,role_id) values((select user_id from user where user_name=#{username}),2)")
+    int connectRoleIdAndUserId2(String username);
+
+    /**
+     * 用来查当前登录用户所关注的其他人
+     */
+    @Select("SELECT t.* FROM `teacher_detail` t WHERE t.user_id IN (SELECT follow_id FROM attention WHERE user_id=#{0})")
+    List<Detail> selectMyFollowedTeaByCurrentUserId2(Integer currentUserId);
+
+
+    /**
+     * 根据登录id查询教练
+     *
+     * @param userId
+     * @return
+     */
+    @Select("select * from teacherInfo where u_id=#{userId}")
+    TeacherInfo selectTeacherByItsUserId2(Integer userId);
+
+    /**
+     * 查找自己已关注的教练动态
+     *
+     * @param currentUserId
+     * @return
+     */
+    @Select("select * from moments_tea where id in (select follow_id from attention where user_id=#{currentUserId})")
+    List<TeaMoment> onlyFollowedallMoments2(Integer currentUserId);
 }

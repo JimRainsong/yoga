@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="../../static/css/teacher/follow.css" th:href="@{/css/teacher/follow.css}">
+    <script th:src="@{/js/jquery.min.js}"></script>
+    <link rel="stylesheet" type="text/css" href="../../static/css/fzwmodal.css"
+          th:href="@{/css/fzwmodal.css}">
+    <script th:src="@{/js/fzwmodal.js}" src="../../static/js/fzwmodal.js"></script>
+</head>
+<body>
+<header>
+    <span id="title">我关注的人</span>
+    <div id="add_friend_div"><img src="../../static/img/logos/add_friend.png" th:src="@{/img/logos/add_friend.png}">
+    </div>
+</header>
+
+<div id="search_div">
+    <div id="search_button">
+        <img src="../../static/img/logos/search_button.png" th:src="@{/img/logos/search_button.png}">
+    </div>
+    <input type="text" id="net_name">
+</div>
+
+<div class="white_area">
+    <div th:each="detail:${details}">
+        <div class="single_manager" th:onclick="|watchDetail(${detail.roleId},${detail.userId})|">
+            <div class="head_img_div float_inside">
+                <img src="../../static/img/head_imgs/dddsx.jpg" th:src="${detail.img}">
+            </div>
+            <div class="outer float_inside">
+                <div th:text="${detail.netName}" class="inner">带带大师兄</div>
+                <div class="sex inner" th:if="${detail.sex} eq '男'">
+                    <img th:src="@{/img/logos/male.png}">
+                </div>
+                <div class="sex inner" th:if="${detail.sex} eq '女'">
+                    <img th:src="@{/img/logos/female.png}">
+                </div>
+                <div class="sex inner" th:if="${detail.sex} eq '保密'">
+                    <img th:src="@{/img/logos/gender.png}">
+                </div>
+            </div>
+            <div class="type_img" th:if="${detail.roleId} eq '1'">
+                <img src="../../static/img/logo.png" th:src="@{/img/logos/stu.png}"/>
+            </div>
+            <div class="type_img" th:if="${detail.roleId} eq '2'">
+                <img src="../../static/img/logo.png" th:src="@{/img/logos/coach.png}"/>
+            </div>
+            <div class="type_img" th:if="${detail.roleId} eq '3'">
+                <img src="../../static/img/logo.png" th:src="@{/img/logos/gym.png}"/>
+            </div>
+        </div>
+        <div class="border_line"></div>
+    </div>
+</div>
+
+<script>
+    function watchDetail(roleId, userId) {
+        window.location.href = "/yoga/teacher/watchDetail?roleId=" + roleId + "&userId=" + userId;
+    }
+</script>
+</body>
+</html>

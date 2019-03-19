@@ -19,7 +19,7 @@ spring:
       use-global-data-source-stat: true
     driver-class-name: com.mysql.cj.jdbc.Driver
   mvc:
-    date-format: yyyy-MM-dd
+    date-format: yyyy-MM-dd HH:mm:ss
   jackson:
     date-format: yyyy-MM-dd HH:mm:ss
     time-zone: GMT+8

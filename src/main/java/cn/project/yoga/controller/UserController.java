@@ -3,11 +3,17 @@ package cn.project.yoga.controller;
 import ch.qos.logback.core.util.FileUtil;
 import cn.project.yoga.dao.UserMapper;
 import cn.project.yoga.pojo.*;
+import cn.project.yoga.pojo.Ad;
+import cn.project.yoga.pojo.Teacher;
+import cn.project.yoga.pojo.User;
+import cn.project.yoga.pojo.User_info;
+import cn.project.yoga.service.ManagerService;
 import cn.project.yoga.service.UserService;
 import cn.project.yoga.service.VenueService;
 import cn.project.yoga.utils.*;
 import cn.project.yoga.vo.LoginVo;
 import cn.project.yoga.vo.MyVenueVo;
+import com.github.pagehelper.PageInfo;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.session.Session;
@@ -31,6 +37,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
+import java.util.*;
 
 @Controller
 @RequestMapping("/user")
@@ -41,6 +48,9 @@ public class UserController {
     @Autowired
     private VenueService venueService;
 
+
+    @Autowired
+    private ManagerService managerService;
 
 
     @RequestMapping("/login")
@@ -217,18 +227,22 @@ public class UserController {
         }
 
 */
+
+
       String source =  UpLoadFileUtil.upLoadFile(request,imgName,mypath);
       String state=userService.updateImg(source);
 
 
         return state;
-    }
+
+
+            }
 
 
 
 
 
-   /* public String changeName(String oldName){
+    public String changeName(String oldName){
         return UUID.randomUUID()+"_"+oldName;
     }*/
 
@@ -274,13 +288,22 @@ public class UserController {
      * 根据条件查询学员*/
     @RequestMapping("/shearch")
     @ResponseBody
-    public List<User_info> Shearch(HttpServletRequest request){
-        String netName=request.getParameter("netname");
-        String realName=request.getParameter("realname");
-        String qq=request.getParameter("qq");
-        String phoneNumber=request.getParameter("phoneNumber");
-        List<User_info>user_infos= userService.shearch(netName,realName,phoneNumber,qq);
-        return user_infos ;
+    public Map<String,Object> ShearchVenue4(@RequestParam(value = "page",defaultValue = "1",required = false)Integer currentPage,
+                                            @RequestParam(value = "rows",defaultValue = "10",required = false)Integer pageSize,HttpServletRequest request,HttpSession session){
+        String netName= (String) session.getAttribute("netName");
+        String sex= (String) session.getAttribute("sex");
+        String phoneNumber= (String) session.getAttribute("phoneNumber");
+        String qq= (String) session.getAttribute("qq");
+
+        List<User_info>list=userService.shearch(netName,sex,phoneNumber,qq,currentPage,pageSize);
+
+        PageInfo pageInfo = new PageInfo(list);
+        Map<String,Object> result = new HashMap<String,Object>();
+        result.put("code",200);
+        result.put("msg","");
+        result.put("count",pageInfo.getTotal());
+        result.put("data",list);
+        return result;
     }
     /*
      * 软删除学员*/
@@ -289,7 +312,25 @@ public class UserController {
         int uId=Integer.parseInt(request.getParameter("uId"));
         System.out.println(uId);
         userService.DelUserById4(uId);
-        return "menager/hsn/muser";
+        return "manager/hsn/users";
+    }
+
+    /*
+    * 分页查询所有学员*/
+    @RequestMapping("/userDatas")
+    @ResponseBody
+    public Map<String, Object> showuserDatas4(@RequestParam(value = "page",defaultValue = "1",required = false)Integer currentPage,
+                                                @RequestParam(value = "rows",defaultValue = "10",required = false)Integer pageSize,HttpServletRequest request) {
+        List<User_info> list = managerService.SelUser4(currentPage,pageSize);
+        PageInfo pageInfo = new PageInfo(list);
+        Map<String,Object> result = new HashMap<String,Object>();
+        result.put("code",200);
+        result.put("msg","");
+        result.put("count",pageInfo.getTotal());
+        result.put("data",list);
+        return result;
+
+
     }
 
     @RequestMapping("/selAllVipType")

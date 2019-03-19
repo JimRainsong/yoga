@@ -4,15 +4,18 @@ import cn.project.yoga.dao.*;
 import cn.project.yoga.pojo.*;
 import cn.project.yoga.service.UserService;
 import cn.project.yoga.vo.MyVenueVo;
+import cn.project.yoga.utils.ResultUtil;
 import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.xml.soap.Detail;
 import java.sql.Time;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Collection;
 import java.util.List;
 
 @Service
@@ -41,20 +44,21 @@ public class UserServiceImpl implements UserService {
      * 修改用户信息
      * @author zjn
      * @param user
-     * @return  int 影响行数
+     * @return int 影响行数
+     * @author zjn
      */
     @Override
     public String updateUserInfo1(User_info user) {
 
         //查user_id
-        String userName= SecurityUtils.getSubject().getPrincipal().toString();
-        if (userName==null){
+        String userName = SecurityUtils.getSubject().getPrincipal().toString();
+        if (userName == null) {
             return "请先登录";
         }
-        int userId=userMapper.selectUserByUserName(userName).getUserId();
+        int userId = userMapper.selectUserByUserName(userName).getUserId();
         user.setUserId(userId);
         int row = user_infoMapper.updateByPrimaryKeySelective(user);
-        if (row==1){
+        if (row == 1) {
             return "修改信息成功";
         }
         return "修改信息失败";
@@ -175,24 +179,12 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public String updateImg(String source) {
-        int user_id=userMapper.selectUserByUserName(SecurityUtils.getSubject().getPrincipal().toString()).getUserId();
-        int row = user_infoMapper.updateHeadImg(source,user_id);
-        if (row==0){
+        int user_id = userMapper.selectUserByUserName(SecurityUtils.getSubject().getPrincipal().toString()).getUserId();
+        int row = user_infoMapper.updateHeadImg(source, user_id);
+        if (row == 0) {
             return "上传失败";
         }
         return "上传成功";
-    }
-
-    @Override
-    public List<User_info> SelUser4(int lim) {
-        List<User_info> user_infos=user_infoMapper.SelUser4(lim);
-        return user_infos;
-    }
-
-    @Override
-    public int SelUserNum4() {
-        int total=user_infoMapper.SelUserNum4();
-        return total;
     }
 
     @Override
@@ -201,9 +193,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<User_info> shearch(String netName,String realName,String phoneNumber,String qq) {
+    public List<User_info> shearch(String netName, String sex, String phoneNumber, String qq, Integer currentPage, Integer pageSize) {
 
-        return user_infoMapper.shearch(netName,realName,phoneNumber,qq);
+        return user_infoMapper.shearch(netName, sex, phoneNumber, qq, currentPage, pageSize);
     }
 
     @Override
@@ -298,7 +290,57 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public Collection<? extends Detail> selectMyFollowedStuByCurrentUserId2(Integer currentUserId) {
+        return userMapper.selectMyFollowedStuByCurrentUserId2(currentUserId);
+    }
+
+    @Override
+    public User_info selectUserByUserId2(Integer userId) {
+        return userMapper.selectUserByItsUserId2(userId);
+    }
+
+    @Override
+    public Attention hasIfollowedThis2(Integer currentUserId, Integer userId) {
+        return userMapper.hasIfollowedThis2(currentUserId, userId);
+    }
+
+    @Override
+    public ResultUtil doFollow2(Integer currentUserId, Integer targetUserId) {
+        int row = userMapper.doFollow2(currentUserId, targetUserId);
+        if (row > 0) {
+            return ResultUtil.ok("成功关注");
+        } else {
+            ResultUtil resultUtil = new ResultUtil();
+            resultUtil.setCode(999);
+            resultUtil.setMessage("未知错误，请稍后再试");
+            return resultUtil;
+        }
+    }
+
+    @Override
+    public ResultUtil cancleFollow2(Integer currentUserId, Integer targetUserId) {
+        int row = userMapper.cancleFollow2(currentUserId, targetUserId);
+        ResultUtil resultUtil = new ResultUtil();
+        if (row > 0) {
+            resultUtil.setCode(-1);
+            resultUtil.setMessage("已取消关注");
+        } else {
+            resultUtil = new ResultUtil();
+            resultUtil.setCode(999);
+            resultUtil.setMessage("未知错误，请稍后再试");
+        }
+        return resultUtil;
+    }
+
+    @Override
+    public List<StuMoment> onlyFollowedMoments2(Integer currentUserId) {
+        return userMapper.onlyFollowedMoments2(currentUserId);
+    }
+
+    @Override
     public int addUser(User user) {
         return userMapper.insert(user);
     }
+
+
 }

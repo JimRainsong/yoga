@@ -31,13 +31,10 @@ public interface User_infoMapper {
 
     /*
      *分页 查询学员所有信息*/
-    @Select("select * from user_info where flag=0 limit #{lim},4")
-    public List<User_info> SelUser4(int lim);
+    @Select("select * from user_info where flag=0 ")
+    public List<User_info> SelUser4(Integer currentPage, Integer pageSize);
 
-    /*
-     * 查询学员总数*/
-    @Select("select count(*) from user_info where flag=0")
-    public int SelUserNum4();
+
 
     /*
      * 根据学员ID查询信息*/
@@ -52,8 +49,8 @@ public interface User_infoMapper {
             " <if test='netName != null and netName!=\"\" '>"  +
             "  and net_name like concat('%', #{netName}, '%')"+
             " </if>" +
-            " <if test='realName != null and realName!=\"\" '>" +
-            " and real_name like concat('%', #{realName}, '%')" +
+            " <if test='sex != null and sex!=\"\" '>" +
+            " and sex like concat('%', #{sex}, '%')" +
             " </if>" +
             "<if test='phoneNumber !=null and phoneNumber !=\"\" '>" +
             "and phone_number = #{phoneNumber}" +
@@ -63,8 +60,8 @@ public interface User_infoMapper {
             "</if>" +
             " </where>" +
             " </script>")
-    public List<User_info> shearch(@Param("netName") String netName, @Param("realName") String realName,
-                                   @Param("phoneNumber") String phoneNumber, @Param("qq") String qq);
+    public List<User_info> shearch(@Param("netName") String netName, @Param("sex") String sex,
+                                   @Param("phoneNumber") String phoneNumber, @Param("qq") String qq,Integer currentPage,Integer pageSize);
 
 
     /*

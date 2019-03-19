@@ -129,25 +129,8 @@ public class ManagerController {
        return admaps;
     }
 
-    /**
-     * 查询出所有场馆信息传到前端
-     * */
-    @RequestMapping("/showvenues")
-    @ResponseBody
-    public List<Venue> ShowVenues(HttpServletRequest request){
-        int page=Integer.parseInt(request.getParameter("page"));
 
-        int total=service.SelVenNum();
-        int totalpage=0;
-        if (total/4!=0){
-            totalpage=total/4+1;
-        }else {
-            totalpage=total/4;
-        }
-        int lim=page*4-4;
-        List<Venue> venues =service.selectAllVenue4(lim);
-        return venues;
-    }
+
     /**
      * 分页,模糊查询所有商品信息
      */
@@ -214,14 +197,22 @@ public class ManagerController {
 
     @RequestMapping("/shearch")
     @ResponseBody
-    public List<Venue> ShearchVenue4(HttpServletRequest request){
-        String venname=request.getParameter("venname");
-        String addrass=request.getParameter("addrass");
-        String phone=request.getParameter("phone");
-        String qq=request.getParameter("qq");
-        List<Venue>venues=service.shearch(venname,addrass,phone,qq);
-        System.out.println(venues);
-        return venues;
+    public Map<String,Object> ShearchVenue4(@RequestParam(value = "page",defaultValue = "1",required = false)Integer currentPage,
+                                            @RequestParam(value = "rows",defaultValue = "10",required = false)Integer pageSize,HttpServletRequest request,HttpSession session){
+        String venname= (String) session.getAttribute("venname");
+        String addrass= (String) session.getAttribute("addrass");
+        String phone= (String) session.getAttribute("phone");
+        String qq= (String) session.getAttribute("qq");
+
+        List<Venue>list=service.shearch(venname,addrass,phone,qq,currentPage,pageSize);
+
+        PageInfo pageInfo = new PageInfo(list);
+        Map<String,Object> result = new HashMap<String,Object>();
+        result.put("code",200);
+        result.put("msg","");
+        result.put("count",pageInfo.getTotal());
+        result.put("data",list);
+        return result;
     }
 
 }

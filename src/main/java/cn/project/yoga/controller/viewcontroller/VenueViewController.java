@@ -21,5 +21,10 @@ public class VenueViewController {
         return "venue/VenueInFo";
     }
 
+    @RequestMapping("/course")
+    public String course() {
+        return "venue/course";
+    }
+
 
 }

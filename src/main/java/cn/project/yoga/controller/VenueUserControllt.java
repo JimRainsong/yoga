@@ -1,15 +1,18 @@
 package cn.project.yoga.controller;
 
+import cn.project.yoga.pojo.TeacherInfo;
 import cn.project.yoga.pojo.User;
 import cn.project.yoga.pojo.Venue;
 import cn.project.yoga.service.UserService;
 import cn.project.yoga.service.VenueService;
+import cn.project.yoga.utils.Attributes;
 import cn.project.yoga.utils.LayUiDataUtil;
 import cn.project.yoga.utils.Md5Encoder;
 import cn.project.yoga.utils.RegexUtil;
 import cn.project.yoga.vo.LoginVo;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
+import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -40,6 +43,12 @@ public class VenueUserControllt {
             token.setRememberMe(true);
             try {
                 subject.login(token);
+                Session session = SecurityUtils.getSubject().getSession();
+                User user = userService.selectUserByUserName(vo.getUserName());
+                System.out.println(user.getUserId()+"注册用户是查询用户Id");
+                Venue venue=venueService.selVenueByUserId(user);
+                System.out.println(venue.getVenueId()+"场馆用户是查询用户Id");
+                session.setAttribute(Attributes.CURRENT_USER, venue);
                 return LayUiDataUtil.ok("登陆成功");
             } catch (UnknownAccountException uae) {
                 return LayUiDataUtil.error("未知的用户类型");
@@ -76,12 +85,11 @@ public class VenueUserControllt {
             return LayUiDataUtil.error("密码格式有误");
         }
             try {
-
-                int num = userService.addUser(user);
-                if (num > 0) {
-                    user.setPassword(Md5Encoder.md5Encode(user.getUserName(),user.getPassword()));
-                    user = userService.selectUserByUserName(user.getUserName());
-                    if (user != null) {
+                user.setPassword(Md5Encoder.md5Encode(user.getUserName(),user.getPassword()));
+                User users = userService.selectUserByUserName(user.getUserName());
+                if (users == null) {
+                    int num = userService.addUser(user);
+                    if (num > 0) {
                         Venue venue = new Venue();
                         venue.setUserId(user.getUserId());
                         venue.setAuthState(1);

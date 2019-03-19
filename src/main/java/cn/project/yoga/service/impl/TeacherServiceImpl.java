@@ -13,7 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
@@ -66,8 +66,8 @@ public class TeacherServiceImpl implements TeacherService {
     }
 
     @Override
-    public List<Teacher> showTea4(int lim) {
-        List<Teacher> teachers = teacherMapper.showTea4(lim);
+    public List<Teacher> showTea4(Integer currentPage, Integer pageSize) {
+        List<Teacher> teachers = teacherMapper.showTea4(currentPage, pageSize);
         return teachers;
     }
 
@@ -83,11 +83,6 @@ public class TeacherServiceImpl implements TeacherService {
         return teacher;
     }
 
-    @Override
-    public int SelCountTea4() {
-        int totalpage = teacherMapper.SelCountTea4();
-        return totalpage;
-    }
 
     @Override
     public ResultUtil updateTeacher2(TeacherVo vo) {
@@ -157,6 +152,26 @@ public class TeacherServiceImpl implements TeacherService {
 //        } catch (IOException e) {
 //            return ResultUtil.error("上传失败");
 //        }
-        return ResultUtil.ok("ok");
+        return ResultUtil.ok("Okay");
+    }
+
+    @Override
+    public int connectRoleIdAndUserId2(String username) {
+        return teacherMapper.connectRoleIdAndUserId2(username);
+    }
+
+    @Override
+    public Collection<? extends Detail> selectMyFollowedTeaByCurrentUserId2(Integer currentUserId) {
+        return teacherMapper.selectMyFollowedTeaByCurrentUserId2(currentUserId);
+    }
+
+    @Override
+    public TeacherInfo selectTeacherByItsUserId2(Integer userId) {
+        return teacherMapper.selectTeacherByItsUserId2(userId);
+    }
+
+    @Override
+    public List<TeaMoment> onlyFollowedallMoments2(Integer currentUserId) {
+        return teacherMapper.onlyFollowedallMoments2(currentUserId);
     }
 }

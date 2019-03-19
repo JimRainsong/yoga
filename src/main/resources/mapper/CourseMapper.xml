@@ -50,6 +50,9 @@
       #{startTime,jdbcType=TIMESTAMP}, #{overTime,jdbcType=TIMESTAMP}, #{courseMoney,jdbcType=DOUBLE}, 
       #{coursePeople,jdbcType=INTEGER}, #{flag,jdbcType=INTEGER})
   </insert>
+
+
+<!--   添加课程-->
   <insert id="insertSelective" parameterType="cn.project.yoga.pojo.Course">
     insert into course
     <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -59,7 +62,7 @@
       <if test="venueId != null">
         venue_id,
       </if>
-      <if test="teacherId != null">
+      <if test="teacher.teacherId != null">
         teacher_id,
       </if>
       <if test="startTime != null">
@@ -74,8 +77,8 @@
       <if test="coursePeople != null">
         course_people,
       </if>
-      <if test="flag != null">
-        flag,
+      <if test="courseName != null">
+        course_name,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -85,8 +88,8 @@
       <if test="venueId != null">
         #{venueId,jdbcType=INTEGER},
       </if>
-      <if test="teacherId != null">
-        #{teacherId,jdbcType=INTEGER},
+      <if test="teacher.teacherId != null">
+        #{teacher.teacherId,jdbcType=INTEGER},
       </if>
       <if test="startTime != null">
         #{startTime,jdbcType=TIMESTAMP},
@@ -100,11 +103,14 @@
       <if test="coursePeople != null">
         #{coursePeople,jdbcType=INTEGER},
       </if>
-      <if test="flag != null">
-        #{flag,jdbcType=INTEGER},
+      <if test="courseName != null">
+        #{courseName,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
+
+
+
   <update id="updateByPrimaryKeySelective" parameterType="cn.project.yoga.pojo.Course">
     update course
     <set>

@@ -3,10 +3,9 @@ package cn.project.yoga.service;
 import cn.project.yoga.pojo.*;
 import cn.project.yoga.utils.ResultUtil;
 import cn.project.yoga.vo.TeacherVo;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Update;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.Collection;
 import java.util.List;
 
 public interface TeacherService {
@@ -32,7 +31,7 @@ public interface TeacherService {
     /**
      * 分页查询所有教练信息
      */
-    public List<Teacher> showTea4(int lim);
+    public List<Teacher> showTea4(Integer currentPage,Integer pageSize);
 
     /**
      * 软删除教练
@@ -44,10 +43,7 @@ public interface TeacherService {
      */
     public Teacher SelTeaById4(int teacherId);
 
-    /**
-     * 查询教练表有多少条数据
-     */
-    public int SelCountTea4();
+
 
     /**
      * 更新教练数据
@@ -68,4 +64,20 @@ public interface TeacherService {
      * 上传教练头像
      */
     ResultUtil uploadHeadImg2(MultipartFile file);
+
+    int connectRoleIdAndUserId2(String username);
+
+    /**
+     * 根据当前登录的账号去查询此账号关注的人的信息
+     */
+    Collection<? extends Detail> selectMyFollowedTeaByCurrentUserId2(Integer currentUserId);
+
+    /**
+     * 根据“用户id”查找一个教练
+     * @param userId
+     * @return
+     */
+    TeacherInfo selectTeacherByItsUserId2(Integer userId);
+
+    List<TeaMoment> onlyFollowedallMoments2(Integer currentUserId);
 }
