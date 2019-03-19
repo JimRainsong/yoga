@@ -116,7 +116,13 @@ public class VenueServiceImpl implements VenueService {
 
     @Override
     public int addCourse(Course course) {
-        return 0;
+
+        return courseMapper.insertSelective(course);
+    }
+
+    @Override
+    public int removeCourse(Integer courseId) {
+        return courseMapper.removeCourseById(courseId);
     }
 
     @Override

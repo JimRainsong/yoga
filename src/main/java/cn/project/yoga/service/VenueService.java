@@ -128,4 +128,6 @@ public interface VenueService {
     boolean findStartTimeByCourse(Date startTime,int vid,int tid);
 
     int addCourse(Course course);
+
+    int removeCourse(Integer courseId);
 }
