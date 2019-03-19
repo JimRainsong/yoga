@@ -34,10 +34,7 @@ public interface User_infoMapper {
     @Select("select * from user_info where flag=0 ")
     public List<User_info> SelUser4(Integer currentPage, Integer pageSize);
 
-    /*
-     * 查询学员总数*/
-    @Select("select count(*) from user_info where flag=0")
-    public int SelUserNum4();
+
 
     /*
      * 根据学员ID查询信息*/

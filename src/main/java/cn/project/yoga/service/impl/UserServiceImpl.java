@@ -175,11 +175,7 @@ public class UserServiceImpl implements UserService {
 
 
 
-    @Override
-    public int SelUserNum4() {
-        int total=user_infoMapper.SelUserNum4();
-        return total;
-    }
+
 
     @Override
     public User_info SelUserById(int uId) {

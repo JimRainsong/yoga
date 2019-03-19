@@ -116,9 +116,7 @@ public interface UserService {
 
 
 
-    /*
-     * 查询学员总数*/
-    public int SelUserNum4();
+
 
     /*
      * 根据学员ID查询信息*/

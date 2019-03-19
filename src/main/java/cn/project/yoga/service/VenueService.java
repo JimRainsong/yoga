@@ -60,10 +60,7 @@ public interface VenueService {
 
     List<Course> selCourse(Integer currentPage, Integer pageSize, CourseVo courseVo);
 
-    /*
-     *分页查询所有场馆信息
-     */
-    List<Venue> selectAllVenue4(int lim);
+
 
     /*
      *查询所有场馆信息
@@ -80,9 +77,7 @@ public interface VenueService {
      * 根据ID查询场馆*/
     public Venue SelVenById4(int venueId);
 
-    /*
-     * 查询场馆数量*/
-    public  int SelVenNum();
+
 
     /*
      * 动态查询场馆*/

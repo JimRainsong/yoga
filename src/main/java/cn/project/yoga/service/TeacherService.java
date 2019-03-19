@@ -44,10 +44,7 @@ public interface TeacherService {
      */
     public Teacher SelTeaById4(int teacherId);
 
-    /**
-     * 查询教练表有多少条数据
-     */
-    public int SelCountTea4();
+
 
     /**
      * 更新教练数据

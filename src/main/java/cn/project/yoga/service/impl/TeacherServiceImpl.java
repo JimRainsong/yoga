@@ -83,11 +83,7 @@ public class TeacherServiceImpl implements TeacherService {
         return teacher;
     }
 
-    @Override
-    public int SelCountTea4() {
-        int totalpage = teacherMapper.SelCountTea4();
-        return totalpage;
-    }
+
 
     @Override
     public ResultUtil updateTeacher2(TeacherVo vo) {

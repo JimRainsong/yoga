@@ -105,11 +105,7 @@ public class VenueServiceImpl implements VenueService {
         return venue_teacherMapper.updateByPrimaryKeySelective(venue_teacher);
     }
 
-    @Override
-    public List<Venue> selectAllVenue4(int lim) {
-        List<Venue>venues=venueMapper.selectAllVenue4(lim);
-        return venues;
-    }
+
 
     @Override
     public List<Venue> SelVen(Integer currentPage,Integer pageSize) {
@@ -129,11 +125,7 @@ public class VenueServiceImpl implements VenueService {
         return venue;
     }
 
-    @Override
-    public int SelVenNum() {
-        int total=venueMapper.SelVenNum();
-        return total;
-    }
+
 
     @Override
     public List<Venue> shearch(String venname, String addrass, String phone, String qq,Integer currentPage,Integer pageSize) {

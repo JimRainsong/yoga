@@ -75,10 +75,7 @@ public interface VenueMapper {
     @Select("select * from venue where flag=0 and venue_id=#{venueId}")
     public Venue SelVenById4(int venueId);
 
-    /*
-     * 查询场馆数量*/
-    @Select("select count(*) from venue where flag=0")
-    public  int SelVenNum();
+
 
     /**
      * 分页查询所有认证通过的场馆

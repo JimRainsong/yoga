@@ -99,11 +99,7 @@ public interface TeacherMapper {
     @Select("select * from teacher where teacher_id=#{teacherId} and flag=0")
     public Teacher SelTeaById4(int teacherId);
 
-    /**
-     * 查询教练表有多少条数据
-     */
-    @Select("SELECT  COUNT(*) FROM teacher WHERE flag=0")
-    public int SelCountTea4();
+
 
     /**
      * 更新教练信息
@@ -124,7 +120,7 @@ public interface TeacherMapper {
     Venue selectMyVenueByCurrentUserId2(Integer tId);
 
     /*
-     * 动态查询学员*/
+     * 动态查询教练*/
     @Select("<script>"  +
             "  select * from teacher"+
             " <where>"  +
