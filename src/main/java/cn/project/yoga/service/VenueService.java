@@ -148,4 +148,6 @@ public interface VenueService {
     int addCourse(Course course);
 
     List<VenMoment> onlyFollowedallMoments2(Integer currentUserId);
+
+    int removeCourse(Integer courseId);
 }

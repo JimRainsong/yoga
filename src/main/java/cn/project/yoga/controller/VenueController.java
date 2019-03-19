@@ -194,14 +194,36 @@ public class VenueController {
      @RequestMapping("/addCourse")
      @ResponseBody
      public LayUiDataUtil addCourse(@RequestBody Course course){
-     if (venueService.findStartTimeByCourse(course.getStartTime(),course.getVenueId(),course.getTeacher().getTeacherId())){
-
+         Subject subject = SecurityUtils.getSubject();
+         Session session = subject.getSession();
+         Venue venue = (Venue) session.getAttribute(Attributes.CURRENT_USER);
+         course.setVenueId(venue.getVenueId());
+         if (!course.getStartTime().before(course.getOverTime())){
+                 return LayUiDataUtil.error("课程时间有误");
+         }
+         if (venueService.findStartTimeByCourse(course.getStartTime(),course.getVenueId(),course.getTeacher().getTeacherId())){
+                 return LayUiDataUtil.error("请检查时间段");
+         }
+         int result=venueService.addCourse(course);
+         if (result>0){
+                 return LayUiDataUtil.error("添加成功");
+     }
+                 return LayUiDataUtil.error("添加失败");
      }
 
-     return LayUiDataUtil.error();
-     }
-
-
+    /**
+     *删除课程
+     *
+     */
+    @RequestMapping("/removeCourse")
+    @ResponseBody
+    public LayUiDataUtil removeCourse(@RequestBody Course course){
+        int result=venueService.removeCourse(course.getCourseId());
+        if (result>0){
+            return LayUiDataUtil.error("删除成功");
+        }
+        return LayUiDataUtil.error("删除失败");
+    }
     /*
      *添加广告
      * 场馆-cjm
@@ -224,12 +246,11 @@ public class VenueController {
      * @param oldName
      * @return
      */
-
-
-
     public String changeName(String oldName){
         return UUID.randomUUID()+"_"+oldName;
     }
+
+
 
     @RequestMapping("/venueDatas")
     @ResponseBody

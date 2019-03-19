@@ -77,6 +77,9 @@ public interface CourseMapper {
     List<Course> selCourse(@Param("courseVo")CourseVo courseVo,@Param("currentPage")Integer currentPage, @Param("pageSize")Integer pageSize);
 
 
-    @Select("SELECT * FROM course WHERE teacher_id=#{tid} and  venue_id=#{vid} and #{startTime}  between start_time and over_time  ")
+    @Select("SELECT * FROM course WHERE flag=0 and teacher_id=#{tid} and venue_id=#{vid} and #{startTime}  between start_time and over_time  ")
     List<Course> selCourseByStartTime(@Param("tid")int tid, @Param("vid") int vid, @Param("startTime") Date startTime);
+
+    @Update("Update course SET flag=1 WHERE courseId=#{0}")
+    int removeCourseById(Integer courseId);
 }
