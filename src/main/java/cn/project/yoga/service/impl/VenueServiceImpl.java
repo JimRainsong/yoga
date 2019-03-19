@@ -106,6 +106,15 @@ public class VenueServiceImpl implements VenueService {
         return venue_teacherMapper.updateByPrimaryKeySelective(venue_teacher);
     }
 
+    @Override
+    public Venue selvenueByUserId(User user) {
+        return null;
+    }
+
+    @Override
+    public Collection<? extends Detail> selectMyfollowedVenByCurrentUserId2(Integer currentUserId) {
+        return venueMapper.selectMyFollowedVenByCurrentUserId(currentUserId);
+    }
 
 
     @Override

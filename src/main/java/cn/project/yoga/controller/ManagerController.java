@@ -129,25 +129,8 @@ public class ManagerController {
        return admaps;
     }
 
-    /**
-     * 查询出所有场馆信息传到前端
-     * */
-    @RequestMapping("/showvenues")
-    @ResponseBody
-    public List<Venue> ShowVenues(HttpServletRequest request){
-        int page=Integer.parseInt(request.getParameter("page"));
 
-        int total=service.SelVenNum();
-        int totalpage=0;
-        if (total/4!=0){
-            totalpage=total/4+1;
-        }else {
-            totalpage=total/4;
-        }
-        int lim=page*4-4;
-        List<Venue> venues =service.selectAllVenue4(lim);
-        return venues;
-    }
+
     /**
      * 分页,模糊查询所有商品信息
      */

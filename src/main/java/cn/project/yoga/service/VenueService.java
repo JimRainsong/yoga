@@ -121,4 +121,6 @@ public interface VenueService {
      * @return
      */
     Venue selvenueByUserId(User user);
+
+    Collection<? extends Detail> selectMyfollowedVenByCurrentUserId2(Integer currentUserId);
 }
