@@ -183,6 +183,8 @@ public class VenueController {
         return UUID.randomUUID()+"_"+oldName;
     }
 
+    /*
+    * 展示所有场馆*/
     @RequestMapping("/venueDatas")
     @ResponseBody
     public Map<String, Object> showvenueDatas(@RequestParam(value = "page",defaultValue = "1",required = false)Integer currentPage,
