@@ -14,11 +14,11 @@
         <div class="col-md-8 column">
             <div class="row clearfix">
                 <div class="col-md-2 column">
-                    <img alt="140x140" src="/yoga/user/img/1.jpg" />
+                    <img alt="140x140" src="/yoga/user/img/1.jpg"/>
                 </div>
                 <div class="col-md-6 column">
                     <h3 id="username">
-                       未登录
+                        未登录
                     </h3>
                 </div>
                 <div class="col-md-4 column">
@@ -36,20 +36,20 @@
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <a href="/yoga/user/info">
-                    <h3 class="panel-title">
-                       我的信息
-                    </h3>
+                        <h3 class="panel-title">
+                            我的信息
+                        </h3>
                     </a>
                 </div>
                 <a href="/yoga/user/mymoney">
-                <div class="panel-body">
-                   我的钱包
-                </div>
+                    <div class="panel-body">
+                        我的钱包
+                    </div>
                 </a>
                 <a>
-                <div class="panel-footer">
-                    我的订单
-                </div>
+                    <div class="panel-footer">
+                        我的订单
+                    </div>
                 </a>
             </div>
         </div>
@@ -61,13 +61,13 @@
     //登出
     function logout() {
         $.ajax({
-            url:'/yoga/logout',
-            success:function (data) {
+            url: '/yoga/logout',
+            success: function (data) {
 
                 alert(data.message);
-                if (data.code==0){
+                if (data.code == 0) {
                     location.reload(true);
-                }else {
+                } else {
                     alert(data.message);
                 }
             }
@@ -77,11 +77,11 @@
     //显示用户名
     function getUserName() {
         $.ajax({
-            url:'/yoga/user/getUserName',
-            type:'post',
-            async:true,
-            success:function (data) {
-                if (data!=null){
+            url: '/yoga/user/getUserName',
+            type: 'post',
+            async: true,
+            success: function (data) {
+                if (data != null) {
                     $("#username").html(data);
                 }
             }
