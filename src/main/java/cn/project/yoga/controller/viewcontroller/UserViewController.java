@@ -2,7 +2,6 @@ package cn.project.yoga.controller.viewcontroller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -27,7 +26,7 @@ public class UserViewController {
 
     @RequestMapping("/info")
     public String userInfo1() {
-        return "user/myinfo";
+        return "myinfo_old";
     }
 
     @RequestMapping("/mymoney")

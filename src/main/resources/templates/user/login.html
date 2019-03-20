@@ -1,121 +1,117 @@
-
 <!DOCTYPE html>
-<html>
-
-<!-- Head -->
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
 
-	<title>登录表单</title>
+    <title>登录表单</title>
+    <!-- Meta-Tags -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <link rel="stylesheet" type="text/css" href="../../static/css/user/login.css"
+          th:href="@{/css/user/login.css}">
+    <script type="application/x-javascript">
+        addEventListener("load", function () {
+            setTimeout(hideURLbar, 0);
+        }, false);
 
-	<!-- Meta-Tags -->
-		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-
-		<script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
-	<!-- //Meta-Tags -->
-
-	<!-- Style -->
-
-
-
+        function hideURLbar() {
+            window.scrollTo(0, 1);
+        }
+    </script>
 </head>
-<!-- //Head -->
-
-<!-- Body -->
 <body>
-<script type="text/javascript" src="/yoga/js/jquery.min.js"></script>
-	<h1>YOGA</h1>
+<script type="text/javascript" src="../../static/js/jquery.min.js"
+        th:src="@{/js/jquery.min.js}"></script>
+<div id="wholePage">
+    <h1>YOGA</h1>
 
-	<div class="container w3layouts agileits">
+    <div class="container w3layouts agileits">
 
-		<div class="login w3layouts agileits">
-			<h2>登 录</h2>
-			
-				<input type="text" id="name" placeholder="用户名" required="">
-				<input type="password" id="pass" placeholder="密码" required="">
-			
-			<ul class="tick w3layouts agileits">
-				<li>
-					<input type="checkbox" id="brand1" value="">
-					<label for="brand1"><span></span>记住我</label>
-				</li>
-			</ul>
-			<div class="send-button w3layouts agileits">
-				
-					<button onclick="login()">登 录</button>
-				
-			</div>
-			
-			<div class="social-icons w3layouts agileits">
-				
-			</div>
-			<div class="clear"></div>
-		</div>
-		<div class="register w3layouts agileits">
-			<h2>注 册</h2>
-			
-				<input type="text" id="uname" placeholder="用户名" >
-				<input type="password" id="newupass1"  placeholder="密码" required="">
-				<input type="password" id="newupass2" placeholder="请再次输入。。。" required="">
-				
-			
-			<div class="send-button w3layouts agileits">
-				
-					<button onclick="regist()" >注册</button>
-				
-			</div>
-			<div class="clear"></div>
-			</div>
-			<div class="clear"></div>
-		</div>
+        <div class="login w3layouts agileits">
+            <h2>登 录</h2>
 
-		<div class="clear"></div>
+            <input type="text" id="name" placeholder="用户名" required=""><br>
+            <input type="password" id="pass" placeholder="密码" required=""><br>
 
-	
+            <ul class="tick w3layouts agileits">
+                <li>
+                    <input type="checkbox" id="brand1" value="">
+                    <label for="brand1"><span></span>记住我</label>
+                </li>
+            </ul>
+            <div class="send-button w3layouts agileits login_button">
+                <button onclick="login()">登 录</button>
+            </div>
+            <div class="social-icons w3layouts agileits">
 
-	<div class="footer w3layouts agileits" >
-		<p style="color:red">@zjn    &nbsp; &nbsp;  &nbsp&nbsp;&nbsp; &nbsp;   @yoga</p>
-	</div>
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="register w3layouts agileits">
+            <h2>注 册</h2>
+
+            <input type="text" id="uname" placeholder="用户名"><br>
+            <input type="password" id="newupass1" placeholder="密码" required=""><br>
+            <input type="password" id="newupass2" placeholder="请再次输入。。。" required="">
+
+
+            <div class="send-button w3layouts agileits">
+
+                <button onclick="regist()">注册</button>
+
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="clear"></div>
+    </div>
+
+    <div class="clear"></div>
+
+
+    <div class="footer w3layouts agileits">
+        <p style="color:red">@zjn &nbsp; &nbsp; &nbsp&nbsp;&nbsp; &nbsp; @yoga</p>
+    </div>
+</div>
 <script type="text/javascript">
-function login(){
-	$.ajax({
-		url:"/yoga/user/login",
-		type:"post",
-		async:true,
-			data:{
-			userName:$("#name").val(),
-			password:$("#pass").val()
-		},
-		success:function(data){
+    function login() {
+        $.ajax({
+            url: "/yoga/user/login",
+            type: "post",
+            async: true,
+            data: {
+                userName: $("#name").val(),
+                password: $("#pass").val()
+            },
+            success: function (data) {
 
-			if(data=="登陆成功"){
-				location.href='/yoga/user/index';
-			}else {
-				alert(data);
-			}
+                if (data == "登陆成功") {
+                    location.href = '/yoga/user/index';
+                } else {
+                    alert(data);
+                }
 
-		}
-	});
-}
-function regist(){
-	$.ajax({
-		url:"/yoga/user/register",
-		type:"post",
-		async:true,
-		data:{
-			username:$("#uname").val(),
-			password1:$("#newupass1").val(),
-			password2:$("#newupass2").val()
-		},
-		
-		success:function(data){
-				alert(data);
-			if (data == '注册成功') {
-				location.href="/yoga/user/loginandregist";
-			}
-		}
-	});
-}
+            }
+        });
+    }
+
+    function regist() {
+        $.ajax({
+            url: "/yoga/user/register",
+            type: "post",
+            async: true,
+            data: {
+                username: $("#uname").val(),
+                password1: $("#newupass1").val(),
+                password2: $("#newupass2").val()
+            },
+
+            success: function (data) {
+                alert(data);
+                if (data == '注册成功') {
+                    location.href = "/yoga/user/loginandregist";
+                }
+            }
+        });
+    }
 </script>
 </body>
 <!-- //Body -->
