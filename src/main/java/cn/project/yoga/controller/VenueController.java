@@ -350,4 +350,19 @@ public class VenueController {
 
         return LayUiDataUtil.ok(result);
     }
+
+    @RequestMapping("/selMoment")
+    @ResponseBody
+    public LayUiDataUtil selMoment(@RequestParam(value = "commentType")String commentType,@RequestParam(value = "page",defaultValue = "1",required = false)Integer currentPage,
+                                   @RequestParam(value = "rows",defaultValue = "10",required = false)Integer pageSize) {
+        Subject subject = SecurityUtils.getSubject();
+        Session session = subject.getSession();
+        Venue venue = (Venue) session.getAttribute(Attributes.CURRENT_USER);
+        List<Venue_comment> result=venueService.selComent(commentType,venue.getVenueId(),currentPage,pageSize);
+        if (result==null){
+            return LayUiDataUtil.error("无评论");
+        }
+
+        return LayUiDataUtil.ok(result);
+    }
 }

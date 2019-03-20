@@ -165,4 +165,6 @@ public interface VenueService {
      *
      */
     List<Venue_teacher> selTeacherName(Venue_teacher venue_teacher);
+
+    List<Venue_comment> selComent(String commentType, Integer venueId,Integer currentPage,Integer pageSize);
 }
