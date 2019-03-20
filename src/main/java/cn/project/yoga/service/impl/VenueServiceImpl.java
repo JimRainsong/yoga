@@ -49,13 +49,7 @@ public class VenueServiceImpl implements VenueService {
         return venueMapper.selectByPrimaryKey(venueId);
     }
 
-    @Override
-    public List<Selstudent> findStudents(Integer currentPage, Integer pageSize, Integer venueId) {
-        List<Selstudent> students = selstudentMapper.selectStudentByvenueId(currentPage, pageSize, venueId);
 
-
-        return students;
-    }
 
 
     @Override
@@ -139,6 +133,11 @@ public class VenueServiceImpl implements VenueService {
     @Override
     public List<Venue_comment> selComent(String commentType, Integer venueId,Integer currentPage,Integer pageSize) {
         return venueCommentMapper.selComent(commentType,venueId,currentPage,pageSize);
+    }
+
+    @Override
+    public List<Selstudent> selStudentByStudentName3(Selstudent selstudent, Integer currentPage, Integer pageSize) {
+        return selstudentMapper.selStudentByStudentName3(selstudent,currentPage,pageSize);
     }
 
     @Override

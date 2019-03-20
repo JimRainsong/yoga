@@ -40,13 +40,16 @@ public class VenueController {
          */
         @RequestMapping("/studentDatas")
         @ResponseBody
-        public Map<String, Object> getStudentDatas(@RequestParam(value = "page",defaultValue = "1",required = false)Integer currentPage,
-                                                    @RequestParam(value = "rows",defaultValue = "10",required = false)Integer pageSize) {
+        public Map<String, Object> getStudentDatas(@RequestParam(value = "netName")String netName,@RequestParam(value = "page",defaultValue = "1",required = false)Integer currentPage,
+                                                    @RequestParam(value = "rows",defaultValue = "5",required = false)Integer pageSize) {
             Subject subject = SecurityUtils.getSubject();
             Session session = subject.getSession();
              Venue venue = (Venue) session.getAttribute(Attributes.CURRENT_USER);
-             List<Selstudent> list = venueService.findStudents(1,10,venue.getVenueId());
-            PageInfo pageInfo = new PageInfo(list);
+             Selstudent selstudent=new Selstudent();
+                 selstudent.setVenueId(venue.getVenueId());
+                 selstudent.setNetName(netName);
+            List<Selstudent> list =venueService.selStudentByStudentName3(selstudent,currentPage,pageSize);
+             PageInfo pageInfo = new PageInfo(list);
             Map<String,Object> result = new HashMap<String,Object>();
             result.put("code",200);
             result.put("msg","");
@@ -206,7 +209,7 @@ public class VenueController {
      */
     @RequestMapping("/removeCourse")
     @ResponseBody
-    public LayUiDataUtil removeCourse(@RequestBody Course course){
+    public LayUiDataUtil removeCourse(Course course){
         int result=venueService.removeCourse(course.getCourseId());
         if (result>0){
             return LayUiDataUtil.error("删除成功");
@@ -333,7 +336,14 @@ public class VenueController {
         }
         return LayUiDataUtil.ok("审核成功");
     }
-
+    /**
+     * 查询展示本场馆教练
+     * 场馆
+     * @param venue_teacher
+     * @param currentPage
+     * @param pageSize
+     * @return
+     */
     @RequestMapping("/selTeacher")
     @ResponseBody
     public LayUiDataUtil selTeacher(Venue_teacher venue_teacher,Integer currentPage,Integer pageSize) {
@@ -352,6 +362,14 @@ public class VenueController {
         return LayUiDataUtil.ok(result);
     }
 
+    /**
+     * 展示评论界面
+     * 场馆-cy
+     * @param commentType
+     * @param currentPage
+     * @param pageSize
+     * @return
+     */
     @RequestMapping("/selMoment")
     @ResponseBody
     public LayUiDataUtil selMoment(@RequestParam(value = "commentType")String commentType,@RequestParam(value = "page",defaultValue = "1",required = false)Integer currentPage,

@@ -14,17 +14,26 @@
 
 <script type="text/html" id="toolbarDemo">
     <div class="layui-btn-container">
-        <button class="layui-btn layui-btn-sm" lay-event="getCheckData">获取选中行数据</button>
+        <button class="layui-btn" lay-event="delstudent">删除学员</button>
     </div>
+    <button class="layui-btn-min" onclick="changeName()">查找学员名称</button>&nbsp;&nbsp;
+    <input type="text" class="layui-input-min" id="netNames" required lay-verify="required" placeholder="请输入学员昵称" autocomplete="off" >
 </script>
 
 <script th:inline="javascript">
-    layui.use('table', function(){
+    var nname="";
+    function changeName() {
+        nname=$("#netNames").val();
+        selStudentsa()
+    }
+    selStudentsa();
+    function selStudentsa(){
+            layui.use('table', function(){
         var table = layui.table;
         table.render({
             elem: '#student'
             ,height: 300
-            ,url:'/yoga/venueDate/studentDatas'
+            ,url:"/yoga/venueDate/studentDatas?netName="+nname
             ,page: true
             ,response: {
                 statusName: 'code'
@@ -62,6 +71,7 @@
             };
         });
     });
+    }
 </script>
 </body>
 </html>

@@ -80,6 +80,6 @@ public interface CourseMapper {
     @Select("SELECT * FROM course WHERE flag=0 and teacher_id=#{tid} and venue_id=#{vid} and #{startTime}  between start_time and over_time  ")
     List<Course> selCourseByStartTime(@Param("tid")int tid, @Param("vid") int vid, @Param("startTime") Date startTime);
 
-    @Update("Update course SET flag=1 WHERE courseId=#{0}")
+    @Update("Update course SET flag=1 WHERE course_id=#{0}")
     int removeCourseById(Integer courseId);
 }
