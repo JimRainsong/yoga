@@ -9,10 +9,18 @@ public interface SelstudentMapper {
     int insert(Selstudent record);
 
     int insertSelective(Selstudent record);
-    /*
-    * 展示所有学员
-    *场馆-陈家明
-    * */
-    @Select("select * from selstudent where venue_id = #{venueId} and flag=0")
-    List<Selstudent> selectStudentByvenueId(Integer currentPage, Integer pageSize,Integer venueId);
+
+    /**
+     * 模糊查询学生
+     * 场馆-cjm
+     * @param selstudent
+     * @param currentPage
+     * @param pageSize
+     * @return
+     */
+    @Select({"<script>",
+            "select * from selstudent where flag=0 and venue_id=#{selstudent.venueId}",
+            "<if test='selstudent.netName !=null'> and net_name like concat('%','${selstudent.netName}','%')</if>",
+            "</script>"})
+    List<Selstudent> selStudentByStudentName3(Selstudent selstudent, Integer currentPage, Integer pageSize);
 }

@@ -27,11 +27,7 @@ public interface VenueService {
      * 场馆-崔宇
      */
     Venue getVenueDataByVenueId(Integer venueId);
-    /**
-     *查询场馆学员信息_通过场馆id
-     *场馆-陈家明
-     */
-    List<Selstudent> findStudents(Integer currentPage, Integer pageSize, Integer venueId);
+
     /**
      *查询场馆有哪些Vip信息_通过场馆id
      *场馆-陈家明
@@ -161,10 +157,29 @@ public interface VenueService {
     /**
      * 查询该场馆教练，通过场馆id
      * 场馆-cjm
-     *
-     *
+     * @param venue_teacher
+     * @return
      */
     List<Venue_teacher> selTeacherName(Venue_teacher venue_teacher);
 
+    /**
+     * 展示评论
+     * 场馆-cy
+     * @param commentType
+     * @param venueId
+     * @param currentPage
+     * @param pageSize
+     * @return
+     */
     List<Venue_comment> selComent(String commentType, Integer venueId,Integer currentPage,Integer pageSize);
+
+    /**
+     * 模糊查询学员
+     * 场馆-cjm
+     * @param selstudent
+     * @param currentPage
+     * @param pageSize
+     * @return
+     */
+    List<Selstudent> selStudentByStudentName3(Selstudent selstudent, Integer currentPage, Integer pageSize);
 }
