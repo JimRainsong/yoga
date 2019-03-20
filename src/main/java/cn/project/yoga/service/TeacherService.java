@@ -8,7 +8,6 @@ import cn.project.yoga.pojo.TeaMoment;
 import cn.project.yoga.pojo.Appointment;
 import cn.project.yoga.pojo.User;
 
-import javax.xml.soap.Detail;
 import java.util.Date;
 import java.util.Collection;
 import java.util.List;
@@ -98,4 +97,10 @@ public interface TeacherService {
      * @return
      */
     TeacherInfo selectTeacherByItsUserId2(Integer userId);
+
+    //查出此id对应的时间段 然后update -1 所有 开始时间在此时间段的数据
+    int conflict2(Integer id);
+
+    //判断冲突的课程
+    List<Appointment> findclist2(Integer id);
 }

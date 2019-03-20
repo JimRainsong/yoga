@@ -1,3 +1,62 @@
+
+.momo{
+	display: none;
+	position: fixed;
+	margin: 0;
+	background-color:rgba(97, 221, 247, 0.87);
+	left: 0;
+	top: 0;
+}
+#blackback{
+	width: 100%;
+	height: 100%;
+	z-index: 90;
+
+}
+#box1{
+	background-color: rgba(2, 166, 241, 0.83);
+	font-family: "微软雅黑";
+	z-index: 100;
+	width: 600px;
+	height: 800px;
+	text-align: center;
+	border-radius: 14px;
+}
+
+#bu1{
+	background-color:skyblue;
+	border: none;
+	border-radius: 15px;
+	box-shadow: 0 0 5px #cccccc;
+	color: white;
+	padding: 15px 32px;
+	text-align: center;
+	text-decoration: none;
+	display: inline-block;
+	font-size: 16px;
+	margin-top: 10%;
+	margin-bottom: 10%;
+	margin-left: 20%;
+}
+#bu2{
+	background-color:skyblue;
+	border: none;
+	border-radius: 15px;
+	box-shadow: 0 0 5px #cccccc;
+	color: white;
+	padding: 15px 32px;
+	text-align: center;
+	text-decoration: none;
+	display: inline-block;
+	font-size: 16px;
+	margin-top: 10%;
+	margin-left: 20%;
+	margin-bottom: 10%;
+}
+
+
+
+
 div{
 	float: left;
 
@@ -8,6 +67,20 @@ select:focus option:checked{
 	background-color: lavender;
 
 }
+
+.button0 {
+	background-color:skyblue;
+	border: none;
+    border-radius: 15px;
+    box-shadow: 0 0 5px #cccccc;
+	color: white;
+	padding: 15px 32px;
+	text-align: center;
+	text-decoration: none;
+	display: inline-block;
+	font-size: 16px;
+}
+
 select{
 
 	border: none;
@@ -118,8 +191,10 @@ body{
 }
 
 .line{
-	height: 10px;
-	width: 70%;
+    float: left;
+    margin-top: 10%;
+	height: 6px;
+	width: 100%;
 	background: -webkit-linear-gradient(left,rgba(255, 255, 255, 0),#5DDDD3,rgba(255,255,255,0));
 	background: linear-gradient(to right, rgba(255, 255, 255, 0),#5DDDD3,rgba(255,255,255,0));
 

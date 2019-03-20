@@ -18,11 +18,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.xml.soap.Detail;
 import java.util.Date;
-import java.io.IOException;
 import java.util.Collection;
-import java.util.Date;
 import java.util.List;
 
 @Service
@@ -210,5 +207,20 @@ public class TeacherServiceImpl implements TeacherService {
     @Override
     public TeacherInfo selectTeacherByItsUserId2(Integer userId) {
         return teacherMapper.selectTeacherByItsUserId2(userId);
+    }
+
+    @Override
+    public int conflict2(Integer id) {
+        Date start = myself_courseMapper.selectStart(id);
+        Date end = myself_courseMapper.selectEnd(id);
+        return myself_courseMapper.conflict(start,end);
+    }
+
+    @Override
+    public List<Appointment> findclist2(Integer id) {
+        Date start = myself_courseMapper.selectStart(id);
+        Date end = myself_courseMapper.selectEnd(id);
+
+        return appointmentMapper.findclist2(id,start,end);
     }
 }

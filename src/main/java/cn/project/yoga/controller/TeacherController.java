@@ -34,7 +34,6 @@ import java.util.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import javax.xml.soap.Detail;
 import java.util.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -276,6 +275,19 @@ public class TeacherController {
 
     }
 
+    @RequestMapping("/accept0")
+    @ResponseBody
+    public List<Appointment> accept0(@RequestParam(value = "acceptid")Integer id){
+        /*前端传回acceptid
+      判断 是否有 课程冲突 返回冲突的课程
+        return resultUtil;
+        */
+        List<Appointment> clist = teacherService.findclist2(id);
+
+        return clist;
+    }
+
+
     @RequestMapping("/accept")
     @ResponseBody
     public ResultUtil accept(@RequestParam(value = "acceptid")Integer id){
@@ -283,10 +295,17 @@ public class TeacherController {
         更新 myself course中状态值
 
       */
+        int count1 = teacherService.conflict2(id);
        int count = teacherService.acceptcourse2(id);
+       //查出此id对应的时间段 然后update -1 所有 开始时间在此时间段的数据
+
+
         ResultUtil resultUtil =  ResultUtil.ok("已接收");
         return resultUtil;
     }
+
+
+
 
     @RequestMapping("/refuse")
     @ResponseBody
