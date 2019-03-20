@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <meta charset="UTF-8">
+    <title>个人中心</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/teacher/message.css}">
+    <script th:src="@{/js/jquery.min.js}"></script>
+    <link rel="stylesheet" type="text/css" href="../../static/css/fzwmodal.css"
+          th:href="@{/css/fzwmodal.css}">
+    <script th:src="@{/js/fzwmodal.js}" src="../../static/js/fzwmodal.js"></script>
+
+    <script th:src="@{/js/teacher/message.js}" src="../../static/js/teacher/message.js"></script>
+
+</head>
+<body>
+<!--模态框组件-->
+<div id="block" class="modal"></div>
+<div id="dialog" class="modal">
+    <div id="dialog_message"></div>
+    <button onclick="turnTo()">确认</button>
+</div>
+<!-- !! -->
+
+<div class="title1">
+    我的消息
+</div>
+
+
+<div id="blackback" class="momo"></div>
+<div id="box1" class="momo">
+<div id="clist">冲突的课程</div>
+
+</div>
+
+
+<div class="date1" id="datenow">
+
+
+</div>
+
+
+<div id="time00">
+    <select id="select" onchange="sel()" >
+    </select>
+</div>
+
+<div class="title2">
+  <div class="message2">---  预约人</div>
+    <div class="message3">---预约时间</div>
+    <div class="message4">---预约地址</div>
+    <div class="message5">---预约状态</div>
+    <div class="message6"></div>
+
+</div>
+
+
+<div id="dogs">
+
+</div>
+
+
+
+    <!--<a><img  align="middle" style="width: 95% " th:src="@{/img/mymymy/cgx2.png}"/></a>-->
+    <a><img  align="middle" style="position: absolute;left: 70%;top: 2%" th:src="@{/img/mymymy/tree.png}"/></a>
+
+    <div class="line" style="margin-top: 20px"></div>
+
+
+
+
+
+<script>
+
+    function CurentTime(count)
+    {
+        var now = new Date();
+        now.setDate(now.getDate()+count);
+        var year = now.getFullYear();       //年
+        var month = now.getMonth()+1;    //月
+        var day = now.getDate();            //日
+
+        var clock = year + "-";
+
+        if(month < 10)
+            clock += "0";
+
+        clock += month + "-";
+
+        if(day < 10)
+            clock += "0";
+
+        clock += day + " ";
+
+
+
+        return(clock);
+    }
+
+
+    $("#datenow").html(CurentTime(0));
+
+    $("#select").append("<option id='o0'  value="+CurentTime(0)+">aa</option>");   //为Select追加一个Option(下拉项)
+    $("#select").append("<option id='o1'  value="+CurentTime(1)+"></option>");   //为Select追加一个Option(下拉项)
+    $("#select").append("<option id='o2'  value="+CurentTime(2)+"></option>");   //为Select追加一个Option(下拉项)
+    $("#select").append("<option id='o3'  value="+CurentTime(3)+">aa</option>");   //为Select追加一个Option(下拉项)
+    $("#select").append("<option id='o4'  value="+CurentTime(4)+"></option>");   //为Select追加一个Option(下拉项)
+    $("#select").append("<option id='o5'  value="+CurentTime(5)+"></option>");   //为Select追加一个Option(下拉项)
+    $("#select").append("<option id='o6'  value="+CurentTime(6)+"></option>");   //为Select追加一个Option(下拉项)
+    $("#select").append("<option id='o7'  value="+CurentTime(7)+"></option>");   //为Select追加一个Option(下拉项)
+
+    $("#o0").html(CurentTime(0));
+    $("#o1").html(CurentTime(1));
+    $("#o2").html(CurentTime(2));
+    $("#o3").html(CurentTime(3));
+    $("#o4").html(CurentTime(4));
+    $("#o5").html(CurentTime(5));
+    $("#o6").html(CurentTime(6));
+    $("#o7").html(CurentTime(7));
+
+    
+
+
+
+    // 默认执行以下初始的ajax
+    sel();
+   function sel() {
+       $("#datenow").html($("#select").val());
+
+
+       $.ajax({
+           url: "/yoga/teacher/allappointment",
+           type: "post",
+           async: false,
+           data: {"currentTime": $("#select").val()},
+           dataType: "json",
+           success: function (list) {
+
+               var  content = "";
+               for (var i = 0; i < list.length; i++) {
+                   var b = list[i];
+                   var c = "";
+                   if (b.state == 1) {
+                       c = "未审核"
+                   } else if (b.state == 0) {
+                       c = "已通过"
+                   } else if (b.state == 2) {
+                       c = "已拒绝"
+                   } else if (b.state == -1) {
+                       c = "课程冲突"
+                   }
+
+                    content += "<div class=\"title3\" id=" + b.cId + ">" +
+                       "<div class=\"message2\" onclick='detail("+b.userId+")'>" + b.uName + "</div>" +
+
+                       "<div class=\"message3\">" + b.startTime.substring(0,16) +'-'+ b.endTime.substring(11,16) + "</div>" +
+                       "<div class=\"message4\">" + b.vAddress + "</div>" +
+                       "<div class=\"message5\">" + c + "</div>" ;
+
+                            if (b.state==1){
+                         content +=   "<div class='message6'>"+
+                        "<input type='button' value='接受' class='button0' onclick='accept0(" + b.cId + ")'>" +
+                       "<input type='button' value='拒绝' class='button0' onclick='refuse(" + b.cId + ")'>" +
+                        "</div>"}
+
+                   content += "</div>";
+
+               }
+
+               $("#dogs").html(content);
+           }
+       })
+
+   }
+
+   function  detail(id) {
+       window.location.href="/yoga/teacher/watchDetail?roleId=1&userId="+id;
+       // $.post("/yoga/teacher/watchDetail",{'roleId':1,'userId':id},function () {
+       //     alert(23333);
+       // })
+   }
+
+//判断是否有冲突
+   function accept0(id) {
+       $.ajax({
+           url: "/yoga/teacher/accept0",
+           type: "post",
+           async: false,
+           data: {"acceptid":id},
+           dataType: "json",
+           success: function (list) {
+               alert(list)
+               if (list.length>0){
+
+              $("#box1").css("display","block")
+               $("#blackback").css("display","block")
+               var  content = "";
+              content +="<p1>这些是可能冲突的课程***</p1>>"
+               for (var i = 0; i < list.length; i++) {
+                   var b = list[i];
+                   var c = "";
+                   if (b.state == 1) {
+                       c = "未审核"
+                   } else if (b.state == 0) {
+                       c = "已通过"
+                   } else if (b.state == 2) {
+                       c = "已拒绝"
+                   } else if (b.state == -1) {
+                       c = "课程冲突"
+                   }
+
+                   content += "<div class=\"title3\" id=" + b.cId + ">" +
+                       "<div class=\"message2\" onclick='detail("+b.userId+")'>" + b.uName + "</div>" +
+
+                       "<div class=\"message3\">" + b.startTime.substring(0,16) +'-'+ b.endTime.substring(11,16) + "</div>" +
+                       "<div class=\"message4\">" + b.vAddress + "</div>" +
+                       "<div class=\"message5\">" + c + "</div>" ;
+                   content += "</div>";
+               content+=" <div id=\"bu1\" onclick='accept1("+id+")'>确认接受</div>\n" +
+                   "    <div id=\"bu2\" onclick=\"closeback()\">取消</div>"}
+               $("#clist").html(content);
+            }else {
+                   accept1(id)
+               }
+           }
+       });
+   }
+
+
+
+   function accept1(id) {
+       closeback();
+       $.ajax({
+           url: "/yoga/teacher/accept",
+           type: "post",
+           async: false,
+           data: {"acceptid":id},
+           dataType: "json",
+           success: function (list) {
+               openDialog(list.message,"message",true);
+           }
+       });
+
+   }
+
+    function refuse(id) {
+        alert(id);
+        $.ajax({
+            url: "/yoga/teacher/refuse",
+            type: "post",
+            async: false,
+            data: {"refuseid":id},
+            dataType: "json",
+            success: function (list) {
+
+                location.reload()
+            }
+        });
+    }
+
+
+
+</script>
+
+</body>
+</html>

@@ -1,6 +1,8 @@
 package cn.project.yoga;
 
 import cn.project.yoga.dao.TeacherMapper;
+import cn.project.yoga.dao.AppointmentMapper;
+import cn.project.yoga.dao.TeacherMapper;
 import cn.project.yoga.dao.UserMapper;
 import cn.project.yoga.dao.VenueMapper;
 import cn.project.yoga.pojo.Selstudent;
@@ -23,6 +25,12 @@ import java.util.List;
 public class YogaApplicationTests {
     @Autowired
     private TeacherMapper teacherMapper;
+    private UserService userService;
+    @Autowired
+    private AppointmentMapper mapper;
+
+    @Autowired
+    private VenueService venueService;
     @Autowired
     private UserMapper userMapper;
     @Autowired
@@ -32,6 +40,15 @@ public class YogaApplicationTests {
 
     @Test
     public void contextLoads() {
+        Date d1 = new Date(20048L);
+        Date d2 = new Date(20048L);
+        System.out.println(d2.compareTo(d1));
+
+        System.out.println(userService.selectUserByUserName("coach").getUserName());
+        List<Selstudent> list = venueService.findStudents(1,1,1);
+        System.out.println(list.get(0).getNetName());
+
+
         System.out.println(userMapper.hasIfollowedThis2(6, 8));
     }
 
@@ -45,4 +62,5 @@ public class YogaApplicationTests {
         List<Venue_teacher> result=venueService.selTeacherName(venue_teacher);
 
     }
+
 }

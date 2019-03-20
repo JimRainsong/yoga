@@ -22,16 +22,6 @@ header img {
     width: 60px;
 }
 
-#add_friend_div {
-    float: right;
-    width: 60px;
-    height: 60px;
-    margin: 20px;
-    border-radius: 60px;
-    line-height: 60px;
-    font-size: 40px;
-}
-
 .white_area {
     width: 100%;
     background-color: white;
@@ -44,31 +34,29 @@ header img {
     width: 90%;
     height: 30px;
     line-height: 30px;
-    margin-top: 15px;
+    margin: 15px auto;
 }
 
 #search_div input {
     height: 30px;
     width: 80%;
-    margin: 0 5%;
     line-height: 30px;
     padding-left: 45px;
     border: 1px solid lightblue;
     border-radius: 5px;
     font-size: 20px;
+    float: left;
 }
 
 #search_button {
-    position: absolute;
     width: 30px;
     height: 30px;
-    left: 5%;
+    float: left;
 }
 
 #search_button img {
     width: 100%;
     height: 100%;
-    margin-top: 5px;
 }
 
 .single_manager {

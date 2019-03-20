@@ -1,8 +1,10 @@
 package cn.project.yoga.controller;
 
 import cn.project.yoga.pojo.*;
+import cn.project.yoga.pojo.Appointment;
 import cn.project.yoga.service.ManagerService;
 import cn.project.yoga.service.UserService;
+import cn.project.yoga.pojo.User;
 import cn.project.yoga.service.TeacherService;
 import cn.project.yoga.service.VenueService;
 import cn.project.yoga.utils.Attributes;
@@ -16,6 +18,7 @@ import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
+import org.apache.shiro.web.servlet.ShiroHttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,10 +26,17 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
+import sun.security.provider.MD5;
+
+import javax.annotation.Resource;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 @RequestMapping("/teacher")
@@ -72,7 +82,7 @@ public class TeacherController {
     }
 
     @RequestMapping("/follow")
-    public ModelAndView follow() {
+    public ModelAndView follow(@RequestParam(required = false, defaultValue = "") String netName) {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("teacher/follow");
         Session session = SecurityUtils.getSubject().getSession();
@@ -81,6 +91,14 @@ public class TeacherController {
         details.addAll(userService.selectMyFollowedStuByCurrentUserId2(currentUserId));
         details.addAll(teacherService.selectMyFollowedTeaByCurrentUserId2(currentUserId));
         details.addAll(venueService.selectMyfollowedVenByCurrentUserId2(currentUserId));
+        if (netName != null && !"".equals(netName)) {
+            Iterator<Detail> iterator = details.iterator();
+            while (iterator.hasNext()) {
+                if (!iterator.next().getNetName().contains(netName)) {
+                    iterator.remove();
+                }
+            }
+        }
         modelAndView.addObject("details", details);
         return modelAndView;
     }
@@ -238,6 +256,97 @@ public class TeacherController {
         result.put("data", list);
         return result;
     }
+
+    @RequestMapping("/allappointment")
+    @ResponseBody
+    public List<Appointment> allmessages(@RequestParam(value = "currentTime")String time){
+        System.out.println("查询老师的课程");
+        System.out.println(time);
+        System.out.println(Attributes.currentTime);
+
+        Date date1 =null;
+        Date date2 = null;
+        try {
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            date1 = new Date(simpleDateFormat.parse(time).getTime());
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(date1);
+            calendar.add(Calendar.DAY_OF_MONTH, +1);
+             date2 = calendar.getTime();
+
+            System.out.println("***"+date1+date2);
+
+        }catch (Exception e){
+
+        }
+
+
+
+    List<Appointment> list = new ArrayList<Appointment>();
+
+//    Session session=SecurityUtils.getSubject().getSession();
+//    TeacherVo teacherVo = (TeacherVo) session.getAttribute(Attributes.CURRENT_USER);
+//        int id = teacherVo.gettId();
+        //老师的id  两个date 时间
+
+    list = teacherService.selappointmentbyTeacherId2(10,date1,date2);
+    System.out.println(list);
+    return  list;
+
+    }
+
+    @RequestMapping("/accept0")
+    @ResponseBody
+    public List<Appointment> accept0(@RequestParam(value = "acceptid")Integer id){
+        /*前端传回acceptid
+      判断 是否有 课程冲突 返回冲突的课程
+        return resultUtil;
+        */
+        List<Appointment> clist = teacherService.findclist2(id);
+
+        return clist;
+    }
+
+
+    @RequestMapping("/accept")
+    @ResponseBody
+    public ResultUtil accept(@RequestParam(value = "acceptid")Integer id){
+        /*前端传回acceptid
+        更新 myself course中状态值
+
+      */
+        int count1 = teacherService.conflict2(id);
+       int count = teacherService.acceptcourse2(id);
+       //查出此id对应的时间段 然后update -1 所有 开始时间在此时间段的数据
+
+
+        ResultUtil resultUtil =  ResultUtil.ok("已接收");
+        return resultUtil;
+    }
+
+
+
+
+    @RequestMapping("/refuse")
+    @ResponseBody
+    public ResultUtil refuse(@RequestParam(value = "refuseid")Integer id){
+        /*前端传回acceptid
+        更新 myself course中状态值
+
+      */
+        int count = teacherService.refusecourse2(id);
+        ResultUtil resultUtil =  ResultUtil.ok("已拒绝");
+        return resultUtil;
+    }
+
+
+
+
+
+
+
+
+
 
     @RequestMapping("/watchDetail")
     public ModelAndView watchDetail(Integer roleId, Integer userId) {

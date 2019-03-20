@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
+
 import java.util.Collection;
 import java.util.List;
 
@@ -53,6 +54,8 @@ public interface TeacherMapper {
      */
     @Select("select teacher_money from teacher where user_id=(select user_id from user where user_name=#{userName})")
     Double selectBalanceByTeacherName2(@Param("userName") String name);
+
+
 
     /**
      * 所有教练的动态
@@ -151,7 +154,7 @@ public interface TeacherMapper {
      * 用来查当前登录用户所关注的其他人
      */
     @Select("SELECT t.* FROM `teacher_detail` t WHERE t.user_id IN (SELECT follow_id FROM attention WHERE user_id=#{0})")
-    List<Detail> selectMyFollowedTeaByCurrentUserId2(Integer currentUserId);
+    Collection<? extends Detail> selectMyFollowedTeaByCurrentUserId2(Integer currentUserId);
 
 
     /**

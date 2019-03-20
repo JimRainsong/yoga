@@ -111,6 +111,10 @@ public interface UserMapper {
     @Delete("delete from attention where user_id=#{currentUserId} and follow_id=#{targetUserId}")
     int cancleFollow2(Integer currentUserId, Integer targetUserId);
 
+
+    @Select("select user_id from user where user_name=#{0}")
+    Integer selUserIdByUserName(String userName);
+
     /**
      * 已关注的所有学院动态
      * @param currentUserId
