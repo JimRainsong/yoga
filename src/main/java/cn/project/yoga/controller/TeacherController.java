@@ -86,12 +86,24 @@ public class TeacherController {
     }
 
     @RequestMapping("/page0")
-    public ModelAndView page1() {
+    public ModelAndView page1(@RequestParam(required = false, defaultValue = "true") Boolean myFollowedOnly) {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("/teacher/page0");
-        List<StuMoment> stuMomentList = userService.allMoments2();
-        List<TeaMoment> teaMomentList = teacherService.allMoments2();
-        List<VenMoment> venMomentList = venueService.allMoments2();
+        List<StuMoment> stuMomentList = new ArrayList<>();
+        List<TeaMoment> teaMomentList = new ArrayList<>();
+        List<VenMoment> venMomentList = new ArrayList<>();
+        if (!myFollowedOnly) {
+            stuMomentList = userService.allMoments2();
+            teaMomentList = teacherService.allMoments2();
+            venMomentList = venueService.allMoments2();
+            modelAndView.addObject("seeAll", true);
+        } else {
+            Integer currentUserId = ((TeacherInfo) SecurityUtils.getSubject().getSession().getAttribute(Attributes.CURRENT_USER)).getuId();
+            stuMomentList = userService.onlyFollowedMoments2(currentUserId);
+            teaMomentList = teacherService.onlyFollowedallMoments2(currentUserId);
+            venMomentList = venueService.onlyFollowedallMoments2(currentUserId);
+            modelAndView.addObject("seeAll", false);
+        }
         List<Moment> allMoments = new ArrayList<>();
         allMoments.addAll(stuMomentList);
         allMoments.addAll(teaMomentList);
@@ -194,37 +206,78 @@ public class TeacherController {
 
     @RequestMapping("/teacherDatas")
     @ResponseBody
-    public Map<String, Object> showteacherDatas(@RequestParam(value = "page",defaultValue = "1",required = false)Integer currentPage,
-                                                @RequestParam(value = "rows",defaultValue = "10",required = false)Integer pageSize) {
-        List<Teacher> list = teacherService.showTea4(currentPage,pageSize);
+    public Map<String, Object> showteacherDatas(@RequestParam(value = "page", defaultValue = "1", required = false) Integer currentPage,
+                                                @RequestParam(value = "rows", defaultValue = "10", required = false) Integer pageSize) {
+        List<Teacher> list = teacherService.showTea4(currentPage, pageSize);
         PageInfo pageInfo = new PageInfo(list);
-        Map<String,Object> result = new HashMap<String,Object>();
-        result.put("code",200);
-        result.put("msg","");
-        result.put("count",pageInfo.getTotal());
-        result.put("data",list);
+        Map<String, Object> result = new HashMap<String, Object>();
+        result.put("code", 200);
+        result.put("msg", "");
+        result.put("count", pageInfo.getTotal());
+        result.put("data", list);
         return result;
 
     }
 
     @RequestMapping("/shearch")
     @ResponseBody
-    public Map<String,Object> ShearchVenue4(@RequestParam(value = "page",defaultValue = "1",required = false)Integer currentPage,
-                                            @RequestParam(value = "rows",defaultValue = "10",required = false)Integer pageSize,HttpServletRequest request,HttpSession session){
-        String teacherName= (String) session.getAttribute("teacherName");
-        String teacherSex= (String) session.getAttribute("teacherSex");
-        String teacherPhone= (String) session.getAttribute("teacherPhone");
-        String teacherQq= (String) session.getAttribute("teacherQq");
+    public Map<String, Object> ShearchVenue4(@RequestParam(value = "page", defaultValue = "1", required = false) Integer currentPage,
+                                             @RequestParam(value = "rows", defaultValue = "10", required = false) Integer pageSize, HttpServletRequest request, HttpSession session) {
+        String teacherName = (String) session.getAttribute("teacherName");
+        String teacherSex = (String) session.getAttribute("teacherSex");
+        String teacherPhone = (String) session.getAttribute("teacherPhone");
+        String teacherQq = (String) session.getAttribute("teacherQq");
         System.out.println(teacherName);
-        List<Teacher>list=managerService.shearch(teacherName,teacherSex,teacherPhone,teacherQq,currentPage,pageSize);
+        List<Teacher> list = managerService.shearch(teacherName, teacherSex, teacherPhone, teacherQq, currentPage, pageSize);
         System.out.println(list);
         PageInfo pageInfo = new PageInfo(list);
-        Map<String,Object> result = new HashMap<String,Object>();
-        result.put("code",200);
-        result.put("msg","");
-        result.put("count",pageInfo.getTotal());
-        result.put("data",list);
+        Map<String, Object> result = new HashMap<String, Object>();
+        result.put("code", 200);
+        result.put("msg", "");
+        result.put("count", pageInfo.getTotal());
+        result.put("data", list);
         return result;
+    }
+
+    @RequestMapping("/watchDetail")
+    public ModelAndView watchDetail(Integer roleId, Integer userId) {
+        ModelAndView modelAndView = new ModelAndView();
+        Session session = SecurityUtils.getSubject().getSession();
+        Integer currentUserId = ((TeacherInfo) session.getAttribute(Attributes.CURRENT_USER)).getuId();
+        Attention attention = userService.hasIfollowedThis2(currentUserId, userId);
+        modelAndView.addObject("isFollowed", attention);
+        switch (roleId) {
+            case 1:
+                modelAndView.setViewName("teacher/student");
+                modelAndView.addObject("student", userService.selectUserByUserId2(userId));
+                break;
+            case 2:
+                modelAndView.setViewName("teacher/teacher");
+                modelAndView.addObject("teacher", teacherService.selectTeacherByItsUserId2(userId));
+                break;
+            case 3:
+                modelAndView.setViewName("teacher/venue");
+                modelAndView.addObject("venue", venueService.selectVenueByItsUserId2(userId));
+                break;
+            default:
+                modelAndView.setViewName("error");
+        }
+        return modelAndView;
+    }
+
+    @RequestMapping("/doFollow")
+    @ResponseBody
+    public ResultUtil doFollow(Integer targetUserId) {
+        Session session = SecurityUtils.getSubject().getSession();
+        TeacherInfo currentUser = (TeacherInfo) session.getAttribute(Attributes.CURRENT_USER);
+        Integer currentUserId = currentUser.getuId();
+        // 如果已关注，取消。没有则加上
+        Attention attention = userService.hasIfollowedThis2(currentUserId, targetUserId);
+        if (attention == null) {
+            return userService.doFollow2(currentUserId, targetUserId);
+        } else {
+            return userService.cancleFollow2(currentUserId, targetUserId);
+        }
     }
 }
 //暴风哭泣

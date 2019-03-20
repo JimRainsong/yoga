@@ -60,7 +60,7 @@ public interface VenueMapper {
      *查询所有场馆信息
      */
     @Select("select * from venue where flag=0")
-    public List<Venue> SelVen(Integer currentPage,Integer pageSize);
+    public List<Venue> SelVen(Integer currentPage, Integer pageSize);
 
     /*
     软删除场馆
@@ -74,9 +74,9 @@ public interface VenueMapper {
     public Venue SelVenById4(int venueId);
 
 
-
     /**
      * 分页查询所有认证通过的场馆
+     *
      * @return
      * @author zjn
      */
@@ -85,11 +85,11 @@ public interface VenueMapper {
 
     /*
      * 动态查询学员*/
-    @Select("<script>"  +
-            "  select * from venue"+
-            " <where>"  +
-            " <if test='venname != null and venname!=\"\" '>"  +
-            "  and venue_name like concat('%', #{venname}, '%')"+
+    @Select("<script>" +
+            "  select * from venue" +
+            " <where>" +
+            " <if test='venname != null and venname!=\"\" '>" +
+            "  and venue_name like concat('%', #{venname}, '%')" +
             " </if>" +
             " <if test='addrass != null and addrass!=\"\" '>" +
             " and venue_address like concat('%', #{addrass}, '%')" +
@@ -97,11 +97,11 @@ public interface VenueMapper {
             "<if test='phone !=null and phone !=\"\" '>" +
             "and venue_phone = #{phone}" +
             "</if>" +
-            "<if test='qq !=null and qq!=\"\" '>"+
-            "and qq = #{qq}"+
+            "<if test='qq !=null and qq!=\"\" '>" +
+            "and qq = #{qq}" +
             "</if>" +
-            "and auth_state=0"+"\n"+
-            "and flag=0"+
+            "and auth_state=0" + "\n" +
+            "and flag=0" +
             " </where>" +
             " </script>")
     public List<Venue> shearch(@Param("venname") String venname,@Param("addrass") String addrass,
@@ -109,9 +109,29 @@ public interface VenueMapper {
 
     @Select("select * from venue where user_id=#{userId} and flag=0")
     Venue selvenueByUserId(User user);
+
     /**
      * 用来查当前登录用户所关注的其他人
      */
     @Select("SELECT t.* FROM `venue_detail` t WHERE t.user_id IN (SELECT follow_id FROM attention WHERE user_id=#{0})")
     List<Detail> selectMyFollowedVenByCurrentUserId(Integer currentUserId);
+
+    /**
+     * 根据登录的用户id查询场馆
+     * @param userId
+     * @return
+     */
+    @Select("select * from venue where user_id=#{userId}")
+    Venue selectVenueByItsUserId2(Integer userId);
+
+    /**
+     * 查看所有已关注的场馆动态
+     *
+     * @param currentUserId
+     * @return
+     */
+    @Select("select * from moments_ven where id in (select follow_id from attention where user_id=#{currentUserId})")
+    List<VenMoment> onlyFollowedMonents2(Integer currentUserId);
+
+
 }

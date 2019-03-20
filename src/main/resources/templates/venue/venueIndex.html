@@ -57,7 +57,7 @@
                     <a class="" >教练管理</a>
                     <dl class="layui-nav-child">
                         <dd><a href="javascript:myteacherTab();">签约教练</a></dd>
-                        <dd><a href="javascript:;">课程安排</a></dd>
+                        <dd><a href="javascript:courseTab();">课程安排</a></dd>
                         <dd><a href="javascript:teacherTab();">教练招聘</a></dd>
                         <dd><a href="javascript:addTab();">超链接</a></dd>
                     </dl>
@@ -98,7 +98,13 @@
     var url  = null;
     var title= null;
     var eid  = null;
-    
+
+    function courseTab() {
+        url='/yoga/venue/course';
+        title="查看课程";
+        eid="courseTabTabId";
+        addTab();
+    }
     function venueInFoTab() {
         url='/yoga/venue/VenueInFo';
         title="基本资料";
@@ -156,11 +162,29 @@
                          title:title
                          ,content:result
                          ,id: eid //实际使用一般是规定好的id，这里以时间戳模拟下
-                     })
+                     });
                     element.tabChange('demo', eid);
                      }
                  });
               }
+     /**
+      * 删除课程
+      */
+    function deleteCourse(cid){
+        $.ajax({
+            url : "/yoga/venueDate/removeCourse",
+            type : "post",
+            data : {
+                courseId:cid
+            },
+            dataType : "json",
+            success : function(data) {
+                alert(data.msg);
+                eid="courseTabTabId";
+                addTab();
+            }
+        })
+    }
 
     /**
      * 删除场馆vip类型
