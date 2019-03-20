@@ -114,4 +114,12 @@ public interface UserMapper {
 
     @Select("select user_id from user where user_name=#{0}")
     Integer selUserIdByUserName(String userName);
+
+    /**
+     * 已关注的所有学院动态
+     * @param currentUserId
+     * @return
+     */
+    @Select("select * from moments_stu where id in (select follow_id from attention where user_id=#{currentUserId})")
+    List<StuMoment> onlyFollowedMoments2(Integer currentUserId);
 }

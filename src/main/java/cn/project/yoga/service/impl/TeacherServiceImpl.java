@@ -210,6 +210,11 @@ public class TeacherServiceImpl implements TeacherService {
     }
 
     @Override
+    public List<TeaMoment> onlyFollowedallMoments2(Integer currentUserId) {
+        return teacherMapper.onlyFollowedallMoments2(currentUserId);
+    }
+
+    @Override
     public int conflict2(Integer id) {
         Date start = myself_courseMapper.selectStart(id);
         Date end = myself_courseMapper.selectEnd(id);

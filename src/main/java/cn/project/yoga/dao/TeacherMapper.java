@@ -159,9 +159,19 @@ public interface TeacherMapper {
 
     /**
      * 根据登录id查询教练
+     *
      * @param userId
      * @return
      */
     @Select("select * from teacherInfo where u_id=#{userId}")
     TeacherInfo selectTeacherByItsUserId2(Integer userId);
+
+    /**
+     * 查找自己已关注的教练动态
+     *
+     * @param currentUserId
+     * @return
+     */
+    @Select("select * from moments_tea where id in (select follow_id from attention where user_id=#{currentUserId})")
+    List<TeaMoment> onlyFollowedallMoments2(Integer currentUserId);
 }

@@ -34,6 +34,8 @@ public class VenueServiceImpl implements VenueService {
     private AdMapper adMapper;
     @Autowired
     private CourseMapper courseMapper;
+    @Autowired
+    private Venue_commentMapper venueCommentMapper;
 
 
     @Override
@@ -47,13 +49,7 @@ public class VenueServiceImpl implements VenueService {
         return venueMapper.selectByPrimaryKey(venueId);
     }
 
-    @Override
-    public List<Selstudent> findStudents(Integer currentPage, Integer pageSize, Integer venueId) {
-        List<Selstudent> students = selstudentMapper.selectStudentByvenueId(currentPage, pageSize, venueId);
 
-
-        return students;
-    }
 
 
     @Override
@@ -115,12 +111,38 @@ public class VenueServiceImpl implements VenueService {
 
     @Override
     public int addCourse(Course course) {
-        return 0;
+
+        return courseMapper.insertSelective(course);
     }
 
     @Override
-    public Venue selvenueByUserId(User user) {
-        return null;
+    public int removeCourse(Integer courseId) {
+        return courseMapper.removeCourseById(courseId);
+    }
+
+    @Override
+    public List<VenMoment> onlyFollowedallMoments2(Integer currentUserId) {
+        return venueMapper.onlyFollowedMonents2(currentUserId);
+    }
+
+    @Override
+    public List<Venue_teacher> selTeacherName(Venue_teacher venue_teacher) {
+        return venue_teacherMapper.selectTeachers(venue_teacher,1,50);
+    }
+
+    @Override
+    public List<Venue_comment> selComent(String commentType, Integer venueId,Integer currentPage,Integer pageSize) {
+        return venueCommentMapper.selComent(commentType,venueId,currentPage,pageSize);
+    }
+
+    @Override
+    public List<Selstudent> selStudentByStudentName3(Selstudent selstudent, Integer currentPage, Integer pageSize) {
+        return selstudentMapper.selStudentByStudentName3(selstudent,currentPage,pageSize);
+    }
+
+    @Override
+    public Venue selVenueByUserId(User user) {
+        return venueMapper.selvenueByUserId(user);
     }
 
 

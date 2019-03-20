@@ -11,6 +11,11 @@ public class TeaMoment extends Moment {
     private String name;
     private Integer id;
     private String detail;
+    private Integer roleId;
+
+    public TeaMoment() {
+        this.roleId = 2;
+    }
 
     @Override
     public String toString() {
@@ -21,6 +26,16 @@ public class TeaMoment extends Moment {
                 ", id=" + id +
                 ", detail='" + detail + '\'' +
                 '}';
+    }
+
+    @Override
+    public Integer getRoleId() {
+        return this.roleId;
+    }
+
+    @Override
+    public void setRoleId(Integer roleId) {
+        this.roleId = roleId;
     }
 
     @Override

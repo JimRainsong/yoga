@@ -1,44 +1,74 @@
 <!DOCTYPE html>
-<html lang="en" xmlns="http://www.w3.org/1999/html">
+<html lang="en" xmlns="http://www.w3.org/1999/html" xmlns:th="http://www.themeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <script src="/yoga/js/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="../../static/user/css/myMoney.css"
+          th:href="@{/user/css/myMoney.css}">
+    <script th:src="@{/js/jquery.min.js}" src="../../static/js/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="../../static/css/fzwmodal.css"
+          th:href="@{/css/fzwmodal.css}">
+    <script th:src="@{/js/fzwmodal.js}" src="../../static/js/fzwmodal.js"></script>
 </head>
 <body>
-我的余额：<p id="balance"></p></br></br>
-    累积充值金额：<p id="total_money"></p></br></br>
-    积分：<p id="score"></p></br></br>
-    会员等级：<p id="level"></p></br></br>
-金额：<input type="text" id="mm">
-<button onclick="recharge()">充值</button>
+<div class="white_area">
+    <div class="single_manager">
+        <div class="key">我的余额：</div>
+        <div class="value" id="balance"></div>
+        </br></br>
+    </div>
+    <div class="border_line"></div>
+    <div class="single_manager">
+        <div class="key">累积充值金额：</div>
+        <div class="value" id="total_money"></div>
+        </br></br>
+    </div>
+    <div class="border_line"></div>
+    <div class="single_manager">
+        <div class="key">积分：</div>
+        <div class="value" id="score"></br></br></div>
+    </div>
+    <div class="border_line"></div>
+    <div class="single_manager">
+        <div class="key">会员等级：</div>
+        <div class="value" id="level"></br></br></div>
+    </div>
+    <div class="border_line"></div>
+    <div class="single_manager">
+        <div class="key">金额：</div>
+        <div class="value"><input type="text" id="mm"></div>
+        <button onclick="recharge()">充值</button>
+    </div>
+</div>
 <script>
     function selectMyInfo() {
         $.ajax({
-            url:'/yoga/user/selectMyInfo',
-            type:'post',
-            async:true,
-            success:function (data) {
-                $("#balance").html(data.balance+"元");
-                $("#total_money").html(data.totalMoney+"元");
-                $("#score").html(data.score+"分");
-                $("#level").html(data.level+"级");
+            url: '/yoga/user/selectMyInfo',
+            type: 'post',
+            async: true,
+            success: function (data) {
+                $("#balance").html(data.balance + "元");
+                $("#total_money").html(data.totalMoney + "元");
+                $("#score").html(data.score + "分");
+                $("#level").html(data.level + "级");
 
             }
         });
     }
+
     selectMyInfo();
+
     function recharge() {
         $.ajax({
-            url:"/yoga/user/recharge",
-            type:'post',
-            async:"true",
-            data:{
-              money:$("#mm").val()
+            url: "/yoga/user/recharge",
+            type: 'post',
+            async: "true",
+            data: {
+                money: $("#mm").val()
             },
-            success:function (data) {
+            success: function (data) {
                 alert(data);
-                if (data=="充值成功"){
+                if (data == "充值成功") {
                     loaction.reload();
                 }
             }

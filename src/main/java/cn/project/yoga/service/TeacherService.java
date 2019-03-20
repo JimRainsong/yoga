@@ -103,4 +103,6 @@ public interface TeacherService {
 
     //判断冲突的课程
     List<Appointment> findclist2(Integer id);
+
+    List<TeaMoment> onlyFollowedallMoments2(Integer currentUserId);
 }

@@ -5,7 +5,7 @@ public class Venue_comment {
 
     private Integer venueId;
 
-    private Integer uId;
+    private User_info userInfo;
 
     private String comment;
 
@@ -27,14 +27,6 @@ public class Venue_comment {
 
     public void setVenueId(Integer venueId) {
         this.venueId = venueId;
-    }
-
-    public Integer getuId() {
-        return uId;
-    }
-
-    public void setuId(Integer uId) {
-        this.uId = uId;
     }
 
     public String getComment() {
@@ -59,5 +51,25 @@ public class Venue_comment {
 
     public void setFlag(Integer flag) {
         this.flag = flag;
+    }
+
+    public User_info getUserInfo() {
+        return userInfo;
+    }
+
+    public void setUserInfo(User_info userInfo) {
+        this.userInfo = userInfo;
+    }
+
+    @Override
+    public String toString() {
+        return "Venue_comment{" +
+                "commentId=" + commentId +
+                ", venueId=" + venueId +
+                ", user=" + userInfo +
+                ", comment='" + comment + '\'' +
+                ", commentType='" + commentType + '\'' +
+                ", flag=" + flag +
+                '}';
     }
 }

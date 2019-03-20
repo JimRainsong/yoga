@@ -149,4 +149,6 @@ public interface UserService {
     ResultUtil doFollow2(Integer currentUser, Integer targetUserId);
 
     ResultUtil cancleFollow2(Integer currentUser, Integer targetUserId);
+
+    List<StuMoment> onlyFollowedMoments2(Integer currentUserId);
 }

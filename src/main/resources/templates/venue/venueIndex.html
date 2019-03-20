@@ -162,24 +162,20 @@
                          title:title
                          ,content:result
                          ,id: eid //实际使用一般是规定好的id，这里以时间戳模拟下
-                     })
+                     });
                     element.tabChange('demo', eid);
                      }
                  });
               }
      /**
       * 删除课程
-      *
-      *
       */
-    function deleteCourse(vid,cid) {
+    function deleteCourse(cid){
         $.ajax({
-            url : "/yoga/venueDate/delete",
+            url : "/yoga/venueDate/removeCourse",
             type : "post",
             data : {
-                venueId:vid,
                 courseId:cid
-
             },
             dataType : "json",
             success : function(data) {

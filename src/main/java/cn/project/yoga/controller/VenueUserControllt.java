@@ -46,7 +46,7 @@ public class VenueUserControllt {
                 Session session = SecurityUtils.getSubject().getSession();
                 User user = userService.selectUserByUserName(vo.getUserName());
                 System.out.println(user.getUserId()+"注册用户是查询用户Id");
-                Venue venue=venueService.selvenueByUserId(user);
+                Venue venue=venueService.selVenueByUserId(user);
                 System.out.println(venue.getVenueId()+"场馆用户是查询用户Id");
                 session.setAttribute(Attributes.CURRENT_USER, venue);
                 return LayUiDataUtil.ok("登陆成功");

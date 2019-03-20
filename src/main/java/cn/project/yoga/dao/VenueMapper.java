@@ -104,8 +104,8 @@ public interface VenueMapper {
             "and flag=0" +
             " </where>" +
             " </script>")
-    public List<Venue> shearch(@Param("venname") String venname, @Param("addrass") String addrass,
-                               @Param("phone") String phone, @Param("qq") String qq, Integer currentPage, Integer pageSize);
+    public List<Venue> shearch(@Param("venname") String venname,@Param("addrass") String addrass,
+                               @Param("phone") String phone,@Param("qq") String qq,Integer currentPage,Integer pageSize);
 
     @Select("select * from venue where user_id=#{userId} and flag=0")
     Venue selvenueByUserId(User user);
@@ -123,4 +123,15 @@ public interface VenueMapper {
      */
     @Select("select * from venue where user_id=#{userId}")
     Venue selectVenueByItsUserId2(Integer userId);
+
+    /**
+     * 查看所有已关注的场馆动态
+     *
+     * @param currentUserId
+     * @return
+     */
+    @Select("select * from moments_ven where id in (select follow_id from attention where user_id=#{currentUserId})")
+    List<VenMoment> onlyFollowedMonents2(Integer currentUserId);
+
+
 }
