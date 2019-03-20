@@ -72,7 +72,7 @@ public class TeacherController {
     }
 
     @RequestMapping("/follow")
-    public ModelAndView follow() {
+    public ModelAndView follow(@RequestParam(required = false, defaultValue = "") String netName) {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("teacher/follow");
         Session session = SecurityUtils.getSubject().getSession();
@@ -81,6 +81,14 @@ public class TeacherController {
         details.addAll(userService.selectMyFollowedStuByCurrentUserId2(currentUserId));
         details.addAll(teacherService.selectMyFollowedTeaByCurrentUserId2(currentUserId));
         details.addAll(venueService.selectMyfollowedVenByCurrentUserId2(currentUserId));
+        if (netName != null && !"".equals(netName)) {
+            Iterator<Detail> iterator = details.iterator();
+            while (iterator.hasNext()) {
+                if (!iterator.next().getNetName().contains(netName)) {
+                    iterator.remove();
+                }
+            }
+        }
         modelAndView.addObject("details", details);
         return modelAndView;
     }
