@@ -134,4 +134,6 @@ public interface VenueMapper {
     List<VenMoment> onlyFollowedMonents2(Integer currentUserId);
 
 
+
+
 }

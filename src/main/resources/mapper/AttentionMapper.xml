@@ -26,37 +26,30 @@
     values (#{attentionId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{followId,jdbcType=INTEGER}, 
       #{flag,jdbcType=INTEGER})
   </insert>
+
+
+
   <insert id="insertSelective" parameterType="cn.project.yoga.pojo.Attention">
     insert into attention
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="attentionId != null">
-        attention_id,
-      </if>
       <if test="userId != null">
         user_id,
       </if>
       <if test="followId != null">
         follow_id,
       </if>
-      <if test="flag != null">
-        flag,
-      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="attentionId != null">
-        #{attentionId,jdbcType=INTEGER},
-      </if>
       <if test="userId != null">
         #{userId,jdbcType=INTEGER},
       </if>
       <if test="followId != null">
         #{followId,jdbcType=INTEGER},
       </if>
-      <if test="flag != null">
-        #{flag,jdbcType=INTEGER},
-      </if>
     </trim>
   </insert>
+
+
   <update id="updateByPrimaryKeySelective" parameterType="cn.project.yoga.pojo.Attention">
     update attention
     <set>

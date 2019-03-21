@@ -19,7 +19,7 @@
     <div class="main">
         <iframe class="frame" frameborder="0" src=""></iframe>
     </div>
-
+    <div class="main"></div>
 </div>
 <div id="footer">
     <div class="bottomIcon" onclick="showPage(0)">
@@ -63,6 +63,10 @@
         // 中间橙色图标位置矫正
         var mid_distance_left = (useWidth.substr(0, useWidth.length - 2) - 90) / 2 + "px";
         $("#add_picture").css("margin-left", mid_distance_left);
+        // app启动的时候开启一个main窗口，显示图片
+        pages.eq(3).css("display", "block");
+        var index_img_div = $("<div class='index_img'><video src='/yoga/video/keep.mp4' controls autoplay></video></div>");
+        pages.eq(3).append(index_img_div);
     })
 
     function showPage(num) {

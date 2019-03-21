@@ -56,9 +56,8 @@
 <!--模态框组件-->
 <div id="block" class="modal"></div>
 <div id="dialog" class="modal">
-    <span id="message"></span>
-    <br>
-    <button onclick="closeDialog()">确认</button>
+    <div id="dialog_message"></div>
+    <button onclick="turnTo()">确认</button>
 </div>
 <!-- !! -->
 
@@ -67,9 +66,15 @@
         window.location.href = "/yoga/teacher/watchDetail?roleId=" + roleId + "&userId=" + userId;
     }
 
+    var illegal_warn = "不能含有空格!";
+
     function searchMyFollowed() {
         var netName = $("#net_name").val();
-        window.location.href = "/yoga/teacher/follow?netName=" + netName;
+        if (!(new RegExp("^[^ ]+$").test(netName))) {
+            openDialog(illegal_warn, "", false);
+        } else {
+            window.location.href = "/yoga/teacher/follow?netName=" + netName;
+        }
     }
 </script>
 </body>

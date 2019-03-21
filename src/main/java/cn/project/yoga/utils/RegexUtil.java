@@ -3,6 +3,21 @@ package cn.project.yoga.utils;
 import java.util.regex.Pattern;
 
 public class RegexUtil {
+
+    /*
+    防注入
+     */
+    public static final String REGEX_SQL="(?:')|(?:--)|(/\\*(?:.|[\\n\\r])*?\\*/)|"
+            + "(\\b(select|update|union|and|or|delete|insert|trancate|char|into|substr|ascii|declare|exec|count|master|into|drop|execute)\\b)";
+    /*
+    防符号
+     */
+    private static final String REGEX_FH = "^[\\u4E00-\\u9FA5A-Za-z0-9]+$";
+    /*
+    防三角号
+     */
+     public static final String REGEX_SJ="[^<>\\x22]";
+
 	/**
      * 正则表达式：验证用户名
      */
@@ -42,7 +57,8 @@ public class RegexUtil {
      * 正则表达式：验证IP地址
      */
     public static final String REGEX_IP_ADDR = "(25[0-5]|2[0-4]\\d|[0-1]\\d{2}|[1-9]?\\d)";
- 
+
+
     /**
      * 校验用户名
      * 
@@ -112,7 +128,20 @@ public class RegexUtil {
     public static boolean isUrl(String url) {
         return Pattern.matches(REGEX_URL, url);
     }
- 
+
+    /*
+   防三角号
+    */
+    public static boolean isNosj(String sj){
+        return Pattern.matches(REGEX_SJ,sj);
+    }
+   /*
+   防符号
+   */
+     public static boolean isFuHao(String fuHao){
+        return Pattern.matches(REGEX_FH,fuHao);
+     }
+
     /**
      * 校验IP地址
      * 
@@ -121,5 +150,14 @@ public class RegexUtil {
      */
     public static boolean isIPAddr(String ipAddr) {
         return Pattern.matches(REGEX_IP_ADDR, ipAddr);
+    }
+       /*
+       防sql
+        */
+    public static boolean isSql(String sql){
+        if (Pattern.matches(REGEX_SQL,sql)){
+        return false;
+        }
+        return true;
     }
 }

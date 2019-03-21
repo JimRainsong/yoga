@@ -23,7 +23,7 @@ public interface Venue_commentMapper {
             "<where>"+
             "flag=0 and venue_id=#{venueId}"+
             "<if test='commentType !=null and  \"\"!=commentType'>" +
-            "and comment_type = #{commentType}"+
+            " and comment_type = #{commentType}"+
             "</if>"+
             "</where>" +
             "</script>")

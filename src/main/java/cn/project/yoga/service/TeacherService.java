@@ -105,4 +105,6 @@ public interface TeacherService {
     List<Appointment> findclist2(Integer id);
 
     List<TeaMoment> onlyFollowedallMoments2(Integer currentUserId);
+
+    ResultUtil fetchMoneyByCurrentUserId2(Integer currentUserId);
 }

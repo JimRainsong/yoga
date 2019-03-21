@@ -89,6 +89,8 @@
 <script>
     $.ajax({ url:"/yoga/venueDate/VenueData",
         type:"GET",
+        async:true,
+        dataType : "json",
         success:function(result){
            if (result.code==0){
                var val=result.data;

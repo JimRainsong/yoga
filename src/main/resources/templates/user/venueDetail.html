@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>场馆详情</title>
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<style>
+    .p:hover{
+        cursor: pointer;
+    }
+</style>
+<body>
+<img th:src="${venue.venueImg}" style="width: 100px;height: 100px"></br>
+场馆名：<p th:text="${venue.venueName}"></p>
+场馆地址：<p th:text="${venue.venueAddress}"></p>
+联系电话：<p th:text="${venue.venuePhone}"></p>
+qq:<p th:text="${venue.qq}"></p>
+详细介绍：<p th:text="${venue.venueDetails}"></p>
+<input type="hidden" id="venueId" th:value="${venue.venueId}">
+<input type="hidden" id="mylist">
+<!-- 按钮触发模态框 -->
+<p  class="p" style="color: #00b3ee;font-size: 20px" data-toggle="modal" onclick="selAllVipType()" data-target="#myModal">办理会员</p>
+<!-- 模态框（Modal） -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">办理会员</h4>
+            </div>
+            <div class="modal-body" id="vip_type">
+                <select id="vip_type_name">
+
+                </select>
+            </div>
+            <div id="mydiv" style="display: none">
+                说明：<p id="cardInfo"></p>
+                价格：<p id="cardPrice"></p>
+                使用时间：<p id="useDate"></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary" onclick="openVip()">办理</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+
+<p class="p" onclick="allCourse()" style="color: #00b3ee;font-size: 20px" data-toggle="modal" data-target="#myModal1">课程报名</p>
+<!-- 模态框（Modal） -->
+<div class="modal fade" id="myModal1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">所有课程</h4>
+            </div>
+            <div class="modal-body">
+                <table id="allCourse" border="1" style="border-color: #0f0f0f;text-align: center">
+                    <tr>
+                        <th style="width: 100px">课程名</th>
+                        <th style="width: 100px">教练名</th>
+                        <th style="width: 180px">开始时间</th>
+                        <th style="width: 180px">结束时间</th>
+                    </tr>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+
+
+<script>
+    function selAllVipType(){
+        $.ajax({
+            url:'/yoga/user/selAllVipType',
+            type:'post',
+            data:{
+                venueId:$("#venueId").val()
+            },
+            success:function (data) {
+                content="<option>未选择</option>";
+                for(var i=0;i<data.length;i++){
+                    content+="<option value='"+data[i].vipTypeId+"'>"+data[i].cardName+"</option>";
+                }
+            $("#vip_type_name").html(content);
+                $("#mylist").val(data);
+            }
+        })
+    }
+    $("#vip_type_name").change(function () {
+        var options=$("#vip_type_name option:selected");
+        var vipId=options.val();
+        var viptext=options.text();
+
+        if (viptext=="未选择"){
+            $("#mydiv").hide();
+        } else {
+            $("#mydiv").show();
+           $.ajax({
+               url:'/yoga/user/selVipById',
+               type:'post',
+               anync:true,
+               data:{
+                 vipTypeId:vipId
+               },
+               success:function (data) {
+                   $("#cardInfo").html(data.cardInfo);
+
+                   $("#cardPrice").html(data.cardPrice);
+
+                   $("#useDate").html(data.useDate);
+               }
+           });
+        }
+    });
+    function openVip() {
+        var options=$("#vip_type_name option:selected");
+        $.ajax({
+            url:'/yoga/user/openVip',
+            type:'post',
+            async:true,
+            data:{
+                venueId:$("#venueId").val(),
+                vipTypeId:options.val()
+            },
+            success:function (data) {
+              alert(data);
+              if (data=="办理成功"){
+                  location.reload(true);
+              }
+            }
+        });
+    }
+    function allCourse() {
+        $("#allCourse  tr:not(:first)").empty("");
+        $.ajax({
+            url:"/yoga/user2/allCourse",
+            type:'post',
+            async:true,
+            data:{
+              venueId:$("#venueId").val()
+            },
+            success:function (data) {
+                var content = "";
+                for (var i=0;i<data.length;i++){
+                    content+="<tr>" +
+                            "<td>"+data[i].courseName+"</td>"+
+                        "<td>"+data[i].teacherName+"</td>"+
+                        "<td>"+data[i].startTime+"</td>"+
+                        "<td>"+data[i].overTime+"</td>"+
+                        "<td><button onclick='addCourse("+data[i].venueId+","+data[i].teacherId+","+data[i].courseId+")'> 报名</button></td>"+
+                        "<tr>";
+                }
+                $("#allCourse").append(content);
+            }
+        });
+    }
+   function addCourse(venueId,teacherId,courseId){
+        $.ajax({
+            url:'/yoga/user2/addCourse',
+            type:'post',
+            async:true,
+            data:{
+              venueId:venueId,
+              teacherId:teacherId,
+              courseId:courseId
+            },
+            success: function (data) {
+                alert(data);
+            }
+        });
+   }
+</script>
+</body>
+</html>

@@ -26,6 +26,9 @@
     values (#{fId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{fDetail,jdbcType=VARCHAR}, 
       #{flag,jdbcType=INTEGER})
   </insert>
+
+
+
   <insert id="insertSelective" parameterType="cn.project.yoga.pojo.Friends">
     insert into friends
     <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -38,9 +41,6 @@
       <if test="fDetail != null">
         f_detail,
       </if>
-      <if test="flag != null">
-        flag,
-      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="fId != null">
@@ -52,11 +52,11 @@
       <if test="fDetail != null">
         #{fDetail,jdbcType=VARCHAR},
       </if>
-      <if test="flag != null">
-        #{flag,jdbcType=INTEGER},
-      </if>
     </trim>
   </insert>
+
+
+
   <update id="updateByPrimaryKeySelective" parameterType="cn.project.yoga.pojo.Friends">
     update friends
     <set>

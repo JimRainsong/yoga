@@ -93,10 +93,9 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="cn.project.yoga.pojo.Venue_teacher">
     update venue_teacher
-    set venue_id = #{venueId,jdbcType=INTEGER},
-      teacher_id = #{teacherId,jdbcType=INTEGER},
-      teacher_state = #{teacherState,jdbcType=INTEGER},
-      flag = #{flag,jdbcType=INTEGER}
-    where venue_teacher_id = #{venueTeacherId,jdbcType=INTEGER}
+    set
+     teacher_state = 3
+    where teacher_id = #{teacherId,jdbcType=INTEGER}
+    and venue_id = #{venueId,jdbcType=INTEGER}
   </update>
 </mapper>

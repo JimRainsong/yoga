@@ -177,3 +177,32 @@ td {
     top: 60px;
     z-index: 999;
 }
+
+#big_head_img img {
+    width: 320px;
+    height: 320px;
+}
+
+#upload_file {
+    display: none;
+}
+
+#select_head_img {
+    background-color: red;
+    margin: 30px 20px 0 50px;
+}
+
+#big_head_img button {
+    width: 96px;
+    height: 30px;
+    border: 0;
+    color: white;
+    font-family: monospace;
+    font-size: 20px;
+    line-height: 30px;
+    border-radius: 6px;
+}
+
+#submit_head_img {
+    background-color: #f4853b;
+}
