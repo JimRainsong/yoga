@@ -138,7 +138,7 @@ public class VenueController {
         result.put("msg","");
         result.put("count",pageInfo.getTotal());
         result.put("data",list);
-        return result;
+       return result;
     }
     /*
      *该场馆所有vip类型展示
