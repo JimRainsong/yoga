@@ -26,7 +26,7 @@ public class UserViewController {
 
     @RequestMapping("/info")
     public String userInfo1() {
-        return "myinfo_old";
+        return "user/myinfo";
     }
 
     @RequestMapping("/mymoney")

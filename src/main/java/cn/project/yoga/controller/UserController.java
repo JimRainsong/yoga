@@ -13,6 +13,7 @@ import cn.project.yoga.service.VenueService;
 import cn.project.yoga.utils.*;
 import cn.project.yoga.vo.LoginVo;
 import cn.project.yoga.vo.MyVenueVo;
+import cn.project.yoga.vo.TeacherVenueVo;
 import com.github.pagehelper.PageInfo;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
@@ -241,7 +242,7 @@ public class UserController {
 
 
 
-
+/*
     public String changeName(String oldName){
         return UUID.randomUUID()+"_"+oldName;
     }*/
@@ -256,8 +257,8 @@ public class UserController {
         return modelAndView;
     }
 
-    /*
-     * 分页查询学员信息*/
+   /* *//*
+     * 分页查询学员信息*//*
     @RequestMapping("/showuser")
     @ResponseBody
     public List<User_info> ShowUser4(HttpServletRequest request){
@@ -272,7 +273,7 @@ public class UserController {
         int lim=page*4-4;
         List<User_info>user_infos=userService.SelUser4(lim);
         return user_infos;
-    }
+    }*/
 
     /*
      * 根据ID查询学员详细信息*/
@@ -374,7 +375,13 @@ public class UserController {
     public  ModelAndView coachDetail(Integer teacherId){
         ModelAndView modelAndView=new ModelAndView();
         modelAndView.setViewName("user/coachDetails");
-        modelAndView.addObject(userService.selTeacherByTid(teacherId));
+        modelAndView.addObject("teacher",userService.selTeacherByTid(teacherId));
         return modelAndView;
+    }
+
+    @RequestMapping("/selTeacherVenue")
+    @ResponseBody
+    public List<TeacherVenueVo> selTeacherVenue(Integer teacherId){
+        return userService.selTeacherVenue(teacherId);
     }
 }

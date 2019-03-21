@@ -5,13 +5,16 @@ import cn.project.yoga.pojo.*;
 import cn.project.yoga.service.UserService;
 import cn.project.yoga.vo.MyVenueVo;
 import cn.project.yoga.utils.ResultUtil;
+import cn.project.yoga.vo.OrderCoachVo;
+import cn.project.yoga.vo.SelfCourseVo;
+import cn.project.yoga.vo.TeacherVenueVo;
 import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.xml.soap.Detail;
 import java.sql.Time;
 import java.sql.Timestamp;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -85,8 +88,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<Myself_course> selectMySelfCourse1(int user_id) {
-        return null;
+    public List<SelfCourseVo> selectMySelfCourse1() {
+        String userName=SecurityUtils.getSubject().getPrincipal().toString();
+        int userId=userMapper.selectUserByUserName(userName).getUserId();
+        int uId=userMapper.selUidByUserId(userId);
+        return userMapper.selMyselfCourse(uId);
     }
 
     @Override
@@ -204,6 +210,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public Collection<? extends Detail> selectMyFollowedStuByCurrentUserId2(Integer currentUserId) {
+        return userMapper.selectMyFollowedStuByCurrentUserId2(currentUserId);
+    }
+
+    @Override
     public List<Venue> selectAllVenue() {
         List<Venue> venues=userMapper.queryVenues();
         return venues;
@@ -290,9 +301,48 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public List<TeacherVenueVo> selTeacherVenue(Integer teacherId) {
+        return userMapper.selTeacherVenue(teacherId);
+    }
+
+
+
+    @Override
+    public String orderCoach(OrderCoachVo orderCoachVo) {
+        if (orderCoachVo.getVenueId()==0){
+            return "请选择场馆";
+        }
+        Date beginDate=null;
+        Date overDate=null;
+        SimpleDateFormat simpleDateFormat=new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+        try {
+            beginDate=simpleDateFormat.parse(orderCoachVo.getBeginTime());
+            overDate=simpleDateFormat.parse(orderCoachVo.getOverTime());
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        //根据教练查询私教时间
+
+        List<Myself_course> list=userMapper.selTeacherTime(orderCoachVo.getTeacherId(),new Timestamp(beginDate.getTime()),new Timestamp(overDate.getTime()));
+        if (list.size()!=0){
+            return "教练时间已经被占用";
+        }
+        int userId=userMapper.selectUserByUserName(SecurityUtils.getSubject().getPrincipal().toString()).getUserId();
+        int u_id=userMapper.selUidByUserId(userId);
+
+
+        int row=userMapper.insertSelfCourse(new Timestamp(beginDate.getTime()),new Timestamp(overDate.getTime()),orderCoachVo.getTeacherId(),orderCoachVo.getVenueId(),u_id);
+        if (row==0){
+            return "盘他失败";
+        }
+        return "预约成功，等待教练确认";
+    }
+
+   /* @Override
     public Collection<? extends Detail> selectMyFollowedStuByCurrentUserId2(Integer currentUserId) {
         return userMapper.selectMyFollowedStuByCurrentUserId2(currentUserId);
-    }
+    }*/
 
     @Override
     public User_info selectUserByUserId2(Integer userId) {

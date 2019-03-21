@@ -28,7 +28,7 @@ qq:<p th:text="${venue.qq}"></p>
             </div>
             <div class="modal-body" id="vip_type">
                 <select id="vip_type_name">
-                    <option>未选择</option>
+
                 </select>
             </div>
             <div id="mydiv" style="display: none">
@@ -101,6 +101,9 @@ qq:<p th:text="${venue.qq}"></p>
             },
             success:function (data) {
               alert(data);
+              if (data=="办理成功"){
+                  location.reload(true);
+              }
             }
         });
     }

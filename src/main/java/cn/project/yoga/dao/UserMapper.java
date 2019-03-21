@@ -3,12 +3,16 @@ package cn.project.yoga.dao;
 import cn.project.yoga.pojo.*;
 
 import cn.project.yoga.vo.MyVenueVo;
+import cn.project.yoga.vo.OrderCoachVo;
+import cn.project.yoga.vo.SelfCourseVo;
+import cn.project.yoga.vo.TeacherVenueVo;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 import org.apache.ibatis.annotations.*;
 
+import java.sql.Timestamp;
 import java.util.Date;
 import java.util.Collection;
 import java.util.List;
@@ -156,4 +160,21 @@ public interface UserMapper {
      */
     @Select("select * from moments_stu where id in (select follow_id from attention where user_id=#{currentUserId})")
     List<StuMoment> onlyFollowedMoments2(Integer currentUserId);
+
+    @Select("select venue.venue_name,venue_teacher.venue_id from venue,venue_teacher where venue.venue_id=venue_teacher.venue_id AND venue_teacher.teacher_id=#{teacherId}")
+    List<TeacherVenueVo> selTeacherVenue(Integer teacherId);
+
+    @Select("select * from myself_course where teacher_id=#{teacherId} and ((#{beginTime} between start and end) or (#{overTime} between start and end)) and state=0 and flag=0")
+    List<Myself_course> selTeacherTime(@Param("teacherId") int teacherId,@Param("beginTime") Timestamp beginTime,@Param("overTime") Timestamp overTime);
+
+
+
+    @Insert("insert into myself_course values(default,#{u_id},#{teacherId},#{venueId},#{beginTime},#{overTime},default,default)")
+    int insertSelfCourse(@Param("beginTime") Timestamp beginTime,@Param("overTime") Timestamp overTime,@Param("teacherId") int teacherId,@Param("venueId") int venueId, @Param("u_id") int u_id);
+
+    @Select("select * from selfCourse where u_id=#{uId} ")
+    List<SelfCourseVo> selMyselfCourse(int uId);
+
+    @Select("select * from selfCourse where u_id=#{uId} and state=0 order by start desc limit 0,1")
+    List<SelfCourseVo> selMyselfCourseII(int uId);
 }
