@@ -409,7 +409,7 @@ public class UserServiceImpl implements UserService {
     /*@Override
     public List<Course> selCourseByUid(Integer uId) {
         return courseMapper.selCourseByUid(uId);
-    }*/
+    }
 
    /* @Override
     public Collection<? extends Detail> selectMyFollowedStuByCurrentUserId2(Integer currentUserId) {

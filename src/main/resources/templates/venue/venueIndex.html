@@ -18,29 +18,13 @@
 <div class="layui-layout layui-layout-admin">
     <div class="layui-header">
         <div class="layui-logo">YOGA! 场馆</div>
-        <!-- 头部区域（可配合layui已有的水平导航） -->
-        <ul class="layui-nav layui-layout-left">
-            <li class="layui-nav-item"><a href="javascript:">商品管理</a></li>
-            <li class="layui-nav-item"><a href="">关注</a></li>
-            <li class="layui-nav-item">
-                <a href="javascript:;">其它系统</a>
-                <dl class="layui-nav-child">
-                    <dd><a href="">邮件管理</a></dd>
-                    <dd><a href="">消息管理</a></dd>
-                    <dd><a href="">授权管理</a></dd>
-                </dl>
-            </li>
-        </ul>
         <ul class="layui-nav layui-layout-right">
             <li class="layui-nav-item">
-                <a href="javascript:;">
-                    <img id="imgs" src="http://t.cn/RCzsdCq" class="layui-nav-img">
-                    <span id="userNames" value="贤心"></span>
+                <a href="javascript:;" id="userNames" >
 
-                </a>
+                 </a>
                 <dl class="layui-nav-child">
                     <dd><a href="javascript:venueInFoTab();">基本资料</a></dd>
-                    <dd><a href="">安全设置</a></dd>
                     <dd><a href="javascript:atention()">关注</a></dd>
                 </dl>
             </li>
@@ -64,6 +48,7 @@
                 </li>
                 <li class="layui-nav-item"><a href="javascript:vipType()">产品管理</a></li>
                 <li class="layui-nav-item"><a href="javascript:uploadAds()">发布广告</a></li>
+                <li class="layui-nav-item"><a href="javascript:upFriends()">朋友圈</a></li>
                 <li class="layui-nav-item"><a href="javascript:commentTab()">查看本场馆评论</a></li>
             </ul>
         </div>
@@ -88,6 +73,17 @@
 </div>
 <script th:src="@{/layui/layui.js}"></script>
 <script>
+    selimg();
+    function selimg() {
+        $.ajax({
+            url : "/yoga/venueDate/selimg",
+            type : "post",
+            dataType : "JSON",
+            success : function(data) {
+               $("#userNames").html("<img src='"+data.data.venueImg+"' height=\"40\" width=\"40\" class='layui-nav-min'>"+data.data.venueName+"");
+            }
+        })
+    }
 
     var element =null;
     //JavaScript代码区域
@@ -100,7 +96,12 @@
     var title= null;
     var eid  = null;
 
-
+    function upFriends() {
+        url='/yoga/venue/friends';
+        title="查看课程";
+        eid="upFriendsTabId";
+        addTab();
+    }
     function commentTab(){
         url='/yoga/venue/comment';
         title="评论信息";
