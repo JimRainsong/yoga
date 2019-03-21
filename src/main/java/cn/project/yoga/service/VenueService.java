@@ -198,4 +198,8 @@ public interface VenueService {
      * @return
      */
     int delMyTeacherData(Venue_teacher venue_teacher);
+
+    int updataVenue(Venue venue);
+
+    int addFriends(Friends friends);
 }

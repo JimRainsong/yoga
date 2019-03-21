@@ -61,7 +61,11 @@ public class VenueController {
                 return LayUiDataUtil.error("联系方式数据有误");
             }
         }
-        return LayUiDataUtil.ok(venue);
+        int num=venueService.updataVenue(venue);
+        if (num>0){
+            return LayUiDataUtil.ok("提交成功");
+        }
+            return LayUiDataUtil.error("修改失败");
     }
         /*
          *所有学员展示
@@ -138,7 +142,7 @@ public class VenueController {
         result.put("msg","");
         result.put("count",pageInfo.getTotal());
         result.put("data",list);
-       return result;
+        return result;
     }
     /*
      *该场馆所有vip类型展示
@@ -256,7 +260,7 @@ public class VenueController {
          Session session = subject.getSession();
          Venue venue = (Venue) session.getAttribute(Attributes.CURRENT_USER);
          course.setVenueId(venue.getVenueId());
-         if (!RegexUtil.isFuHao(course.getCourseName())){
+         if (!RegexUtil.isFuHao(course.getCourseName())||!RegexUtil.isFuHao(course.getCourseState())){
               return LayUiDataUtil.error("数据格式有误");
          }
          if (!course.getStartTime().before(course.getOverTime())){
@@ -464,6 +468,25 @@ public class VenueController {
             return LayUiDataUtil.error("无评论");
         }
         return LayUiDataUtil.ok(result);
+    }
+
+    @RequestMapping("")
+    @ResponseBody
+    public LayUiDataUtil addFriends(Friends friends){
+        Subject subject = SecurityUtils.getSubject();
+        Session session = subject.getSession();
+        Venue venue = (Venue) session.getAttribute(Attributes.CURRENT_USER);
+        friends.setUserId(venue.getUserId());
+        friends.setfTime(new Date());
+        if (!friends.getfDetail().equals("")||friends.getfDetail()!=null){
+            if (RegexUtil.isFuHao(friends.getfDetail())){
+            }else{
+                return LayUiDataUtil.error("数据有误");
+            }
+        }
+        int num = venueService.addFriends(friends);
+
+    return LayUiDataUtil.ok();
     }
 
     /**

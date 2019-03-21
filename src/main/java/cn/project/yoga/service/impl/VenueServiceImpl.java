@@ -38,6 +38,9 @@ public class VenueServiceImpl implements VenueService {
     private Venue_commentMapper venueCommentMapper;
     @Autowired
     private Vip_recordMapper vip_recordMapper;
+    @Autowired
+    private FriendsMapper friendsMapper;
+
 
     @Override
     public int addVenue(Venue venue) {
@@ -139,6 +142,16 @@ public class VenueServiceImpl implements VenueService {
     @Override
     public List<Selstudent> selStudentByStudentName3(Selstudent selstudent, Integer currentPage, Integer pageSize) {
         return selstudentMapper.selStudentByStudentName3(selstudent,currentPage,pageSize);
+    }
+
+    @Override
+    public int updataVenue(Venue venue) {
+        return venueMapper.updateByPrimaryKeySelective(venue);
+    }
+
+    @Override
+    public int addFriends(Friends friends) {
+        return friendsMapper.insertSelective(friends);
     }
 
     @Override
