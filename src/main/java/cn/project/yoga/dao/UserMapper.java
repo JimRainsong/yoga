@@ -2,10 +2,7 @@ package cn.project.yoga.dao;
 
 import cn.project.yoga.pojo.*;
 
-import cn.project.yoga.vo.MyVenueVo;
-import cn.project.yoga.vo.OrderCoachVo;
-import cn.project.yoga.vo.SelfCourseVo;
-import cn.project.yoga.vo.TeacherVenueVo;
+import cn.project.yoga.vo.*;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
@@ -181,4 +178,27 @@ public interface UserMapper {
 
     @Select("select * from selfCourse where u_id=#{uId} and state=0 order by start desc limit 0,1")
     List<SelfCourseVo> selMyselfCourseII(int uId);
+
+    @Select("select * from venueTalk order by f_time desc")
+    List<VenueTalk> venueSpeak();
+    @Select("select * from teacherTalk order by f_time desc")
+    List<teacherTalk> teacherSpeak();
+
+    @Select("select * from allCourse where  venue_id=#{venueId}")
+    List<allCourseVo> allCourse(@Param("timestamp") Timestamp timestamp, @Param("venueId") Integer venueId);
+
+    @Insert("insert into my_course values(default,#{courseId},#{userId},default,default) ")
+    int addCourse(@Param("courseId") Integer courseId,@Param("userId") Integer userId);
+
+    @Select("select course_money from course where course_id=#{courseId}")
+    int selCourseMoneyByCourseId(Integer courseId);
+
+    @Select("select count(*) from my_course where course_id=#{courseId} and if_cancle=0 and if_finish=0")
+    int selCourseCountByCourseId(Integer courseId);
+
+    @Select("select course_people from course where course_id=#{courseId} ")
+    int selCanCountByCourseId(Integer courseId);
+
+    @Select("select * from mycourse where user_id=#{u_id}")
+    List<MyCourseVo> selMyCourse(int u_id);
 }

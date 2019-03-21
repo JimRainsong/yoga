@@ -12,7 +12,6 @@
 	<body>
 	<style>
 		td:hover{
-
 			cursor: pointer;
 		}
 		.mytb:hover{
@@ -37,7 +36,7 @@
 	</div>
 </div>
 <div style="margin-top: 20px;">
-	<div class="vip">
+	<div class="vip" style="overflow: auto">
 	<ul id="myTab" class="nav nav-tabs">
 	<li class="active">
 		<a href="#home" data-toggle="tab"><span class="glyphicon glyphicon-star">vip专属</a>
@@ -59,7 +58,7 @@
 </div>
 </div>
 <div style="margin-top: 10px;">
-	<div class="vip" style="height: 210px;">
+	<div class="vip"  style="overflow: auto;height: 210px;">
 		<ul id="myTab" class="nav nav-tabs">
 			<!--<li class="active">
 				<a href="#coach" data-toggle="tab">我的私教</a>
@@ -74,7 +73,7 @@
 			<a href="#coach" data-toggle="tab"><span class="glyphicon glyphicon-star">我的私教</a>
 			</li>
 			<li><a href="#attCoach" data-toggle="tab"><span class="glyphicon glyphicon-user"></span>关注教练</a></li>
-			<li><a href="" data-toggle="tab"><span class="glyphicon glyphicon-plus"></span>教练动态</a></li>
+			<li onclick="coachSend()"><a href="#teacherTalk" data-toggle="tab"><span class="glyphicon glyphicon-plus"></span>教练动态</a></li>
 		</ul>
 		<div id="myTabContent2" class="tab-content">
 			<div class="tab-pane fade in active" id="coach">
@@ -89,10 +88,10 @@
 						</tr>
 					</table>
 				</div>
-				<li style="list-style: none"><a href="/yoga/user/selectAllCoach" style="font-size: 18px;margin-left: 320px;">预约</a></li>
+				<li style="list-style: none"><a href="/yoga/user/selectAllCoach" style="font-size: 18px;margin-left: 300px;">预约</a></li>
 
 				<!-- 按钮触发模态框 -->
-				<p style="margin-left: 300px;" data-toggle="modal" data-target="#myModal">
+				<p style="margin-left: 280px;" data-toggle="modal" data-target="#myModal">
 					查看全部
 				</p>
 				<!-- 模态框（Modal） -->
@@ -124,12 +123,21 @@
 			<div class="tab-pane fade" id="attCoach">
 				<div id="attenCoach">没有关注</div>
 			</div>
+			<div class="tab-pane fade" id="teacherTalk">
+				<table  border="1" style="text-align: center" id="coachTalk">
+					<tr>
+						<th width="50px" style="text-align: center">教练名</th>
+						<th width="170px" style="text-align: center">内容</th>
+						<th width="170px" style="text-align: center">时间</th>
+					</tr>
+				</table>
+			</div>
 			</div>
 	</div>
 </div>
 
 <div style="margin-top: 12px;">
-	<div class="vip" style="height: 210px;">
+	<div class="vip" style="overflow:auto;height: 210px;">
 		
 
 				<ul id="myTab" class="nav nav-tabs">
@@ -137,7 +145,7 @@
 						<a href="#space" data-toggle="tab"><span class="glyphicon glyphicon-star">我的场馆</span></a>
 					</li>
 					<li onclick="venueSend()"><a href="#venueSpeak" data-toggle="tab"><span class="glyphicon glyphicon-user"></span>场馆动态</a></li>
-					<li><a href="" data-toggle="tab"><span class="glyphicon glyphicon-plus"></span>我的课程</a></li>
+					<li onclick="mycourse()"><a href="#myCourse" data-toggle="tab"><span class="glyphicon glyphicon-plus"></span>我的课程</a></li>
 				</ul>
 
 			<div id="myTabContent3" class="tab-content">
@@ -154,8 +162,8 @@
 						<li style="list-style: none"><a href="/yoga/user/selectAllVenue" style="font-size: 18px;margin-left: 280px;">添加 +</a></li>
 					</div>
 				</div>
-				<div class="tab-pane fade" id="venueSpeak">
-					<table  border="1" style="text-align: center">
+				<div class="tab-pane fade" style="overflow: auto;position:relative;" id="venueSpeak">
+					<table  border="1" style="text-align: center" id="venueTalk">
 						<tr>
 							<th width="50px" style="text-align: center">场馆名</th>
 							<th width="170px" style="text-align: center">内容</th>
@@ -163,6 +171,17 @@
 						</tr>
 					</table>
 				</div>
+                <div class="tab-pane fade" style="overflow: auto;position:relative;" id="myCourse">
+                    <table  border="1" style="text-align: center" id="incourse">
+                        <tr>
+                            <th width="50px" style="text-align: center">场馆名</th>
+                            <th width="170px" style="text-align: center">课程名</th>
+                            <th width="170px" style="text-align: center">开始时间</th>
+                            <th width="170px" style="text-align: center">结束时间</th>
+                        </tr>
+                    </table>
+                </div>
+
 				</div>
 		</div>
 	
@@ -223,7 +242,9 @@
 						state="已确认";
 					}else if (data[i].state==2){
 						state="被拒绝";
-					}
+					}else if(data[i].state==-1){
+					    state="课程冲突";
+                    }
 					content+= "<tr class='mytb'>" +
 							"<td onclick='coachDetail("+data[i].teacherId+")'>"+data[i].teacherName+"</td>" +
 							"<td>"+data[i].start+"</td>"+
@@ -241,6 +262,7 @@
 		window.location.href="/yoga/user/coachDetail?teacherId="+id;
 	}
 	function venueSend() {
+		$("#venueTalk  tr:not(:first)").empty("");
 		$.ajax({
 			url:"/yoga/user2/venueSpeak",
 			type:"get",
@@ -250,13 +272,54 @@
 				for (var i=0;i<data.length;i++){
 					content+= "<tr class='mytb' onclick='venueDetail("+data[i].venueId+")'>" +
 							"<td>"+data[i].venueName+"</td>" +
-							"<td>"+data[i].updateTime+"</td>"+
+							"<td>"+data[i].fDetail+"</td>" +
+							"<td>"+data[i].fTime+"</td>"+
 							"</tr>";
 				}
+				$("#venueTalk").append(content);
 			}
 		});
 	}
+	function coachSend() {
+		$("#coachTalk  tr:not(:first)").empty("");
+		$.ajax({
+			url:"/yoga/user2/teacherSpeak",
+			type:"get",
+			async:true,
+			success:function (data) {
+				var content="";
+				for (var i=0;i<data.length;i++){
+					content+= "<tr class='mytb' onclick='coachDetail("+data[i].teacherId+")'>" +
+							"<td>"+data[i].teacherName+"</td>" +
+							"<td>"+data[i].fDetail+"</td>" +
+							"<td>"+data[i].fTime+"</td>"+
+							"</tr>";
+				}
+				$("#coachTalk").append(content);
+			}
+		});
+	}
+	function mycourse() {
+        $("#incourse  tr:not(:first)").empty("");
+        $.ajax({
+            url:"/yoga/user2/mycourse",
+            type:"get",
+            success:function (data) {
+                var content="";
+                for (var i=0;i<data.length;i++){
+                    content+= "<tr class='mytb'>" +
+                        "<td>"+data[i].venueName+"</td>" +
+                        "<td>"+data[i].courseName+"</td>" +
+                        "<td>"+data[i].startTime+"</td>"+
+                        "<td>"+data[i].overTime+"</td>"+
+                        "</tr>";
+                }
+                $("#incourse").append(content);
+            }
+        });
+    }
 	</script>
+
 	</body>
 
 </html>

@@ -1,11 +1,8 @@
 package cn.project.yoga.service;
 
 import cn.project.yoga.pojo.*;
-import cn.project.yoga.vo.MyVenueVo;
+import cn.project.yoga.vo.*;
 import cn.project.yoga.utils.ResultUtil;
-import cn.project.yoga.vo.OrderCoachVo;
-import cn.project.yoga.vo.SelfCourseVo;
-import cn.project.yoga.vo.TeacherVenueVo;
 
 import java.util.Collection;
 import java.util.List;
@@ -178,7 +175,20 @@ public interface UserService {
 
     String orderCoach(OrderCoachVo orderCoachVo);
 
+    List<VenueTalk> venueSpeak();
+
+    List<teacherTalk> teacherSpeak();
+
+    List<stuTalk> stuSpeak();
+
     int addAttention(Attention attention);
 
     List<Course> selCourseByUid(Integer uId);
+
+    List<allCourseVo> allCourse(Integer venueId);
+
+    String addCourse(Integer courseId);
+
+
+    List<MyCourseVo> selMyCouse();
 }

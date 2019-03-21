@@ -37,16 +37,6 @@ public class YogaApplicationTests {
     private VenueMapper venueMapper;
 
 
-    @Test
-    public void contextLoads() {
-        Date d1 = new Date(20048L);
-        Date d2 = new Date(20048L);
-        System.out.println(d2.compareTo(d1));
-
-        System.out.println(userService.selectUserByUserName("coach").getUserName());
-
-
-    }
 
     @Test
     public void ssa(){

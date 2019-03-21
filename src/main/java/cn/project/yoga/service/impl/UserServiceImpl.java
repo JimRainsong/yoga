@@ -3,11 +3,8 @@ package cn.project.yoga.service.impl;
 import cn.project.yoga.dao.*;
 import cn.project.yoga.pojo.*;
 import cn.project.yoga.service.UserService;
-import cn.project.yoga.vo.MyVenueVo;
+import cn.project.yoga.vo.*;
 import cn.project.yoga.utils.ResultUtil;
-import cn.project.yoga.vo.OrderCoachVo;
-import cn.project.yoga.vo.SelfCourseVo;
-import cn.project.yoga.vo.TeacherVenueVo;
 import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -346,14 +343,73 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public List<VenueTalk> venueSpeak() {
+        return userMapper.venueSpeak();
+    }
+
+    @Override
+    public List<teacherTalk> teacherSpeak() {
+        return userMapper.teacherSpeak();
+    }
+
+    @Override
+    public List<stuTalk> stuSpeak() {
+        return null;
+    }
+
+    @Override
     public int addAttention(Attention attention) {
         return attentionMapper.insertSelective(attention);
     }
 
     @Override
     public List<Course> selCourseByUid(Integer uId) {
-        return courseMapper.selCourseByUid(uId);
+        return null;
     }
+
+    @Override
+    public List<allCourseVo> allCourse(Integer venueId) {
+       Date date=new Date();
+       Timestamp timestamp=new Timestamp(date.getTime());
+        return userMapper.allCourse(timestamp,venueId);
+    }
+
+    @Override
+    public String addCourse(Integer courseId) {
+        int userId=userMapper.selectUserByUserName(SecurityUtils.getSubject().getPrincipal().toString()).getUserId();
+        int u_id=userMapper.selUidByUserId(userId);
+        int row = userMapper.addCourse(courseId,u_id);
+        if (row == 0) {
+            return "加入课程失败";
+        }
+        int haveCount=userMapper.selCourseCountByCourseId(courseId);
+        int canCount=userMapper.selCanCountByCourseId(courseId);
+        if (haveCount==canCount){
+            return "人数已满";
+        }
+        int moneny=userMapper.selCourseMoneyByCourseId(courseId);
+        int balacce=userMapper.selBalanceByUserId(userId);
+        if (moneny>balacce){
+            return "余额不足";
+        }
+        int row1 = userMapper.updateMyMoney(userId,moneny);
+        if (row1==0){
+            return "加入失败，扣钱失败";
+        }
+        return "加入课程成功";
+    }
+
+    @Override
+    public List<MyCourseVo> selMyCouse() {
+        int userId=userMapper.selectUserByUserName(SecurityUtils.getSubject().getPrincipal().toString()).getUserId();
+        int u_id=userMapper.selUidByUserId(userId);
+        return userMapper.selMyCourse(u_id);
+    }
+
+    /*@Override
+    public List<Course> selCourseByUid(Integer uId) {
+        return courseMapper.selCourseByUid(uId);
+    }*/
 
    /* @Override
     public Collection<? extends Detail> selectMyFollowedStuByCurrentUserId2(Integer currentUserId) {
