@@ -20,10 +20,9 @@
         <div class="layui-logo">YOGA! 场馆</div>
         <ul class="layui-nav layui-layout-right">
             <li class="layui-nav-item">
-                <a href="javascript:;">
-                    <img id="imgs" src="http://t.cn/RCzsdCq" class="layui-nav-img">
-                    <span id="userNames" value="贤心"></span>
-                </a>
+                <a href="javascript:;" id="userNames" >
+
+                 </a>
                 <dl class="layui-nav-child">
                     <dd><a href="javascript:venueInFoTab();">基本资料</a></dd>
                     <dd><a href="javascript:atention()">关注</a></dd>
@@ -74,6 +73,17 @@
 </div>
 <script th:src="@{/layui/layui.js}"></script>
 <script>
+    selimg();
+    function selimg() {
+        $.ajax({
+            url : "/yoga/venueDate/selimg",
+            type : "post",
+            dataType : "JSON",
+            success : function(data) {
+               $("#userNames").html("<img src='"+data.data.venueImg+"' height=\"40\" width=\"40\" class='layui-nav-min'>"+data.data.venueName+"");
+            }
+        })
+    }
 
     var element =null;
     //JavaScript代码区域

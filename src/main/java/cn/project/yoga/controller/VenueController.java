@@ -532,4 +532,14 @@ public class VenueController {
         }
         return LayUiDataUtil.error("删除失败");
     }
+
+    @RequestMapping("/selimg")
+    @ResponseBody
+    public LayUiDataUtil selimg() {
+        Subject subject = SecurityUtils.getSubject();
+        Session session = subject.getSession();
+        Venue venue = (Venue) session.getAttribute(Attributes.CURRENT_USER);
+        System.out.println(venue.getVenueName()+":"+venue.getVenueImg());
+        return LayUiDataUtil.ok(venue);
+    }
 }
