@@ -35,8 +35,7 @@ public class YogaApplicationTests {
     private UserMapper userMapper;
     @Autowired
     private VenueMapper venueMapper;
-    @Autowired
-    private VenueService venueService;
+
 
     @Test
     public void contextLoads() {
@@ -45,8 +44,7 @@ public class YogaApplicationTests {
         System.out.println(d2.compareTo(d1));
 
         System.out.println(userService.selectUserByUserName("coach").getUserName());
-        List<Selstudent> list = venueService.findStudents(1,1,1);
-        System.out.println(list.get(0).getNetName());
+
 
 
         System.out.println(userMapper.hasIfollowedThis2(6, 8));
