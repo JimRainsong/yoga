@@ -26,6 +26,8 @@ public class ManagerViewController {
     @RequestMapping("/ad")
     public String ceshi4_2(){return "manager/adheadhtml";}
 
+    /*
+    * 场馆管理页面*/
     @RequestMapping("/tvenue")
     public String Tvenue(){
         return "manager/hsn/Mvenue";

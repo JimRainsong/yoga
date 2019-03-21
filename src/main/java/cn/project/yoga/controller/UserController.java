@@ -353,7 +353,7 @@ public class UserController {
         return result;
     }
 
-    }
+
 
     @RequestMapping("/selAllVipType")
     @ResponseBody
