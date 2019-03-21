@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>商品</title>
+    <title>商城页面</title>
     <link rel="stylesheet" th:href="@{/css/themes/icon.css}">
     <link rel="stylesheet" th:href="@{/css/themes/default/easyui.css}">
     <link rel="stylesheet" th:href="@{/css/themes/tree.css}">
@@ -30,11 +30,11 @@
     <a class="easyui-linkbutton" data-options="iconCls:'icon-search'" onclick="searchGoods(0)">查看瑜伽器械</a>
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
     <a class="easyui-linkbutton" data-options="iconCls:'icon-search'" onclick="searchGoods(1)">查看零食</a>
-    <form>
+    <div>
         <br>
         搜索你想要的 : <input type="text" name="goodsName" id="goodsName">
         <a class="easyui-linkbutton" data-options="iconCls:'icon-search'" onclick="searchGoods(-99)">搜索</a>
-    </form>
+    </div>
     <br>
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
     <a class="easyui-linkbutton" data-options="iconCls:'icon-ok'" onclick="addcar()">购物车结算</a>
@@ -53,12 +53,20 @@
     <a class="easyui-linkbutton" data-options="iconCls:'icon-cancel'" onclick="closeDialogcar()">关闭</a>
 </div>
 
-<div id="dlgmygoods" class="easyui-dialog" data-options="width:700,height:700,modal:true,closed:true" style="padding: 20px">
-        <table cellpadding="5" id="ordertable" style="color: #1E9FFF;font-size: 30px;align:center">
-        </table>
+<!--我的订单-->
+<div id="dlgmygoods" class="easyui-dialog" data-options="width:900,height:900,modal:true,closed:true" style="padding: 20px;overflow:auto;">
+
 </div>
+<!--确认付款按钮-->
+<div id="dlgpay" class="easyui-dialog" data-options="width:200,height:100,modal:true,closed:true" style="padding: 20px">
+    <div><button onclick="paymoney()">确定要付款吗?</button></div>
+</div>
+<!--付款弹窗-->
+<div id="dlpaylos"></div>
 </body>
 <script>
+    var rowstwo;  //全局变量, 保存用户选购的商品数组
+    var allmoney =0; //保存用户购物车所有商品的总金额
     /*模糊+指定查询*/
     function searchGoods(da) {
         $("#dggoods").datagrid("reload", {
@@ -76,7 +84,7 @@
         }
     }
     /*添加购物车操作 , 将选中的数据放进购物车*/
-    var rowstwo;
+
     function addcar() {
         var rows = $("#dggoods").datagrid("getSelections");
         rowstwo = rows;
@@ -137,22 +145,31 @@
                 return;
             }
             money +=$("#"+rowstwo[i].gId+"").val() * rowstwo[i].gPrice;
+            allmoney = money;
             }
-        alert("总金额"+money);
+        for(var x=0;x<rowstwo.length;x++){
+            goodsIds =goodsIds+rowstwo[x].gId+",";
+            goodscount =goodscount+$("#"+rowstwo[x].gId+"").val()+",";
+            goodsprice = goodsprice+rowstwo[x].gPrice+",";
+        }
+            $("#dlgpay").dialog("open").dialog("setTitle","确认菜单");
+            
     }
-
+    var goodsIds ="";
+    var goodscount ="";
+    var goodsprice ="";
     /*我的订单*/
     function mygoods() {
-        $("#dlgmygoods").dialog("open").dialog("setTitle","购物订单");
         $.ajax({
             url:'/yoga/manager/getmygoods',
             type:'get',
             success:function (data) {
-                var tr2 = $("<tr><td>商品名称</td>&nbsp;&nbsp;&nbsp;&nbsp;<td>数量</td>&nbsp;&nbsp;&nbsp;&nbsp;<td>价格</td>&nbsp;&nbsp;&nbsp;&nbsp;<td>购买时间</td></tr>");
-                $("#ordertable").append(tr2);
+               var table02 = $("<table border='1' width='500'></table>");
+                var tr2 = $("<tr><td>商品名称</td><td>数量</td><td>价格</td><td>购买时间</td></tr>");
+                table02.append(tr2);
                 for (var i=0;i<data.length;i++){
                     var trorder = $("<tr style='align:center'></tr>");
-                    var td1=$("<td></td>").text(data[i].gName);
+                    var td1=$("<td style='width: 100px;height: 20px'></td>").text(data[i].gName);
                     var td2=$("<td></td>").text(data[i].count);
                     var td3=$("<td></td>").text(data[i].price);
                     var td4=$("<td></td>").text(data[i].time);
@@ -160,12 +177,37 @@
                     trorder.append(td2);
                     trorder.append(td3);
                     trorder.append(td4);
-                    $("#ordertable").append(trorder);
+                    table02.append(trorder);
                 }
+                $("#dlgmygoods").html(table02);
+            }
+        });
+        $("#dlgmygoods").dialog("open").dialog("setTitle","购物订单");
+    }
+    
+    /*用户确认付款,发送请求给后台,调用沙箱测试环境*/
+    function paymoney() {
+        var array = new Array();
+        for (var i=0;i<rowstwo.length;i++){
+            array.push(rowstwo[i].gId);
+        }
+        $.ajax({
+            url:'/yoga/manager/alipay',
+            type:'post',
+            dataType:'html',
+            async:false,
+            data:{
+                allmoney:allmoney,
+                goodsIds:goodsIds,
+                goodscount:goodscount,
+                goodsprice:goodsprice
+            },
+            success:function (data) {
+                $("#dlgcar").dialog("close");
+                $("#dlgpay").dialog("close");
+               $("#dlpaylos").html(data);
             }
         })
-
-
     }
 
 </script>

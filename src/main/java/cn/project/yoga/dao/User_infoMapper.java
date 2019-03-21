@@ -72,4 +72,9 @@ public interface User_infoMapper {
     @Update("update user_info set flag=1 where u_id=#{uId}")
     public int DelUserById4(int uId);
 
+    /**  zjl
+     * 根据用户id 和用户消费金额,扣除用余额
+     * */
+    @Update("update user_info set total_money = total_money - #{allmoney} where user_id=#{u_id}")
+    int updateUserMoneyById4_1(@Param("u_id") int u_id,@Param("allmoney") Integer allmoney);
 }

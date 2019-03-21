@@ -14,7 +14,7 @@ public class UpLoadFileUtil {
         System.out.println("====================file名字===="+imgName.getName());
         ServletContext context = request.getServletContext();
         String mainpath=context.getRealPath("/img/"+mypath+"/");
-        String path ="D:\\idework\\yoga\\src\\main\\resources\\static\\img\\"+mypath+"\\";
+        String path ="H:\\Git Works\\yoga\\src\\main\\resources\\static\\img\\"+mypath+"\\";
         //判断这个文件夹是否存在，不存在则创建
         File files = new File(path);
         if (!files.exists()) {
@@ -46,9 +46,6 @@ public class UpLoadFileUtil {
         }
         System.out.println(mainpath+fileName);
         String source="/yoga/img/"+mypath+"/"+fileName;
-
-
-
         return source;
     }
 }

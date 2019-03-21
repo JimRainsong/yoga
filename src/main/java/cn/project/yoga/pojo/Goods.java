@@ -15,6 +15,16 @@ public class Goods {
 
     private Integer flag;
 
+    private  String gType;
+
+    public String getgType() {
+        return gType;
+    }
+
+    public void setgType(String gType) {
+        this.gType = gType;
+    }
+
     public Integer getgId() {
         return gId;
     }
@@ -69,5 +79,18 @@ public class Goods {
 
     public void setFlag(Integer flag) {
         this.flag = flag;
+    }
+
+    @Override
+    public String toString() {
+        return "Goods{" +
+                "gId=" + gId +
+                ", gName='" + gName + '\'' +
+                ", gPrice=" + gPrice +
+                ", gDescrption='" + gDescrption + '\'' +
+                ", gImg='" + gImg + '\'' +
+                ", gStock=" + gStock +
+                ", flag=" + flag +
+                '}';
     }
 }

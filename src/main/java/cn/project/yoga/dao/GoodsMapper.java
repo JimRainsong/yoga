@@ -1,6 +1,7 @@
 package cn.project.yoga.dao;
 
 import cn.project.yoga.pojo.Goods;
+import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
@@ -45,4 +46,23 @@ public interface GoodsMapper {
      * */
     @Update("update goods set flag =1 where g_id=#{0}")
     int deletegoodsByGid4_1(Integer gId);
+
+    /** zjl
+     *  更改商品信息,包括图片
+     *
+     * */
+    @Update("update goods set g_name=#{goods.gName},g_price=#{goods.gPrice},g_descrption=#{goods.gDescrption},g_img=#{goodsImgPath},g_stock=#{goods.gStock},g_type=#{goods.gType} where g_id=#{goods.gId}")
+    int updategoods4_1(@Param("goods") Goods goods,@Param("goodsImgPath") String goodsImgPath);
+
+    /** zjl
+     *      添加商品
+     * */
+    @Insert("insert into goods(g_name,g_price,g_descrption,g_img,g_stock,g_type) values(#{gName1},#{gPrice1},#{gDescrption1},#{imgFile},#{gStock1},#{gtype1})")
+    int addgoods4_1(@Param("gName1") String gName1,@Param("gPrice1") Integer gPrice1, @Param("gStock1")Integer gStock1,@Param("gDescrption1") String gDescrption1,@Param("gtype1")String gtype1,@Param("imgFile") String imgFile);
+
+    /** zjl
+     * 获取所有商品类型
+     * */
+    @Select("select distinct g_type from goods")
+    List<String> selAllGoodsType4_1();
 }

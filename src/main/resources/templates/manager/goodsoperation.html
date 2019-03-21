@@ -26,7 +26,7 @@
 </table>
 <div id="tbgoods">
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    <a class="easyui-linkbutton" data-options="iconCls:'icon-add'" onclick="updategoods01()">添加</a>
+    <a class="easyui-linkbutton" data-options="iconCls:'icon-add'" onclick="addgoods()">添加</a>
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
     <a class="easyui-linkbutton" data-options="iconCls:'icon-edit'" onclick="updategoods01()">修改</a>
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -38,10 +38,15 @@
     </form>
 </div>
 
-<div id="dlggoods" class="easyui-dialog" data-options="buttons:'#butgoods',width:700,height:500,modal:true,closed:true" style="padding: 20px">
+<div id="dlggoods" class="easyui-dialog" data-options="buttons:'#butgoods',width:700,height:700,modal:true,closed:true" style="padding: 20px">
     <form id="fmgoods">
         <table cellpadding="5">
-
+            <tr>
+                <td>商品编号：</td>
+                <td>
+                    <input size="15" type="text" id="gId" name="gId" readonly="true">
+                </td>
+            </tr>
             <tr>
                 <td>商品名称：</td>
                 <td>
@@ -65,7 +70,9 @@
                 <td id="gImg" style="width: 80px"></td>
             </tr>
             <tr>
-                <td>更改图片 : <input type="file"></td>
+                <td>更改图片: <input type="file" name="sdfFile" id="sdfFile" value="" onchange="f_change(this);" ></td>
+                <td><img alt="还未选择图片,请选择" src="" id="imgSdf" width="40" height="40"></td>
+
 
             </tr>
             <tr>
@@ -79,14 +86,77 @@
         </table>
     </form>
 </div>
+
+<div id="dlggoods1" class="easyui-dialog" data-options="buttons:'#butgoods1',width:700,height:700,modal:true,closed:true" style="padding: 20px">
+    <form id="fmgoods1">
+        <table cellpadding="5">
+            <tr>
+                <td>商品名称：</td>
+                <td>
+                    <input size="15" type="text" id="gName1" name="gName1">
+                </td>
+            </tr>
+            <tr>
+                <td>商品价格：</td>
+                <td>
+                    <input id="gPrice1" size="15" type="text" name="gPrice1">
+                </td>
+            </tr>
+            <tr>
+                <td>商品库存: </td>
+                <td>
+                    <input id="gStock1" size="15" type="text" name="gStock1">
+                </td>
+            </tr>
+            <tr>
+                <td>商品类型: </td>
+                <td>
+                    <select  name="gtype1" id="gtype1"  data-options="width:150"></select>
+                    <!--<input id="gtype1" size="15" type="text" name="gtype1">-->
+                </td>
+            </tr>
+            <tr>
+                <td>商品图片: <input type="file" name="sdfFile1" id="sdfFile1" value="" onchange="f_change(this);" ></td>
+                <td><img alt="还未选择图片,请选择" src="" id="imgSdf1" width="40" height="40"></td>
+
+
+            </tr>
+            <tr>
+                <td>
+                    商品介绍：
+                </td>
+                <td colspan="3">
+                    <textarea name="gDescrption1" id="gDescrption1" cols="30" rows="7"></textarea>
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>
+<!--修改商品信息,确认按钮-->
 <div id="butgoods">
+    <a class="easyui-linkbutton" data-options="iconCls:'icon-ok'" onclick="operategoods()">保存</a>
+    <a class="easyui-linkbutton" data-options="iconCls:'icon-cancel'" onclick="closeDialoggoods()">关闭</a>
+</div>
+<div id="butgoods1">
     <a class="easyui-linkbutton" data-options="iconCls:'icon-ok'" onclick="operategoods()">保存</a>
     <a class="easyui-linkbutton" data-options="iconCls:'icon-cancel'" onclick="closeDialoggoods()">关闭</a>
 </div>
 </body>
 <script>
+    var url = "";
+    var fmgood =""; //form 表单id
+    var sdffile = ""; // 商品图片id
+    var imgsdf =""; //图片展示id
+    var closeglg ="";
+    var talk = "";
     /*修改商品信息*/
     function updategoods01() {
+        talk = "修改";
+        fmgood ="fmgoods";
+        sdffile = "sdfFile";
+        url ="/yoga/manager/updategoods";
+        imgsdf = "imgSdf";
+        closeglg ="dlggoods";
        var rows =  $("#dggoods").datagrid("getSelections");
         if (rows.length !=1){
             $.messager.alert("提示","请选择一条商品信息进行修改");
@@ -98,10 +168,29 @@
         $("#gDescrption").val(rows[0].gDescrption);
         $("#gStock").val(rows[0].gStock);
         $("#gImg").html("<img width='60px' src="+rows[0].gImg+">");
+        $("#gId").val(rows[0].gId);
 
     }
-    /*添加商品*/
 
+    /*添加商品*/
+    function addgoods() {
+        talk = "添加";
+        fmgood ="fmgoods1";
+        sdffile = "sdfFile1";
+        imgsdf = "imgSdf1";
+        closeglg ="dlggoods1";
+        url ="/yoga/manager/addgoods";
+        $.ajax({
+           url:'/yoga/manager/getgoodstype',
+           type:'get',
+            success:function (data) {
+                for (var i=0;i<data.length;i++){
+                    $("#gtype1").append("<option>"+data[i]+"</option>")
+                }
+            }
+        });
+        $("#dlggoods1").dialog("open").dialog("setTitle","添加商品信息");
+    }
     /*删除商品*/
     function deletegoods() {
         var rows =  $("#dggoods").datagrid("getSelections");
@@ -145,21 +234,57 @@
 
     /*关闭按钮*/
     function closeDialoggoods() {
-        $("#dlggoods").dialog("close");
+        $("#"+closeglg+"").dialog("close");
 
     }
 
     /*修改商品信息,提交按钮*/
     function operategoods() {
-        $("#fmgoods").form("submit",{
-            url:'/yoga/manager/updategoods',
+        updateImg(sdffile);
+        $("#"+fmgood+"").form("submit",{
+            url:url,
             method:'post',
+            dataType:'application/json;charset=utf-8',
             success:function (data) {
-                
+                if (data[6]==0){
+                    $.messager.alert("提示",talk+"成功");
+                    $("#dggoods").datagrid("reload");
+                    $("#"+closeglg+"").dialog("close");
+                } else{
+                    $.messager.alert("提示",talk+"失败");
+                }
             }
         })
     }
-
-
+    /*图片传给后台*/
+    function updateImg(sdfFile) {
+        var upload_file = new FormData();
+        var img = $("#"+sdfFile+"")[0].files[0];
+        upload_file.append("image", img);
+        $.ajax({
+            url:'/yoga/manager/updateimg',
+            type:'post',
+            cache : false,
+            async : false,
+            mimeType : "multipart/form-data",
+            processData : false,
+            contentType : false,
+            data:upload_file,
+            dataType:'json'
+        })
+    }
+    /*选择图片 , 并展示在页面*/
+    var reader = new FileReader();
+    function f_change(file) {
+        var img = document.getElementById(imgsdf);
+        //读取File对象的数据
+        reader.onload = function (evt) {
+            //data:img base64 编码数据显示
+            img.width = "100";
+            img.height = "100";
+            img.src = evt.target.result;
+        };
+        reader.readAsDataURL(file.files[0]);
+    }
 </script>
 </html>

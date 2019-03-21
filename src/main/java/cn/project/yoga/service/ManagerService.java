@@ -4,8 +4,12 @@ import cn.project.yoga.pojo.Ad;
 import cn.project.yoga.pojo.Teacher;
 import cn.project.yoga.pojo.Venue;
 import cn.project.yoga.pojo.*;
+import cn.project.yoga.utils.ManagerUtil;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
+import java.util.Map;
 
 public interface ManagerService {
 
@@ -31,4 +35,12 @@ public interface ManagerService {
 
     /*分页查询所有学员信息*/
     public List<User_info> SelUser4(Integer currentPage,Integer pageSize );
+
+    int updategoodsAndImg(Goods goods, String imgFile);
+
+    ManagerUtil addgoods4_1(String gName1, Integer gPrice1, Integer gStock1, String gDescrption1,String gtype1, String imgFile);
+
+    int updateUserMoneyAndGoods4_1(Map<String, Object> map);
+
+    List<String> getAllGoodsType4_1();
 }

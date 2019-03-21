@@ -2,6 +2,8 @@ package cn.project.yoga.controller.viewcontroller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -9,11 +11,6 @@ import javax.servlet.http.HttpSession;
 @Controller
 @RequestMapping("/manager")
 public class ManagerViewController {
-
-    @RequestMapping("/boos")
-    public String ok(){
-        return "manager/mvenues";
-    }
 
     @RequestMapping("/manage")
     public String l(){
@@ -40,9 +37,7 @@ public class ManagerViewController {
     @RequestMapping("/sell")
     public  String sell(){return "manager/sellgoods";}
 
-    @RequestMapping("/getad")
-    public  String getad(){return "manager/sellgoods";}
-
     @RequestMapping("/goodsadmin")
     public  String goodsadmin(){return "manager/goodsoperation";}
+
 }

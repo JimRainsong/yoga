@@ -120,6 +120,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<StuMoment> allMoments2() {
+            ;
         return userMapper.allMoments2();
     }
 
