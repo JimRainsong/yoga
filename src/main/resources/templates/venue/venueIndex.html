@@ -194,6 +194,22 @@
             }
         })
     }
+    //删除老师
+    function delMyTeacher(tid) {
+        $.ajax({
+            type:"post",
+            url:"/yoga/venueDate/delMyTeacherData",
+            dataType:"JSON",
+            data:{
+                teacherId:tid
+            },
+            sueecss:function (data) {
+                alert(data.msg);
+                myteacherTab();
+
+            }
+        })
+    }
 
     /**
      * 删除场馆vip类型

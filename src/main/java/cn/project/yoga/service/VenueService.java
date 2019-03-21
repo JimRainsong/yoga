@@ -182,4 +182,20 @@ public interface VenueService {
      * @return
      */
     List<Selstudent> selStudentByStudentName3(Selstudent selstudent, Integer currentPage, Integer pageSize);
+
+    /**
+     * 删除当前场馆的会员
+     * 场馆-cjm
+     * @param vip_record
+     * @return
+     */
+    int deleteStudentDatas(Vip_record vip_record);
+
+    /**
+     * 删除当前场馆的教练
+     * 场馆-cjm
+     * @param venue_teacher
+     * @return
+     */
+    int delMyTeacherData(Venue_teacher venue_teacher);
 }

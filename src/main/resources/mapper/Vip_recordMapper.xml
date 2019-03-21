@@ -99,14 +99,10 @@
     </set>
     where vip_id = #{vipId,jdbcType=INTEGER}
   </update>
-
   <update id="updateByPrimaryKey" parameterType="cn.project.yoga.pojo.Vip_record">
     update vip_record
-    set user_id = #{userId,jdbcType=INTEGER},
-      update_time = #{updateTime,jdbcType=TIMESTAMP},
-      flag = #{flag,jdbcType=INTEGER},
-      regist_time = #{registTime,jdbcType=TIMESTAMP},
-      vip_type_id = #{vipType.vipTypeId,jdbcType=INTEGER}
+    set
+      flag = 1
     where vip_id = #{vipId,jdbcType=INTEGER}
   </update>
 
