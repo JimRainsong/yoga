@@ -10,6 +10,7 @@ import cn.project.yoga.pojo.User;
 import cn.project.yoga.pojo.*;
 import cn.project.yoga.service.TeacherService;
 import cn.project.yoga.utils.Attributes;
+import cn.project.yoga.utils.FilePathUtil;
 import cn.project.yoga.utils.ResultUtil;
 import cn.project.yoga.vo.TeacherVo;
 import org.apache.shiro.SecurityUtils;
@@ -18,6 +19,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
+import java.io.File;
+import java.io.IOException;
 import java.util.Date;
 import java.util.Collection;
 import java.util.List;
@@ -137,33 +141,33 @@ public class TeacherServiceImpl implements TeacherService {
     }
 
     @Override
-    public ResultUtil uploadHeadImg2(MultipartFile file) {
+    public ResultUtil uploadHeadImg2(MultipartFile file, HttpServletRequest request) {
 //        try {
 //            Session session = SecurityUtils.getSubject().getSession();
 //            TeacherInfo currentTeacher = (TeacherInfo) (session.getAttribute(Attributes.CURRENT_USER));
 //            Integer teacherId = currentTeacher.gettId();
-//            // 服务器保存图片的路径J:\yoga\src\main\resources\static\img\head_imgs\teacher
-//            String savePath = "J:/yoga/src/main/resources/static/img/head_imgs/teacher/";
+//            String contextPath = request.getContextPath();
 //            // 给图片的显示路径设置一个相对路径
-//            String path = "img/";
+//            String sp = FilePathUtil.FILE_SEPARATOR;
+//            String myPath = contextPath + sp + "img" + sp + "head_imgs" + sp;
 //            // 判断当前服务器是否有imgSave文件夹
-//            File saveFile = new File(savePath);
+//            File saveFile = new File(myPath);
 //            if (!saveFile.exists()) {
 //                saveFile.mkdirs();
 //            }
-////            // 新文件的全名
-////            String imageName = changeName(image.getOriginalFilename(), currentStudentId);
-////            // 在file文件夹里面创建一个文件对象
-////            File imgFile = new File(savePath, imageName);
-////            image.transferTo(imgFile);
-////            // 将学生对应的id与图片路径存入数据库
-////            userService.saveImg(currentStudentId, path + imageName);
+//            // 新文件的全名
+//            String imageName = changeName(image.getOriginalFilename(), currentStudentId);
+//            // 在file文件夹里面创建一个文件对象
+//            File imgFile = new File(savePath, imageName);
+//            image.transferTo(imgFile);
+//            // 将学生对应的id与图片路径存入数据库
+//            userService.saveImg(currentStudentId, path + imageName);
 //        } catch (IllegalStateException e) {
 //            return ResultUtil.error("文件不合法");
 //        } catch (IOException e) {
 //            return ResultUtil.error("上传失败");
 //        }
-        return ResultUtil.ok("Okay");
+        return ResultUtil.ok(request.getContextPath());
     }
 
     @Override
