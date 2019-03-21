@@ -142,10 +142,16 @@
                 success:function(ret){
                     var val=eval(ret);
                     if (val.code==0){
-                        alert(val.msg);
+                        layer.msg(val.msg, {
+                            time: 20000, //20s后自动关闭
+                            btn: ['知道了']
+                        });
                         $("#imgname").val(val.msg);
                     }else {
-                        alert(val.msg);
+                        layer.msg(val.msg, {
+                            time: 20000, //20s后自动关闭
+                            btn: ['知道了']
+                        });
                     }
                 }
             });

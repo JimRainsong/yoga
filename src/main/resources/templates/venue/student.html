@@ -81,7 +81,10 @@
                 vipId:vid
             },
             success : function(data) {
-                alert(data.msg);
+                layer.msg(data.msg, {
+                    time: 20000, //20s后自动关闭
+                    btn: ['知道了']
+                });
                 eid="studentTabId";
                 addTab();
             }
