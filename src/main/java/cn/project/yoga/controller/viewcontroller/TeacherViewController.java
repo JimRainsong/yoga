@@ -107,6 +107,8 @@ public class TeacherViewController {
 //        return "teacher/g1";
 //    }
 
+    /*
+    * 教练管理页面*/
     @RequestMapping("/mteacher")
     public String Mteacher4() {
         return "manager/hsn/teacher";

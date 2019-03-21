@@ -34,6 +34,8 @@ public class UserViewController {
         return "user/myMoney";
     }
 
+    /*
+    * 学员管理页面*/
     @RequestMapping("/tuser")
     public String Tuser4(){
         return "manager/hsn/users";
