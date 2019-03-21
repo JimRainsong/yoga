@@ -12,15 +12,13 @@
 <body>
 <header>
     <span id="title">我关注的人</span>
-    <div id="add_friend_div"><img src="../../static/img/logos/add_friend.png" th:src="@{/img/logos/add_friend.png}">
-    </div>
 </header>
 
 <div id="search_div">
-    <div id="search_button">
+    <div id="search_button" onclick="searchMyFollowed()">
         <img src="../../static/img/logos/search_button.png" th:src="@{/img/logos/search_button.png}">
     </div>
-    <input type="text" id="net_name">
+    <input type="text" id="net_name" placeholder="看看你的好基友在这儿么">
 </div>
 
 <div class="white_area">
@@ -55,9 +53,23 @@
     </div>
 </div>
 
+<!--模态框组件-->
+<div id="block" class="modal"></div>
+<div id="dialog" class="modal">
+    <span id="message"></span>
+    <br>
+    <button onclick="closeDialog()">确认</button>
+</div>
+<!-- !! -->
+
 <script>
     function watchDetail(roleId, userId) {
         window.location.href = "/yoga/teacher/watchDetail?roleId=" + roleId + "&userId=" + userId;
+    }
+
+    function searchMyFollowed() {
+        var netName = $("#net_name").val();
+        window.location.href = "/yoga/teacher/follow?netName=" + netName;
     }
 </script>
 </body>

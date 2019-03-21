@@ -1,7 +1,12 @@
 package cn.project.yoga.service.impl;
 
+import cn.project.yoga.dao.AppointmentMapper;
+import cn.project.yoga.dao.Myself_courseMapper;
 import cn.project.yoga.dao.TeacherMapper;
 import cn.project.yoga.dao.UserMapper;
+import cn.project.yoga.pojo.TeaMoment;
+import cn.project.yoga.pojo.Appointment;
+import cn.project.yoga.pojo.User;
 import cn.project.yoga.pojo.*;
 import cn.project.yoga.service.TeacherService;
 import cn.project.yoga.utils.Attributes;
@@ -13,8 +18,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.Collection;
 import java.util.Date;
+import java.util.Collection;
 import java.util.List;
 
 @Service
@@ -25,6 +30,12 @@ public class TeacherServiceImpl implements TeacherService {
 
     @Autowired
     private TeacherMapper teacherMapper;
+
+    @Autowired
+    private AppointmentMapper appointmentMapper;
+
+    @Autowired
+    private Myself_courseMapper myself_courseMapper;
 
     @Override
     public int insertUser(User user1) {
@@ -165,6 +176,34 @@ public class TeacherServiceImpl implements TeacherService {
         return teacherMapper.selectMyFollowedTeaByCurrentUserId2(currentUserId);
     }
 
+    /*
+    接受 课程邀请
+     */
+    @Override
+    public int acceptcourse2(Integer id) {
+        int count =myself_courseMapper.acceptCoursebyId(id);
+    return  count;
+    }
+    /*
+    拒绝课程邀请
+     */
+
+    @Override
+    public int refusecourse2(Integer id) {
+        int count =myself_courseMapper.refuseCoursebyId(id);
+        return count;
+
+    }
+
+    //查看所有  当前老师id 的 appointment  预约信息
+    @Override
+    public List<Appointment> selappointmentbyTeacherId2(Integer teacherId, Date date1, Date date2) {
+        return appointmentMapper.selappointmentbyteacherId2(teacherId,date1,date2);
+    }
+
+
+
+
     @Override
     public TeacherInfo selectTeacherByItsUserId2(Integer userId) {
         return teacherMapper.selectTeacherByItsUserId2(userId);
@@ -173,5 +212,20 @@ public class TeacherServiceImpl implements TeacherService {
     @Override
     public List<TeaMoment> onlyFollowedallMoments2(Integer currentUserId) {
         return teacherMapper.onlyFollowedallMoments2(currentUserId);
+    }
+
+    @Override
+    public int conflict2(Integer id) {
+        Date start = myself_courseMapper.selectStart(id);
+        Date end = myself_courseMapper.selectEnd(id);
+        return myself_courseMapper.conflict(start,end);
+    }
+
+    @Override
+    public List<Appointment> findclist2(Integer id) {
+        Date start = myself_courseMapper.selectStart(id);
+        Date end = myself_courseMapper.selectEnd(id);
+
+        return appointmentMapper.findclist2(id,start,end);
     }
 }

@@ -64,6 +64,7 @@
                 </li>
                 <li class="layui-nav-item"><a href="javascript:vipType()">产品管理</a></li>
                 <li class="layui-nav-item"><a href="javascript:uploadAds()">发布广告</a></li>
+                <li class="layui-nav-item"><a href="javascript:commentTab()">查看本场馆评论</a></li>
             </ul>
         </div>
     </div>
@@ -99,6 +100,14 @@
     var title= null;
     var eid  = null;
 
+
+    function commentTab(){
+        url='/yoga/venue/comment';
+        title="评论信息";
+        eid="commentTabId";
+        addTab();
+
+    }
     function courseTab() {
         url='/yoga/venue/course';
         title="查看课程";
@@ -162,24 +171,20 @@
                          title:title
                          ,content:result
                          ,id: eid //实际使用一般是规定好的id，这里以时间戳模拟下
-                     })
+                     });
                     element.tabChange('demo', eid);
                      }
                  });
               }
      /**
       * 删除课程
-      *
-      *
       */
-    function deleteCourse(vid,cid) {
+    function deleteCourse(cid){
         $.ajax({
-            url : "/yoga/venueDate/delete",
+            url : "/yoga/venueDate/removeCourse",
             type : "post",
             data : {
-                venueId:vid,
                 courseId:cid
-
             },
             dataType : "json",
             success : function(data) {

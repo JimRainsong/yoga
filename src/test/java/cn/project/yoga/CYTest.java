@@ -3,17 +3,24 @@ package cn.project.yoga;
 import cn.project.yoga.dao.*;
 import cn.project.yoga.pojo.Ad;
 import cn.project.yoga.pojo.Teacher;
+import cn.project.yoga.pojo.User;
 import cn.project.yoga.pojo.Venue_teacher;
 import cn.project.yoga.pojo.Vip_type;
 import cn.project.yoga.service.VenueService;
 import cn.project.yoga.vo.CourseVo;
 import com.github.pagehelper.PageInfo;
+import javafx.scene.input.DataFormat;
+import org.apache.shiro.SecurityUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import javax.xml.crypto.Data;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 @RunWith(SpringRunner.class)
@@ -34,6 +41,9 @@ public class CYTest {
 
     @Autowired
     private CourseMapper courseMapper;
+
+    @Autowired
+    private  Venue_commentMapper venueCommentMapper;
    /* @Autowired
     private VenueService venueService;*/
 
@@ -41,17 +51,6 @@ public class CYTest {
    private AdMapper adMapper;
     @Test
     public void contextLoads() {
-       /*CourseVo courseVo=new CourseVo(1,null,null,null,null);
-        System.out.println(courseMapper.selCourse(courseVo,1,1));*/
-
-      /* CourseVo courseVo=new CourseVo(1,null,null,null,null);
-        System.out.println(courseMapper.selCourse(courseVo,1,1));*/
-       /* Ad ad=new Ad();
-        ad.setAdTitle("Fucker");
-        System.out.println(adMapper.insertSelective(ad));*/
-        /*Date date=new Date();
-        DateFormat dataFormat=new SimpleDateFormat("HH:mm:ss");
-        String s=dataFormat.format(date);
-        System.out.println(courseMapper.selCourseByStartTime(1,1,date));*/
+        System.out.println(venueCommentMapper.selComent("好评",17,1,10));
     }
 }

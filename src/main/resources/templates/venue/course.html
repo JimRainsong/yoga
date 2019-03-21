@@ -15,7 +15,7 @@
 
 <script type="text/html" id="toolbarDemo">
     <div class="layui-btn-container">
-        <button class="layui-btn layui-btn-sm" lay-event="selCourse">删除课程</button>
+        <button class="layui-btn" lay-event="selCourse">删除课程</button>
         <button  class="layui-btn" id="insertCourse" onclick="insertCourse()">新增课程</button>
     </div>
 </script>
@@ -52,23 +52,14 @@
             ]
 
         });
-        laydate.render({
-            elem: '#startTime'
-            ,format: 'HH:mm:ss' //可任意组合
-        });
-        laydate.render({
-            elem: '#overTime'
-            ,format: 'HH:mm:ss' //可任意组合
-        });
+
         //头工具栏事件
         table.on('toolbar(test)', function(obj){
             var checkStatus = table.checkStatus(obj.config.id); //获取选中行状态
             switch(obj.event){
                 case 'selCourse':
                     var data = checkStatus.data;  //获取选中行数据
-
-                    deleteVipType(data[0].courseId);
-                    break;
+                    deleteCourse(data[0].courseId);
             };
         });
     });
@@ -81,27 +72,7 @@
         });
     }
 
-    // function insertVipType() {
-    //     url='/yoga/venueUser/inVipTypes';
-    //     title="添加VIP类型";
-    //     eid="AdVipTypeId";
-    //     add();
-    // }
-    //
-    //
-    //  function add() {
-    //      $.ajax({ url:url,
-    //          type:"GET",
-    //          success:function(result) {
-    //                     layer.open({
-    //                  title: '添加会员卡'
-    //                         , area: ['600px', '500px']
-    //                  , content: result
-    //
-    //              });
-    //          }
-    //          });
-    //  }
+
 </script>
 </body>
 </html>
