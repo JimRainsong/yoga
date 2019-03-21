@@ -1,0 +1,144 @@
+body {
+    font-family: monospace;
+    background-color: #f4f4f4;
+    margin: 0;
+    font-size: 22px;
+}
+
+header {
+    text-align: center;
+    width: 100%;
+    height: 60px;
+    background-color: white;
+}
+
+header #title {
+    line-height: 80px;
+    font-size: 28px;
+    padding-left: 30px;
+}
+
+header img {
+    width: 60px;
+    width: 60px;
+}
+
+#add_friend_div {
+    float: right;
+    width: 60px;
+    height: 60px;
+    margin: 20px;
+    border-radius: 60px;
+    line-height: 60px;
+    font-size: 40px;
+}
+
+.white_area {
+    width: 100%;
+    background-color: white;
+    margin-top: 15px;
+    margin-bottom: 10px;
+    padding-top: 2px;
+}
+
+#search_div {
+    width: 90%;
+    height: 30px;
+    line-height: 30px;
+    margin-top: 15px;
+}
+
+#search_div input {
+    height: 30px;
+    width: 80%;
+    margin: 0 5%;
+    line-height: 30px;
+    padding-left: 45px;
+    border: 1px solid lightblue;
+    border-radius: 5px;
+    font-size: 20px;
+}
+
+#search_button {
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    left: 5%;
+}
+
+#search_button img {
+    width: 100%;
+    height: 100%;
+    margin-top: 5px;
+}
+
+.single_manager {
+    width: 100%;
+    height: 60px;
+    background-color: white;
+    line-height: 60px;
+    margin-top: 15px;
+    margin-bottom: 15px;
+    overflow: hidden;
+}
+
+.float_inside {
+    float: left;
+    font-size: 24px;
+}
+
+.head_img_div {
+    margin-right: 15px;
+}
+
+.single_manager img {
+    width: 60px;
+    height: 60px;
+    border-radius: 9px;
+    margin-left: 20px;
+}
+
+.single_manager .type_img {
+    float: right;
+    margin-right: 15px;
+}
+
+.outer {
+    height: 100px;
+    width: 150px;
+}
+
+.single_manager .inner img {
+    width: 40px;
+    height: 40px;
+}
+
+.inner {
+    height: 50px;
+    width: 150px;
+    line-height: 50px;
+}
+
+.border_line {
+    width: 90%;
+    height: 1px;
+    margin: 0 auto;
+    background: linear-gradient(to right, #f4f4f4, #e2e2e2, #f4f4f4);
+}
+
+.key, .value {
+    float: left;
+}
+
+.single_manager button {
+    width: 84px;
+    height: 26px;
+    margin: 17px 15px 17px 0;
+    float: right;
+    border: 0;
+    border-radius: 12px;
+    background-color: lightskyblue;
+    color: #ffec85;
+}
+
+

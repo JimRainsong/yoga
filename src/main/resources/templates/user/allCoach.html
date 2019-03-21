@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="/yoga/js/jquery.min.js"></script>
+</head>
+<body>
+<h2>所有教练</h2>
+<div id="allCoach">
+
+</div>
+<script>
+    function selAllCoach() {
+        $.post(
+            '/yoga/user/coaches','', function (data) {
+                var content='';
+                for (var i=0;i<data.length;i++){
+                    content+="<a href='/yoga/user/coachDetail?teacherId="+data[i].teacherId+"'>"+
+                        "<div style='border: 1px red 2CE4FF'>" +
+                        "<img src='"+data[i].teacherImg+"' style='height: 100px;width: 100px'>" +
+                        "<p >"+data[i].teacherName+"</p>" +
+                        "<p>"+data[i].teacherSex+"</p>"+
+                        "</div>"+
+                        "</a>";
+                }
+                $("#allCoach").html(content);
+            }
+        );
+    }
+    selAllCoach();
+</script>
+</body>
+</html>

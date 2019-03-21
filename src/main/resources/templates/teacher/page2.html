@@ -37,23 +37,23 @@
     <div class="white_area" id="manager">
         <div class="separate_line"></div>
         <div class="single_manager" onclick="openPage('venue')">
-            <img class="logos" src="../../static/img/logos/arm.png" th:src="@{/img/logos/arm.png}">
+            <img class="logos" src="../../static/img/logos/tool.png" th:src="@{/img/logos/tool.png}">
             <span class="words">我的场馆</span>
         </div>
         <div class="separate_line"></div>
         <div class="single_manager" onclick="openPage('teacherInfo')">
-            <img class="logos" src="../../static/img/logos/tool.png" th:src="@{/img/logos/tool.png}">
+            <img class="logos" src="../../static/img/logos/arm.png" th:src="@{/img/logos/arm.png}">
             <span class="words">个人资料</span>
         </div>
         <div class="separate_line"></div>
-        <div class="single_manager">
+        <div class="single_manager" onclick="openPage('follow')">
             <img class="logos" src="../../static/img/logos/friends.png" th:src="@{/img/logos/friends.png}">
             <span class="words">我的关注</span>
         </div>
     </div>
     <div id="quit" onclick="logout()" class="white_area">
         <img class="logos" src="../../static/img/logos/exit.png" th:src="@{/img/logos/exit.png}">
-        <span class="words">注销</span>
+        <span class="words">注销登录</span>
     </div>
 
     <!-- 头像更换窗口 -->

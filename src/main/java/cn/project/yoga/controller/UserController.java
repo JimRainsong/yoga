@@ -1,12 +1,21 @@
 package cn.project.yoga.controller;
 
 import ch.qos.logback.core.util.FileUtil;
+import cn.project.yoga.pojo.*;
+import cn.project.yoga.dao.UserMapper;
+import cn.project.yoga.pojo.*;
 import cn.project.yoga.pojo.Ad;
+import cn.project.yoga.pojo.Teacher;
 import cn.project.yoga.pojo.User;
 import cn.project.yoga.pojo.User_info;
+import cn.project.yoga.service.ManagerService;
 import cn.project.yoga.service.UserService;
+import cn.project.yoga.service.VenueService;
 import cn.project.yoga.utils.*;
 import cn.project.yoga.vo.LoginVo;
+import cn.project.yoga.vo.MyVenueVo;
+import cn.project.yoga.vo.TeacherVenueVo;
+import com.github.pagehelper.PageInfo;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.session.Session;
@@ -19,21 +28,31 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
+import java.util.*;
 
 @Controller
 @RequestMapping("/user")
 public class UserController {
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private VenueService venueService;
+
+
+    @Autowired
+    private ManagerService managerService;
 
 
     @RequestMapping("/login")
@@ -138,6 +157,20 @@ public class UserController {
     }
 
     /**
+     * 查询所有场馆
+     * @return
+     */
+    @RequestMapping("/venues")
+    @ResponseBody
+    public List<Venue> allVenue(){
+        List<Venue> venues=userService.selectAllVenue();
+        for (Venue venue : venues) {
+            System.out.println(venue.toString());
+        }
+        return venues;
+    }
+
+    /**
      * 用户充值
      * @return
      */
@@ -210,28 +243,21 @@ public class UserController {
 
 
 
-
+/*
     public String changeName(String oldName){
         return UUID.randomUUID()+"_"+oldName;
+    }*/
+
+   @RequestMapping("/venueDetails")
+   @ResponseBody
+    public ModelAndView lookVenueDetails(Integer venueId){
+        ModelAndView modelAndView=new ModelAndView();
+       System.out.println(venueId);
+        modelAndView.setViewName("user/venueDetail");
+        modelAndView.addObject("venue",(Venue)userService.lookVenueDetails(venueId));
+        return modelAndView;
     }
 
-    /*
-     * 分页查询学员信息*/
-    @RequestMapping("/showuser")
-    @ResponseBody
-    public List<User_info> ShowUser4(HttpServletRequest request){
-        int page=Integer.parseInt(request.getParameter("page"));
-        int total=userService.SelUserNum4();
-        int totalpage=0;
-        if (total/4!=0){
-            totalpage=total/4+1;
-        }else {
-            totalpage=total/4;
-        }
-        int lim=page*4-4;
-        List<User_info>user_infos=userService.SelUser4(lim);
-        return user_infos;
-    }
 
     /*
      * 根据ID查询学员详细信息*/
@@ -247,13 +273,22 @@ public class UserController {
      * 根据条件查询学员*/
     @RequestMapping("/shearch")
     @ResponseBody
-    public List<User_info> Shearch(HttpServletRequest request){
-        String netName=request.getParameter("netname");
-        String realName=request.getParameter("realname");
-        String qq=request.getParameter("qq");
-        String phoneNumber=request.getParameter("phoneNumber");
-        List<User_info>user_infos= userService.shearch(netName,realName,phoneNumber,qq);
-        return user_infos ;
+    public Map<String,Object> ShearchVenue4(@RequestParam(value = "page",defaultValue = "1",required = false)Integer currentPage,
+                                            @RequestParam(value = "rows",defaultValue = "10",required = false)Integer pageSize,HttpServletRequest request,HttpSession session){
+        String netName= (String) session.getAttribute("netName");
+        String sex= (String) session.getAttribute("sex");
+        String phoneNumber= (String) session.getAttribute("phoneNumber");
+        String qq= (String) session.getAttribute("qq");
+
+        List<User_info>list=userService.shearch(netName,sex,phoneNumber,qq,currentPage,pageSize);
+
+        PageInfo pageInfo = new PageInfo(list);
+        Map<String,Object> result = new HashMap<String,Object>();
+        result.put("code",200);
+        result.put("msg","");
+        result.put("count",pageInfo.getTotal());
+        result.put("data",list);
+        return result;
     }
     /*
      * 软删除学员*/
@@ -262,7 +297,112 @@ public class UserController {
         int uId=Integer.parseInt(request.getParameter("uId"));
         System.out.println(uId);
         userService.DelUserById4(uId);
-        return "menager/hsn/muser";
+        return "manager/hsn/users";
     }
 
+    /*
+    * 分页查询所有学员*/
+    @RequestMapping("/userDatas")
+    @ResponseBody
+    public Map<String, Object> showuserDatas4(@RequestParam(value = "page",defaultValue = "1",required = false)Integer currentPage,
+                                                @RequestParam(value = "rows",defaultValue = "10",required = false)Integer pageSize,HttpServletRequest request) {
+        List<User_info> list = managerService.SelUser4(currentPage,pageSize);
+        PageInfo pageInfo = new PageInfo(list);
+        Map<String,Object> result = new HashMap<String,Object>();
+        result.put("code",200);
+        result.put("msg","");
+        result.put("count",pageInfo.getTotal());
+        result.put("data",list);
+        return result;
+
+
+    }
+
+    /*
+     * 分页查询所有订单*/
+    @RequestMapping("/userorderDatas")
+    @ResponseBody
+    public Map<String, Object> showuserorderDatas4(@RequestParam(value = "page",defaultValue = "1",required = false)Integer currentPage,
+                                              @RequestParam(value = "rows",defaultValue = "10",required = false)Integer pageSize,HttpSession session) {
+        List<Tra_tea_ven> list = managerService.SelAllOrder4(currentPage,pageSize);
+        PageInfo pageInfo = new PageInfo(list);
+        Map<String,Object> result = new HashMap<String,Object>();
+        result.put("code",200);
+        result.put("msg","");
+        result.put("count",pageInfo.getTotal());
+        result.put("data",list);
+        return result;
+    }
+
+    /*
+    * 根据条件查询订单*/
+    @RequestMapping("/suserorderDatas")
+    @ResponseBody
+    public Map<String, Object> showsuserorderDatas4(@RequestParam(value = "page",defaultValue = "1",required = false)Integer currentPage,
+                                                   @RequestParam(value = "rows",defaultValue = "10",required = false)Integer pageSize,HttpSession session) {
+        String transcationType= (String) session.getAttribute("transcationType");
+        String time= (String) session.getAttribute("time");
+        String venueName= (String) session.getAttribute("venueName");
+        List<Tra_tea_ven> list = managerService.SelOder4(time,venueName,transcationType,currentPage,pageSize);
+        PageInfo pageInfo = new PageInfo(list);
+        Map<String,Object> result = new HashMap<String,Object>();
+        result.put("code",200);
+        result.put("msg","");
+        result.put("count",pageInfo.getTotal());
+        result.put("data",list);
+        return result;
+    }
+
+
+
+    @RequestMapping("/selAllVipType")
+    @ResponseBody
+    public List<Vip_type> allVipTypeByVenueId(Integer venueId){
+        return  userService.selShowVipType(venueId);
+    }
+
+    @RequestMapping("/selVipById")
+    @ResponseBody
+    public Vip_type selVipTypeById(Integer vipTypeId){
+        Vip_type vip_type = userService.selVipTypeById(vipTypeId);
+        return vip_type;
+    }
+
+    @RequestMapping("/openVip")
+    @ResponseBody
+    public String openVip(Integer venueId,Integer vipTypeId){
+        return userService.openVip(venueId,vipTypeId);
+    }
+
+
+    @RequestMapping("/myvenue")
+    @ResponseBody
+    public List<MyVenueVo> myVenue(){
+
+
+        List<MyVenueVo> list=userService.selectMyVenue1();
+
+        return list;
+    }
+
+    @RequestMapping("/coaches")
+    @ResponseBody
+    public List<Teacher> allCoaches(){
+        return userService.selAllTeacher();
+    }
+
+    @RequestMapping("/coachDetail")
+    @ResponseBody
+    public  ModelAndView coachDetail(Integer teacherId){
+        ModelAndView modelAndView=new ModelAndView();
+        modelAndView.setViewName("user/coachDetails");
+        modelAndView.addObject("teacher",userService.selTeacherByTid(teacherId));
+        return modelAndView;
+    }
+
+    @RequestMapping("/selTeacherVenue")
+    @ResponseBody
+    public List<TeacherVenueVo> selTeacherVenue(Integer teacherId){
+        return userService.selTeacherVenue(teacherId);
+    }
 }

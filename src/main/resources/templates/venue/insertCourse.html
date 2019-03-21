@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>注册</title>
+    <link rel="stylesheet" th:href="@{/layui/css/layui.css}">
+    <script th:src="@{/js/jquery.min.js}"></script>
+    <script th:src="@{/layui/layer/layer.js}"></script>
+    <style type="text/css">
+        #body01 {
+            background-image: url("/yoga/img/yogabg.jpg");
+            background-size:cover;
+            width: 400px;
+            height: 400px;
+            text-align:center;
+            margin:  auto;
+        }
+    </style>
+</head>
+<body id="body01">
+
+&nbsp;&nbsp;<input value="欢迎来到！YOGA！！" style="font-size: 20px;background-color:rgba(0,0,0,0.2);"><br><br><br>
+<div class="layui-form-item">
+    <label class="layui-form-label">课程名称</label>
+    <div class="layui-input-inline">
+        <input type="text" name="courseName" id="courseName" required lay-verify="required" placeholder="课程名称" autocomplete="off" class="layui-input">
+    </div>
+</div>
+<div class="layui-form-item">
+    <label class="layui-form-label">教练名称</label>
+    <div class="layui-input-inline">
+        <select name="teacherName" id="teacherNamesa" lay-verify="required" class="layui-input">
+            <option value=""></option>
+
+        </select>
+    </div>
+</div>
+<div class="layui-form-item">
+    <label class="layui-form-label">开始时间</label>
+    <div class="layui-input-inline">
+        <input type="text" class="layui-input" id="startTime" placeholder="yyyy-MM-dd HH:mm:ss">
+    </div>
+</div>
+<div class="layui-form-item">
+    <label class="layui-form-label">结束时间</label>
+    <div class="layui-input-inline">
+        <input type="text" class="layui-input" id="overTime" placeholder="yyyy-MM-dd HH:mm:ss">
+    </div>
+</div>
+<div class="layui-form-item">
+    <label class="layui-form-label">课程价格</label>
+    <div class="layui-input-inline">
+        <input type="number" name="courseMoney" id="courseMoney" required lay-verify="required" placeholder="课程价格" autocomplete="off" class="layui-input">
+    </div>
+</div>
+<div class="layui-form-item">
+    <label class="layui-form-label">可报名人数</label>
+    <div class="layui-input-inline">
+        <input type="number" name="coursePeople" id="coursePeople" required lay-verify="required" placeholder="可报名人数" autocomplete="off" class="layui-input">
+    </div>
+</div>
+
+<div class="layui-layer-btn layui-layer-btn-">
+    <a class="layui-layer-btn0"  onclick="insertCourse()" >提交</a>
+    <a class="layui-layer-btn0" onclick=" exits()">返回</a></div>
+<script th:src="@{/layui/layui.js}"></script>
+<script>
+    selTeacher();
+    function selTeacher() {
+        $.ajax({
+            url : "/yoga/venueDate/selTeacher",
+            type : "post",
+            dataType : "json",
+            success : function(data) {
+                   alert(data.msg);
+                var datas = data.data
+                var str="<option value=\"\">--请选择--</option>";
+                $.each(datas,function (i,val) {
+                 str+=" <option value=\" "+val.teacher.teacherId+"\">"+val.teacher.teacherName+"</option>"
+              });
+                $("#teacherNamesa").html(str);
+            }
+        });
+    }
+    function exits() {
+       window.parent.location.reload();
+       parent.layer.close(index);
+    }
+    function insertCourse(){
+        alert(JSON.stringify({"courseName":$("#courseName").val(),"teacherName":$("#teacherNamesa").val(),"startTime":$("#startTime").val(),"overTime":$("#overTime").val(),"courseMoney":$("#courseMoney").val(),"coursePeople":$("#coursePeople").val()}))
+        $.ajax({
+            url : "/yoga/venueDate/addCourse",
+            type : "post",
+            contentType:"application/json;charset=utf-8",
+            data:JSON.stringify({"courseName":$("#courseName").val(),"teacher":{"teacherId" : $("#teacherNamesa").val()},"startTime":$("#startTime").val(),"overTime":$("#overTime").val(),"courseMoney":$("#courseMoney").val(),"coursePeople":$("#coursePeople").val()}),
+            dataType : "json",
+            success : function(data) {
+                if(data.code == 0){
+                    alert(data.msg)
+                    window.parent.location.reload();
+                    parent.layer.close(index);
+                }
+                alert(data.msg);
+
+            }
+        })
+    }
+
+    layui.use('laydate', function() {
+        var laydate = layui.laydate;
+        //日期时间选择器
+        laydate.render({
+            elem: '#startTime'
+            , type: 'datetime'
+        });
+
+        laydate.render({
+            elem: '#overTime'
+            , type: 'datetime'
+        });
+    });
+</script>
+</body>
+</html>

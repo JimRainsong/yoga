@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>教练详细信息</title>
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+    <img th:src="${teacher.teacherImg}" style="width: 100px;height: 100px"><br>
+    <input type="hidden" id="teacherId" th:value="${teacher.teacherId}">
+    姓名：<p th:text="${teacher.teacherName}"></p>
+    电话:<p th:text="${teacher.teacherPhone}"></p>
+    qq:<p th:text="${teacher.teacherQq}"></p>
+    性别：<p th:text="${teacher.teacherSex}"></p>
+    <!-- 按钮触发模态框 -->
+    <button class="btn btn-primary btn-lg" data-toggle="modal" onclick="teacherVenue()" data-target="#myModal">盘他</button>
+    <!-- 模态框（Modal） -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="myModalLabel">私教课程</h4>
+                </div>
+                <div class="modal-body" id="myselfCourse">
+                    教练名：<p th:text="${teacher.teacherName}"></p>
+                    请选择场馆<select id="selfVenue">
+                        <option>未选择</option>
+                    </select><br><br>
+                    开始时间：<input type="datetime-local" id="beginTime"><br><br>
+                    结束时间：<input type="datetime-local" id="overTime"><br><br>
+
+                </div>
+
+
+
+                <div class="modal-footer">
+
+                    <button type="button" class="btn btn-primary" onclick="orderCoach()">直接盘</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal -->
+    </div>
+<script>
+    function teacherVenue() {
+        $.ajax({
+            url:'/yoga/user/selTeacherVenue',
+            type:'post',
+            data:{
+              teacherId: $("#teacherId").val()
+            },
+            success:function (data) {
+                content="<option>未选择</option>";
+                for(var i=0;i<data.length;i++){
+                    content+="<option value='"+data[i].venueId+"'>"+data[i].venueName+"</option>";
+                }
+                $("#selfVenue").html(content);
+            }
+        });
+    }
+    function orderCoach() {
+        var options=$("#selfVenue option:selected");
+        var venueId=options.val();
+        $.ajax({
+            url:"/yoga/user2/orderCoach",
+            type:'post',
+            data:{
+                teacherId:$("#teacherId").val(),
+                beginTime:renderTime($("#beginTime").val()),
+                overTime:renderTime($("#overTime").val()),
+                venueId:venueId
+            },
+            success:function (data) {
+                alert(data);
+                if (data=="预约成功，等待教练确认"){
+                    location.reload(true);
+                }
+            }
+        });
+    }
+    function renderTime(date) {
+        var dateee = new Date(date).toJSON();
+        return new Date(+new Date(dateee) + 8 * 3600 * 1000).toISOString().replace(/T/g, ' ').replace(/\.[\d]{3}Z/, '')
+
+    }
+</script>
+</body>
+</html>

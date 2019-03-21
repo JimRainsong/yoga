@@ -9,25 +9,31 @@
     <script th:src="@{/layui/layer/layer.js}"></script>
 </head>
 <body class="layui-layout-body">
+<button class="layui-btn-min" onclick="changeName()">查找学员名称</button>&nbsp;&nbsp;
+<input type="text" class="layui-input-min" id="netNames" required lay-verify="required" placeholder="请输入学员昵称" autocomplete="off" >
 
 <table class="layui-hide" id="student" lay-filter="test"></table>
 
 <script type="text/html" id="toolbarDemo">
     <div class="layui-btn-container">
-        <button class="layui-btn layui-btn-sm" lay-event="getCheckData">获取选中行数据</button>
+        <button class="layui-btn" lay-event="delstudent">删除学员</button>
     </div>
-</script>
-
-
-<script th:src="@{/yoga/layui/layui.js}" charset="utf-8"></script>
+   </script>
 
 <script th:inline="javascript">
-    layui.use('table', function(){
+    var nname="";
+    function changeName() {
+        nname=$("#netNames").val();
+        selStudentsa()
+    }
+    selStudentsa();
+    function selStudentsa(){
+            layui.use('table', function(){
         var table = layui.table;
         table.render({
             elem: '#student'
             ,height: 300
-            ,url:'/yoga/venueDate/studentDatas'
+            ,url:"/yoga/venueDate/studentDatas?netName="+nname
             ,page: true
             ,response: {
                 statusName: 'code'
@@ -41,13 +47,14 @@
                 [
                     {type:'radio'},
                {field:'vipId', width:150, title: '会员卡号', sort: true}
-                ,{field:'netName', width:150, title: '用户名'}
+                ,{field:'netName', width:150, title: '学员昵称'}
                 ,{field:'cardInfo', width:150, title: '会员卡类型', sort: true}
                 ,{field:'balance', width:150, title: '余额'}
                 ,{field:'phoneNumber', title: '联系方式', minWidth: 150}
                 ,{field:'cardName', width:150, title: '会员卡名称', sort: true}
                 ,{field:'useDate', width:150, title: '有效期', sort: true}
                 ,{field:'registTime', width:150, title: '注册时间', sort: true}
+                ,{field:'headImg', width:150, title: '头像', sort: true}
                 ]
             ]
 
@@ -57,13 +64,30 @@
         table.on('toolbar(test)', function(obj){
             var checkStatus = table.checkStatus(obj.config.id); //获取选中行状态
             switch(obj.event){
-                case 'getCheckData':
+                case 'delstudent':
                     var data = checkStatus.data;  //获取选中行数据
-                    layer.alert(JSON.stringify(data));
+                    delstudent(data[0].vipId);
                     break;
             };
         });
     });
+    }
+    function delstudent(vid) {
+        $.ajax({
+            type:"post",
+            url:"/yoga/venueDate/delstudent",
+            dataType:"JSON",
+            data:{
+                vipId:vid
+            },
+            success : function(data) {
+                alert(data.msg);
+                eid="studentTabId";
+                addTab();
+            }
+        })
+
+    }
 </script>
 </body>
 </html>

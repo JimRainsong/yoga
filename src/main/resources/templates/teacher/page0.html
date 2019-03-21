@@ -20,6 +20,12 @@
 <!-- !! -->
 
 <div>
+    <div class="post_button" th:if="${seeAll}" onclick="changeGroup(true)">
+        所有人
+    </div>
+    <div class="post_button" th:if="${!seeAll}" onclick="changeGroup(false)">
+        已关注
+    </div>
     <div id="post_button" onclick="openPostWindow('block')">
         发布
     </div>
@@ -31,10 +37,11 @@
             <div class="up">
                 <div class="picture">
                     <img class="head_img" src="../../static/img/head_imgs/dddsx.jpg"
-                         th:src="@{/img/head_imgs/dddsx.jpg}">
+                         th:src="${moment.img}">
                 </div>
                 <div class="name_and_time">
-                    <p th:text="${moment.name}" class="net_name">带带大师兄</p>
+                    <p th:text="${moment.name}" class="net_name"
+                       th:onclick="|watchDetail(${moment.roleId},${moment.id})|">带带大师兄</p>
                     <p th:text="${#dates.format(moment.time,'MM月dd日 HH:mm')}" id="time">3月12号，上午10点32分</p>
                 </div>
             </div>
@@ -93,6 +100,14 @@
                 openDialog(mes.message, "", false);
             }
         })
+    }
+
+    function changeGroup(myFollowedOnly) {
+        window.location.href = "/yoga/teacher/page0?myFollowedOnly=" + myFollowedOnly;
+    }
+
+    function watchDetail(roleId, userId) {
+        window.location.href = "/yoga/teacher/watchDetail?roleId=" + roleId + "&userId=" + userId;
     }
 </script>
 </body>

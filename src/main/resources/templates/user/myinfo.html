@@ -1,65 +1,292 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thyemeaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <script src="/yoga/js/jquery.min.js"></script>
-   <!-- <link rel="stylesheet" th:href="@{/css/themes/icon.css}">
-    <link rel="stylesheet" th:href="@{/css/themes/tree.css}">-->
+    <link rel="stylesheet" type="text/css" href="../../static/user/css/myinfo.css"
+          th:href="@{/user/css/myinfo.css}">
+    <script th:src="@{/js/jquery.min.js}" src="../../static/js/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="../../static/css/fzwmodal.css"
+          th:href="@{/css/fzwmodal.css}">
+    <script th:src="@{/js/fzwmodal.js}" src="../../static/js/fzwmodal.js"></script>
 </head>
 <body>
-<div id="headimg">
 
+
+<header class="white_area" id="headimg1">
+    <img src="/yoga/user/head_imgs/default.png" id="headimg" onclick="openBigHeadImg('block')">
+    <span id="title">个人资料</span>
+</header>
+
+<div class="white_area" id="userInfo">
+    <div class="ex_title">
+        <div class="orange"></div>
+        <span class="name">账号信息</span>
+    </div>
+    <div class="border_line"></div>
+    <div class="single_manager">
+        <span class="name"><div class="brick">昵称</div></span>
+        <span class="value" id="netName">带带大师兄</span>
+    </div>
+    <div class="border_line"></div>
+</div>
+<div class="white_area" id="personal">
+    <div class="ex_title">
+        <div class="orange"></div>
+        <span class="name">个人信息</span>
+    </div>
+    <div class="border_line"></div>
+    <div class="single_manager">
+        <span class="name"><div class="brick">QQ号</div></span>
+        <span class="value" id="qq">nmsl23333</span>
+    </div>
+    <div class="border_line"></div>
+    <div class="single_manager">
+        <span class="name"><div class="brick">真实姓名</div></span>
+        <span class="value" id="realName">13315478596</span>
+    </div>
+    <div class="border_line"></div>
+    <div class="single_manager">
+        <span class="name"><div class="brick">手机号</div></span>
+        <span class="value" id="phoneNumber">13315478596</span>
+    </div>
+    <div class="border_line"></div>
+    <div class="single_manager">
+        <span class="name"><div class="brick">性别</div></span>
+        <span class="value" id="sex">男</span>
+    </div>
+    <div class="border_line"></div>
+    <div class="single_manager">
+        <span class="name"><div class="brick">身份证号</div></span>
+        <span class="value" id="idCard">9527</span>
+    </div>
+</div>
+<div class="white_area" id="update" onclick="openUpdateWindow('block')">
+    编辑
 </div>
 
-<form enctype="multipart/form-data" target="frameName" action="/yoga/user/upload" method="post" name="form0" id="form0" onsubmit="return saveReport()" >
-    头像：
-    <input type="file" name="imgName" id="file0"  />
-    <input type="hidden" name="mypath" value="head_imgs">
-    <input type="submit" value="上传">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-</form>
-<iframe src="" frameborder="0" name="frameName"></iframe>
-<form id="showDateForm" action="/yoga/user/updateUserInfo" method="post" >
-    昵称：<input type="text" id="netName" name="netName"></br></br>
-    qq:<input type="text" name="qq" id="qq"></br></br>
-    真实姓名：<input type="text" name="realName" id="realName"></br></br>
-    手机号：<input type="text" name="phoneNumber" id="phoneNumber"></br></br>
-    性别：<select id="sex" name="sex">
-    <option>保密</option>
-    <option>男</option>
-    <option>女</option>
-</select></br></br>
-    身份证号：<input type="text" name="idCard" id="idCard"></br></br>
-    <input type="submit" value="保存"></br></br>
-</form>
-<script>
-    /*function saveReport() {
+<!-- 头像更换窗口 -->
+<div id="big_head_img">
+    <!--<input type="file" id="upload_file" onchange="refreshBigImg(this)">
+    <span >
 
-        $("#form0").ajaxSubmit(function(message) {
-            console.log(message);
-        });
-        return false; // 必须返回false，否则表单会自己再做一次提交操作，并且页面跳转
-    }*/
+        <img id="current_img" src="/yoga/img/head_imgs/default.png">
+    </span>
+    <button id="select_head_img">选择文件</button>
+    <button id="submit_head_img" onclick="uploadHeadImg()">更换头像</button>-->
+    <form  enctype="multipart/form-data" target="frameName" action="/yoga/user/upload" method="post" name="form0" id="form0">
+
+        <input type="file" name="imgName" id="file0"/>
+        <input type="hidden" name="mypath" value="head_imgs">
+        <input type="submit" value="上传">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    </form>
+</div>
+<div id="this_pages_block" onclick="openBigHeadImg('none')"></div>
+
+<!--<div id="update_window">-->
+<!--<table>-->
+<!--<tr>-->
+<!--<td>iYoga昵称</td>-->
+<!--<td colspan="5">-->
+<!--<input type="text" id="net_name" th:value="${info.netName}" placeholder="给自己请个炫酷的网名吧">-->
+<!--</td>-->
+<!--<td></td>-->
+<!--<td></td>-->
+<!--<td></td>-->
+<!--<td></td>-->
+<!--</tr>-->
+<!--<tr>-->
+<!--<td>教练认证</td>-->
+<!--<td colspan="5">-->
+<!--<input type="text" id="auth_num" th:value="${info.authInfo}" placeholder="教练资格证的号码">-->
+<!--</td>-->
+<!--<td></td>-->
+<!--<td></td>-->
+<!--<td></td>-->
+<!--<td></td>-->
+<!--</tr>-->
+<!--<tr>-->
+<!--<td>真实姓名</td>-->
+<!--<td colspan="5">-->
+<!--<input type="text" id="real_name" th:value="${info.realName}" placeholder="阁下的尊姓大名">-->
+<!--</td>-->
+<!--<td></td>-->
+<!--<td></td>-->
+<!--<td></td>-->
+<!--<td></td>-->
+<!--</tr>-->
+<!--<tr>-->
+<!--<td>QQ:</td>-->
+<!--<td colspan="5">-->
+<!--<input type="text" id="qq" th:value="${info.qq}" placeholder="QQ/微信号">-->
+<!--</td>-->
+<!--<td></td>-->
+<!--<td></td>-->
+<!--<td></td>-->
+<!--<td></td>-->
+<!--</tr>-->
+<!--<tr>-->
+<!--<td>手机号</td>-->
+<!--<td colspan="5">-->
+<!--<input type="text" id="phone" th:value="${info.phone}" placeholder="请输入(大陆)11位手机号">-->
+<!--</td>-->
+<!--<td></td>-->
+<!--<td></td>-->
+<!--<td></td>-->
+<!--<td></td>-->
+<!--</tr>-->
+<!--<tr>-->
+<!--<td>性别</td>-->
+<!--<td colspan="5">-->
+<!--<select id="sex" th:value="${info.sex}">-->
+<!--<option value="保密" selected="selected">保密</option>-->
+<!--<option value="男">男</option>-->
+<!--<option value="女">女</option>-->
+<!--</select>-->
+<!--</td>-->
+<!--<td></td>-->
+<!--<td></td>-->
+<!--<td></td>-->
+<!--<td></td>-->
+<!--</tr>-->
+<!--<tr>-->
+<!--<td>身份证号</td>-->
+<!--<td colspan="5">-->
+<!--<input id="id_num" th:value="${info.idNum}" placeholder="18位新一代身份证号">-->
+<!--</td>-->
+<!--<td></td>-->
+<!--<td></td>-->
+<!--<td></td>-->
+<!--<td></td>-->
+<!--</tr>-->
+<!--</table>-->
+<!--<br>-->
+<!--<button id="submit" onclick="updateTeacher()">提交</button>-->
+<!--<button id="abandon" onclick="openUpdateWindow('none')">关闭</button>-->
+<!--</div>-->
+
+<!--模态框组件-->
+<div id="block" class="modal"></div>
+<div id="dialog" class="modal">
+    <div id="dialog_message"></div>
+    <button onclick="turnTo()">确认</button>
+</div>
+<!-- !! -->
+
+<script>
+    $(function () {
+        // 获取属性
+        var mes_window = $("#update_window");
+        var mes_width = mes_window.css("width");
+        var mes_height = mes_window.css("height");
+        // 去掉px单位
+        mes_width = mes_width.substr(0, mes_width.length - 2);
+        mes_height = mes_height.substr(0, mes_height.length - 2);
+        // 获取左边的距离和上边的距离
+        var left_distance = (windowWidth - mes_width) / 2;
+        var top_distance = (windowHeight - mes_height) / 2;
+        // 设置css属性
+        mes_window.css("left", left_distance + "px");
+        mes_window.css("top", top_distance + "px");
+    })
+
+    function openUpdateWindow(state) {
+        $("#update_window").css("display", state);
+    }
+
+    // 打开更换头像窗口
+    function openBigHeadImg(state) {
+        $("#big_head_img").css("display", state);
+        $("#this_pages_block").css("display", state);
+    }
+
+    function updateTeacher() {
+        var netName = $("#net_name").val();
+        var authInfo = $("#auth_num").val();
+        var realName = $("#real_name").val();
+        var qq = $("#qq").val();
+        var phone = $("#phone").val();
+        var sex = $("#sex").val();
+        var idNum = $("#id_num").val();
+        $.ajax({
+            url: "/yoga/teacher/updateTeacher",
+            type: "post",
+            data: {
+                "netName": netName,
+                "authInfo": authInfo,
+                "realName": realName,
+                "qq": qq,
+                "phone": phone,
+                "sex": sex,
+                "idNum": idNum
+            },
+            dataType: "json",
+            success: function (mes) {
+                if (mes.code == 0) {
+                    openDialog(mes.message, "teacherInfo", true);
+                } else {
+                    openDialog(mes.message, "", false);
+                }
+            }
+        })
+    }
 
     function selectMyInfo() {
         $.ajax({
-            url:'/yoga/user/selectMyInfo',
-            type:'post',
-            async:true,
-            success:function (data) {
-                $("#netName").val(data.netName);
-                $("#qq").val(data.qq);
-                $("#realName").val(data.realName);
-                $("#phoneNumber").val(data.phoneNumber);
-                $("#sex").val(data.sex);
-                $("#idCard").val(data.idCard);
-                 var img="<img src='"+data.headImg+"' style='width: 50px;height: 50px;border-radius: 50%' id='headImg'>"
-                $("#headimg").html(img);
-
+            url: '/yoga/user/selectMyInfo',
+            type: 'post',
+            async: true,
+            success: function (data) {
+                $("#netName").html(data.netName);
+                $("#qq").html(data.qq);
+                $("#realName").html(data.realName);
+                $("#phoneNumber").html(data.phoneNumber);
+                $("#sex").html(data.sex);
+                $("#idCard").html(data.idCard);
+                var img = "<img src='" + data.headImg + "' style='width: 50px;height: 50px;border-radius: 50%' onclick=\"openBigHeadImg('block')\" id='headImg'>"
+                $("#headimg1").html(img);
+                $("#current_img").html(img);
             }
         });
     }
+
     selectMyInfo();
+    $("#select_head_img").click(function () {
+        $("#upload_file").click();
+    });
+    // ajax上传图片的方法
+    function uploadHeadImg() {
+        var upload_file = new FormData();
+        var img = $("#upload_file")[0].files[0];
+        upload_file.append("file", img);
+        $.ajax({
+            cache: false,
+            url: "/yoga/teacher/uploadHeadImg",
+            type: "post",
+            async: false,
+            mimeType: "multipart/form-data",
+            processData: false,
+            contentType: false,
+            data: upload_file,
+            dataType: "json",
+            success: function (mes) {
+                openDialog(mes.message, "", false);
+            }
+        })
+    }
+
+    // 选择文件后即使刷新到前端
+    function refreshBigImg(file) {
+        var read = new FileReader();// 创建FileReader对像;
+        read.readAsDataURL(file.files[0]);// 调用readAsDataURL方法读取文件;
+        read.onload = function () {
+            url = read.result // 拿到读取结果;
+            $("#current_img").attr("src", url);
+        };
+    }
+    function upIMg() {
+        $("#form0").show();
+    }
 </script>
 </body>
 </html>

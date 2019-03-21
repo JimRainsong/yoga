@@ -43,4 +43,17 @@ public interface ManagerService {
     int updateUserMoneyAndGoods4_1(Map<String, Object> map);
 
     List<String> getAllGoodsType4_1();
+
+    /*
+     * 根据条件查找教练*/
+    public List<Teacher> shearch( String teachername, String teacherSex,String teacherPhone,String teacherQq,Integer currentPage,Integer pageSize);
+
+    /*
+    * 根据类型查询订单*/
+    public List<Tra_tea_ven> SelOder4( String time, String venname, String transcationType,Integer currentPage,Integer pageSize);
+
+    /*
+     * 查询所有订单*/
+    public List<Tra_tea_ven> SelAllOrder4(Integer currentPage,Integer pageSize);
 }
+

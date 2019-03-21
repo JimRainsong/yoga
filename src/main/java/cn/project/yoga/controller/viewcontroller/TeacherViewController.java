@@ -10,6 +10,7 @@ import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
@@ -90,14 +91,27 @@ public class TeacherViewController {
         return "teacher/register";
     }
 
-    @RequestMapping("/info")
+    //
+    @RequestMapping("/message")
     public String info() {
-        return "teacher/g1";
+        Subject subject = SecurityUtils.getSubject();
+        ModelAndView modelAndView = new ModelAndView();
+        if (!subject.isAuthenticated()) {
+            modelAndView.setViewName("teacher/unlogined");
+            return "teacher/unlogined";
+        }
+        return "teacher/message";
     }
+//    @RequestMapping("/info")
+//    public String info() {
+//        return "teacher/g1";
+//    }
 
+    /*
+    * 教练管理页面*/
     @RequestMapping("/mteacher")
     public String Mteacher4() {
-        return "manager/hsn/mteacher";
+        return "manager/hsn/teacher";
     }
 
     @RequestMapping("/teadetail")
@@ -105,6 +119,15 @@ public class TeacherViewController {
         int teacherId = Integer.parseInt(request.getParameter("teacherId"));
         session.setAttribute("teacherId", teacherId);
         return "manager/hsn/mdetail";
+    }
+
+    @RequestMapping("/steacher")
+    public String Steacher4(HttpServletRequest request, HttpSession session) {
+        session.setAttribute("teacherName", request.getParameter("teacherName"));
+        session.setAttribute("teacherSex", request.getParameter("teacherSex"));
+        session.setAttribute("teacherPhone", request.getParameter("teacherPhone"));
+        session.setAttribute("teacherQq", request.getParameter("teacherQq"));
+        return "manager/hsn/steacher";
     }
 
 }

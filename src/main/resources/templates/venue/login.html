@@ -14,6 +14,7 @@
             width:1100px;
             height:650px;
             z-index: 1;
+
         }
         #body02 {
             background-color: white ;
@@ -38,7 +39,7 @@
 
 <div  id="body02"  >
 <div id="body03">
-    <input value="欢迎来到！YOGA！！" style="font-size: 30px;background-color:rgba(0,0,0,0.2);">
+    <input value="欢迎来到！YOGA！！" style="font-size: 30px;background-color:rgba(0,0,0,0.2);text-align:center;">
     <div class="layui-form-item">
             <label class="layui-form-label">账号</label>
             <div class="layui-input-inline">
@@ -53,8 +54,8 @@
         </div>
         <div class="layui-form-item">
             <div class="layui-input-block">
-                <button  onclick="login()">登录</button>
-                <button  id="regi">注册</button>
+                <button class="layui-btn"  onclick="login()">登录</button>
+                <button class="layui-btn"  id="regi">注册</button>
 
             </div>
         </div>
@@ -64,7 +65,6 @@
 
 </div>
 <script th:src="@{/layui/layui.js}"></script>
-
 <script>
 
     $('#regi').on('click', function(){
@@ -87,19 +87,18 @@
              },
              dataType : "json",
              success : function(data) {
-                 alert(data.message);
-                 location.href="/yoga/venueUser/venueIndex";
-                 // var json = eval('('+data+')');
-                 // if(json.code == 0){
-                 //
-                 // }else{
-                 //     $.messager.alert('系统提示',json.message);
-                 // }
+                 layer.msg(data.msg, {
+                     time: 20000, //20s后自动关闭
+                     btn: ['知道了']
+                 });
+                 if (data.code == 0) {
+                     location.href="/yoga/venueUser/venueIndex";
+                 }
              }
-
-
          })
     }
+
+
 </script>
 
 </body>

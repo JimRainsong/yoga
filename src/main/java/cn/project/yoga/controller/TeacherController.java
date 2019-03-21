@@ -1,7 +1,10 @@
 package cn.project.yoga.controller;
 
 import cn.project.yoga.pojo.*;
+import cn.project.yoga.pojo.Appointment;
+import cn.project.yoga.service.ManagerService;
 import cn.project.yoga.service.UserService;
+import cn.project.yoga.pojo.User;
 import cn.project.yoga.service.TeacherService;
 import cn.project.yoga.service.VenueService;
 import cn.project.yoga.utils.Attributes;
@@ -10,10 +13,12 @@ import cn.project.yoga.utils.RegexUtil;
 import cn.project.yoga.utils.ResultUtil;
 import cn.project.yoga.vo.LoginVo;
 import cn.project.yoga.vo.TeacherVo;
+import com.github.pagehelper.PageInfo;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
+import org.apache.shiro.web.servlet.ShiroHttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,11 +26,16 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
+import sun.security.provider.MD5;
+
+import javax.annotation.Resource;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.*;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 
 @Controller
@@ -37,6 +47,9 @@ public class TeacherController {
     private TeacherService teacherService;
     @Autowired
     private VenueService venueService;
+
+    @Autowired
+    private ManagerService managerService;
 
     @RequestMapping("/login")
     @ResponseBody
@@ -68,13 +81,52 @@ public class TeacherController {
         }
     }
 
-    @RequestMapping("/page0")
-    public ModelAndView page1() {
+    @RequestMapping("/follow")
+    public ModelAndView follow(@RequestParam(required = false, defaultValue = "") String netName) {
         ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("teacher/follow");
+        Session session = SecurityUtils.getSubject().getSession();
+        Integer currentUserId = ((TeacherInfo) (session.getAttribute(Attributes.CURRENT_USER))).getuId();
+        List<Detail> details = new ArrayList<>();
+        details.addAll(userService.selectMyFollowedStuByCurrentUserId2(currentUserId));
+        details.addAll(teacherService.selectMyFollowedTeaByCurrentUserId2(currentUserId));
+        details.addAll(venueService.selectMyfollowedVenByCurrentUserId2(currentUserId));
+        if (netName != null && !"".equals(netName)) {
+            Iterator<Detail> iterator = details.iterator();
+            while (iterator.hasNext()) {
+                if (!iterator.next().getNetName().contains(netName)) {
+                    iterator.remove();
+                }
+            }
+        }
+        modelAndView.addObject("details", details);
+        return modelAndView;
+    }
+
+    @RequestMapping("/page0")
+    public ModelAndView page1(@RequestParam(required = false, defaultValue = "true") Boolean myFollowedOnly) {
+        Subject subject = SecurityUtils.getSubject();
+        ModelAndView modelAndView = new ModelAndView();
+        if (!subject.isAuthenticated()) {
+            modelAndView.setViewName("teacher/unlogined");
+            return modelAndView;
+        }
         modelAndView.setViewName("/teacher/page0");
-        List<StuMoment> stuMomentList = userService.allMoments2();
-        List<TeaMoment> teaMomentList = teacherService.allMoments2();
-        List<VenMoment> venMomentList = venueService.allMoments2();
+        List<StuMoment> stuMomentList = new ArrayList<>();
+        List<TeaMoment> teaMomentList = new ArrayList<>();
+        List<VenMoment> venMomentList = new ArrayList<>();
+        if (!myFollowedOnly) {
+            stuMomentList = userService.allMoments2();
+            teaMomentList = teacherService.allMoments2();
+            venMomentList = venueService.allMoments2();
+            modelAndView.addObject("seeAll", true);
+        } else {
+            Integer currentUserId = ((TeacherInfo) SecurityUtils.getSubject().getSession().getAttribute(Attributes.CURRENT_USER)).getuId();
+            stuMomentList = userService.onlyFollowedMoments2(currentUserId);
+            teaMomentList = teacherService.onlyFollowedallMoments2(currentUserId);
+            venMomentList = venueService.onlyFollowedallMoments2(currentUserId);
+            modelAndView.addObject("seeAll", false);
+        }
         List<Moment> allMoments = new ArrayList<>();
         allMoments.addAll(stuMomentList);
         allMoments.addAll(teaMomentList);
@@ -96,8 +148,9 @@ public class TeacherController {
         if (!(wholeName.endsWith(Attributes.JPG_FILE_END_NAME)
                 || wholeName.endsWith(Attributes.PNG_FILE_END_NAME)
                 || wholeName.endsWith(Attributes.GIF_FILE_END_NAME))) {
-            return ResultUtil.error("要上传图片啦!!");
+            return ResultUtil.error("只能传图片啦!!");
         } else {
+            System.out.println(file.getOriginalFilename());
             return teacherService.uploadHeadImg2(file);
         }
     }
@@ -132,9 +185,9 @@ public class TeacherController {
         user1.setPassword(newpassword);
         int i1 = teacherService.insertUser(user1);
         int i2 = teacherService.insert_userid_teacher2(username);
-        System.out.println(i1 + i2);
+        // 然后在用户_角色表中把关联绑定上
+        int i3 = teacherService.connectRoleIdAndUserId2(username);
         return ResultUtil.ok("注册成功");
-
     }
 
     @RequestMapping("/wallet")
@@ -147,27 +200,12 @@ public class TeacherController {
         return modelAndView;
     }
 
-    @RequestMapping("showteachers")
-    @ResponseBody
-    public List<Teacher> ShowTea4(HttpServletRequest request) {
-        int page = Integer.parseInt(request.getParameter("page"));
-        int total = teacherService.SelCountTea4();
-        int totalpage = 0;
-        if (total / 4 != 0) {
-            totalpage = total / 4 + 1;
-        } else {
-            totalpage = total / 4;
-        }
-        int lim = page * 4 - 4;
-        List<Teacher> teachers = teacherService.showTea4(lim);
-        return teachers;
-    }
 
     @RequestMapping("/deltea")
     public String DelTea4(HttpServletRequest request) {
         int teacherId = Integer.parseInt(request.getParameter("teacherId"));
         int row = teacherService.DelTea4(teacherId);
-        return "manager/hsn/mteacher";
+        return "manager/hsn/teacher";
     }
 
     @RequestMapping("teaDetail")
@@ -175,6 +213,7 @@ public class TeacherController {
     public Teacher TeaDetail4(HttpServletRequest request, HttpSession session) {
         int teacherId = (int) session.getAttribute("teacherId");
         Teacher teacher = teacherService.SelTeaById4(teacherId);
+        System.out.println(teacher);
         return teacher;
     }
 
@@ -188,6 +227,170 @@ public class TeacherController {
     @ResponseBody
     public ResultUtil postNewMoment2(String content) {
         return teacherService.postNewMoment2(content);
+    }
+
+    @RequestMapping("/teacherDatas")
+    @ResponseBody
+    public Map<String, Object> showteacherDatas(@RequestParam(value = "page", defaultValue = "1", required = false) Integer currentPage,
+                                                @RequestParam(value = "rows", defaultValue = "10", required = false) Integer pageSize) {
+        List<Teacher> list = teacherService.showTea4(currentPage, pageSize);
+        PageInfo pageInfo = new PageInfo(list);
+        Map<String, Object> result = new HashMap<String, Object>();
+        result.put("code", 200);
+        result.put("msg", "");
+        result.put("count", pageInfo.getTotal());
+        result.put("data", list);
+        return result;
+
+    }
+
+    @RequestMapping("/shearch")
+    @ResponseBody
+    public Map<String, Object> ShearchVenue4(@RequestParam(value = "page", defaultValue = "1", required = false) Integer currentPage,
+                                             @RequestParam(value = "rows", defaultValue = "10", required = false) Integer pageSize, HttpServletRequest request, HttpSession session) {
+        String teacherName = (String) session.getAttribute("teacherName");
+        String teacherSex = (String) session.getAttribute("teacherSex");
+        String teacherPhone = (String) session.getAttribute("teacherPhone");
+        String teacherQq = (String) session.getAttribute("teacherQq");
+        System.out.println(teacherName);
+        List<Teacher> list = managerService.shearch(teacherName, teacherSex, teacherPhone, teacherQq, currentPage, pageSize);
+        System.out.println(list);
+        PageInfo pageInfo = new PageInfo(list);
+        Map<String, Object> result = new HashMap<String, Object>();
+        result.put("code", 200);
+        result.put("msg", "");
+        result.put("count", pageInfo.getTotal());
+        result.put("data", list);
+        return result;
+    }
+
+    @RequestMapping("/allappointment")
+    @ResponseBody
+    public List<Appointment> allmessages(@RequestParam(value = "currentTime") String time) {
+        System.out.println("查询老师的课程");
+        System.out.println(time);
+        System.out.println(Attributes.currentTime);
+
+        Date date1 = null;
+        Date date2 = null;
+        try {
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            date1 = new Date(simpleDateFormat.parse(time).getTime());
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(date1);
+            calendar.add(Calendar.DAY_OF_MONTH, +1);
+            date2 = calendar.getTime();
+
+            System.out.println("***" + date1 + date2);
+
+        } catch (Exception e) {
+
+        }
+
+
+        List<Appointment> list = new ArrayList<Appointment>();
+
+//    Session session=SecurityUtils.getSubject().getSession();
+//    TeacherVo teacherVo = (TeacherVo) session.getAttribute(Attributes.CURRENT_USER);
+//        int id = teacherVo.gettId();
+        //老师的id  两个date 时间
+
+        list = teacherService.selappointmentbyTeacherId2(10, date1, date2);
+        System.out.println(list);
+        return list;
+
+    }
+
+    @RequestMapping("/accept0")
+    @ResponseBody
+    public List<Appointment> accept0(@RequestParam(value = "acceptid") Integer id) {
+        /*前端传回acceptid
+      判断 是否有 课程冲突 返回冲突的课程
+        return resultUtil;
+        */
+        List<Appointment> clist = teacherService.findclist2(id);
+
+        return clist;
+    }
+
+
+    @RequestMapping("/accept")
+    @ResponseBody
+    public ResultUtil accept(@RequestParam(value = "acceptid") Integer id) {
+        /*前端传回acceptid
+        更新 myself course中状态值
+
+      */
+        int count1 = teacherService.conflict2(id);
+        int count = teacherService.acceptcourse2(id);
+        //查出此id对应的时间段 然后update -1 所有 开始时间在此时间段的数据
+
+
+        ResultUtil resultUtil = ResultUtil.ok("已接收");
+        return resultUtil;
+    }
+
+
+    @RequestMapping("/refuse")
+    @ResponseBody
+    public ResultUtil refuse(@RequestParam(value = "refuseid") Integer id) {
+        /*前端传回acceptid
+        更新 myself course中状态值
+
+      */
+        int count = teacherService.refusecourse2(id);
+        ResultUtil resultUtil = ResultUtil.ok("已拒绝");
+        return resultUtil;
+    }
+
+
+    @RequestMapping("/watchDetail")
+    public ModelAndView watchDetail(Integer roleId, Integer userId) {
+        ModelAndView modelAndView = new ModelAndView();
+        Session session = SecurityUtils.getSubject().getSession();
+        Integer currentUserId = ((TeacherInfo) session.getAttribute(Attributes.CURRENT_USER)).getuId();
+        Attention attention = userService.hasIfollowedThis2(currentUserId, userId);
+        modelAndView.addObject("isFollowed", attention);
+        switch (roleId) {
+            case 1:
+                modelAndView.setViewName("teacher/student");
+                modelAndView.addObject("student", userService.selectUserByUserId2(userId));
+                break;
+            case 2:
+                modelAndView.setViewName("teacher/teacher");
+                modelAndView.addObject("teacher", teacherService.selectTeacherByItsUserId2(userId));
+                break;
+            case 3:
+                modelAndView.setViewName("teacher/venue");
+                modelAndView.addObject("venue", venueService.selectVenueByItsUserId2(userId));
+                break;
+            default:
+                modelAndView.setViewName("error");
+        }
+        return modelAndView;
+    }
+
+    @RequestMapping("/doFollow")
+    @ResponseBody
+    public ResultUtil doFollow(Integer targetUserId) {
+        Session session = SecurityUtils.getSubject().getSession();
+        TeacherInfo currentUser = (TeacherInfo) session.getAttribute(Attributes.CURRENT_USER);
+        Integer currentUserId = currentUser.getuId();
+        // 如果已关注，取消。没有则加上
+        Attention attention = userService.hasIfollowedThis2(currentUserId, targetUserId);
+        if (attention == null) {
+            return userService.doFollow2(currentUserId, targetUserId);
+        } else {
+            return userService.cancleFollow2(currentUserId, targetUserId);
+        }
+    }
+
+    @RequestMapping("/fetchMoney")
+    @ResponseBody
+    public ResultUtil fetchMoney2() {
+        Session session = SecurityUtils.getSubject().getSession();
+        Integer currentUserId = ((TeacherInfo) (session.getAttribute(Attributes.CURRENT_USER))).getuId();
+        return teacherService.fetchMoneyByCurrentUserId2(currentUserId);
     }
 }
 //暴风哭泣

@@ -7,6 +7,7 @@
     <link rel="stylesheet" th:href="@{/layui/css/layui.css}">
     <script th:src="@{/js/jquery.min.js}"></script>
     <script th:src="@{/layui/layer/layer.js}"></script>
+    <script th:src="@{/yoga/layui/layui.js}"></script>
 </head>
 <body class="layui-layout-body">
 
@@ -14,14 +15,11 @@
 
 <script type="text/html" id="toolbarDemo">
     <div class="layui-btn-container">
-        <button class="layui-btn layui-btn-sm" lay-event="getCheckData">获取选中行数据</button>
+        <button class="layui-btn" lay-event="getCheckDataa">删除会员卡</button>
+        <button  class="layui-btn" id="insertVipType" onclick="insertVipType()">新增会员卡</button>
     </div>
 </script>
-
-
-<script th:src="@{/yoga/layui/layui.js}" charset="utf-8"></script>
-
-<script th:inline="javascript">
+<script>
     layui.use('table', function(){
         var table = layui.table;
         table.render({
@@ -39,11 +37,13 @@
             ,toolbar: '#toolbarDemo'
             ,cols: [
                 [
-                    {type:'radio'},
+                    {type:'radio'}
+                ,{field:'vipTypeId', width:150, title: '会员卡ID', sort: true}
                 ,{field:'cardName', width:150, title: '会员卡名称', sort: true}
                 ,{field:'cardInfo', width:150, title: '会员卡类型', sort: true}
                 ,{field:'cardPrice', width:150, title: '价格'}
                 ,{field:'useDate', width:150, title: '有效期'}
+
                 ]
             ]
 
@@ -53,13 +53,22 @@
         table.on('toolbar(test)', function(obj){
             var checkStatus = table.checkStatus(obj.config.id); //获取选中行状态
             switch(obj.event){
-                case 'getCheckData':
+                case 'getCheckDataa':
                     var data = checkStatus.data;  //获取选中行数据
-                    layer.alert(JSON.stringify(data));
+
+                    deleteVipType(data[0].vipTypeId);
                     break;
             };
         });
     });
+    function insertVipType() {
+        layer.open({
+            type: 2,
+            title: '添加会员卡',
+            area : ['600px' , '500px'],
+            content: '/yoga/venueUser/inVipTypes'
+        });
+    }
 </script>
 </body>
 </html>

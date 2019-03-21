@@ -7,34 +7,33 @@
     <link rel="stylesheet" th:href="@{/layui/css/layui.css}">
     <script th:src="@{/js/jquery.min.js}"></script>
     <script th:src="@{/layui/layer/layer.js}"></script>
+    <style>
+        .layui-table-cell {
+            height: auto;
+            line-height: 40px;
+        }
+        #body05 {
+            background-image: url("/yoga/img/yoga.jpg");
+            background-size:100% 100%;
+            width:1400px;
+            height:550px;
+            z-index: 40;
+        }
+        #body06{
+            text-align: center;
+        }
+    </style>
 </head>
 <body class="layui-layout-body">
 <div class="layui-layout layui-layout-admin">
     <div class="layui-header">
         <div class="layui-logo">YOGA! 场馆</div>
-        <!-- 头部区域（可配合layui已有的水平导航） -->
-        <ul class="layui-nav layui-layout-left">
-            <li class="layui-nav-item"><a href="javascript:">商品管理</a></li>
-            <li class="layui-nav-item"><a href="">关注</a></li>
-            <li class="layui-nav-item">
-                <a href="javascript:;">其它系统</a>
-                <dl class="layui-nav-child">
-                    <dd><a href="">邮件管理</a></dd>
-                    <dd><a href="">消息管理</a></dd>
-                    <dd><a href="">授权管理</a></dd>
-                </dl>
-            </li>
-        </ul>
         <ul class="layui-nav layui-layout-right">
             <li class="layui-nav-item">
-                <a href="javascript:;">
-                    <img id="imgs" src="http://t.cn/RCzsdCq" class="layui-nav-img">
-                    <span id="userNames" value="贤心"></span>
-
+                <a href="javascript:;" id="userNames" >
                 </a>
                 <dl class="layui-nav-child">
-                    <dd><a href="">基本资料</a></dd>
-                    <dd><a href="">安全设置</a></dd>
+                    <dd><a href="javascript:venueInFoTab();">基本资料</a></dd>
                     <dd><a href="javascript:atention()">关注</a></dd>
                 </dl>
             </li>
@@ -51,36 +50,55 @@
                     <a class="" >教练管理</a>
                     <dl class="layui-nav-child">
                         <dd><a href="javascript:myteacherTab();">签约教练</a></dd>
-                        <dd><a href="javascript:;">课程安排</a></dd>
+                        <dd><a href="javascript:courseTab();">课程安排</a></dd>
                         <dd><a href="javascript:teacherTab();">教练招聘</a></dd>
-                        <dd><a href="javascript:addTab();">超链接</a></dd>
                     </dl>
                 </li>
                 <li class="layui-nav-item"><a href="javascript:vipType()">产品管理</a></li>
                 <li class="layui-nav-item"><a href="javascript:uploadAds()">发布广告</a></li>
+                <li class="layui-nav-item"><a href="javascript:upFriends()">朋友圈</a></li>
+                <li class="layui-nav-item"><a href="javascript:commentTab()">查看本场馆评论</a></li>
             </ul>
         </div>
     </div>
 
     <div class="layui-body">
-        <div class="layui-tab" lay-filter="demo" lay-allowclose="true">
+        <div class="layui-tab" lay-filter="demo" lay-allowclose="true" >
             <ul class="layui-tab-title">
-                <li class="layui-this" lay-id="11">首页</li>
+                <li class="layui-this"  lay-id="11">首页</li>
             </ul>
-            <div class="layui-tab-content">
-                <div class="layui-tab-item layui-show">没错我就是那个傻逼首页</div>
+            <div class="layui-tab-content" >
+                <div class="layui-tab-item layui-show" id="body05">
+
+                </div>
+            </div>
+        </div>
+        <div class="layui-footer footer footer-index" id="body06">
+            <div class="layui-main">
+                <p>© 2019 <a href="/yoga/venueUser/login">yoga健身场馆</a> MIT license</p>
             </div>
         </div>
         </div>
+
+
     </div>
 
-    <div class="layui-footer">
-        <!-- 底部固定区域 -->
-        © layui.com - 底部固定区域
-    </div>
+
 </div>
 <script th:src="@{/layui/layui.js}"></script>
 <script>
+    selimg();
+    function selimg() {
+        $.ajax({
+            url : "/yoga/venueDate/selimg",
+            type : "post",
+            dataType : "JSON",
+            success : function(data) {
+               $("#userNames").html("<img src='"+data.data.venueImg+"' height=\"40\" width=\"40\" class='layui-nav-min'>"+data.data.venueName+"");
+            }
+        })
+    }
+
     var element =null;
     //JavaScript代码区域
     layui.use('element', function(){
@@ -92,7 +110,33 @@
     var title= null;
     var eid  = null;
 
+    function upFriends() {
+        url='/yoga/venue/friends';
+        title="查看课程";
+        eid="upFriendsTabId";
+        addTab();
+    }
+    function commentTab(){
+        url='/yoga/venue/comment';
+        title="评论信息";
+        eid="commentTabId";
+        addTab();
 
+    }
+    function courseTab() {
+        url='/yoga/venue/course';
+        title="查看课程";
+        eid="courseTabTabId";
+        addTab();
+    }
+    function venueInFoTab() {
+        url='/yoga/venue/VenueInFo';
+        title="基本资料";
+        eid="venueInFoTabId";
+        addTab();
+    }
+
+    
     function teacherTab() {
         url='/yoga/venue/teacher';
         title="招聘教练";
@@ -142,11 +186,66 @@
                          title:title
                          ,content:result
                          ,id: eid //实际使用一般是规定好的id，这里以时间戳模拟下
-                     })
+                     });
                     element.tabChange('demo', eid);
                      }
                  });
               }
+     /**
+      * 删除课程
+      */
+    function deleteCourse(cid){
+        $.ajax({
+            url : "/yoga/venueDate/removeCourse",
+            type : "post",
+            data : {
+                courseId:cid
+            },
+            dataType : "json",
+            success : function(data) {
+                alert(data.msg);
+                eid="courseTabTabId";
+                addTab();
+            }
+        })
+    }
+    //删除老师
+    function delMyTeacher(tid) {
+        $.ajax({
+            type:"post",
+            url:"/yoga/venueDate/delMyTeacherData",
+            dataType:"JSON",
+            data:{
+                teacherId:tid
+            },
+            sueecss:function (data) {
+                alert(data.msg);
+                myteacherTab();
+
+            }
+        })
+    }
+
+    /**
+     * 删除场馆vip类型
+     * @param vid
+     */
+    function deleteVipType(vid) {
+        alert(vid);
+        $.ajax({
+            url : "/yoga/venueDate/deleteVipTypeDatas",
+            type : "post",
+            data : {
+                vipTypeId:vid
+            },
+            dataType : "json",
+            success : function(data) {
+                alert(data.msg);
+                eid="vipTypeTabId";
+                addTab();
+            }
+        })
+    }
    function setAd(){
        $.ajax({
            url:"/yoga/venueDate/uploadAdDatas",
@@ -164,7 +263,23 @@
            }
        });
    }
-
+function updateVenue() {
+    $.ajax({
+        url:"/yoga/venueDate/uploadVenueDatas",
+        type:"post",
+        async:true,
+        contentType:"application/json;charset=utf-8",
+        data:JSON.stringify({"venueName":$("#venueName").val(),"venueAddress":$("#venueAddress").val(),"venuePhone":$("#venuePhone").val(),"qq":$("#venueQQ").val(),"venueDetails":$("#venueDesc").val(),"venueImg":$("#venueImg").val()}),
+        success:function(mes){
+            alert(mes.msg);
+            if (mes.code==0){
+                element.tabDelete('demo',"AdTabId");
+            }else {
+                return;
+            }
+        }
+    });
+}
 
 </script>
 </body>

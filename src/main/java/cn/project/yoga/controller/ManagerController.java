@@ -162,6 +162,7 @@ public class ManagerController {
         return venues;
     }
 
+
     /**
      * 分页,模糊查询所有商品信息
      */
@@ -209,31 +210,39 @@ public class ManagerController {
    删除场馆
     */
     @RequestMapping("/delven")
-    public String DelVen4(HttpServletRequest request) {
-        int venue_id = Integer.parseInt(request.getParameter("venueId"));
-        int row = service.DelVen4(venue_id);
+    public String DelVen4(HttpServletRequest request){
+        int venue_id=Integer.parseInt(request.getParameter("venueId"));
+        int row=service.DelVen4(venue_id);
         return "manager/hsn/Mvenue";
     }
 
     @RequestMapping("/venueDetail")
     @ResponseBody
-    public Venue VenDetail4(HttpSession session) {
-        int venueId = (int) session.getAttribute("venueId");
-        Venue venue = service.SelVenById4(venueId);
+    public Venue VenDetail4(HttpSession session){
+        int venueId= (int) session.getAttribute("venueId");
+        Venue venue=service.SelVenById4(venueId);
         System.out.println(venue);
         return venue;
     }
 
     @RequestMapping("/shearch")
     @ResponseBody
-    public List<Venue> ShearchVenue4(HttpServletRequest request) {
-        String venname = request.getParameter("venname");
-        String addrass = request.getParameter("addrass");
-        String phone = request.getParameter("phone");
-        String qq = request.getParameter("qq");
-        List<Venue> venues = service.shearch(venname, addrass, phone, qq);
-        System.out.println(venues);
-        return venues;
+    public Map<String,Object> ShearchVenue4(@RequestParam(value = "page",defaultValue = "1",required = false)Integer currentPage,
+                                            @RequestParam(value = "rows",defaultValue = "10",required = false)Integer pageSize,HttpServletRequest request,HttpSession session){
+        String venname= (String) session.getAttribute("venname");
+        String addrass= (String) session.getAttribute("addrass");
+        String phone= (String) session.getAttribute("phone");
+        String qq= (String) session.getAttribute("qq");
+
+        List<Venue>list=service.shearch(venname,addrass,phone,qq,currentPage,pageSize);
+
+        PageInfo pageInfo = new PageInfo(list);
+        Map<String,Object> result = new HashMap<String,Object>();
+        result.put("code",200);
+        result.put("msg","");
+        result.put("count",pageInfo.getTotal());
+        result.put("data",list);
+        return result;
     }
 
 

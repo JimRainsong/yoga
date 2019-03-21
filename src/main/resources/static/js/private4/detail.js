@@ -7,21 +7,17 @@ function detail(){
 			oper:'detail'
 		},
 		success:function(data){
-			alert(data);
-
 			$("#g_name").html(data.teacherName);
-			$("#g_price").html(data.teacherMoney+' 元');
-			$("#g_description").html(data.teacherPhone);
-			$("#g_count").html(100);
+			$("#g_sex").html(data.teacherSex);
+			$("#g_price").html(data.teacherMoney+'元');
+			$("#g_phone").html(data.teacherPhone);
 			$("#g_img").attr('src',data.teacherImg);
-			$("#g_brand").html(data.teacherQq);
-			
-			
-			
+			$("#g_qq").html(data.teacherQq);
+			$("#selfmoney").html(data.selfMoney);
 		}
-		
-		
+
+
 	});
-	
+
 }
 detail();

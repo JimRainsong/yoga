@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>YOGA! 场馆</title>
+    <script  th:src="@{/bookstry/js/jquery.min.js}"></script>
+    <script  th:src="@{/bookstry/js/bootstrap.min.js}"></script>
+    <link th:href="@{/bookstry/css/bootstrap.min.css}" rel="stylesheet">
+</head>
+<body>
+<div class="container">
+<div class="row">
+    <div style="height: 50px">
+    <!-- 信息警告消息的上下文按钮 -->
+    <button type="button" class="btn btn-info" id="good" onclick="changeComment('good')">好评</button>
+    <!-- 表示应谨慎采取的动作 -->
+    <button type="button" class="btn btn-warning" id="ojbk" onclick="changeComment('ojbk')">中评</button>
+    <!-- 表示一个危险的或潜在的负面动作 -->
+    <button type="button" class="btn btn-danger" id="lose" onclick="changeComment('lose')">差评</button>
+    </div>
+<div id="Comment" style="width: 950px;height: 750px">
+</div>
+</div>
+</div>
+<!--style="position:fixed;bottom:0"-->
+<div id="pags" style="height: 50px"></div>
+<script>
+    var page=1;
+    var size=10;
+    var commentType="";
+    var type="";
+
+    function changeComment(val){
+       if (val=="good"){
+         commentType="好评";
+       }else if (val=="ojbk"){
+         commentType="中评";
+       }else {
+         commentType="差评";
+       }
+        $(":button").removeAttr("disabled");
+        $("#"+val).attr("disabled","disabled");
+       type=val;
+       getCommnet(1);
+    }
+    getCommnet(1);
+    function getCommnet(num){
+        $.ajax({
+            url: "/yoga/venueDate/selMoment?commentType="+commentType+"&page="+num,
+            type: "get",
+            async:true,
+            success: function(data) {
+                var strs="";
+                var datas=data.data
+                if(data.code==0){
+                    $.each(datas,function(i,val){
+                        if (val.commentType=="好评"){
+                            strs+="<div class='panel panel-primary'>";
+                        }else if(val.commentType=="差评"){
+                            strs+="<div class='panel panel-danger'>";
+                        }else{
+                            strs+="<div class='panel panel-warning'>";
+                        }
+                        strs+="<div class='panel-heading'><h4>" +
+                            "<img src='"+val.userInfo.headImg+"'  class=\"img-circle\" style='width: 30px;height: 30px'>&nbsp;&nbsp;"+val.userInfo.realName+"</h4></div>";
+                        strs+="<div class='panel-body'>"+val.commentType+":<br>";
+                        strs+=val.comment+"</div></div>";
+                    });
+                }else{
+                    strs+="<div class='panel panel-default' style='color :black;'>";
+                    strs+="<div class='panel-body'>暂无评论</div>";
+                    strs+="<div class='panel-footer'>沙发在向你招手</div></div>";
+                }
+                $("#Comment").html(strs);
+                size=data.count
+                page=num;
+                getPages();
+            }
+        });
+
+    }
+    function getPages(){
+        var str="";
+        str+="<ul class=\"pagination\">\n";
+        if (page>1){
+
+            str+="<li><a href=\"javascript:getCommnet("+(page-1)+");\">&laquo;</a></li>"
+        }else {
+            str+="<li class=\"disabled\"><a href=\"#\" >&laquo;</a></li>"
+        }
+        for (var i=1;i<=size;i++){
+        str+="<li><a href=\" javascript:getCommnet(i); \">"+i+"</a></li>";
+        }
+        if (page<size){
+            str+="<li><a href=\"javascript:getCommnet("+(page+1)+"); \">&raquo;</a></li>"
+        }else {
+            str+="<li class=\"disabled\"><a href=\"#\">&raquo;</a></li>"
+        }
+        str+="</ul>\n";
+        $("#pags").html(str);
+    }
+</script>
+
+
+</body>
+</html>
