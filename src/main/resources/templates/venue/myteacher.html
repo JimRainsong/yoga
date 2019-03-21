@@ -9,21 +9,38 @@
     <script th:src="@{/layui/layer/layer.js}"></script>
 </head>
 <body class="layui-layout-body">
-
+<button style="height: 25px;width: 100px;text-align: center" onclick="selMyteacher()">查找教练名称</button>&nbsp;&nbsp;
+<input type="text" style="height: 25px;width: 100px;text-align: center" id="teacherNames" required lay-verify="required" placeholder="请输入教练名称" autocomplete="off" >
+<select  style="height: 25px;width: 100px;text-align: center" id="teacherSex">
+    <option value="">请选择</option>
+    <option value="男">男</option>
+    <option value="女">女</option></select>
 <table class="layui-hide" id="myteacher" lay-filter="test"></table>
 
 <script type="text/html" id="myteachertool">
     <div class="layui-btn-container">
-        <button class="layui-btn" lay-event="getCheckData">获取选中行数据</button>
+        <button class="layui-btn" lay-event="delMyTeacher">解聘教练</button>
     </div>
+
 </script>
+
 <script th:inline="javascript">
+    var teacherName="";
+    var teacherSex="";
+    function selMyteacher() {
+        teacherName=$("#teacherNames").val();
+        teacherSex=$("#teacherSex").val();
+        myteachers();
+    }
+    myteachers();
+function myteachers(){
+
     layui.use('table', function(){
         var table = layui.table;
         table.render({
             elem: '#myteacher'
             ,height: 300
-            ,url:'/yoga/venueDate/teacherDatas?teype=0&teacherName=&teacherSex='
+            ,url:'/yoga/venueDate/teacherDatas?teype=0&teacherName='+teacherName+'&teacherSex='+teacherSex
             ,page: true
             ,response: {
                 statusName: 'code'
@@ -40,7 +57,7 @@
                    ,{field:'d.teacher.teacherName', width:150, title: '教练姓名',templet: "<div>{{d.teacher?d.teacher.teacherName:''}}</div>"}
                     ,{field:'d.teacher.teacherSex', width:150, title: '性别', sort: true ,templet: "<div>{{d.teacher?d.teacher.teacherSex:''}}</div>"}
                     ,{field:'d.teacher.teacherMoney', width:150, title: '费用',templet: "<div>{{d.teacher?d.teacher.teacherMoney:''}}</div>"}
-                    ,{field:'d.teacher.teacherPhone', title: '联系方式', minWidth: 150 ,templet: "<div>{{d.teacher?d.teacher.teacherPhone:''}}</div>"}
+                    ,{field:'d.teacher.teacherPhone', title: '联系方式', minWidth: 100 ,templet: "<div>{{d.teacher?d.teacher.teacherPhone:''}}</div>"}
                     ,{field:'d.teacher.htmlimg', width:150, title: '相片', sort: true ,templet: "<div>{{d.teacher?d.teacher.htmlimg:''}}</div>"}
                 ]
             ]
@@ -51,13 +68,16 @@
         table.on('toolbar(test)', function(obj){
             var checkStatus = table.checkStatus(obj.config.id); //获取选中行状态
             switch(obj.event){
-                case 'getCheckData':
+                case 'delMyTeacher':
                     var data = checkStatus.data;  //获取选中行数据
-                    layer.alert(JSON.stringify(data));
-                    break;
+                    delMyTeacher(data[0].teacher.teacherId);
+
             };
         });
     });
+    }
+
+
 </script>
 </body>
 </html>

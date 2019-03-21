@@ -29,5 +29,7 @@ public class VenueViewController {
     @RequestMapping("/comment")
     public String comment(){ return "venue/comment"; }
 
+    @RequestMapping("/friends")
+    public String friends(){ return "venue/friends"; }
 
 }

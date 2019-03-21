@@ -1,11 +1,7 @@
 package cn.project.yoga;
 
 import cn.project.yoga.dao.*;
-import cn.project.yoga.pojo.Ad;
-import cn.project.yoga.pojo.Teacher;
-import cn.project.yoga.pojo.User;
-import cn.project.yoga.pojo.Venue_teacher;
-import cn.project.yoga.pojo.Vip_type;
+import cn.project.yoga.pojo.*;
 import cn.project.yoga.service.VenueService;
 import cn.project.yoga.vo.CourseVo;
 import com.github.pagehelper.PageInfo;
@@ -44,6 +40,9 @@ public class CYTest {
 
     @Autowired
     private  Venue_commentMapper venueCommentMapper;
+
+    @Autowired
+    private  AttentionMapper attentionMapper;
    /* @Autowired
     private VenueService venueService;*/
 
@@ -51,6 +50,9 @@ public class CYTest {
    private AdMapper adMapper;
     @Test
     public void contextLoads() {
-        System.out.println(venueCommentMapper.selComent("好评",17,1,10));
+    Attention attention=new Attention();
+    attention.setUserId(15);
+    attention.setFollowId(17);
+        System.out.println(attentionMapper.insertSelective(attention));
     }
 }

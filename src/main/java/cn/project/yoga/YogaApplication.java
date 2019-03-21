@@ -55,7 +55,4 @@ public class YogaApplication {
         bean.setInitParameters(map);
         return bean;
     }
-
-
-
 }

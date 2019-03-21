@@ -11,10 +11,13 @@
     <script th:src="@{/js/fzwmodal.js}" src="../../static/js/fzwmodal.js"></script>
 </head>
 <body>
-<header class="white_area">
-    <img src="../../static/img/head_imgs/default.png" id="headimg" onclick="openBigHeadImg('block')">
+
+
+<header class="white_area" id="headimg1">
+    <img src="/yoga/user/head_imgs/default.png" id="headimg" onclick="openBigHeadImg('block')">
     <span id="title">个人资料</span>
 </header>
+
 <div class="white_area" id="userInfo">
     <div class="ex_title">
         <div class="orange"></div>
@@ -64,12 +67,19 @@
 
 <!-- 头像更换窗口 -->
 <div id="big_head_img">
-    <input type="file" id="upload_file" onchange="refreshBigImg(this)">
-    <span>
-        <img id="current_img" src="../../static/img/head_imgs/default.png">
+    <!--<input type="file" id="upload_file" onchange="refreshBigImg(this)">
+    <span >
+
+        <img id="current_img" src="/yoga/img/head_imgs/default.png">
     </span>
     <button id="select_head_img">选择文件</button>
-    <button id="submit_head_img" onclick="uploadHeadImg()">更换头像</button>
+    <button id="submit_head_img" onclick="uploadHeadImg()">更换头像</button>-->
+    <form  enctype="multipart/form-data" target="frameName" action="/yoga/user/upload" method="post" name="form0" id="form0">
+
+        <input type="file" name="imgName" id="file0"/>
+        <input type="hidden" name="mypath" value="head_imgs">
+        <input type="submit" value="上传">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    </form>
 </div>
 <div id="this_pages_block" onclick="openBigHeadImg('none')"></div>
 
@@ -233,13 +243,50 @@
                 $("#phoneNumber").html(data.phoneNumber);
                 $("#sex").html(data.sex);
                 $("#idCard").html(data.idCard);
-                var img = "<img src='" + data.headImg + "' style='width: 50px;height: 50px;border-radius: 50%' id='headImg'>"
-                $("#headimg").html(img);
+                var img = "<img src='" + data.headImg + "' style='width: 50px;height: 50px;border-radius: 50%' onclick=\"openBigHeadImg('block')\" id='headImg'>"
+                $("#headimg1").html(img);
+                $("#current_img").html(img);
             }
         });
     }
 
     selectMyInfo();
+    $("#select_head_img").click(function () {
+        $("#upload_file").click();
+    });
+    // ajax上传图片的方法
+    function uploadHeadImg() {
+        var upload_file = new FormData();
+        var img = $("#upload_file")[0].files[0];
+        upload_file.append("file", img);
+        $.ajax({
+            cache: false,
+            url: "/yoga/teacher/uploadHeadImg",
+            type: "post",
+            async: false,
+            mimeType: "multipart/form-data",
+            processData: false,
+            contentType: false,
+            data: upload_file,
+            dataType: "json",
+            success: function (mes) {
+                openDialog(mes.message, "", false);
+            }
+        })
+    }
+
+    // 选择文件后即使刷新到前端
+    function refreshBigImg(file) {
+        var read = new FileReader();// 创建FileReader对像;
+        read.readAsDataURL(file.files[0]);// 调用readAsDataURL方法读取文件;
+        read.onload = function () {
+            url = read.result // 拿到读取结果;
+            $("#current_img").attr("src", url);
+        };
+    }
+    function upIMg() {
+        $("#form0").show();
+    }
 </script>
 </body>
 </html>

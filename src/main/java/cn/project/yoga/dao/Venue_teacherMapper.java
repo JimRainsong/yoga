@@ -16,6 +16,12 @@ public interface Venue_teacherMapper {
 
     int updateByPrimaryKeySelective(Venue_teacher record);
 
+    /**
+     * 删除场馆的教练
+     * 场馆-cjm
+     * @param record
+     * @return
+     */
     int updateByPrimaryKey(Venue_teacher record);
 
     /*
@@ -36,7 +42,7 @@ public interface Venue_teacherMapper {
             "and teacher_name like '%' #{venue_teacher.teacher.teacherName} '%'"+
             "</if>"+
             "<if test='venue_teacher.teacher.teacherSex !=null and  \"\"!=venue_teacher.teacher.teacherSex'>" +
-            "and teacher_name = #{venue_teacher.teacher.teacherSex} "+
+            "and teacher_sex = #{venue_teacher.teacher.teacherSex} "+
             "</if>"+
             "</where>" +
             "and t.flag=0 and teacher_state=#{venue_teacher.teacherState} and venue_id =#{venue_teacher.venueId}"+
@@ -48,6 +54,6 @@ public interface Venue_teacherMapper {
             )
     })
     List<Venue_teacher> selectTeachers(@Param("venue_teacher")Venue_teacher venue_teacher,@Param("currentPage")Integer currentPage,@Param("pageSize")Integer pageSize);
-    /**/
+
 
 }
