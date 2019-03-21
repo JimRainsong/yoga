@@ -90,10 +90,18 @@ public class TeacherViewController {
     public String register() {
         return "teacher/register";
     }
-//
+
+    //
     @RequestMapping("/message")
-    public String info(){
-        return "teacher/message";}
+    public String info() {
+        Subject subject = SecurityUtils.getSubject();
+        ModelAndView modelAndView = new ModelAndView();
+        if (!subject.isAuthenticated()) {
+            modelAndView.setViewName("teacher/unlogined");
+            return "teacher/unlogined";
+        }
+        return "teacher/message";
+    }
 //    @RequestMapping("/info")
 //    public String info() {
 //        return "teacher/g1";
@@ -112,11 +120,11 @@ public class TeacherViewController {
     }
 
     @RequestMapping("/steacher")
-    public  String Steacher4(HttpServletRequest request, HttpSession session){
-        session.setAttribute("teacherName",request.getParameter("teacherName"));
-        session.setAttribute("teacherSex",request.getParameter("teacherSex"));
-        session.setAttribute("teacherPhone",request.getParameter("teacherPhone"));
-        session.setAttribute("teacherQq",request.getParameter("teacherQq"));
+    public String Steacher4(HttpServletRequest request, HttpSession session) {
+        session.setAttribute("teacherName", request.getParameter("teacherName"));
+        session.setAttribute("teacherSex", request.getParameter("teacherSex"));
+        session.setAttribute("teacherPhone", request.getParameter("teacherPhone"));
+        session.setAttribute("teacherQq", request.getParameter("teacherQq"));
         return "manager/hsn/steacher";
     }
 

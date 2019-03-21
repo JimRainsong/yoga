@@ -181,8 +181,8 @@ public class TeacherServiceImpl implements TeacherService {
      */
     @Override
     public int acceptcourse2(Integer id) {
-        int count =myself_courseMapper.acceptCoursebyId(id);
-    return  count;
+        int count = myself_courseMapper.acceptCoursebyId(id);
+        return count;
     }
     /*
     拒绝课程邀请
@@ -190,7 +190,7 @@ public class TeacherServiceImpl implements TeacherService {
 
     @Override
     public int refusecourse2(Integer id) {
-        int count =myself_courseMapper.refuseCoursebyId(id);
+        int count = myself_courseMapper.refuseCoursebyId(id);
         return count;
 
     }
@@ -198,10 +198,8 @@ public class TeacherServiceImpl implements TeacherService {
     //查看所有  当前老师id 的 appointment  预约信息
     @Override
     public List<Appointment> selappointmentbyTeacherId2(Integer teacherId, Date date1, Date date2) {
-        return appointmentMapper.selappointmentbyteacherId2(teacherId,date1,date2);
+        return appointmentMapper.selappointmentbyteacherId2(teacherId, date1, date2);
     }
-
-
 
 
     @Override
@@ -215,10 +213,24 @@ public class TeacherServiceImpl implements TeacherService {
     }
 
     @Override
+    public ResultUtil fetchMoneyByCurrentUserId2(Integer currentUserId) {
+        Double balance = teacherMapper.selectBalanceByCurrentUserId2(currentUserId);
+        if (balance <= (0)) {
+            return ResultUtil.error("没有余额了");
+        } else {
+            int row = teacherMapper.fetchMoneyByUserId2(currentUserId);
+            if (row > 0) {
+                return ResultUtil.ok("提款成功！");
+            }
+        }
+        return ResultUtil.error("操作失败");
+    }
+
+    @Override
     public int conflict2(Integer id) {
         Date start = myself_courseMapper.selectStart(id);
         Date end = myself_courseMapper.selectEnd(id);
-        return myself_courseMapper.conflict(start,end);
+        return myself_courseMapper.conflict(start, end);
     }
 
     @Override
@@ -226,6 +238,6 @@ public class TeacherServiceImpl implements TeacherService {
         Date start = myself_courseMapper.selectStart(id);
         Date end = myself_courseMapper.selectEnd(id);
 
-        return appointmentMapper.findclist2(id,start,end);
+        return appointmentMapper.findclist2(id, start, end);
     }
 }

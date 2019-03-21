@@ -19,7 +19,7 @@
     <br><br>
     <span id="balance">￥<span th:text="${balance}">1024.00</span></span>
     <br><br><br>
-    <button>提现</button>
+    <button onclick="fetchMoney()">提现</button>
 </div>
 <div id="manage">
 
@@ -32,5 +32,17 @@
     <button onclick="turnTo()">确认</button>
 </div>
 <!-- !! -->
+
+<script>
+    function fetchMoney() {
+        $.post("/yoga/teacher/fetchMoney", {}, function (mes) {
+            if (mes.code == 0) {
+                openDialog(mes.message, "/yoga/teacher/wallet", true);
+            } else {
+                openDialog(mes.message, "", false);
+            }
+        })
+    }
+</script>
 </body>
 </html>

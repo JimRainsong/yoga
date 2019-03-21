@@ -56,7 +56,6 @@ public interface TeacherMapper {
     Double selectBalanceByTeacherName2(@Param("userName") String name);
 
 
-
     /**
      * 所有教练的动态
      */
@@ -154,7 +153,7 @@ public interface TeacherMapper {
      * 用来查当前登录用户所关注的其他人
      */
     @Select("SELECT t.* FROM `teacher_detail` t WHERE t.user_id IN (SELECT follow_id FROM attention WHERE user_id=#{0})")
-    Collection<? extends Detail> selectMyFollowedTeaByCurrentUserId2(Integer currentUserId);
+    List<Detail> selectMyFollowedTeaByCurrentUserId2(Integer currentUserId);
 
 
     /**
@@ -174,4 +173,22 @@ public interface TeacherMapper {
      */
     @Select("select * from moments_tea where id in (select follow_id from attention where user_id=#{currentUserId})")
     List<TeaMoment> onlyFollowedallMoments2(Integer currentUserId);
+
+    /**
+     * 根据用户id查看余额
+     *
+     * @param currentUserId
+     * @return
+     */
+    @Select("select teacher_money from teacher where user_id=#{currentUserId}")
+    Double selectBalanceByCurrentUserId2(Integer currentUserId);
+
+    /**
+     * 根据用户id扣除账户余额
+     *
+     * @param currentUserId
+     * @return
+     */
+    @Update("update teacher set teacher_money=0 where user_Id=#{currentUserId}")
+    int fetchMoneyByUserId2(Integer currentUserId);
 }
