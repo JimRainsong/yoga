@@ -73,7 +73,6 @@
             type : "post",
             dataType : "json",
             success : function(data) {
-                   alert(data.msg);
                 var datas = data.data
                 var str="<option value=\"\">--请选择--</option>";
                 $.each(datas,function (i,val) {
@@ -88,7 +87,6 @@
         parent.layer.close(index); //再执行关闭
     }
     function insertCourse(){
-        alert(JSON.stringify({"courseName":$("#courseName").val(),"teacherName":$("#teacherNamesa").val(),"startTime":$("#startTime").val(),"overTime":$("#overTime").val(),"courseMoney":$("#courseMoney").val(),"coursePeople":$("#coursePeople").val()}))
         $.ajax({
             url : "/yoga/venueDate/addCourse",
             type : "post",
