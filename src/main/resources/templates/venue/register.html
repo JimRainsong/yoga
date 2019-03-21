@@ -9,6 +9,8 @@
     <script th:src="@{/layui/layer/layer.js}"></script>
     <style type="text/css">
         #body01 {
+            background-image: url("/yoga/img/yogabg.jpg");
+            background-size:cover;
             width: 400px;
             height: 400px;
             text-align:center;
@@ -46,7 +48,7 @@
 <script th:src="@{/layui/layui.js}"></script>
 <script>
     function exits() {
-        // location.href="/yoga/venueUser/login";
+        layer.closeAll();
     }
     function register(){
     $.ajax({
@@ -59,12 +61,12 @@
             },
             dataType : "json",
             success : function(data) {
-                var json = eval('('+data+')');
-                alert(json);
+                layer.msg(data.msg, {
+                    time: 20000, //20s后自动关闭
+                    btn: ['知道了']
+                });
                 if(json.code == 0){
-                    location.href="/yoga/venueUser/login";
-                }else{
-                    $.messager.alert('系统提示',json.message);
+                    layer.closeAll();
                 }
             }
         })

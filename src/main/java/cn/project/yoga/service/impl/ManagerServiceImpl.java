@@ -37,6 +37,8 @@ public class ManagerServiceImpl implements ManagerService {
 
     @Autowired
     private User_infoMapper user_infoMapper;
+    @Autowired
+    private UserMapper userMapper;
 
     /*查询场馆信息表所有数据*/
     @Override
@@ -137,5 +139,16 @@ public class ManagerServiceImpl implements ManagerService {
     public List<Teacher> shearch(String teachername, String teacherSex, String teacherPhone, String teacherQq,Integer currentPage,Integer pageSize) {
         List<Teacher> teachers=teacherMapper.shearch(teachername,teacherSex,teacherPhone,teacherQq,currentPage,pageSize);
         return teachers;
+    }
+
+    @Override
+    public List<Tra_tea_ven> SelOder4(String time, String venname,  String transcationType,Integer currentPage,Integer pageSize) {
+        List<Tra_tea_ven> tra_tea_vens=userMapper.SelOder4(time,venname,transcationType,currentPage,pageSize);
+        return tra_tea_vens;
+    }
+
+    @Override
+    public List<Tra_tea_ven> SelAllOrder4(Integer currentPage,Integer pageSize) {
+        return userMapper.SelAllOrder4(currentPage,pageSize);
     }
 }

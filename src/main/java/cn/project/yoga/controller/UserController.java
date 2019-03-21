@@ -1,6 +1,7 @@
 package cn.project.yoga.controller;
 
 import ch.qos.logback.core.util.FileUtil;
+import cn.project.yoga.pojo.*;
 import cn.project.yoga.dao.UserMapper;
 import cn.project.yoga.pojo.*;
 import cn.project.yoga.pojo.Ad;
@@ -257,23 +258,6 @@ public class UserController {
         return modelAndView;
     }
 
-   /* *//*
-     * 分页查询学员信息*//*
-    @RequestMapping("/showuser")
-    @ResponseBody
-    public List<User_info> ShowUser4(HttpServletRequest request){
-        int page=Integer.parseInt(request.getParameter("page"));
-        int total=userService.SelUserNum4();
-        int totalpage=0;
-        if (total/4!=0){
-            totalpage=total/4+1;
-        }else {
-            totalpage=total/4;
-        }
-        int lim=page*4-4;
-        List<User_info>user_infos=userService.SelUser4(lim);
-        return user_infos;
-    }*/
 
     /*
      * 根据ID查询学员详细信息*/
@@ -333,6 +317,43 @@ public class UserController {
 
 
     }
+
+    /*
+     * 分页查询所有订单*/
+    @RequestMapping("/userorderDatas")
+    @ResponseBody
+    public Map<String, Object> showuserorderDatas4(@RequestParam(value = "page",defaultValue = "1",required = false)Integer currentPage,
+                                              @RequestParam(value = "rows",defaultValue = "10",required = false)Integer pageSize,HttpSession session) {
+        List<Tra_tea_ven> list = managerService.SelAllOrder4(currentPage,pageSize);
+        PageInfo pageInfo = new PageInfo(list);
+        Map<String,Object> result = new HashMap<String,Object>();
+        result.put("code",200);
+        result.put("msg","");
+        result.put("count",pageInfo.getTotal());
+        result.put("data",list);
+        return result;
+    }
+
+    /*
+    * 根据条件查询订单*/
+    @RequestMapping("/suserorderDatas")
+    @ResponseBody
+    public Map<String, Object> showsuserorderDatas4(@RequestParam(value = "page",defaultValue = "1",required = false)Integer currentPage,
+                                                   @RequestParam(value = "rows",defaultValue = "10",required = false)Integer pageSize,HttpSession session) {
+        String transcationType= (String) session.getAttribute("transcationType");
+        String time= (String) session.getAttribute("time");
+        String venueName= (String) session.getAttribute("venueName");
+        List<Tra_tea_ven> list = managerService.SelOder4(time,venueName,transcationType,currentPage,pageSize);
+        PageInfo pageInfo = new PageInfo(list);
+        Map<String,Object> result = new HashMap<String,Object>();
+        result.put("code",200);
+        result.put("msg","");
+        result.put("count",pageInfo.getTotal());
+        result.put("data",list);
+        return result;
+    }
+
+
 
     @RequestMapping("/selAllVipType")
     @ResponseBody

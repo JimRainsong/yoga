@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>查询结果</title>
+    <title>订单详情</title>
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -77,7 +77,7 @@
     <button class="layui-btn" data-type="isAll">验证是否全选</button>
 </div>
 
-<table class="layui-table" lay-data="{width: 892, height:332, url:'/yoga/user/shearch/', page:true, id:'idTest',response: {
+<table class="layui-table" lay-data="{width: 892, height:332, url:'/yoga/user/userorderDatas/', page:true, id:'idTest',response: {
                 statusName: 'code'
                 ,statusCode: 200
                 ,msgName: 'msg'
@@ -88,21 +88,33 @@
     <thead>
     <tr>
         <th lay-data="{type:'checkbox', fixed: 'left'}"></th>
-        <th lay-data="{field:'uId', width:80}">ID</th>
-        <th lay-data="{field:'netName', width:100}">学员昵称</th>
-        <th lay-data="{field:'realName', width:80}">姓名</th>
-        <th lay-data="{field:'phoneNumber', width:80}">电话</th>
-        <th lay-data="{field:'qq', width:80}">QQ</th>
-        <th lay-data="{field:'balance', width:100}">余额</th>
-        <th lay-data="{field:'score', width:135, sort: true}">积分</th>
+        <th lay-data="{field:'transcationId', width:80}">ID</th>
+        <th lay-data="{field:'transcationType', width:100}">订单类型</th>
+        <th lay-data="{field:'teacherName', width:80}">教练</th>
+        <th lay-data="{field:'venueName', width:80}">场馆</th>
+        <th lay-data="{field:'time', width:80}">日期</th>
+        <th lay-data="{field:'netName', width:80}">昵称</th>
+        <th lay-data="{field:'realName', width:100}">姓名</th>
+        <th lay-data="{field:'sex', width:135}">性别</th>
 
         <th lay-data="{fixed: 'right', width:178, align:'center', toolbar: '#barDemo'}"></th>
     </tr>
     </thead>
 </table>
-<div><a href="/yoga/user/tuser">返回</a></div>
 
+<div style="width: 500px">
+    <div style="text-align: center;font-size: 30px">查询</div>
+    <div>订单类型:<select name="transcationType" id="transcationType" style="width: 150px;">
+                                        <option>课程</option>
+                                        <option>办卡</option>
+                                        <option>私教</option>
+                                        </select>
+    </div>
 
+    <div style="float: left">订单日期:<input type="date" name="time" id="time"></div>
+    <div>场馆名称:<input type="text" name="venueName" id="venueName"></div>
+    <div  style="text-align: right"><input type="button" value="查找" onclick="shearch()"></div>
+</div>
 
 <script type="text/html" id="barDemo">
     <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">查看</a>
@@ -115,52 +127,23 @@
 <!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
 <script>
 
-    function close() {
-        document.getElementById("user").style.display="none";
-    }
+
 
     function shearch() {
         $.ajax({
-            url: "/yoga/user/shearch",
+            url: "/yoga/user/suserorderDatas",
             type: "post",
             async: true,
             dataType: "json",
             data: {
-                data:"seracher",
                 netName: $("#netName").val(),
                 sex: $("#sex").val(),
                 phoneNumber: $("#phoneNumber").val(),
                 qq: $("#qq").val()
             },
             success:function (message) {
-                document.getElementById("user").style.display="block";
-
-                var content =
-                    "<tr style='width: 100px'>"+
-                    "<td>查找结果</td>"+
-                    "</tr>"+
-                    "<tr>" +
-                    "<td>学员昵称</td>" +
-                    "<td>真实姓名</td>" +
-                    "<td>学员手机</td>" +
-                    "<td>学员QQ</td>" +
-                    "<td>余额</td>" +
-                    "<td>积分</td>" +
-                    "</tr>";
-                for (var i = 0; i < message.length; i++) {
-                    var user = message[i];
-                    content += "<tr>" + "<td><a href='/yoga/user/userdetail?uId=" + user.uId + "'>" + user.netName + "</a></td>" +
-                        "<td>" + user.realName + "</td>" +
-                        "<td>" + user.phoneNumber + "</td>" +
-                        "<td>" + user.qq + "</td>" +
-                        "<td>" + user.balance + "</td>" +
-                        "<td>" + user.score + "</td>" +
-                        "<td><a href='/yoga/user/deluser?uId=" + user.uId + "'>删除学员</a></td>" +
-                        "<tr>"
-
-                }
-                // $("#currentpage").html(vpage);
-                $("#user1").html(content);
+                window.location.href="/yoga/user/sorder?transcationType="+$("#transcationType").val()+"&time="+$("#time").val()+
+                    "&venueName="+$("#venueName").val();
             }
         });
     }
@@ -175,7 +158,6 @@
             var data = obj.data;
             if(obj.event === 'detail'){
                 layer.msg('ID：'+ data.teacherId + ' 的查看操作');
-                window,location.href="/yoga/user/userdetail?uId="+data.uId;
             } else if(obj.event === 'del'){
                 layer.confirm('真的删除行么', function(index){
                     obj.del();

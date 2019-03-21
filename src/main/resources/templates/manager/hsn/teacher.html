@@ -68,7 +68,7 @@
         box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(102,175,233,.6)
     }
 </style>
-<body>
+<body style="background-image:url('/yoga/img/yoga1.jpg');background-size: cover">
 <div style="margin-bottom: 5px;">
 
     <!-- 示例-970 -->
@@ -99,20 +99,20 @@
         <th lay-data="{field:'teacherPhone', width:80}">电话</th>
         <th lay-data="{field:'teacherQq', width:80}">QQ</th>
         <th lay-data="{field:'selfMoney', width:100}">私教费用</th>
-        <th lay-data="{field:'teacherMoney', width:135, sort: true}">费用</th>
+        <th lay-data="{field:'teacherMoney', width:135, sort: true}">余额</th>
 
         <th lay-data="{fixed: 'right', width:178, align:'center', toolbar: '#barDemo'}"></th>
     </tr>
     </thead>
 </table>
 
-<div style="float: left">
-    <div style="text-align: center">查询</div>
-    <div>教练名字:<input type="text" name="teacherName" id="teacherName"></div>
+<div style="width: 500px">
+    <div style="text-align: center;font-size: 30px">查询</div>
+    <div style="float: left">教练名字:<input type="text" name="teacherName" id="teacherName"></div>
     <div>教练性别:<input type="text" name="teacherSex" id="teacherSex"></div>
-    <div>电话号码:<input type="text" name="teacherPhone" id="teacherPhone"></div>
+    <div style="float: left">电话号码:<input type="text" name="teacherPhone" id="teacherPhone"></div>
     <div>QQ号码:<input type="text" name="teacherQq" id="teacherQq"></div>
-    <div onclick="shearch()" style="text-align: right"><input type="submit" value="确认"></div>
+    <div  style="text-align: right"><input type="submit" value="确认" onclick="shearch()"></div>
 </div>
 
 <div id="venues">

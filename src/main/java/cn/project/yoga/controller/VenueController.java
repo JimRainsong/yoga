@@ -203,6 +203,7 @@ public class VenueController {
     @ResponseBody
     public Map<String, Object> showCourse(@RequestParam(value = "page",defaultValue = "1",required = false)Integer currentPage,
                                           @RequestParam(value = "rows",defaultValue = "10",required = false)Integer pageSize,
+                                          @RequestParam(value = "vid")Integer venueId,
                                           @RequestParam(value = "tname")String teacherName,
                                           @RequestParam(value = "cname")String cname,
                                           @RequestParam(value = "maxtime")Date maxtime,
@@ -321,6 +322,8 @@ public class VenueController {
 
 
 
+    /*
+    * 展示所有场馆*/
     @RequestMapping("/venueDatas")
     @ResponseBody
     public Map<String, Object> showvenueDatas(@RequestParam(value = "page",defaultValue = "1",required = false)Integer currentPage,

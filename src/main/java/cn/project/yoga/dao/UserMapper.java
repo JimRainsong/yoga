@@ -201,4 +201,28 @@ public interface UserMapper {
 
     @Select("select * from mycourse where user_id=#{u_id}")
     List<MyCourseVo> selMyCourse(int u_id);
+
+    /*
+    * 根据类型查询订单*/
+    @Select("<script>"+
+            "select * from tra_tea_venue"+
+            "<where>"+
+            "<if test='time != null and time!=\"\" '>"+
+            "and time like concat ('%', #{time}, '%')"+
+            "</if>"+
+            "<if test='venname != null and venname!=\"\" '>"+
+            "and venue_name like concat('%', #{venname}, '%')"+
+            "</if>"+
+            "and transcation_type=#{transcationType}"+"\n"+
+            "and flag=0"+
+            "</where>"+
+            "</script>")
+        public List<Tra_tea_ven> SelOder4(@Param("time") String time,@Param("venname") String venname,
+                                          @Param("transcationType") String transcationType,Integer currentPage,Integer pageSize);
+
+    /*
+    * 查询所有订单*/
+    @Select("select * from tra_tea_venue where  flag=0")
+    public List<Tra_tea_ven> SelAllOrder4(Integer currentPage,Integer pageSize);
+
 }

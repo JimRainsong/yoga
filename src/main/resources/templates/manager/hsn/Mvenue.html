@@ -68,7 +68,7 @@
         box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(102,175,233,.6)
     }
 </style>
-<body style="background:url(/yoga/hsn/img/class.jpeg)">
+<body style="background-image:url('/yoga/img/bgimg.jpg');background-size: cover">
 <div style="margin-bottom: 5px;">
 
     <!-- 示例-970 -->
@@ -101,20 +101,20 @@
         <th lay-data="{field:'venueDetails', width:80, sort: true}">详情</th>
 
         <th lay-data="{field:'authInfo', width:100}">认证信息</th>
-        <th lay-data="{field:'venueMoney', width:135, sort: true}">费用</th>
+        <th lay-data="{field:'venueMoney', width:135, sort: true}">余额</th>
 
         <th lay-data="{fixed: 'right', width:178, align:'center', toolbar: '#barDemo'}"></th>
     </tr>
     </thead>
 </table>
 
-<div style="float: left">
+<div style="width: 500px">
     <div style="text-align: center;font-size: 30px">查询</div>
-    <div>场馆名字:<input type="text" name="venname" id="venname"></div>
+    <div style="float: left">场馆名字:<input type="text" name="venname" id="venname"></div>
     <div>场馆地址:<input type="text" name="addrass" id="addrass"></div>
-    <div>电话号码:<input type="text" name="phone" id="phone"></div>
+    <div style="float: left">电话号码:<input type="text" name="phone" id="phone"></div>
     <div>QQ号码:<input type="text" name="qq" id="qq"></div>
-    <div onclick="shearch()" style="text-align: center"><input type="submit" value="确认"></div>
+    <div style="text-align: right"><input type="submit" value="确认" onclick="shearch()"></div>
 </div>
 
 <div id="venues">

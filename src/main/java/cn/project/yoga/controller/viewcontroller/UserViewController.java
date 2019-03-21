@@ -34,6 +34,8 @@ public class UserViewController {
         return "user/myMoney";
     }
 
+    /*
+    * 学员管理页面*/
     @RequestMapping("/tuser")
     public String Tuser4(){
         return "manager/hsn/users";
@@ -66,6 +68,23 @@ public class UserViewController {
     @RequestMapping("/selectAllCoach")
     public String allCoach(){
         return "user/allCoach";
+    }
+
+    /*
+    * 跳转到订单页面*/
+    @RequestMapping("/userorder")
+    public String userOrder4(){
+        return "manager/hsn/userorder";
+    }
+
+    /*
+    * 跳转到订单查询页*/
+    @RequestMapping("/sorder")
+    public String Sorder4(HttpServletRequest request,HttpSession session){
+        session.setAttribute("transcationType",request.getParameter("transcationType"));
+        session.setAttribute("time",request.getParameter("time"));
+        session.setAttribute("venueName",request.getParameter("venueName"));
+        return "manager/hsn/sorder";
     }
 
 }

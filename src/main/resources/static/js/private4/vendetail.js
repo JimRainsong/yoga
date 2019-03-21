@@ -13,6 +13,7 @@ function detail(){
             $("#g_count").html(data.venueAddress);
             $("#g_img").attr('src',data.venueImg);
             $("#g_brand").html(data.qq);
+            $("#phone").html(data.venuePhone);
 
 
 
