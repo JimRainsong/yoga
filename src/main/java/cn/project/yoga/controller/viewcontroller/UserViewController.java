@@ -26,7 +26,7 @@ public class UserViewController {
 
     @RequestMapping("/info")
     public String userInfo1() {
-        return "myinfo_old";
+        return "user/myinfo";
     }
 
     @RequestMapping("/mymoney")
@@ -56,6 +56,16 @@ public class UserViewController {
         int uId = Integer.parseInt(request.getParameter("uId"));
         session.setAttribute("uId", uId);
         return "manager/hsn/userdetail";
+    }
+
+    @RequestMapping("/selectAllVenue")
+    public String allVenue1(){
+        return "user/allVenue";
+    }
+
+    @RequestMapping("/selectAllCoach")
+    public String allCoach(){
+        return "user/allCoach";
     }
 
 }

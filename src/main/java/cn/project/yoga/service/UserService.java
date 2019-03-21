@@ -1,7 +1,11 @@
 package cn.project.yoga.service;
 
 import cn.project.yoga.pojo.*;
+import cn.project.yoga.vo.MyVenueVo;
 import cn.project.yoga.utils.ResultUtil;
+import cn.project.yoga.vo.OrderCoachVo;
+import cn.project.yoga.vo.SelfCourseVo;
+import cn.project.yoga.vo.TeacherVenueVo;
 
 import java.util.Collection;
 import java.util.List;
@@ -23,10 +27,10 @@ public interface UserService {
 
     /**
      * 查询我的场馆
-     * @param user_id
+     * @param
      * @return 场馆的集合
      */
-    List<Venue> selectMyVenue1(int user_id);
+    List<MyVenueVo> selectMyVenue1();
 
     /**
      *购买会员卡
@@ -39,10 +43,10 @@ public interface UserService {
 
     /**
      * 查询我的私教
-     * @param user_id
+     * @param
      * @return
      */
-    List<Myself_course> selectMySelfCourse1(int user_id);
+    List<SelfCourseVo> selectMySelfCourse1();
 
 
     /**
@@ -151,4 +155,26 @@ public interface UserService {
     ResultUtil cancleFollow2(Integer currentUser, Integer targetUserId);
 
     List<StuMoment> onlyFollowedMoments2(Integer currentUserId);
+
+    /**
+     * 查询所有可加入场馆
+     * @return
+     */
+    List<Venue> selectAllVenue();
+
+    Venue lookVenueDetails(Integer venueId);
+
+    List<Vip_type> selShowVipType(Integer venueId);
+
+    Vip_type selVipTypeById(Integer vipTypeId);
+
+    String openVip(Integer venueId, Integer vipTypeId);
+
+    List<Teacher> selAllTeacher();
+
+    Teacher selTeacherByTid(Integer teacherId);
+
+    List<TeacherVenueVo> selTeacherVenue(Integer teacherId);
+
+    String orderCoach(OrderCoachVo orderCoachVo);
 }

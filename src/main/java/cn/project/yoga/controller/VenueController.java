@@ -165,7 +165,6 @@ public class VenueController {
         result.put("count",pageInfo.getTotal());
         result.put("data",list);
         return result;
-
     }
     /*
      *展示所有关注该场馆的用户

@@ -11,6 +11,8 @@ public class Venue {
 
     private String venuePhone;
 
+
+
     private String qq;
 
     private String venueImg;
@@ -137,5 +139,7 @@ public class Venue {
                 ", flag=" + flag +
                 ", venueMoney=" + venueMoney +
                 '}';
+
+
     }
 }

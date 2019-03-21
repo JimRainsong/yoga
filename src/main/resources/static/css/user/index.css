@@ -1,0 +1,72 @@
+.rectangle{
+	background: #fdfdfd;
+	border: #E8E8E8;
+	width: 400px;
+	height: 800px;
+	border-style:solid;
+	border-width:medium;
+	margin: auto;
+}
+/* .userpic{
+	margin-left: 10px;
+	border: #398439;
+	width: 80px;
+	height: 80px;
+	border-style:solid;
+	border-width:medium;
+	border-radius: 50%;
+	margin-top: 30px;
+} */
+.userimg{
+
+	margin-top: 30px;
+	margin-left: 25px;
+	width: 75px;
+	height: 75px;
+	border-radius: 50%;
+	float: left;
+}
+.sign{
+	color: #F8F8F8;
+	border-radius: 50px 50px 50px 50px;
+	margin-top: 40px;
+	border: #020202;
+	background: #020202;
+	width: 250px;
+	height: 60px;
+	float: left;
+	margin-left: 25px;
+}
+.aj{
+	max-height: 50px;
+	margin-top: 5px;
+	margin-left: 9px;
+	float: left;
+
+}
+#logo{
+	font-size: 20px;
+	margin-left: 10px;
+	margin-top: 13px;
+	float: left;
+	font-family: Impact, Charcoal, sans-serif;
+}
+.vip{
+	background: #FFFFFF;
+	border: #E8E8E8;
+	height: 160px;
+	width: 370px;
+	 border-style:solid;
+	border-width:medium; 
+	margin: auto;
+	margin-top: 200;
+	border-radius: 15px 15px 15px 15px;
+}
+.add1{
+	background-color: #1B6D85;
+	border-radius: 50px 50px 50px 50px;
+	width: 90px;
+	height: 35px;
+	color: #FFFFFF;
+	font-size: 15px;
+}

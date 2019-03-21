@@ -1,101 +1,262 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="utf-8"/>
-    <title></title>
-    <link rel="stylesheet" th:href="@{/user/bootstrap/dist/css/bootstrap.min.css}"
-          href="../../static/user/bootstrap/dist/css/bootstrap.min.css">
-    <link th:href="@{/user/css/index.css}" rel="stylesheet"
-          href="../../static/user/css/index.css">
-</head>
-<body>
-<div class="rectangle">
-    <div class="container">
-        <div class="row clearfix">
-            <div class="userpic">
-                <a href="/yoga/user/user"><img class="userimg" src="../../static/user/img/1.jpg" th:src="@{/user/img/1.jpg}"></a>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+		<link rel="stylesheet" href="/yoga/user/bootstrap/dist/css/bootstrap.min.css">
+		<link rel="stylesheet" href="/yoga/user/css/index.css">
+		<link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+		<script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+		<script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	</head>
+	<body>
+	<style>
+		td:hover{
 
-            </div>
-            <div class="sign">
-                <div id="logo">
-                    YoGa,keep your body
-                </div>
-                <!-- <p1>Yoga，开启你的瑜伽</p> -->
-                <img class="aj" src="../../static/user/img/aj.png" th:src="@{/user/img/aj.png}">
-            </div>
+			cursor: pointer;
+		}
+		.mytb:hover{
+			background-color: #00b3ee;
+		}
+	</style>
+		<div class="rectangle">
+			<div class="container">
+	<div class="row clearfix">
+		<a href="/yoga/user/user">
+			<div class="userpic" id="headimg">
+				<img class="userimg" style="width: 80px;height: 80px" src="/yoga/user/img/1.jpg">
 
-
-        </div>
-
-    </div>
-    <div style="margin-top: 20px;">
-        <div class="vip">
-            <ul id="myTab" class="nav nav-tabs">
-                <li class="active">
-                    <a href="#home" data-toggle="tab"><span class="glyphicon glyphicon-star">vip专属</a>
-                </li>
-                <li><a href="#ios" data-toggle="tab"><span class="glyphicon glyphicon-user"></span>我的vip</a></li>
-                <li><a href="#more" data-toggle="tab"><span class="glyphicon glyphicon-plus"></span>更多</a></li>
-            </ul>
-            <div id="myTabContent" class="tab-content">
-                <div class="tab-pane fade in active" id="home">
-                    <p>资讯</p>
-                </div>
-                <div class="tab-pane fade" id="ios">
-                    <p>你当前还不是YoGa vip用户</p>
-                </div>
-                <div class="tab-pane fade" id="more">
-                    <p>更多</p>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div style="margin-top: 10px;">
-        <div class="vip" style="height: 210px;">
-            <ul id="myTab" class="nav nav-tabs">
-                <li class="active">
-                    <a href="#coach" data-toggle="tab">我的教练</a>
-                </li>
-            </ul>
-            <div id="myTabContent" class="tab-content">
-                <div class="tab-pane fade in active" id="coach">
-                    <div id="myself_course">当前没有预约教练</div>
-                    <a href="">
-                        <div class="add1">
-                            <span class="glyphicon glyphicon-plus"
-                                  style="margin-left: 10px; margin-top: 7px;">预约教练</span>
-                        </div>
-                    </a>
-                </div>
-            </div>
-        </div>
-
-        <div style="margin-top: 12px;">
-            <div class="vip" style="height: 210px;">
-
-                <ul id="myTab" class="nav nav-tabs">
-                    <li class="active">
-                        <a href="#space" data-toggle="tab">我的场馆</a>
-                    </li>
-                </ul>
-                <div id="myTabContent" class="tab-content">
-                    <div class="tab-pane fade in active" id="space">
-                        <div>您还没有办理任何场馆的会员</div>
-                        <a href="">
-                            <div class="add1">
-                                <span class="glyphicon glyphicon-plus"
-                                      style="margin-left: 10px; margin-top: 7px;">筛选场馆</span>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-
-            </div>
-
-        </div>
-    </div>
+			</div></a>
+			<div class="sign" >
+				<div id="logo">
+					YoGa,keep your body
+				</div>
+				<!-- <p1>Yoga，开启你的瑜伽</p> -->
+				<img class="aj" src="/yoga/user/img/aj.png" >
+			</div>
+	</div>
 </div>
-</body>
-<script src="../../static/user/js/jquery/dist/jquery.min.js"></script>
-<script src="../../static/user/bootstrap/dist/js/bootstrap.min.js"></script>
+<div style="margin-top: 20px;">
+	<div class="vip">
+	<ul id="myTab" class="nav nav-tabs">
+	<li class="active">
+		<a href="#home" data-toggle="tab"><span class="glyphicon glyphicon-star">vip专属</a>
+	</li>
+	<li><a href="#ios" data-toggle="tab"><span class="glyphicon glyphicon-user"></span>朋友圈</a></li>
+	<li><a href="#more" data-toggle="tab"><span class="glyphicon glyphicon-plus"></span>我的关注</a></li>
+</ul>
+<div id="myTabContent1" class="tab-content">
+	<div class="tab-pane fade in active" id="home">
+		<p>资讯</p>
+	</div>
+	<div class="tab-pane fade" id="ios">
+		<p>你当前还不是YoGa vip用户</p>
+	</div>
+	<div class="tab-pane fade" id="more">
+		<p>更多</p>
+	</div>
+</div>
+</div>
+</div>
+<div style="margin-top: 10px;">
+	<div class="vip" style="height: 210px;">
+		<ul id="myTab" class="nav nav-tabs">
+			<!--<li class="active">
+				<a href="#coach" data-toggle="tab">我的私教</a>
+			</li>
+			<li class="active">
+				<a href="#attCoach" data-toggle="tab">关注教练</a>
+			</li>
+			<li class="active">
+				<a href="" data-toggle="tab">教练动态</a>
+			</li>-->
+			<li class="active">
+			<a href="#coach" data-toggle="tab"><span class="glyphicon glyphicon-star">我的私教</a>
+			</li>
+			<li><a href="#attCoach" data-toggle="tab"><span class="glyphicon glyphicon-user"></span>关注教练</a></li>
+			<li><a href="" data-toggle="tab"><span class="glyphicon glyphicon-plus"></span>教练动态</a></li>
+		</ul>
+		<div id="myTabContent2" class="tab-content">
+			<div class="tab-pane fade in active" id="coach">
+				<div id="myself_course">
+					<table id="myselfCourse" border="1" style="text-align: center">
+						<tr>
+							<th width="59px" style="text-align: center">教练名</th>
+							<th width="110px" style="text-align: center">开始时间</th>
+							<th width="110px" style="text-align: center">结束时间</th>
+							<th width="44px" style="text-align: center">场馆名</th>
+							<th width="44px" style="text-align: center">状态</th>
+						</tr>
+					</table>
+				</div>
+				<li style="list-style: none"><a href="/yoga/user/selectAllCoach" style="font-size: 18px;margin-left: 320px;">预约</a></li>
+
+				<!-- 按钮触发模态框 -->
+				<p style="margin-left: 300px;" data-toggle="modal" data-target="#myModal">
+					查看全部
+				</p>
+				<!-- 模态框（Modal） -->
+				<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+									&times;
+								</button>
+								<h4 class="modal-title" id="myModalLabel">
+									全部私教
+								</h4>
+							</div>
+							<div class="modal-body">
+
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-default" data-dismiss="modal">关闭
+								</button>
+								<button type="button" class="btn btn-primary">
+									提交更改
+								</button>
+							</div>
+						</div><!-- /.modal-content -->
+					</div><!-- /.modal -->
+				</div>
+			</div>
+			<div class="tab-pane fade" id="attCoach">
+				<div id="attenCoach">没有关注</div>
+			</div>
+			</div>
+	</div>
+</div>
+
+<div style="margin-top: 12px;">
+	<div class="vip" style="height: 210px;">
+		
+
+				<ul id="myTab" class="nav nav-tabs">
+					<li class="active">
+						<a href="#space" data-toggle="tab"><span class="glyphicon glyphicon-star">我的场馆</span></a>
+					</li>
+					<li onclick="venueSend()"><a href="#venueSpeak" data-toggle="tab"><span class="glyphicon glyphicon-user"></span>场馆动态</a></li>
+					<li><a href="" data-toggle="tab"><span class="glyphicon glyphicon-plus"></span>我的课程</a></li>
+				</ul>
+
+			<div id="myTabContent3" class="tab-content">
+				<div class="tab-pane fade in active" id="space">
+					<div >
+						<table id="myvenue" border="1" style="text-align: center">
+							<tr>
+								<th width="200px" style="text-align: center">场馆名</th>
+								<th width="200px" style="text-align: center">到期时间</th>
+							</tr>
+
+						</table>
+
+						<li style="list-style: none"><a href="/yoga/user/selectAllVenue" style="font-size: 18px;margin-left: 280px;">添加 +</a></li>
+					</div>
+				</div>
+				<div class="tab-pane fade" id="venueSpeak">
+					<table  border="1" style="text-align: center">
+						<tr>
+							<th width="50px" style="text-align: center">场馆名</th>
+							<th width="170px" style="text-align: center">内容</th>
+							<th width="170px" style="text-align: center">时间</th>
+						</tr>
+					</table>
+				</div>
+				</div>
+		</div>
+	
+</div>
+		</div>
+</div>
+		</div>
+		<script src="/yoga/user/js/jquery/dist/jquery.min.js"></script>
+		<script src="/yoga/user/bootstrap/dist/js/bootstrap.min.js"></script>
+	<script>
+		function selectMyHead() {
+			$.ajax({
+				url:'/yoga/user/selectMyInfo',
+				type:'post',
+				async:true,
+				success:function (data) {
+					var img="<img class='userimg' src='"+data.headImg+"' style='width: 80px;height: 80px;border-radius: 50%' id='headImg'>"
+					$("#headimg").html(img);
+				}
+			});
+		}
+		selectMyHead();
+	function selMyVenue() {
+		$.ajax({
+			url:'/yoga/user/myvenue',
+			type:'get',
+			async:true,
+			success:function (data) {
+
+				var content='';
+				for (var i=0;i<data.length;i++){
+					content+= "<tr class='mytb' onclick='venueDetail("+data[i].venueId+")'>" +
+							"<td>"+data[i].venueName+"</td>" +
+							"<td>"+data[i].updateTime+"</td>"+
+							"</tr>";
+
+				}
+				$("#myvenue").append(content);
+			}
+		});
+
+	}
+		selMyVenue();
+	function venueDetail(id) {
+		window.location.href="/yoga/user/venueDetails?venueId="+id;
+	}
+	function selMySelfCourse() {
+		$.ajax({
+			url:'/yoga/user2/selMySelfCourse',
+			type:'get',
+			success:function (data) {
+				var content="";
+				for (var i=0;i<data.length;i++){
+					var state='';
+					if (data[i].state==1){
+						state="未确认";
+					} else if (data[i].state==0) {
+						state="已确认";
+					}else if (data[i].state==2){
+						state="被拒绝";
+					}
+					content+= "<tr class='mytb'>" +
+							"<td onclick='coachDetail("+data[i].teacherId+")'>"+data[i].teacherName+"</td>" +
+							"<td>"+data[i].start+"</td>"+
+							"<td>"+data[i].end+"</td>"+
+							"<td onclick='venueDetail("+data[i].venueId+")'>"+data[i].venueName+"</td>"+
+							"<td>"+state+"</td>"+
+							"</tr>";
+				}
+				$("#myselfCourse").append(content);
+			}
+		});
+	}
+		selMySelfCourse();
+	function coachDetail(id) {
+		window.location.href="/yoga/user/coachDetail?teacherId="+id;
+	}
+	function venueSend() {
+		$.ajax({
+			url:"/yoga/user2/venueSpeak",
+			type:"get",
+			async:true,
+			success:function (data) {
+				var content="";
+				for (var i=0;i<data.length;i++){
+					content+= "<tr class='mytb' onclick='venueDetail("+data[i].venueId+")'>" +
+							"<td>"+data[i].venueName+"</td>" +
+							"<td>"+data[i].updateTime+"</td>"+
+							"</tr>";
+				}
+			}
+		});
+	}
+	</script>
+	</body>
+
 </html>

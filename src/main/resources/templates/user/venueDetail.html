@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>场馆详情</title>
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+<img th:src="${venue.venueImg}" style="width: 100px;height: 100px"></br>
+场馆名：<p th:text="${venue.venueName}"></p>
+场馆地址：<p th:text="${venue.venueAddress}"></p>
+联系电话：<p th:text="${venue.venuePhone}"></p>
+qq:<p th:text="${venue.qq}"></p>
+详细介绍：<p th:text="${venue.venueDetails}"></p>
+<input type="hidden" id="venueId" th:value="${venue.venueId}">
+<input type="hidden" id="mylist">
+<!-- 按钮触发模态框 -->
+<button class="btn btn-primary btn-lg" data-toggle="modal" onclick="selAllVipType()" data-target="#myModal">加入我们</button>
+<!-- 模态框（Modal） -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">办理会员</h4>
+            </div>
+            <div class="modal-body" id="vip_type">
+                <select id="vip_type_name">
+
+                </select>
+            </div>
+            <div id="mydiv" style="display: none">
+                说明：<p id="cardInfo"></p>
+                价格：<p id="cardPrice"></p>
+                使用时间：<p id="useDate"></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary" onclick="openVip()">办理</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+<h2>所有课程</h2>
+
+<script>
+    function selAllVipType(){
+        $.ajax({
+            url:'/yoga/user/selAllVipType',
+            type:'post',
+            data:{
+                venueId:$("#venueId").val()
+            },
+            success:function (data) {
+                content="<option>未选择</option>";
+                for(var i=0;i<data.length;i++){
+                    content+="<option value='"+data[i].vipTypeId+"'>"+data[i].cardName+"</option>";
+                }
+            $("#vip_type_name").html(content);
+                $("#mylist").val(data);
+            }
+        })
+    }
+    $("#vip_type_name").change(function () {
+        var options=$("#vip_type_name option:selected");
+        var vipId=options.val();
+        var viptext=options.text();
+
+        if (viptext=="未选择"){
+            $("#mydiv").hide();
+        } else {
+            $("#mydiv").show();
+           $.ajax({
+               url:'/yoga/user/selVipById',
+               type:'post',
+               anync:true,
+               data:{
+                 vipTypeId:vipId
+               },
+               success:function (data) {
+                   $("#cardInfo").html(data.cardInfo);
+
+                   $("#cardPrice").html(data.cardPrice);
+
+                   $("#useDate").html(data.useDate);
+               }
+           });
+        }
+    });
+    function openVip() {
+        var options=$("#vip_type_name option:selected");
+        $.ajax({
+            url:'/yoga/user/openVip',
+            type:'post',
+            async:true,
+            data:{
+                venueId:$("#venueId").val(),
+                vipTypeId:options.val()
+            },
+            success:function (data) {
+              alert(data);
+              if (data=="办理成功"){
+                  location.reload(true);
+              }
+            }
+        });
+    }
+</script>
+</body>
+</html>
