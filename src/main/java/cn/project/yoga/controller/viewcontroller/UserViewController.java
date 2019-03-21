@@ -58,4 +58,21 @@ public class UserViewController {
         return "manager/hsn/userdetail";
     }
 
+    /*
+    * 跳转到订单页面*/
+    @RequestMapping("/userorder")
+    public String userOrder4(){
+        return "manager/hsn/userorder";
+    }
+
+    /*
+    * 跳转到订单查询页*/
+    @RequestMapping("/sorder")
+    public String Sorder4(HttpServletRequest request,HttpSession session){
+        session.setAttribute("transcationType",request.getParameter("transcationType"));
+        session.setAttribute("time",request.getParameter("time"));
+        session.setAttribute("venueName",request.getParameter("venueName"));
+        return "manager/hsn/sorder";
+    }
+
 }

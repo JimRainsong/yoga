@@ -1,10 +1,7 @@
 package cn.project.yoga.controller;
 
 import ch.qos.logback.core.util.FileUtil;
-import cn.project.yoga.pojo.Ad;
-import cn.project.yoga.pojo.Teacher;
-import cn.project.yoga.pojo.User;
-import cn.project.yoga.pojo.User_info;
+import cn.project.yoga.pojo.*;
 import cn.project.yoga.service.ManagerService;
 import cn.project.yoga.service.UserService;
 import cn.project.yoga.utils.*;
@@ -278,5 +275,41 @@ public class UserController {
 
 
     }
+
+    /*
+     * 分页查询所有订单*/
+    @RequestMapping("/userorderDatas")
+    @ResponseBody
+    public Map<String, Object> showuserorderDatas4(@RequestParam(value = "page",defaultValue = "1",required = false)Integer currentPage,
+                                              @RequestParam(value = "rows",defaultValue = "10",required = false)Integer pageSize,HttpSession session) {
+        List<Tra_tea_ven> list = managerService.SelAllOrder4(currentPage,pageSize);
+        PageInfo pageInfo = new PageInfo(list);
+        Map<String,Object> result = new HashMap<String,Object>();
+        result.put("code",200);
+        result.put("msg","");
+        result.put("count",pageInfo.getTotal());
+        result.put("data",list);
+        return result;
+    }
+
+    /*
+    * 根据条件查询订单*/
+    @RequestMapping("/suserorderDatas")
+    @ResponseBody
+    public Map<String, Object> showsuserorderDatas4(@RequestParam(value = "page",defaultValue = "1",required = false)Integer currentPage,
+                                                   @RequestParam(value = "rows",defaultValue = "10",required = false)Integer pageSize,HttpSession session) {
+        String transcationType= (String) session.getAttribute("transcationType");
+        String time= (String) session.getAttribute("time");
+        String venueName= (String) session.getAttribute("venueName");
+        List<Tra_tea_ven> list = managerService.SelOder4(time,venueName,transcationType,currentPage,pageSize);
+        PageInfo pageInfo = new PageInfo(list);
+        Map<String,Object> result = new HashMap<String,Object>();
+        result.put("code",200);
+        result.put("msg","");
+        result.put("count",pageInfo.getTotal());
+        result.put("data",list);
+        return result;
+    }
+
 
 }

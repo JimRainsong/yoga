@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>查询结果</title>
+    <title>订单查询结果</title>
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -16,11 +16,8 @@
         border-collapse: collapse;
 
         margin: 0 auto;
-
         text-align: center;
-
     }
-
     table td, table th {
 
         border: 1px solid #cad9ea;
@@ -28,9 +25,7 @@
         color: #666;
 
         height: 30px;
-
     }
-
     table thead th {
 
         background-color: #CCE8EB;
@@ -82,7 +77,7 @@
     <button class="layui-btn" data-type="isAll">验证是否全选</button>
 </div>
 
-<table class="layui-table" lay-data="{width: 892, height:332, url:'/yoga/teacher/shearch/', page:true, id:'idTest',response: {
+<table class="layui-table" lay-data="{width: 892, height:332, url:'/yoga/user/suserorderDatas/', page:true, id:'idTest',response: {
                 statusName: 'code'
                 ,statusCode: 200
                 ,msgName: 'msg'
@@ -93,20 +88,20 @@
     <thead>
     <tr>
         <th lay-data="{type:'checkbox', fixed: 'left'}"></th>
-        <th lay-data="{field:'teacherId', width:80}">ID</th>
-        <th lay-data="{field:'teacherName', width:100}">教练名字</th>
-        <th lay-data="{field:'teacherSex', width:80}">性别</th>
-        <th lay-data="{field:'teacherPhone', width:80}">电话</th>
-        <th lay-data="{field:'teacherQq', width:80}">QQ</th>
-        <th lay-data="{field:'selfMoney', width:100}">私教费用</th>
-        <th lay-data="{field:'teacherMoney', width:135, sort: true}">余额</th>
+        <th lay-data="{field:'transcationId', width:80}">ID</th>
+        <th lay-data="{field:'transcationType', width:100}">订单类型</th>
+        <th lay-data="{field:'teacherName', width:80}">教练</th>
+        <th lay-data="{field:'venueName', width:80}">场馆</th>
+        <th lay-data="{field:'time', width:80}">日期</th>
+        <th lay-data="{field:'netName', width:80}">昵称</th>
+        <th lay-data="{field:'realName', width:100}">姓名</th>
+        <th lay-data="{field:'sex', width:135}">性别</th>
 
         <th lay-data="{fixed: 'right', width:178, align:'center', toolbar: '#barDemo'}"></th>
     </tr>
     </thead>
 </table>
-<div><a href="/yoga/teacher/mteacher">返回</a></div>
-
+<div><a href="/yoga/user/userorder">返回</a></div>
 
 <script type="text/html" id="barDemo">
     <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">查看</a>
@@ -119,42 +114,23 @@
 <!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
 <script>
 
+
+
     function shearch() {
         $.ajax({
-            url: "/yoga/teacher/shearch",
+            url: "/yoga/user/shearchorder",
             type: "post",
             async: true,
             dataType: "json",
             data: {
-                teacherName: $("#teacherName").val(),
-                teacherSex: $("#teacherSex").val(),
-                teacherPhone: $("#teacherPhone").val(),
-                teacherQq: $("#teacherQq").val()
+                netName: $("#netName").val(),
+                sex: $("#sex").val(),
+                phoneNumber: $("#phoneNumber").val(),
+                qq: $("#qq").val()
             },
             success:function (message) {
-                alert(message)
-                var content="<tr>"+
-                    "<td>教练名字</td>"+
-                    "<td>教练性别</td>"+
-                    "<td>教练电话</td>"+
-                    "<td>教练QQ</td>"+
-                    "<td>私交费用</td>"+
-                    "<td>费用</td>"+
-                    "</tr>";
-                for (var i = 0; i < message.length; i++) {
-                    var teacher=message[i];
-                    content+="<tr>"+"<td><a href='/yoga/teacher/teadetail?teacherId="+teacher.teacherId+"'>"+teacher.teacherName+"</a></td>"+
-                        "<td>"+teacher.teacherSex+"</td>"+
-                        "<td>"+teacher.teacherPhone+"</td>"+
-                        "<td>"+teacher.teacherQq +"</td>"+
-                        "<td>"+teacher.selfMoney +"</td>"+
-                        "<td>"+teacher.teacherMoney +"</td>"+
-                        "<td><a href='/yoga/teacher/deltea?teacherId="+teacher.teacherId+"'>删除场馆</a></td>"+
-                        "<tr>"
-
-                }
-
-                $("#teacher").html(content);
+                window.location.href="/yoga/user/sorder?transcationType="+$("#transcationType").val()+"&time="+$("#time").val()+
+                    "&venueName="+$("#venueName").val();
             }
         });
     }
@@ -169,12 +145,11 @@
             var data = obj.data;
             if(obj.event === 'detail'){
                 layer.msg('ID：'+ data.teacherId + ' 的查看操作');
-                window,location.href="/yoga/teacher/teadetail?teacherId="+data.teacherId;
             } else if(obj.event === 'del'){
                 layer.confirm('真的删除行么', function(index){
                     obj.del();
                     layer.close(index);
-                    window.location.href="/yoga/teacher/deltea?teacherId="+data.teacherId;
+                    window.location.href="/yoga/user/deluser?uId="+data.uId;
                 });
             } else if(obj.event === 'edit'){
                 layer.alert('编辑行：<br>'+ JSON.stringify(data))
@@ -186,7 +161,7 @@
                 var checkStatus = table.checkStatus('idTest')
                     ,data = checkStatus.data;
                 layer.alert(JSON.stringify(data[0].teacherId));
-                window,location.href="/yoga/teacher/teadetail?teacherId="+data[0].teacherId;
+                window,location.href="/yoga/user/userdetail?uId="+data[0].uId;
             }
             ,getCheckLength: function(){ //获取选中数目
                 var checkStatus = table.checkStatus('idTest')

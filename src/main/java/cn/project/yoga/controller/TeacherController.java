@@ -207,6 +207,7 @@ public class TeacherController {
     public Teacher TeaDetail4(HttpServletRequest request, HttpSession session) {
         int teacherId = (int) session.getAttribute("teacherId");
         Teacher teacher = teacherService.SelTeaById4(teacherId);
+        System.out.println(teacher);
         return teacher;
     }
 
