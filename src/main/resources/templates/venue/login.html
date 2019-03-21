@@ -54,8 +54,8 @@
         </div>
         <div class="layui-form-item">
             <div class="layui-input-block">
-                <button  onclick="login()">登录</button>
-                <button  id="regi">注册</button>
+                <button class="layui-btn"  onclick="login()">登录</button>
+                <button class="layui-btn"  id="regi">注册</button>
 
             </div>
         </div>
@@ -87,6 +87,10 @@
              },
              dataType : "json",
              success : function(data) {
+                 layer.msg(data.msg, {
+                     time: 20000, //20s后自动关闭
+                     btn: ['知道了']
+                 });
                  if (data.code == 0) {
                      location.href="/yoga/venueUser/venueIndex";
                  }
