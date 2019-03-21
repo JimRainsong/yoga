@@ -8,8 +8,6 @@ public class Course {
 
     private Integer venueId;
 
-    private Venue venue;
-
     /*private Integer teacherId;*/
     private Teacher teacher;
 
@@ -77,14 +75,6 @@ public class Course {
     public void setTeacherId(Integer teacherId) {
         this.teacherId = teacherId;
     }*/
-
-    public Venue getVenue() {
-        return venue;
-    }
-
-    public void setVenue(Venue venue) {
-        this.venue = venue;
-    }
 
     public Teacher getTeacher() {
         return teacher;

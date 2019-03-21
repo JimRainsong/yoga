@@ -82,43 +82,4 @@ public interface CourseMapper {
 
     @Update("Update course SET flag=1 WHERE course_id=#{0}")
     int removeCourseById(Integer courseId);
-
-
-    @Select("<script>"+
-            "select course_id as courseId,venue_id,t.teacher_id as teacherId,start_time,over_time,course_money,course_people,co.flag,course_name from course as co,teacher as t " +
-            "<where>"+
-            "co.teacher_id=t.teacher_id " +
-            "<if test=' courseVo.cname!=null and  \"\"!=courseVo.cname'>" +
-            "and course_name like '%' #{courseVo.cname} '%'"+
-            "</if>"+
-            "<if test=' courseVo.tname!=null and  \"\"!=courseVo.tname'>" +
-            "and teacher_name like '%' #{courseVo.tname} '%'"+
-            "</if>"+
-            "<if test='courseVo.maxTime !=null'>" +
-            "<if test='courseVo.minTime !=null '>" +
-            "and start_time between #{courseVo.maxTime} and #{courseVo.minTime}"+
-            "</if>"+
-            "<if test='courseVo.minTime == null'>"+
-            "and start_time <![CDATA[ >= ]]> #{courseVo.maxTime}"+
-            "</if>"+
-            "</if>"+
-            "<if test='courseVo.maxTime == null'>"+
-            "<if test='courseVo.minTime != null'>"+
-            "and start_time <![CDATA[ <= ]]> #{courseVo.minTime}"+
-            "</if>"+
-            "</if>"+
-            "</where>" +
-            "and co.flag=0 and venue_id=#{courseVo.vid}"+
-            "</script>")
-    @Results({
-            @Result(column="teacherId",property="teacher",
-                    one=@One(select="cn.project.yoga.dao.TeacherMapper.selByTeacherId")
-            ),
-            @Result(column = "courseId",property = "myCourses",
-                    many=@Many(select = "cn.project.yoga.dao.My_courseMapper.selMyCourseByCid")
-            ),
-            @Result(column = "courseId",property = "courseId"),
-
-    })
-    List<Course> selCourseByUid(Integer uId);
 }
