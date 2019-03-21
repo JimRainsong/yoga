@@ -38,6 +38,12 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private TeacherMapper teacherMapper;
 
+    @Autowired
+    private AttentionMapper attentionMapper;
+
+    @Autowired
+    private CourseMapper courseMapper;
+
     @Override
     public User selectUserByUserName(String userName) {
         return userMapper.selectUserByUserName(userName);
@@ -337,6 +343,16 @@ public class UserServiceImpl implements UserService {
             return "盘他失败";
         }
         return "预约成功，等待教练确认";
+    }
+
+    @Override
+    public int addAttention(Attention attention) {
+        return attentionMapper.insertSelective(attention);
+    }
+
+    @Override
+    public List<Course> selCourseByUid(Integer uId) {
+        return courseMapper.selCourseByUid(uId);
     }
 
    /* @Override

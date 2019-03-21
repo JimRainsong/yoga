@@ -46,8 +46,6 @@ public class YogaApplicationTests {
         System.out.println(userService.selectUserByUserName("coach").getUserName());
 
 
-
-        System.out.println(userMapper.hasIfollowedThis2(6, 8));
     }
 
     @Test

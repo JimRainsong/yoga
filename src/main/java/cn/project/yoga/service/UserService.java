@@ -177,4 +177,8 @@ public interface UserService {
     List<TeacherVenueVo> selTeacherVenue(Integer teacherId);
 
     String orderCoach(OrderCoachVo orderCoachVo);
+
+    int addAttention(Attention attention);
+
+    List<Course> selCourseByUid(Integer uId);
 }
