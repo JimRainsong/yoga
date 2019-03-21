@@ -470,7 +470,7 @@ public class VenueController {
         return LayUiDataUtil.ok(result);
     }
 
-    @RequestMapping("")
+    @RequestMapping("selFriends")
     @ResponseBody
     public LayUiDataUtil addFriends(Friends friends){
         Subject subject = SecurityUtils.getSubject();
