@@ -50,8 +50,8 @@
     <a class="layui-layer-btn0" onclick=" exits()">返回</a></div>
 <script>
     function exits() {
-       window.parent.location.reload();
-       parent.layer.close(index);
+        var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+        parent.layer.close(index); //再执行关闭
     }
     function insertVipTypeaa(){
         $.ajax({
@@ -66,11 +66,17 @@
             dataType : "json",
             success : function(data) {
                 if(data.code == 0){
-                    alert(data.msg)
-                    window.parent.location.reload();
-                    parent.layer.close(index);
+                    layer.msg(data.msg, {
+                        time: 20000, //20s后自动关闭
+                        btn: ['知道了']
+                    });
+                    var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+                    parent.layer.close(index); //再执行关闭
                 }
-                alert(data.msg);
+                layer.msg(data.msg, {
+                    time: 20000, //20s后自动关闭
+                    btn: ['知道了']
+                });
 
             }
         })

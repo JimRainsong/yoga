@@ -65,11 +65,16 @@
         $("#add_picture").css("margin-left", mid_distance_left);
         // app启动的时候开启一个main窗口，显示图片
         pages.eq(3).css("display", "block");
-        var index_img_div = $("<div class='index_img'><video src='/yoga/video/keep.mp4' controls autoplay></video></div>");
+        var index_img_div = $("<div class='index_img'><video id='video' src='/yoga/video/keep.mp4' controls autoplay></video></div>");
         pages.eq(3).append(index_img_div);
     })
 
+    var isVideoRunning = true;
+
     function showPage(num) {
+        if (isVideoRunning) {
+            $("#video").remove();
+        }
         if (whichIsShown == num) {
             windows.eq(num).attr("src", urls[num]);
         } else {

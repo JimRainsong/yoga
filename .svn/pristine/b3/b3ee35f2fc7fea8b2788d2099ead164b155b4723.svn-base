@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <meta charset="UTF-8">
+    <title>个人中心</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/page5.css}">
+    <script th:src="@{/js/jquery.min.js}"></script>
+</head>
+<body>
+<div class="logout" shiro:authenticated="false">请<span onclick="openDialog('message','block')">注册</span>或者<span
+        onclick="openDialog('loginWindow','block')">登陆</span></div>
+<div class="logined" shiro:authenticated="true">
+    欢迎你，
+    <shiro:principal property="username"/>
+</div>
+
+<div id="registerWindow" class="modal">
+    <form id="register">
+
+    </form>
+</div>
+
+<div id="loginWindow" class="modal">
+    <form id="login">
+        <table>
+            <tr>
+                <td>用户名</td>
+                <td colspan="4"><input type="text" name="username" id="username"></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>密码</td>
+                <td colspan="4"><input type="password" name="password" id="password"></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+        </table>
+    </form>
+    <div>
+        <button onclick="login()">登陆</button>
+        <button onclick="openDialog('loginWindow','none')">取消</button>
+    </div>
+</div>
+
+<div id="wall" class="modal"></div>
+
+<div id="message" class="modal">
+    <span id="word">这是一条测试内容</span><br><br>
+    <button onclick="openDialog('message','none')">知道了</button>
+</div>
+
+<script>
+    // 视窗可见区域的宽和高
+    var windowHeight = document.documentElement.clientHeight;
+    var windowWidth = document.documentElement.clientWidth;
+    // 初始化各个模态框的位置，居中显示
+    $(function () {
+        var modals = $(".modal");
+        for (var i = 0; i < modals.length; i++) {
+            var thisWidth = modals.eq(i).css("width");
+            var thisHeight = modals.eq(i).css("height");
+            var useWidth = thisWidth.substr(0, thisWidth.length - 2);
+            var userHeight = thisHeight.substr(0, thisHeight.length - 2);
+            var topDistance = (windowHeight - userHeight) / 2 - 50;
+            var leftDinstance = (windowWidth - useWidth) / 2;
+            modals.eq(i).css("margin", topDistance + "px " + leftDinstance + "px");
+        }
+    })
+
+    function openDialog(id, state) {
+        $("#" + id).css("display", state);
+        $("#wall").css("display", state);
+    }
+
+    function login() {
+        var username = $("#username").val();
+        var password = $("#password").val();
+        $.ajax({
+            url: "/yoga/login",
+            type: "post",
+            data: {
+                "username": username,
+                "password": password
+            },
+            dataType: "json",
+            success: function (mes) {
+                showMessage(mes.message);
+                if (mes.code == 1) {
+                    window.location.reload();
+                }
+            }
+        })
+    }
+
+    function showMessage(word) {
+        $("#word").html(word);
+        openDialog("message", "block");
+    }
+</script>
+</body>
+</html>

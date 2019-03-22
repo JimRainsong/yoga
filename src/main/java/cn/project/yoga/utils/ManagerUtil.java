@@ -35,7 +35,7 @@ public class ManagerUtil {
     }
 
     public static ManagerUtil error(String message){
-        return new  ManagerUtil(500,message);
+        return new ManagerUtil(500,message);
     }
 
 }

@@ -22,8 +22,8 @@ import java.util.*;
 @Controller
 @RequestMapping("/venueDate")
 public class VenueController {
-     @Autowired
-     private VenueService venueService;
+    @Autowired
+    private VenueService venueService;
 
     /*
      *场馆测试
@@ -31,11 +31,15 @@ public class VenueController {
     @RequestMapping("/uploadVenueDatas")
     @ResponseBody
     public LayUiDataUtil updata(@RequestBody Venue venue) {
+        Subject subject = SecurityUtils.getSubject();
+        Session session = subject.getSession();
+        Venue venue1= (Venue) session.getAttribute(Attributes.CURRENT_USER);
+        venue.setVenueId(venue1.getVenueId());
         if (!venue.getVenueAddress().equals("")||venue.getVenueAddress()!=null){
-                if (RegexUtil.isFuHao(venue.getVenueAddress())){
-                }else{
-                    return LayUiDataUtil.error("地址数据有误");
-                }
+            if (RegexUtil.isFuHao(venue.getVenueAddress())){
+            }else{
+                return LayUiDataUtil.error("地址数据有误");
+            }
         }
         if (!venue.getVenueName().equals("")||venue.getVenueName()!=null){
             if (RegexUtil.isFuHao(venue.getVenueName())){
@@ -65,40 +69,40 @@ public class VenueController {
         if (num>0){
             return LayUiDataUtil.ok("提交成功");
         }
-            return LayUiDataUtil.error("修改失败");
+        return LayUiDataUtil.error("修改失败");
     }
-        /*
-         *所有学员展示
-         * 分页
-         * 场馆-陈家明
-         */
-        @RequestMapping("/studentDatas")
-        @ResponseBody
-        public Map<String, Object> getStudentDatas(@RequestParam(value = "netName")String netName,@RequestParam(value = "page",defaultValue = "1",required = false)Integer currentPage,
-                                                    @RequestParam(value = "rows",defaultValue = "5",required = false)Integer pageSize) {
-            Subject subject = SecurityUtils.getSubject();
-            Session session = subject.getSession();
-             Venue venue = (Venue) session.getAttribute(Attributes.CURRENT_USER);
-            Map<String, Object> result = new HashMap<String, Object>();
-            if ((int) currentPage != currentPage || (int) pageSize != pageSize) {
-                result.put("code", 500);
-                result.put("msg", "数据传输有误");
-                return result;
-            }
-             Selstudent selstudent=new Selstudent();
-                 selstudent.setVenueId(venue.getVenueId());
-                 selstudent.setNetName(netName);
-            List<Selstudent> list =venueService.selStudentByStudentName3(selstudent,currentPage,pageSize);
-             PageInfo pageInfo = new PageInfo(list);
-            result.put("code",200);
-            result.put("msg","");
-            result.put("count",pageInfo.getTotal());
-            result.put("data",list);
-            System.out.println(list.get(0).getNetName());
+    /*
+     *所有学员展示
+     * 分页
+     * 场馆-陈家明
+     */
+    @RequestMapping("/studentDatas")
+    @ResponseBody
+    public Map<String, Object> getStudentDatas(@RequestParam(value = "netName")String netName,@RequestParam(value = "page",defaultValue = "1",required = false)Integer currentPage,
+                                               @RequestParam(value = "rows",defaultValue = "5",required = false)Integer pageSize) {
+        Subject subject = SecurityUtils.getSubject();
+        Session session = subject.getSession();
+        Venue venue = (Venue) session.getAttribute(Attributes.CURRENT_USER);
+        Map<String, Object> result = new HashMap<String, Object>();
+        if ((int) currentPage != currentPage || (int) pageSize != pageSize) {
+            result.put("code", 500);
+            result.put("msg", "数据传输有误");
             return result;
         }
+        Selstudent selstudent=new Selstudent();
+        selstudent.setVenueId(venue.getVenueId());
+        selstudent.setNetName(netName);
+        List<Selstudent> list =venueService.selStudentByStudentName3(selstudent,currentPage,pageSize);
+        PageInfo pageInfo = new PageInfo(list);
+        result.put("code",200);
+        result.put("msg","");
+        result.put("count",pageInfo.getTotal());
+        result.put("data",list);
+        System.out.println(list.get(0).getNetName());
+        return result;
+    }
 
- /*
+    /*
      *所有教练展示
      * 分页
      * 场馆-cy
@@ -152,7 +156,7 @@ public class VenueController {
     @RequestMapping("/showVipDatas")
     @ResponseBody
     public Map<String, Object> showVipType(@RequestParam(value = "page",defaultValue = "1",required = false)Integer currentPage,
-                                       @RequestParam(value = "rows",defaultValue = "10",required = false)Integer pageSize) {
+                                           @RequestParam(value = "rows",defaultValue = "10",required = false)Integer pageSize) {
         Subject subject = SecurityUtils.getSubject();
         Session session = subject.getSession();
         Venue venue = (Venue) session.getAttribute(Attributes.CURRENT_USER);
@@ -187,7 +191,7 @@ public class VenueController {
             result.put("msg","数据传输有误");
             return result;
         }
-        List<User_info> list = venueService.selShowattention(currentPage,pageSize,venue.getVenueId());
+        List<User_info> list = venueService.selShowattention(currentPage,pageSize,venue.getUserId());
         PageInfo pageInfo = new PageInfo(list);
         result.put("code",200);
         result.put("msg","");
@@ -203,13 +207,12 @@ public class VenueController {
     @ResponseBody
     public Map<String, Object> showCourse(@RequestParam(value = "page",defaultValue = "1",required = false)Integer currentPage,
                                           @RequestParam(value = "rows",defaultValue = "10",required = false)Integer pageSize,
-                                          @RequestParam(value = "vid")Integer venueId,
                                           @RequestParam(value = "tname")String teacherName,
                                           @RequestParam(value = "cname")String cname,
                                           @RequestParam(value = "maxtime")Date maxtime,
                                           @RequestParam(value = "mintime")Date mintime
-                                          ) {
-      Subject subject = SecurityUtils.getSubject();
+    ) {
+        Subject subject = SecurityUtils.getSubject();
         Session session = subject.getSession();
         Venue venue = (Venue) session.getAttribute(Attributes.CURRENT_USER);
         Map<String,Object> result = new HashMap<String,Object>();
@@ -238,7 +241,7 @@ public class VenueController {
                     course.setCourseState("今日课程已结束");
                 }
             }else {
-                    course.setCourseState("课程尚未开始");
+                course.setCourseState("课程尚未开始");
             }
             courses.set(i,course);
             System.out.println(course);
@@ -254,28 +257,28 @@ public class VenueController {
      *添加课程
      *
      */
-     @RequestMapping("/addCourse")
-     @ResponseBody
-     public LayUiDataUtil addCourse(@RequestBody Course course){
-         Subject subject = SecurityUtils.getSubject();
-         Session session = subject.getSession();
-         Venue venue = (Venue) session.getAttribute(Attributes.CURRENT_USER);
-         course.setVenueId(venue.getVenueId());
-         if (!RegexUtil.isFuHao(course.getCourseName())||!RegexUtil.isFuHao(course.getCourseState())){
-              return LayUiDataUtil.error("数据格式有误");
-         }
-         if (!course.getStartTime().before(course.getOverTime())){
-                 return LayUiDataUtil.error("课程时间有误");
-         }
-         if (!venueService.findStartTimeByCourse(course.getStartTime(),course.getVenueId(),course.getTeacher().getTeacherId())){
-                 return LayUiDataUtil.error("请检查时间段");
-         }
-         int result=venueService.addCourse(course);
-         if (result>0){
-                 return LayUiDataUtil.error("添加成功");
-     }
-                 return LayUiDataUtil.error("添加失败");
-     }
+    @RequestMapping("/addCourse")
+    @ResponseBody
+    public LayUiDataUtil addCourse(@RequestBody Course course){
+        Subject subject = SecurityUtils.getSubject();
+        Session session = subject.getSession();
+        Venue venue = (Venue) session.getAttribute(Attributes.CURRENT_USER);
+        course.setVenueId(venue.getVenueId());
+        if (!RegexUtil.isFuHao(course.getCourseName())||!RegexUtil.isFuHao(course.getCourseState())){
+            return LayUiDataUtil.error("数据格式有误");
+        }
+        if (!course.getStartTime().before(course.getOverTime())){
+            return LayUiDataUtil.error("课程时间有误");
+        }
+        if (!venueService.findStartTimeByCourse(course.getStartTime(),course.getVenueId(),course.getTeacher().getTeacherId())){
+            return LayUiDataUtil.error("请检查时间段");
+        }
+        int result=venueService.addCourse(course);
+        if (result>0){
+            return LayUiDataUtil.error("添加成功");
+        }
+        return LayUiDataUtil.error("添加失败");
+    }
 
     /**
      *删除课程
@@ -283,9 +286,9 @@ public class VenueController {
      */
     @RequestMapping("/removeCourse")
     @ResponseBody
-    public LayUiDataUtil removeCourse(@RequestBody Course course){
+    public LayUiDataUtil removeCourse(@RequestParam(value = "courseId")Integer courseId){
 
-        int result=venueService.removeCourse(course.getCourseId());
+        int result=venueService.removeCourse(courseId);
         if (result>0){
             return LayUiDataUtil.error("删除成功");
         }
@@ -298,18 +301,18 @@ public class VenueController {
     @RequestMapping("/uploadAdDatas")
     @ResponseBody
     public LayUiDataUtil uploadAds(@RequestBody Ad ad) {
-        if (RegexUtil.isNosj(ad.getAdTitle())||RegexUtil.isNosj(ad.getAdDetails())||RegexUtil.isNosj(ad.getAdImg())||RegexUtil.isNosj(ad.getAdTime())){
-           return LayUiDataUtil.error("输入数据有误,或为空");
+        if (!RegexUtil.isNosj(ad.getAdTitle())||!RegexUtil.isNosj(ad.getAdDetails())||!RegexUtil.isNosj(ad.getAdImg())||!RegexUtil.isNosj(ad.getAdTime())){
+            return LayUiDataUtil.error("输入数据有误,或为空");
         }
         System.out.println(ad);
         if (venueService.findAdByName(ad.getAdTitle())){
             return LayUiDataUtil.error("此标题已存在，如果想继续添加请与管理员联系");
         }
         if (venueService.venueUploadAds(ad)>0){
-             return LayUiDataUtil.ok("广告添加成功");
+            return LayUiDataUtil.ok("广告添加成功");
         }
         return LayUiDataUtil.error("广告添加失败");
-     }
+    }
 
     /**
      * 随机数
@@ -322,12 +325,10 @@ public class VenueController {
 
 
 
-    /*
-    * 展示所有场馆*/
     @RequestMapping("/venueDatas")
     @ResponseBody
     public Map<String, Object> showvenueDatas(@RequestParam(value = "page",defaultValue = "1",required = false)Integer currentPage,
-                                                  @RequestParam(value = "rows",defaultValue = "10",required = false)Integer pageSize) {
+                                              @RequestParam(value = "rows",defaultValue = "10",required = false)Integer pageSize) {
         List<Venue> list = venueService.SelVen(currentPage,pageSize);
         PageInfo pageInfo = new PageInfo(list);
         Map<String,Object> result = new HashMap<String,Object>();
@@ -338,10 +339,10 @@ public class VenueController {
         return result;
 
     }
-/*
- * 展示该场馆信息通过场馆id
- * 场馆-cy
- */
+    /*
+     * 展示该场馆信息通过场馆id
+     * 场馆-cy
+     */
     @RequestMapping("/VenueData")
     @ResponseBody
     public LayUiDataUtil showVenueData() {
@@ -349,9 +350,9 @@ public class VenueController {
         Session session = subject.getSession();
         Venue venues = (Venue) session.getAttribute(Attributes.CURRENT_USER);
         Venue venue = venueService.SelVenById4(venues.getVenueId());
-       if (venue!=null){
-           return  LayUiDataUtil.ok(venue);
-       }
+        if (venue!=null){
+            return  LayUiDataUtil.ok(venue);
+        }
         return LayUiDataUtil.error(null);
     }
 
@@ -458,9 +459,9 @@ public class VenueController {
     public LayUiDataUtil selMoment(@RequestParam(value = "commentType")String commentType,@RequestParam(value = "page",defaultValue = "1",required = false)Integer currentPage,
                                    @RequestParam(value = "rows",defaultValue = "10",required = false)Integer pageSize) {
         if((int)currentPage!=currentPage||(int)pageSize!=pageSize){
-            return LayUiDataUtil.error("数据传输有误！");
+            return LayUiDataUtil.error("页面数据传输有误！");
         }
-        if (!commentType.equals(null)&&!RegexUtil.isFuHao(commentType)){
+        if (!commentType.equals("")&&!commentType.equals(null)&&!RegexUtil.isFuHao(commentType)){
             return LayUiDataUtil.error("数据传输有误！");
         }
         Subject subject = SecurityUtils.getSubject();
@@ -473,7 +474,7 @@ public class VenueController {
         return LayUiDataUtil.ok(result);
     }
 
-    @RequestMapping("selFriends")
+    @RequestMapping("/selFriends")
     @ResponseBody
     public LayUiDataUtil addFriends(Friends friends){
         Subject subject = SecurityUtils.getSubject();
@@ -481,15 +482,30 @@ public class VenueController {
         Venue venue = (Venue) session.getAttribute(Attributes.CURRENT_USER);
         friends.setUserId(venue.getUserId());
         friends.setfTime(new Date());
-        if (!friends.getfDetail().equals("")||friends.getfDetail()!=null){
-            if (RegexUtil.isFuHao(friends.getfDetail())){
+        LayUiDataUtil layUiDataUtil = new LayUiDataUtil();
+        int num = -1;
+        if (friends.getfDetail().equals("")||friends.getfDetail()==null){
+            layUiDataUtil.setCode(200);
+        }else{
+            if (RegexUtil.isNosj(friends.getfDetail())){
+                num = venueService.addFriends(friends);
             }else{
-                return LayUiDataUtil.error("数据有误");
+                layUiDataUtil.setCode(500);
+                layUiDataUtil.setMsg("数据传输有误");
             }
         }
-        int num = venueService.addFriends(friends);
-
-    return LayUiDataUtil.ok();
+        List<Friends> list = venueService.selFriends(venue.getUserId());
+        layUiDataUtil.setData(list);
+        if (num>0){
+            layUiDataUtil.setCode(0);
+            return layUiDataUtil;
+        }else if (num==0){
+            layUiDataUtil.setCode(500);
+            layUiDataUtil.setMsg("添加失败");
+            return layUiDataUtil;
+        }else {
+            return layUiDataUtil;
+        }
     }
 
     /**
@@ -507,7 +523,7 @@ public class VenueController {
         Subject subject = SecurityUtils.getSubject();
         Session session = subject.getSession();
         Venue venue = (Venue) session.getAttribute(Attributes.CURRENT_USER);
-       Vip_record vip_record=new Vip_record();
+        Vip_record vip_record=new Vip_record();
         vip_record.setVipId(vipId);
         int result = venueService.deleteStudentDatas(vip_record);
         if (result != 0 & result == 1) {

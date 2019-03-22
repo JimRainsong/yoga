@@ -68,10 +68,8 @@ public class VenueServiceImpl implements VenueService {
     }
 
     @Override
-    public List<User_info> selShowattention(Integer currentPage, Integer pageSize, Integer venueId) {
-        Venue venue = venueMapper.selectByPrimaryKey(venueId);
-        System.out.println(venue.getUserId());
-        List<User_info> attentions = attentionMapper.selShowattention(currentPage, pageSize, venue.getUserId());
+    public List<User_info> selShowattention(Integer currentPage, Integer pageSize, Integer uId) {
+        List<User_info> attentions = attentionMapper.selShowattention(currentPage, pageSize, uId);
         return attentions;
     }
 
@@ -107,9 +105,9 @@ public class VenueServiceImpl implements VenueService {
 
     @Override
     public boolean findStartTimeByCourse(Date startTime,int vid,int tid) {
-       if (courseMapper.selCourseByStartTime(tid,vid,startTime)!=null){
-              return true;
-       }
+        if (courseMapper.selCourseByStartTime(tid,vid,startTime)!=null){
+            return true;
+        }
         return false;
     }
 
@@ -152,6 +150,11 @@ public class VenueServiceImpl implements VenueService {
     @Override
     public int addFriends(Friends friends) {
         return friendsMapper.insertSelective(friends);
+    }
+
+    @Override
+    public List<Friends> selFriends(Integer uId) {
+        return friendsMapper.selFriends(uId);
     }
 
     @Override

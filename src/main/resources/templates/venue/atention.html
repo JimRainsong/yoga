@@ -12,9 +12,9 @@
 
 <table class="layui-hide" id="atention" lay-filter="test"></table>
 
-<script type="text/html" id="toolbarDemo">
+<script type="text/html" id="toolbarDemoat">
     <div class="layui-btn-container">
-        <button class="layui-btn" lay-event="getCheckData">获取选中行数据</button>
+         <!--<button class="layui-btn" lay-event="getCheckData">获取选中行数据</button> -->
     </div>
 </script>
 <script th:inline="javascript">
@@ -32,12 +32,12 @@
                 ,countName: 'count'
                 ,dataName: 'data'
             }
-            ,toolbar: '#toolbarDemo'
+            ,toolbar: '#toolbarDemoat'
             ,cols: [
                 [
                  {type:'radio'},
                {field:'userId', width:150, title: '用户Id', sort: true}
-               ,{field:'headImg', width:150, title: '用户头像'}
+               ,{field:'htmlimg', width:150, title: '用户头像'}
                 ,{field:'netName', width:150, title: '用户昵称'}
                 ,{field:'realName', width:150, title: '用户名'}
                 ,{field:'phoneNumber', title: '联系方式', minWidth: 150}

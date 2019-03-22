@@ -202,4 +202,6 @@ public interface VenueService {
     int updataVenue(Venue venue);
 
     int addFriends(Friends friends);
+
+    List<Friends> selFriends(Integer uId);
 }
