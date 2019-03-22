@@ -47,9 +47,6 @@ public class ManagerServiceImpl implements ManagerService {
     @Autowired
     private UserMapper userMapper;
 
-    @Autowired
-    private UserMapper userMapper;
-
     /*查询场馆信息表所有数据*/
     @Override
     public List<Venue> selAllVenues4_1(Integer currentPage, Integer pageSize, String venueName) {
