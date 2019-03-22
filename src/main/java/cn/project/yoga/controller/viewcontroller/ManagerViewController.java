@@ -38,6 +38,7 @@ public class ManagerViewController {
         session.setAttribute("venueId", Integer.parseInt(request.getParameter("venueId")));
         return "manager/hsn/vendetail";
     }
+
     @RequestMapping("/svenue")
     public String Svenue4(HttpServletRequest request,HttpSession session){
         session.setAttribute("venname",request.getParameter("venname"));
