@@ -191,4 +191,14 @@ public interface TeacherMapper {
      */
     @Update("update teacher set teacher_money=0 where user_Id=#{currentUserId}")
     int fetchMoneyByUserId2(Integer currentUserId);
+
+    /**
+     * 更新教练头像
+     *
+     * @param currentUserId
+     * @param src
+     * @return
+     */
+    @Update("update teacher set teacher_img=#{src} where user_id=#{currentUserId}")
+    int updateTeacherImg(Integer currentUserId, String src);
 }

@@ -1,6 +1,5 @@
 package cn.project.yoga.utils;
 
-import org.springframework.util.FileCopyUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.ServletContext;
@@ -14,12 +13,12 @@ public class UpLoadFileUtil {
         System.out.println("====================file名字===="+imgName.getName());
         ServletContext context = request.getServletContext();
         String mainpath=context.getRealPath("/img/"+mypath+"/");
-        String path ="D:\\idework\\yoga\\src\\main\\resources\\static\\img\\"+mypath+"\\";
+        /*String path ="D:\\idework\\yoga\\src\\main\\resources\\static\\img\\"+mypath+"\\";*/
         //判断这个文件夹是否存在，不存在则创建
-        File files = new File(path);
+     /*   File files = new File(path);
         if (!files.exists()) {
             files.mkdirs();
-        }
+        }*/
         File mainfile = new File(mainpath);
         if (!mainfile.exists()) {
             mainfile.mkdirs();
@@ -31,19 +30,19 @@ public class UpLoadFileUtil {
         String extend = fileNames.substring(fileNames.lastIndexOf("."));
         //3.得到完整文件名
         fileName+=extend;
-        File fileover=new File(path+fileName);
+        File fileover=new File(mainfile+fileName);
         System.out.println("===================================开始保存文件");
         try {
             imgName.transferTo(fileover);
         } catch (IOException e) {
             e.printStackTrace();
         }
-        System.out.println("====================================开始复制文件");
+      /*  System.out.println("====================================开始复制文件");
         try {
             FileCopyUtils.copy(fileover, new File(mainpath+fileName));
         } catch (IOException e) {
             e.printStackTrace();
-        }
+        }*/
         System.out.println(mainpath+fileName);
         String source="/yoga/img/"+mypath+"/"+fileName;
 

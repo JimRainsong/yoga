@@ -13,9 +13,9 @@
 
 <table class="layui-hide" id="Course" lay-filter="test"></table>
 
-<script type="text/html" id="toolbarDemo">
+<script type="text/html" id="toolbarDemoco">
     <div class="layui-btn-container">
-        <button class="layui-btn" lay-event="selCourse" >删除课程</button>
+        <button class="layui-btn" lay-event="selCourse">删除课程</button>
         <button  class="layui-btn" id="insertCourse" onclick="insertCourse()">新增课程</button>
     </div>
 </script>
@@ -34,7 +34,7 @@
                 ,countName: 'count'
                 ,dataName: 'data'
             }
-            ,toolbar: '#toolbarDemo'
+            ,toolbar: '#toolbarDemoco'
             ,cols: [
                 [
                     {type:'radio'}
@@ -66,7 +66,7 @@
     function insertCourse() {
         layer.open({
             type: 2,
-            title: '添加会员卡',
+            title: '添加课程',
             area : ['600px' , '500px'],
             content: '/yoga/venueUser/insertCourse'
         });

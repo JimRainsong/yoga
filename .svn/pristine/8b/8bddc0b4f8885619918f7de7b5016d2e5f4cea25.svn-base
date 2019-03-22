@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.project.yoga.dao.GoodsMapper">
+  <resultMap id="BaseResultMap" type="cn.project.yoga.pojo.Goods">
+    <id column="g_id" jdbcType="INTEGER" property="gId" />
+    <result column="g_name" jdbcType="VARCHAR" property="gName" />
+    <result column="g_price" jdbcType="INTEGER" property="gPrice" />
+    <result column="g_descrption" jdbcType="VARCHAR" property="gDescrption" />
+    <result column="g_img" jdbcType="VARCHAR" property="gImg" />
+    <result column="g_stock" jdbcType="INTEGER" property="gStock" />
+    <result column="flag" jdbcType="INTEGER" property="flag" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    g_id, g_name, g_price, g_descrption, g_img, g_stock, flag
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from goods
+    where g_id = #{gId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from goods
+    where g_id = #{gId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="cn.project.yoga.pojo.Goods">
+    insert into goods (g_id, g_name, g_price, 
+      g_descrption, g_img, g_stock, 
+      flag)
+    values (#{gId,jdbcType=INTEGER}, #{gName,jdbcType=VARCHAR}, #{gPrice,jdbcType=INTEGER}, 
+      #{gDescrption,jdbcType=VARCHAR}, #{gImg,jdbcType=VARCHAR}, #{gStock,jdbcType=INTEGER}, 
+      #{flag,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="cn.project.yoga.pojo.Goods">
+    insert into goods
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="gId != null">
+        g_id,
+      </if>
+      <if test="gName != null">
+        g_name,
+      </if>
+      <if test="gPrice != null">
+        g_price,
+      </if>
+      <if test="gDescrption != null">
+        g_descrption,
+      </if>
+      <if test="gImg != null">
+        g_img,
+      </if>
+      <if test="gStock != null">
+        g_stock,
+      </if>
+      <if test="flag != null">
+        flag,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="gId != null">
+        #{gId,jdbcType=INTEGER},
+      </if>
+      <if test="gName != null">
+        #{gName,jdbcType=VARCHAR},
+      </if>
+      <if test="gPrice != null">
+        #{gPrice,jdbcType=INTEGER},
+      </if>
+      <if test="gDescrption != null">
+        #{gDescrption,jdbcType=VARCHAR},
+      </if>
+      <if test="gImg != null">
+        #{gImg,jdbcType=VARCHAR},
+      </if>
+      <if test="gStock != null">
+        #{gStock,jdbcType=INTEGER},
+      </if>
+      <if test="flag != null">
+        #{flag,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.project.yoga.pojo.Goods">
+    update goods
+    <set>
+      <if test="gName != null">
+        g_name = #{gName,jdbcType=VARCHAR},
+      </if>
+      <if test="gPrice != null">
+        g_price = #{gPrice,jdbcType=INTEGER},
+      </if>
+      <if test="gDescrption != null">
+        g_descrption = #{gDescrption,jdbcType=VARCHAR},
+      </if>
+      <if test="gImg != null">
+        g_img = #{gImg,jdbcType=VARCHAR},
+      </if>
+      <if test="gStock != null">
+        g_stock = #{gStock,jdbcType=INTEGER},
+      </if>
+      <if test="flag != null">
+        flag = #{flag,jdbcType=INTEGER},
+      </if>
+    </set>
+    where g_id = #{gId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.project.yoga.pojo.Goods">
+    update goods
+    set g_name = #{gName,jdbcType=VARCHAR},
+      g_price = #{gPrice,jdbcType=INTEGER},
+      g_descrption = #{gDescrption,jdbcType=VARCHAR},
+      g_img = #{gImg,jdbcType=VARCHAR},
+      g_stock = #{gStock,jdbcType=INTEGER},
+      flag = #{flag,jdbcType=INTEGER}
+    where g_id = #{gId,jdbcType=INTEGER}
+  </update>
+</mapper>

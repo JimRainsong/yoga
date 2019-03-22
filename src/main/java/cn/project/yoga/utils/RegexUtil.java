@@ -16,7 +16,7 @@ public class RegexUtil {
     /*
     防三角号
      */
-     public static final String REGEX_SJ="[^<>\\x22]";
+     public static final String REGEX_SJ="[^<>\\x22]+";
 
 	/**
      * 正则表达式：验证用户名

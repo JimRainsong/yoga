@@ -1,7 +1,5 @@
 package cn.project.yoga.utils;
 
-import cn.project.yoga.pojo.Venue;
-
 public class LayUiDataUtil {
     private Integer code;
     private String msg;

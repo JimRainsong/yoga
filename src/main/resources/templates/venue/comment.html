@@ -11,6 +11,8 @@
 <div class="container">
 <div class="row">
     <div style="height: 50px">
+        <!-- 信息警告消息的上下文按钮 -->
+        <button type="button" class="btn btn-dark" id="all" onclick="changeComment('all')">全部评论</button>
     <!-- 信息警告消息的上下文按钮 -->
     <button type="button" class="btn btn-info" id="good" onclick="changeComment('good')">好评</button>
     <!-- 表示应谨慎采取的动作 -->
@@ -28,16 +30,18 @@
     var page=1;
     var size=10;
     var commentType="";
-    var type="";
+    changeComment("all");
 
     function changeComment(val){
-       if (val=="good"){
-         commentType="好评";
-       }else if (val=="ojbk"){
-         commentType="中评";
-       }else {
-         commentType="差评";
-       }
+        if (val=="good"){
+            commentType="好评";
+        }else if (val=="ojbk"){
+            commentType="中评";
+        }else if (val=="lose") {
+            commentType="差评";
+        }else {
+            commentType="";
+        }
         $(":button").removeAttr("disabled");
         $("#"+val).attr("disabled","disabled");
        type=val;

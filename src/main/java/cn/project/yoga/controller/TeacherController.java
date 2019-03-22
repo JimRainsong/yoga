@@ -111,7 +111,7 @@ public class TeacherController {
             modelAndView.setViewName("teacher/unlogined");
             return modelAndView;
         }
-        modelAndView.setViewName("/teacher/page0");
+        modelAndView.setViewName("teacher/page0");
         List<StuMoment> stuMomentList = new ArrayList<>();
         List<TeaMoment> teaMomentList = new ArrayList<>();
         List<VenMoment> venMomentList = new ArrayList<>();
@@ -143,15 +143,14 @@ public class TeacherController {
 
     @RequestMapping("/uploadHeadImg")
     @ResponseBody
-    public ResultUtil uploadHeadImg2(MultipartFile file) {
+    public ResultUtil uploadHeadImg2(MultipartFile file, HttpServletRequest request) {
         String wholeName = file.getOriginalFilename();
         if (!(wholeName.endsWith(Attributes.JPG_FILE_END_NAME)
                 || wholeName.endsWith(Attributes.PNG_FILE_END_NAME)
                 || wholeName.endsWith(Attributes.GIF_FILE_END_NAME))) {
             return ResultUtil.error("只能传图片啦!!");
         } else {
-            System.out.println(file.getOriginalFilename());
-            return teacherService.uploadHeadImg2(file);
+            return teacherService.uploadHeadImg2(file, request);
         }
     }
 
@@ -193,7 +192,7 @@ public class TeacherController {
     @RequestMapping("/wallet")
     public ModelAndView wallet() {
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("/teacher/wallet");
+        modelAndView.setViewName("teacher/wallet");
         Session session = SecurityUtils.getSubject().getSession();
         Double balance = ((TeacherInfo) session.getAttribute(Attributes.CURRENT_USER)).getBalance();
         modelAndView.addObject("balance", balance);

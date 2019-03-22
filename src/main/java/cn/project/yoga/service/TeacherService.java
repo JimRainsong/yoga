@@ -8,6 +8,7 @@ import cn.project.yoga.pojo.TeaMoment;
 import cn.project.yoga.pojo.Appointment;
 import cn.project.yoga.pojo.User;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 import java.util.Collection;
 import java.util.List;
@@ -75,7 +76,7 @@ public interface TeacherService {
     /**
      * 上传教练头像
      */
-    ResultUtil uploadHeadImg2(MultipartFile file);
+    ResultUtil uploadHeadImg2(MultipartFile file, HttpServletRequest request);
 
     /*接受课程
 
