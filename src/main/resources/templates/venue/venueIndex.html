@@ -26,8 +26,9 @@
 </head>
 <body class="layui-layout-body">
 <div class="layui-layout layui-layout-admin">
-    <div class="layui-header">
-        <div class="layui-logo">YOGA! 场馆</div>
+    <div class="layui-header">/yoga/venueUser/venueIndex
+        <a href="/yoga/venue/logout" class="layui-logo">YOGA! 场馆</a>
+        <!--<div ></div>-->
         <ul class="layui-nav layui-layout-right">
             <li class="layui-nav-item">
                 <a href="javascript:;" id="userNames" >
@@ -203,7 +204,10 @@
             },
             dataType : "json",
             success : function(data) {
-                alert(data.msg);
+                layer.msg(data.msg, {
+                    time: 20000, //20s后自动关闭
+                    btn: ['知道了']
+                });
                 eid="courseTabTabId";
                 addTab();
             }
@@ -219,7 +223,10 @@
                 teacherId:tid
             },
             sueecss:function (data) {
-                alert(data.msg);
+                layer.msg(data.msg, {
+                    time: 20000, //20s后自动关闭
+                    btn: ['知道了']
+                });
                 myteacherTab();
 
             }

@@ -38,7 +38,7 @@
                     <div class="imgsy">
                         <img  th:src="@{/img/vad/admin.jpg}" id="vsimg" class="media-object" style="width:500px;height: 250px">
                         <form id="form1">
-                            <input type="button" value="上传图片" onclick="f.click()" class="btn_mouseout"/><br>
+                            <input type="button" value="上传图片" onclick="vf.click()" class="btn_mouseout"/><br>
                             <input type="file" id="vf" name="vf" onchange="vsc(this);" style="display:none"/>
                         </form>
                     </div>
@@ -92,19 +92,19 @@
         async:true,
         dataType : "json",
         success:function(result){
-           if (result.code==0){
-               var val=result.data;
-               $("#venueName").val(val.venueName);
-               $("#venueAddress").val(val.venueAddress);
-               $("#venuePhone").val(val.venuePhone);
-               $("#venueQQ").val(val.qq);
-               $("#venueDesc").val(val.venueDetails);
-               if (val.venueImg!=null){
-                   $("#vsimg").attr('src',val.venueImg);
-                   $("#venueImg").val(val.venueImg);
-               }
+            if (result.code==0){
+                var val=result.data;
+                $("#venueName").val(val.venueName);
+                $("#venueAddress").val(val.venueAddress);
+                $("#venuePhone").val(val.venuePhone);
+                $("#venueQQ").val(val.qq);
+                $("#venueDesc").val(val.venueDetails);
+                if (val.venueImg!=null){
+                    $("#vsimg").attr('src',val.venueImg);
+                    $("#venueImg").val(val.venueImg);
+                }
 
-           }
+            }
         }
     });
     function vsc(){
@@ -129,7 +129,7 @@
             oFReader.readAsDataURL(file);
             oFReader.onloadend = function(oFRevent){
                 var src = oFRevent.target.result;
-                $('#vaimg').attr('src',src);
+                $('#vsimg').attr('src',src);
             }
             $.ajax({
                 url: "/yoga/venueImg/adImg",
@@ -146,7 +146,7 @@
                             time: 20000, //20s后自动关闭
                             btn: ['知道了']
                         });
-                        $("#imgname").val(val.msg);
+                        $("#venueImg").val(val.msg);
                     }else {
                         layer.msg(val.msg, {
                             time: 20000, //20s后自动关闭

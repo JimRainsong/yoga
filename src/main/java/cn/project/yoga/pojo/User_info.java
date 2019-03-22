@@ -23,6 +23,8 @@ public class User_info {
 
     private String headImg;
 
+    private String HTMLImg;
+
     private Integer totalMoney;
 
     private Integer level;
@@ -116,6 +118,7 @@ public class User_info {
     }
 
     public void setHeadImg(String headImg) {
+        this.setHTMLImg(headImg);
         this.headImg = headImg;
     }
 
@@ -149,5 +152,13 @@ public class User_info {
 
     public void setFlag(Integer flag) {
         this.flag = flag;
+    }
+
+    public String getHTMLImg() {
+        return HTMLImg;
+    }
+
+    public void setHTMLImg(String HTMLImg) {
+        this.HTMLImg = "<img src='"+HTMLImg+"' class=\"layui-nav-img\">";
     }
 }
